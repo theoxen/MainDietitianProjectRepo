@@ -1,0 +1,117 @@
+<div class="page">
+    <div class="register-container">
+        <div class="primary-hover-box">
+            <div class="split-hover-box" >
+                <div class="title-subtitle-box">
+                    <h1 class="title" style="margin: 0px;">Sign Up</h1>
+                    <p class="sub-title">Rafaella Panagiotou - Clinical
+                        Dietitian & Nutritionist</p>
+                </div>
+                <div class="client-credentials" style="flex: 3;">
+                    <h3 style="margin: 0px;">CLIENT CREDENTIALS</h3>
+                    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
+                        <div class="input-container">
+                            <input type="text" class="primary-input-field" placeholder="Full Name"
+                                formControlName="fullName" (blur)="markAsDirtyIfUnselected('fullName')">
+                            <div class="error-container">
+                                <app-reactive-form-error [control]="registerForm.controls.fullName"
+                                    [errorMessages]="fullNameErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <input type="text" class="primary-input-field" placeholder="Phone Number"
+                                formControlName="phoneNumber" (blur)="markAsDirtyIfUnselected('phoneNumber')">
+                            <div class="error-container">
+                                <app-reactive-form-error [control]="registerForm.controls.phoneNumber"
+                                    [errorMessages]="phoneNumberErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <input type="text" class="primary-input-field" placeholder="Password"
+                                formControlName="password" (blur)="markAsDirtyIfUnselected('password')">
+                            <div class="error-container">
+                                <app-reactive-form-error [control]="registerForm.controls.password"
+                                    [errorMessages]="passwordErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <input type="date" class="primary-input-field" 
+                                formControlName="dateOfBirth" (blur)="markAsDirtyIfUnselected('dateOfBirth')">
+                            <div class="error-container">
+                                <app-reactive-form-error [control]="registerForm.controls.dateOfBirth"
+                                    [errorMessages]="dateOfBirthErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+                        <div class="input-container" style="width: 100%;">
+                            <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; ">
+                                <input type="text" class="primary-input-field" placeholder="Height(cm)"
+                                    formControlName="height" (blur)="markAsDirtyIfUnselected('height')">
+                            </div>
+
+                            <div class="error-container">
+
+
+                                <app-reactive-form-error [control]="registerForm.controls.height"
+                                    [errorMessages]="heightErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+                        <div class="input-container" style="flex: 6; width: 100%;">
+                            <select class="custom-dropdown"
+                                style="width: 80%; height:45px; border-radius: 15px; border: 2px #C8C8C8 solid;"
+                                formControlName="dietType" (blur)="markAsDirtyIfUnselected('dietType')">
+                                <option value="" disabled selected style="color:black">Select Diet Type</option>
+
+                                @for (dietType of dietTypes | async; track $index) {
+                                <option [value]="dietType.id">{{dietType.name}}</option>
+                                }
+
+                            </select>
+                            <div>
+                                <app-reactive-form-error [control]="registerForm.controls.dietType"
+                                    [errorMessages]="dietTypeErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <div style="width: 80%;">
+                                <select class="custom-dropdown"
+                                    style="width: 100%; height: 45px; border-radius: 15px; border: 2px #C8C8C8 solid;"
+                                    formControlName="gender" (blur)="markAsDirtyIfUnselected('gender')">
+                                    <option value="" disabled selected style="color:black">Select Gender
+                                    </option>
+                                    <option value="Male">Male
+                                    </option>
+                                    <option value="Female" style="color:black">Female
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="error-container">
+                                <app-reactive-form-error [control]="registerForm.controls.gender"
+                                    [errorMessages]="genderErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                            </div>
+                        </div>
+
+
+
+
+                        <button type="submit" class="primary-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

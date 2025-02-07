@@ -1,0 +1,111 @@
+.page {
+    width: 100%;
+    height: 100vh;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.title-subtitle-box {
+    border-right: 1px solid #C8C8C8; 
+    flex: 5;
+}
+
+.split-hover-box {
+    display: flex;
+    padding-top: 50px;
+    padding-left: 30px;
+    padding-right : 30px;
+    height: 600px;
+}
+
+@media (max-width: 768px) {
+    .split-hover-box {
+        flex-direction: column;
+        align-items: center;
+    }    
+    .title-subtitle-box {
+        border-right: none;
+        height: min-content;
+        flex: 1;
+    }
+}
+
+.client-credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    max-height: 600px; /* Adjust based on your needs */
+    overflow-y: auto;
+    padding-right: 10px; /* To prevent content from touching the scrollbar */
+}
+
+.register-form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    /* overflow-y: scroll;
+    overflow-x: hidden; */
+    
+}
+.primary-input-field::placeholder {
+    color: #817b7b; /* Set placeholder color */
+}
+.input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 370px;
+    /* margin-bottom: 35px; */
+
+    /* gap: 20px; */
+    /* height: 60px; */
+}
+
+.custom-dropdown {
+    width: 42%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+.custom-dropdown:focus {
+    border-color: orange;
+    outline: none;
+}
+
+.custom-dropdown option {
+    background-color: white;
+    color: black;
+}
+.primary-input-field {
+    width:80%;
+}
+.input-field-small { 
+    width: 100px;
+    height: 45px;
+    background: white;
+    border-radius: 15px;
+    border: 2px #C8C8C8 solid;
+    font-size: 20px;
+    padding-left: 20px;
+    outline: none;
+}
+.input-field-small:focus {
+    border-color: orange;
+}

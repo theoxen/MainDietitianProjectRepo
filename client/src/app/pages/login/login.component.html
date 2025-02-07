@@ -1,0 +1,60 @@
+<div class="page">
+
+    <div class="loginFormContainer">
+        <div class="primary-hover-box">
+            <form [formGroup]="loginForm"
+                style="height: 100%; display: flex; justify-content: center; align-items: center;"
+                (ngSubmit)=" login()">
+
+                <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 10px; align-items: center;">
+
+                    <h1 class="title" style="text-align: center; margin: 0px;">Sign In</h1>
+                    
+                    <p class="sub-title"  style="text-align: center;">Rafaella Panagiotou - Clinical Dietitian & Nutritionist</p>
+                    
+                    <div style="width: 500px; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                        <h1 style="text-align: left; width: 100%;" class="form-title">Client Credentials</h1>
+                        <div class="input-container">
+                            <input type="text" placeholder="Phone number" class="primary-input-field"
+                            formControlName="phoneNumber" style="width: 100%">
+                            
+                            <app-reactive-form-error style="text-align: left; width: 100%;" 
+                                [control]="loginForm.controls.phoneNumber" 
+                                [errorMessages]="phoneNumberErrorMessages"
+                                [showOnControlDirty]="displayErrorOnControlDirty"
+                             />
+                          
+                        </div>
+                        
+                        <div class="input-container">
+                            <input type="password" placeholder="Password" class="primary-input-field"
+                            formControlName="password" style="width: 100%">
+
+                            <div style="text-align: left; width: 100%;">
+                                <app-reactive-form-error
+                                    [control]="loginForm.controls.password" 
+                                    [errorMessages]="passwordErrorMessages"
+                                    [showOnControlDirty]="displayErrorOnControlDirty"
+                                />
+                            </div>
+
+                        </div>
+
+                        @if(isUnAuthorizationMessageActive)
+                        {
+                            <app-error [errorMessage]="unauthorizedErrorMessage" [removeTextMargin]="true"/>
+                        }
+
+                        <button type="submit" class="primary-button" style="width: 100%">Sign in</button>
+                            
+                        <p class="link" style="margin: 0px;">Forgot Password?</p>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>

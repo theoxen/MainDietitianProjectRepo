@@ -1,0 +1,83 @@
+body {
+    font-family: Arial;
+}
+
+.primary-input-field {
+    width: 300px;
+    height: 45px;
+    background: white;
+    border-radius: 15px;
+    border: 2px #C8C8C8 solid;
+    font-size: 20px;
+    padding-left: 20px;
+    outline: none;
+}
+
+.primary-input-field:focus {
+    border-color: orange;
+}
+
+
+.primary-hover-box {
+    width: 1400px;
+    height: 650px;
+    background-color: white;
+    border-top: 5px solid #FFB453;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.title {
+    font-weight: 550;
+    font-size: 55px;
+    color: black;
+}
+
+.sub-title {
+    opacity: 0.80;
+    color: #FFB453;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.link {
+    opacity: 0.80;
+    color: #FFB453;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+
+.error {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: red;
+    font-style: italic;
+}
+
+
+.primary-button {
+    height: 45px;
+    width: 270px;
+    background-color: #FFB453;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 25px; 
+    font-weight: 300;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+
+.primary-button:hover {
+    background-color: #FFA726; /* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+.primary-button:active {
+    background-color: #FF9800; /* Even darker shade for active state */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on active */
+}
