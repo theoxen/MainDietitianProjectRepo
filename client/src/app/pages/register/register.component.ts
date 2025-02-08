@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit  {
     
     dateOfBirthErrorMessages = new Map<string, string>([
       ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.dateOfBirth]
+      ["dateBeforeToday", ValidationMessages.dateOfBirth]
     ])
 
     heightErrorMessages = new Map<string, string>([
@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit  {
     }
 
     register(){
-
+      console.log(this.registerForm.controls.dateOfBirth.value);
       if (this.registerForm.valid) {
 
         const registerData:RegisterData={

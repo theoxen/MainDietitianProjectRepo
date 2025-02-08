@@ -6,7 +6,7 @@ export class ValidationMessages
     static fullName="*Full name must contain only letters"
     static phoneNumber="*Phone number must be a number"
     static height="*Height (in cm) must be a 2-3 digit number"
-    static dateOfBirth="*Date of birth must be in the format dd/mm/yyyy"
+    static dateOfBirth="*Date of birth must be in the past"
     static gender="*Gender must be 'Male' or 'Female'"
     static dietType="*Diet type must be 'Special Diet', 'Muscle Gain', 'Fat Loss', 'Weight Gain', or 'Weight Loss'"
 }

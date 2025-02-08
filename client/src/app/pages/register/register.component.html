@@ -1,7 +1,7 @@
 <div class="page">
     <div class="register-container">
         <div class="primary-hover-box">
-            <div class="split-hover-box" >
+            <div class="split-hover-box">
                 <div class="title-subtitle-box">
                     <h1 class="title" style="margin: 0px;">Sign Up</h1>
                     <p class="sub-title">Rafaella Panagiotou - Clinical
@@ -34,15 +34,18 @@
                             <input type="text" class="primary-input-field" placeholder="Password"
                                 formControlName="password" (blur)="markAsDirtyIfUnselected('password')">
                             <div class="error-container">
-                                <app-reactive-form-error [control]="registerForm.controls.password"
-                                    [errorMessages]="passwordErrorMessages"
+                                <app-reactive-form-error style="text-align: center;"
+                                    [control]="registerForm.controls.password" [errorMessages]="passwordErrorMessages"
                                     [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
                             </div>
                         </div>
 
                         <div class="input-container">
-                            <input type="date" class="primary-input-field" 
-                                formControlName="dateOfBirth" (blur)="markAsDirtyIfUnselected('dateOfBirth')">
+
+                            <input type="text" class="primary-input-field" placeholder="Date Of Birth" onfocus="(this.type='date')"
+                                onblur="(this.type='text') " formControlName="dateOfBirth">
+                            <!-- TODO: FIX THE DATE TO DD/MM/YYYY BOTH IN TYPE TEXT AND IN DATE -->
+                             
                             <div class="error-container">
                                 <app-reactive-form-error [control]="registerForm.controls.dateOfBirth"
                                     [errorMessages]="dateOfBirthErrorMessages"
