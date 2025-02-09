@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using API.Common;
 using API.Common.Enums;
 using API.Data;
@@ -35,7 +36,7 @@ public class UserService : IUserService
 
     public async Task<Result<Empty>> RegisterClientAsync(RegisterClientDto registerClientDto)
     {
-        if(!Enum.TryParse<Genders>(registerClientDto.Gender, out Genders gender)) // Tries to match the gender to any of our enums. Out creates a variable (outside of the if scope)
+        if (!Enum.TryParse<Genders>(registerClientDto.Gender, out Genders gender)) // Tries to match the gender to any of our enums. Out creates a variable (outside of the if scope)
         {
             return Result<Empty>.BadRequest([new ResultError{
                 Identifier = "Gender",
@@ -44,17 +45,43 @@ public class UserService : IUserService
         }
 
         DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(registerClientDto.DietTypeId);
-        if(dietType == null)
+        if (dietType == null)
         {
             return Result<Empty>.NotFound();
         }
 
+        if (!Regex.IsMatch(registerClientDto.PhoneNumber, @"^\d+$"))
+        {
+            return Result<Empty>.BadRequest([new ResultError{
+                Identifier = "PhoneNumber",
+                Message = "Invalid phone number"
+            }]);
+        }
+
         bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(registerClientDto.PhoneNumber);
-        if(phoneNumberExists)
+        if (phoneNumberExists)
         {
             return Result<Empty>.BadRequest([new ResultError{
                 Identifier = "PhoneNumber",
                 Message = "Phone number already exists"
+            }]);
+        }
+
+        // Validate email with regex: ^[^@\s]+@[^@\s]+\.[^@\s]+$
+        if (!Regex.IsMatch(registerClientDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        {
+            return Result<Empty>.BadRequest([new ResultError{
+                Identifier = "Email",
+                Message = "Invalid email"
+            }]);
+        }
+
+        var userExistsFromEmail = await _userManager.FindByEmailAsync(registerClientDto.Email);
+        if (userExistsFromEmail != null)
+        {
+            return Result<Empty>.BadRequest([new ResultError{
+                Identifier = "Email",
+                Message = "Email already exists"
             }]);
         }
 
@@ -63,6 +90,7 @@ public class UserService : IUserService
         User user = new()
         {
             UserName = UserHelperFunctions.GenerateUniqueUserName(registerClientDto.FullName),
+            Email = registerClientDto.Email,
             FullName = registerClientDto.FullName,
             PhoneNumber = registerClientDto.PhoneNumber,
             Gender = gender.ToString().ToUpper(),
@@ -72,7 +100,7 @@ public class UserService : IUserService
         };
 
         var userResult = await _userManager.CreateAsync(user, registerClientDto.Password);
-        if(!userResult.Succeeded)
+        if (!userResult.Succeeded)
         {
             return Result<Empty>.BadRequest(userResult.Errors.Select(x => new ResultError
             {
@@ -82,7 +110,7 @@ public class UserService : IUserService
         }
 
         var roleResult = await _userManager.AddToRoleAsync(user, "client");
-        if(!roleResult.Succeeded)
+        if (!roleResult.Succeeded)
         {
             return Result<Empty>.BadRequest(roleResult.Errors.Select(x => new ResultError
             {
@@ -97,13 +125,13 @@ public class UserService : IUserService
     public async Task<Result<UserDto>> LoginUserAsync(LoginUserDto loginUserDto)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == loginUserDto.PhoneNumber); // FirstOrDefault instead of SingleOrDefault so it doesnt perform duplication checks
-        if(user == null)
+        if (user == null)
         {
             return Result<UserDto>.Unauthorized();
         }
-        
+
         var result = await _userManager.CheckPasswordAsync(user, loginUserDto.Password);
-        if(!result)
+        if (!result)
         {
             return Result<UserDto>.Unauthorized();
         }
@@ -119,18 +147,18 @@ public class UserService : IUserService
         return Result<UserDto>.Ok(userDto);
     }
 
-    public async Task<Result<string>> SendOtpAsync(string phoneNumber)
+    public async Task<Result<string>> SendOtpAsync(string email)
     {
-        bool doesPhoneNumberExist = await _userRepository.DoesPhoneNumberExistAsync(phoneNumber); 
-        if(!doesPhoneNumberExist)
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
         {
             return Result<string>.NotFound();
         }
 
         string otp = _otpGenerator.GenerateOtp();
 
-        var result = await _otpCache.StoreOtpAsync(otp, phoneNumber);
-        if(!result.IsSuccessful)
+        var result = await _otpCache.StoreOtpAsync(otp, email);
+        if (!result.IsSuccessful)
         {
             return Result<string>.BadRequest(result.ResultErrors);
         }
@@ -142,12 +170,12 @@ public class UserService : IUserService
     public async Task<Result<Empty>> VerifyOtpAsync(string phoneNumber, string otp)
     {
         var otpRetrieved = await _otpCache.RetrieveOtpAsync(phoneNumber);
-        if(otpRetrieved is null)
+        if (otpRetrieved is null)
         {
             return Result<Empty>.NotFound();
         }
 
-        if(!otpRetrieved.Equals(otp)) // Checking the otp retrieved from cache and the otp that we are provided with the user
+        if (!otpRetrieved.Equals(otp)) // Checking the otp retrieved from cache and the otp that we are provided with the user
         {
             return Result<Empty>.BadRequest([new ResultError{
                 Identifier = "Otp",
@@ -161,16 +189,16 @@ public class UserService : IUserService
     public async Task<Result<UserDto>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
     {
         // Verify the otp
-        var verificationResult = await VerifyOtpAsync(changePasswordDto.PhoneNumber, changePasswordDto.Otp);
+        var verificationResult = await VerifyOtpAsync(changePasswordDto.Email, changePasswordDto.Otp);
 
-        if(!verificationResult.IsSuccessful)
+        if (!verificationResult.IsSuccessful)
         {
             return Result<UserDto>.BadRequest(verificationResult.ResultErrors);
         }
 
-        // Get the user by phone number
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == changePasswordDto.PhoneNumber);
-        if(user == null)
+        // Get the user by email
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == changePasswordDto.Email);
+        if (user == null)
         {
             return Result<UserDto>.NotFound();
         }
@@ -180,7 +208,7 @@ public class UserService : IUserService
         // Reset user password
         var result = await _userManager.ResetPasswordAsync(user, token, changePasswordDto.NewPassword);
 
-        if(!result.Succeeded)
+        if (!result.Succeeded)
         {
             return Result<UserDto>.BadRequest(result.Errors.Select(x => new ResultError
             {
@@ -201,7 +229,7 @@ public class UserService : IUserService
         };
 
         // Remove the otp from cache
-        await _otpCache.RemoveOtpAsync(changePasswordDto.PhoneNumber);
+        await _otpCache.RemoveOtpAsync(changePasswordDto.Email);
 
         return Result<UserDto>.Ok(userDto);
     }

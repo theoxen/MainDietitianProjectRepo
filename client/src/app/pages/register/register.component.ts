@@ -6,7 +6,7 @@ import { ValidationMessages } from '../../validation/validation-messages';
 import { AccountService } from '../../services/account.service';
 import { dateBeforeTodayValidator } from '../../validation/pastDateValidator';
 import { DietTypesService } from '../../services/diet-types.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { RegisterData } from '../../models/register.data';
 
 @Component({
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit  {
 
 
   private accountService = inject(AccountService);
-  private dietTypeService= inject(DietTypesService)
+  private dietTypeService= inject(DietTypesService);
 
   dietTypes=this.dietTypeService.dietTypes$;
 
@@ -39,6 +39,11 @@ export class RegisterComponent implements OnInit  {
 
       "password": new FormControl("", [
         Validators.pattern(ValidationPatterns.strongPassword),
+        Validators.required
+      ]),
+
+      "email": new FormControl("", [
+        Validators.pattern(ValidationPatterns.email),
         Validators.required
       ]),
 
@@ -76,6 +81,11 @@ export class RegisterComponent implements OnInit  {
       ["required", ValidationMessages.required],
       ["pattern", ValidationMessages.strongPassword]
     ])
+
+    emailErrorMessages = new Map<string, string>([
+      ["required", ValidationMessages.required],
+      ["pattern", ValidationMessages.email]
+    ])
     
     dateOfBirthErrorMessages = new Map<string, string>([
       ["required", ValidationMessages.required],
@@ -108,19 +118,21 @@ export class RegisterComponent implements OnInit  {
         control.markAsDirty();
       }
     }
-
+    
+    
     register(){
       console.log(this.registerForm.controls.dateOfBirth.value);
       if (this.registerForm.valid) {
 
         const registerData:RegisterData={
-          dateOfBirth:this.registerForm.controls.dateOfBirth.value ?? "",
-          dietTypeId:this.registerForm.controls.dietType.value ?? "",
-          gender:this.registerForm.controls.gender.value ?? "",
-          height:Number.parseFloat(this.registerForm.controls.height.value!) ?? 0,
-          password:this.registerForm.controls.password.value ?? "",
-          phoneNumber:this.registerForm.controls.phoneNumber.value ?? "",
-          fullName:this.registerForm.controls.fullName.value ?? "",
+          dateOfBirth: this.registerForm.controls.dateOfBirth.value ?? "",
+          dietTypeId: this.registerForm.controls.dietType.value ?? "",
+          gender: this.registerForm.controls.gender.value ?? "",
+          height: Number.parseFloat(this.registerForm.controls.height.value!) ?? 0,
+          password: this.registerForm.controls.password.value ?? "",
+          phoneNumber: this.registerForm.controls.phoneNumber.value ?? "",
+          fullName: this.registerForm.controls.fullName.value ?? "",
+          email: this.registerForm.controls.email.value ?? ""
         }
 
         this.accountService.register(registerData).subscribe({

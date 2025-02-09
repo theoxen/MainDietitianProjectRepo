@@ -35,7 +35,7 @@ namespace API.Controllers
         [HttpPost(Endpoints.Users.SendOtp)]
         public async Task<IActionResult> SendOtp(SendOtpDto sendOtpDto)
         {
-            var result = await _userService.SendOtpAsync(sendOtpDto.PhoneNumber);
+            var result = await _userService.SendOtpAsync(sendOtpDto.Email);
             return MapToHttpResponse(result);
         }
 
@@ -43,7 +43,7 @@ namespace API.Controllers
         [HttpGet(Endpoints.Users.VerifyOtp)]
         public async Task<IActionResult> VerifyOtp(OtpVerificationDto otpVerificationDto)
         {
-            var result = await _userService.VerifyOtpAsync(otpVerificationDto.PhoneNumber, otpVerificationDto.Otp);
+            var result = await _userService.VerifyOtpAsync(otpVerificationDto.Email, otpVerificationDto.Otp);
             return MapToHttpResponse(result);
         }
 

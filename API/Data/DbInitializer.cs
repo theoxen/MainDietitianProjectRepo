@@ -37,6 +37,7 @@ public class DbInitializer
         User admin = new User{
             FullName = "admin",
             PhoneNumber = "123456789",
+            Email = "adminemail@gmail.com",
             UserName = UserHelperFunctions.GenerateUniqueUserName("admin")
         };
 

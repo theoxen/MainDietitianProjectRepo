@@ -13,8 +13,9 @@ public class UserRepository : IUserRepository
     {
         this._dataContext = dataContext;
     }
+    
     public Task<bool> DoesPhoneNumberExistAsync(string phoneNumber)
     {
-        return _dataContext.Users.AnyAsync(x => x.PhoneNumber == phoneNumber);  
+        return _dataContext.Users.AnyAsync(x => x.PhoneNumber == phoneNumber);
     }
 }

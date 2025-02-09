@@ -6,4 +6,5 @@ export class ValidationPatterns
     static dietType = /^(Special Diet|Muscle Gain|Fat Loss|Weight Gain|Weight Loss|)$/;
     static fullName = /^[a-zA-Z ]+$/; // The space is needed so it also accepts spaces instead of only alphabetic letters
     static height = /^\d{2,3}$/;
+    static email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 }

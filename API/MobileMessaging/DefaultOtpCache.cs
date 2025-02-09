@@ -11,9 +11,9 @@ namespace API.MobileMessaging
         {
             _cache = cache;
         }
-        public async Task<Result<Empty>> StoreOtpAsync(string otp, string phoneNumber)
+        public async Task<Result<Empty>> StoreOtpAsync(string otp, string email)
         {
-            var cacheKey = $"OTP_{phoneNumber}";
+            var cacheKey = $"OTP_{email}";
             var cacheOptions = new DistributedCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5) // OTP expires in 5 minutes
@@ -24,9 +24,9 @@ namespace API.MobileMessaging
            
         }
 
-        public async Task<string?> RetrieveOtpAsync(string phoneNumber)
+        public async Task<string?> RetrieveOtpAsync(string email)
         {
-            var cacheKey = $"OTP_{phoneNumber}";
+            var cacheKey = $"OTP_{email}";
             var otp = await _cache.GetStringAsync(cacheKey);
 
             if(otp == null)
@@ -37,9 +37,9 @@ namespace API.MobileMessaging
             return otp;
         }
 
-        public async Task<Result<Empty>> RemoveOtpAsync(string phoneNumber)
+        public async Task<Result<Empty>> RemoveOtpAsync(string email)
         {
-            var cacheKey = $"OTP_{phoneNumber}";
+            var cacheKey = $"OTP_{email}";
             await _cache.RemoveAsync(cacheKey);
             return Result<Empty>.Ok(new Empty());
         }
