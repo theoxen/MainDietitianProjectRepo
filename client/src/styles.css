@@ -81,3 +81,6 @@ body {
     background-color: #FF9800; /* Even darker shade for active state */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on active */
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

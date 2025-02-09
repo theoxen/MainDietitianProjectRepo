@@ -8,145 +8,173 @@ import { dateBeforeTodayValidator } from '../../validation/pastDateValidator';
 import { DietTypesService } from '../../services/diet-types.service';
 import { CommonModule, formatDate } from '@angular/common';
 import { RegisterData } from '../../models/register.data';
+import { HttpResponseError } from '../../models/http-error';
+import { ErrorComponent } from "../../components/error/error.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormErrorComponent, ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormErrorComponent, ReactiveFormsModule, CommonModule, ErrorComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent implements OnInit  {
+export class RegisterComponent implements OnInit {
 
 
   private accountService = inject(AccountService);
-  private dietTypeService= inject(DietTypesService);
+  private dietTypeService = inject(DietTypesService);
 
-  dietTypes=this.dietTypeService.dietTypes$;
+  private phoneNumberExists = false;
+  private emailExists = false;
 
+  dietTypes = this.dietTypeService.dietTypes$;
   displayErrorOnControlDirty = true;
 
+
+  ngOnInit(): void {
+    this.dietTypeService.loadDietTypes().subscribe();
+
+  }
+
   registerForm = new FormGroup({
-      "fullName": new FormControl("", [
-        Validators.pattern(ValidationPatterns.fullName),
-        Validators.required, 
-      ]),
+    "fullName": new FormControl("", [
+      Validators.pattern(ValidationPatterns.fullName),
+      Validators.required,
+    ]),
 
-      "phoneNumber": new FormControl("", [
-        Validators.pattern(ValidationPatterns.phoneNumber),
-        Validators.required
-      ]),
+    "phoneNumber": new FormControl("", [
+      Validators.pattern(ValidationPatterns.phoneNumber),
+      Validators.required
+    ]),
 
-      "password": new FormControl("", [
-        Validators.pattern(ValidationPatterns.strongPassword),
-        Validators.required
-      ]),
+    "password": new FormControl("", [
+      Validators.pattern(ValidationPatterns.strongPassword),
+      Validators.required
+    ]),
 
-      "email": new FormControl("", [
-        Validators.pattern(ValidationPatterns.email),
-        Validators.required
-      ]),
+    "email": new FormControl("", [
+      Validators.pattern(ValidationPatterns.email),
+      Validators.required
+    ]),
 
-      "dateOfBirth": new FormControl("", [
-        Validators.required,
-        dateBeforeTodayValidator()
-      ]),
+    "dateOfBirth": new FormControl("", [
+      Validators.required,
+      dateBeforeTodayValidator()
+    ]),
 
-      "height": new FormControl("", [
-        Validators.pattern(ValidationPatterns.height),
-        Validators.required
-      ]),
+    "height": new FormControl("", [
+      Validators.pattern(ValidationPatterns.height),
+      Validators.required
+    ]),
 
-      "gender": new FormControl("", [
-        Validators.pattern(ValidationPatterns.gender),
-        Validators.required
-      ]),
+    "gender": new FormControl("", [
+      Validators.pattern(ValidationPatterns.gender),
+      Validators.required
+    ]),
 
-      "dietType": new FormControl("", [
-        Validators.required  
-      ]),
-    })
+    "dietType": new FormControl("", [
+      Validators.required
+    ]),
+  })
 
-    fullNameErrorMessages = new Map<string, string>([
-        ["required", ValidationMessages.required],
-        ["pattern", ValidationMessages.fullName]
-    ])
+  fullNameErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.fullName]
+  ])
 
-    phoneNumberErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.phoneNumber]
-    ])
+  phoneNumberErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.phoneNumber]
+  ])
 
-    passwordErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.strongPassword]
-    ])
+  passwordErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.strongPassword]
+  ])
 
-    emailErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.email]
-    ])
-    
-    dateOfBirthErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["dateBeforeToday", ValidationMessages.dateOfBirth]
-    ])
+  emailErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.email]
+  ])
 
-    heightErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.height]
-    ])
+  dateOfBirthErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["dateBeforeToday", ValidationMessages.dateOfBirth]
+  ])
 
-    genderErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.gender]
-    ])
+  heightErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.height]
+  ])
 
-    dietTypeErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.dietType]
-    ])
+  genderErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.gender]
+  ])
 
-    ngOnInit(): void {
-      this.dietTypeService.loadDietTypes().subscribe();
+  dietTypeErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.dietType]
+  ])
 
+
+
+  get phoneNumberExistsError() {
+    return this.phoneNumberExists && !this.registerForm.controls.phoneNumber.dirty ? ValidationMessages.phoneNumberExists : "";
+  }
+
+  get emailExistsError() {
+    return this.emailExists && this.registerForm.controls.email.dirty ? ValidationMessages.emailExists : "";
+  }
+
+  markAsDirtyIfUnselected(controlName: string) {
+    const control = this.registerForm.get(controlName);
+    if (control && control.value === '') {
+      control.markAsDirty();
     }
+  }
 
-    markAsDirtyIfUnselected(controlName: string) {
-      const control = this.registerForm.get(controlName);
-      if (control && control.value === '') {
-        control.markAsDirty();
+
+
+  register() {
+    if (this.registerForm.valid) {
+      
+      if (!this.registerForm.dirty) {
+        return;
       }
-    }
-    
-    
-    register(){
-      console.log(this.registerForm.controls.dateOfBirth.value);
-      if (this.registerForm.valid) {
 
-        const registerData:RegisterData={
-          dateOfBirth: this.registerForm.controls.dateOfBirth.value ?? "",
-          dietTypeId: this.registerForm.controls.dietType.value ?? "",
-          gender: this.registerForm.controls.gender.value ?? "",
-          height: Number.parseFloat(this.registerForm.controls.height.value!) ?? 0,
-          password: this.registerForm.controls.password.value ?? "",
-          phoneNumber: this.registerForm.controls.phoneNumber.value ?? "",
-          fullName: this.registerForm.controls.fullName.value ?? "",
-          email: this.registerForm.controls.email.value ?? ""
-        }
+      const registerData: RegisterData = {
+        dateOfBirth: this.registerForm.controls.dateOfBirth.value ?? "",
+        dietTypeId: this.registerForm.controls.dietType.value ?? "",
+        gender: this.registerForm.controls.gender.value ?? "",
+        height: Number.parseFloat(this.registerForm.controls.height.value!) ?? 0,
+        password: this.registerForm.controls.password.value ?? "",
+        phoneNumber: this.registerForm.controls.phoneNumber.value ?? "",
+        fullName: this.registerForm.controls.fullName.value ?? "",
+        email: this.registerForm.controls.email.value ?? ""
+      }
 
-        this.accountService.register(registerData).subscribe({
-          next:(user)=>{
-            // navigate to home
-            console.log(user);
-          },
-          error:(error)=>{
-            console.log(error)
+      this.accountService.register(registerData).subscribe({
+        next: (user) => {
+          // navigate to home
+          console.log(user);
+        },
+        error: (error: HttpResponseError) => {
+          for (const httpError of error.errors) {
+            if (httpError.message == "Email already exists" ) {
+                this.emailExists = true;
+            }
+            if (httpError.message == "Phone number already exists") {
+                this.phoneNumberExists = true;
+            }
           }
-        })
-      }
-      else {
-        this.displayErrorOnControlDirty = false;
-      }
+          this.registerForm.markAsPristine();
+          console.log(error)
+        }
+      })
     }
+    else {
+      this.displayErrorOnControlDirty = false;
+    }
+  }
 }

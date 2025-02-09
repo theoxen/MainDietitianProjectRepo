@@ -27,6 +27,7 @@
                                 <app-reactive-form-error [control]="registerForm.controls.phoneNumber"
                                     [errorMessages]="phoneNumberErrorMessages"
                                     [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                                <app-error [errorMessage]="phoneNumberExistsError" style="text-align: center;"></app-error>
                             </div>
                         </div>
 
@@ -47,6 +48,7 @@
                                 <app-reactive-form-error style="text-align: center;"
                                     [control]="registerForm.controls.email" [errorMessages]="emailErrorMessages"
                                     [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
+                                <app-error [errorMessage]="emailExistsError" style="text-align: center;"></app-error>
                             </div>
                         </div>
 

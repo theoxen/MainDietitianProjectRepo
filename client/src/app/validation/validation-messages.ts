@@ -11,4 +11,6 @@ export class ValidationMessages
     static gender="*Gender must be 'Male' or 'Female'";
     static dietType="*Diet type must be 'Special Diet', 'Muscle Gain', 'Fat Loss', 'Weight Gain', or 'Weight Loss'";
     static email="*Email must be a valid email address (x@x.x)";
+    static emailExists="*Email already exists";
+    static phoneNumberExists="*Phone number already exists";
 }
