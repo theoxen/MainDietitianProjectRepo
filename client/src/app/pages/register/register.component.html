@@ -52,9 +52,9 @@
 
                         <div class="input-container">
 
-                            <input type="text" class="primary-input-field" placeholder="Date Of Birth" formControlName="dateOfBirth"
-                            (focus)="handleDateFocus()" (blur)="handleDateBlur()" (input)="handleDateInput()">
-                        
+                            <input type="text" class="primary-input-field" placeholder="Date Of Birth"
+                                onfocus="(this.type='date')" onblur="(this.type='text') " formControlName="dateOfBirth">
+                            <!-- TODO: FIX THE DATE TO DD/MM/YYYY BOTH IN TYPE TEXT AND IN DATE -->
 
                             <div class="error-container">
                                 <app-reactive-form-error [control]="registerForm.controls.dateOfBirth"
