@@ -10,20 +10,17 @@ import { Validator } from '../../validation/validator';
   styleUrl: './reactive-form-error.component.css'
 })
 export class ReactiveFormErrorComponent {
-  @Input({required:true}) control:AbstractControl =null!
-  @Input({required:true}) errorMessages:Map<string,string> = new Map<string,string>();
-  @Input() showOnControlDirty=false;
-  @Input() showOnControlTouched=false;
+  @Input({ required: true }) control: AbstractControl = null!
+  @Input({ required: true }) errorMessages: Map<string, string> = new Map<string, string>();
+  @Input() showOnControlDirty = false;
+  @Input() showOnControlTouched = false;
 
-  get errorMessage():string {
+  get errorMessage(): string {
 
-    if(this.showOnControlDirty && !this.control.dirty || 
-      this.showOnControlTouched && !this.control.touched)
-      {
-        return ""
-      }
+    if (this.showOnControlDirty && this.control.dirty || this.showOnControlTouched && this.control.touched) {
+      return Validator.getValidationError(this.control.errors, this.errorMessages);
+    }
+    return "";
 
-
-    return Validator.getValidationError(this.control.errors,this.errorMessages)
   }
 }

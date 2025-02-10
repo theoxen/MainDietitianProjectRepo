@@ -1,0 +1,29 @@
+.input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.custom-dropdown {
+    width: 42%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+.custom-dropdown:focus {
+    border-color: orange;
+    outline: none;
+}
+
+.custom-dropdown option {
+    background-color: white;
+    color: black;
+}

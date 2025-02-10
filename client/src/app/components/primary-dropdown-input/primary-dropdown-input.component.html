@@ -1,0 +1,13 @@
+<div class="input-container">
+    <select class="custom-dropdown" style="width: 100%;" [formControl]="control">
+        <option value="" disabled selected style="color:black">{{placeholder}}</option>
+        @for (item of dropdownItems; track item.displayedValue) {
+        <option [value]="item.value">{{item.displayedValue}}</option>
+        }
+    </select>
+    <div style="text-align: center;">
+        <app-reactive-form-error [control]="control" [errorMessages]="errorMessages"
+            [showOnControlTouched]="showErrorOnControlTouched"
+            [showOnControlDirty]="showErrorOnControlDirty"></app-reactive-form-error>
+    </div>
+</div>

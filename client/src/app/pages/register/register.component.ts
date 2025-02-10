@@ -8,133 +8,183 @@ import { dateBeforeTodayValidator } from '../../validation/pastDateValidator';
 import { DietTypesService } from '../../services/diet-types.service';
 import { CommonModule } from '@angular/common';
 import { RegisterData } from '../../models/register.data';
+import { HttpResponseError } from '../../models/http-error';
+import { ErrorComponent } from "../../components/error/error.component";
+import { PrimaryInputFieldComponent } from '../../components/primary-input-field/primary-input-field.component';
+import { PrimaryDropdownInputComponent } from "../../components/primary-dropdown-input/primary-dropdown-input.component";
+import { DropdownItem } from '../../components/primary-dropdown-input/dropdown-item';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormErrorComponent, ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormErrorComponent, ReactiveFormsModule, CommonModule, ErrorComponent, PrimaryInputFieldComponent, PrimaryDropdownInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent implements OnInit  {
+export class RegisterComponent implements OnInit {
 
 
   private accountService = inject(AccountService);
-  private dietTypeService= inject(DietTypesService)
+  private dietTypeService = inject(DietTypesService);
 
-  dietTypes=this.dietTypeService.dietTypes$;
+  private phoneNumberExists = false;
+  public emailExists = false;
 
   displayErrorOnControlDirty = true;
+  displayErrorOnControlTouched = true;
 
-  registerForm = new FormGroup({
-      "fullName": new FormControl("", [
-        Validators.pattern(ValidationPatterns.fullName),
-        Validators.required, 
-      ]),
+  dietTypeDropdownOptions: DropdownItem<string, string>[] = [];
+  genderDropdownOptions: DropdownItem<string, string>[] = [
+    {value: "Male", displayedValue: "Male"}, 
+    {value: "Female", displayedValue: "Female"}
+  ];
 
-      "phoneNumber": new FormControl("", [
-        Validators.pattern(ValidationPatterns.phoneNumber),
-        Validators.required
-      ]),
-
-      "password": new FormControl("", [
-        Validators.pattern(ValidationPatterns.strongPassword),
-        Validators.required
-      ]),
-
-      "dateOfBirth": new FormControl("", [
-        Validators.required,
-        dateBeforeTodayValidator()
-      ]),
-
-      "height": new FormControl("", [
-        Validators.pattern(ValidationPatterns.height),
-        Validators.required
-      ]),
-
-      "gender": new FormControl("", [
-        Validators.pattern(ValidationPatterns.gender),
-        Validators.required
-      ]),
-
-      "dietType": new FormControl("", [
-        Validators.required  
-      ]),
-    })
-
-    fullNameErrorMessages = new Map<string, string>([
-        ["required", ValidationMessages.required],
-        ["pattern", ValidationMessages.fullName]
-    ])
-
-    phoneNumberErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.phoneNumber]
-    ])
-
-    passwordErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.strongPassword]
-    ])
-    
-    dateOfBirthErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["dateBeforeToday", ValidationMessages.dateOfBirth]
-    ])
-
-    heightErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.height]
-    ])
-
-    genderErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.gender]
-    ])
-
-    dietTypeErrorMessages = new Map<string, string>([
-      ["required", ValidationMessages.required],
-      ["pattern", ValidationMessages.dietType]
-    ])
-
-    ngOnInit(): void {
-      this.dietTypeService.loadDietTypes().subscribe();
-
-    }
-
-    markAsDirtyIfUnselected(controlName: string) {
-      const control = this.registerForm.get(controlName);
-      if (control && control.value === '') {
-        control.markAsDirty();
-      }
-    }
-
-    register(){
-      console.log(this.registerForm.controls.dateOfBirth.value);
-      if (this.registerForm.valid) {
-
-        const registerData:RegisterData={
-          dateOfBirth:this.registerForm.controls.dateOfBirth.value ?? "",
-          dietTypeId:this.registerForm.controls.dietType.value ?? "",
-          gender:this.registerForm.controls.gender.value ?? "",
-          height:Number.parseFloat(this.registerForm.controls.height.value!) ?? 0,
-          password:this.registerForm.controls.password.value ?? "",
-          phoneNumber:this.registerForm.controls.phoneNumber.value ?? "",
-          fullName:this.registerForm.controls.fullName.value ?? "",
-        }
-
-        this.accountService.register(registerData).subscribe({
-          next:(user)=>{
-            // navigate to home
-            console.log(user);
-          },
-          error:(error)=>{
-            console.log(error)
+  ngOnInit(): void {
+    this.dietTypeService.loadDietTypes().subscribe({
+      next: (dietTypes) => {
+        this.dietTypeDropdownOptions = dietTypes.map(dietType => {
+          return {
+            value: dietType.id,
+            displayedValue: dietType.name
           }
         })
       }
-      else {
-        this.displayErrorOnControlDirty = false;
+    });
+
+  }
+
+  registerForm = new FormGroup({
+    "fullName": new FormControl("", [
+      Validators.pattern(ValidationPatterns.fullName),
+      Validators.required,
+    ]),
+
+    "phoneNumber": new FormControl("", [
+      Validators.pattern(ValidationPatterns.phoneNumber),
+      Validators.required
+    ]),
+
+    "password": new FormControl("", [
+      Validators.pattern(ValidationPatterns.strongPassword),
+      Validators.required
+    ]),
+
+    "email": new FormControl("", [
+      Validators.pattern(ValidationPatterns.email),
+      Validators.required
+    ]),
+
+    "dateOfBirth": new FormControl("", [
+      Validators.required,
+      dateBeforeTodayValidator()
+    ]),
+
+    "height": new FormControl("", [
+      Validators.pattern(ValidationPatterns.height),
+      Validators.required
+    ]),
+
+    "gender": new FormControl("", [
+      Validators.pattern(ValidationPatterns.gender),
+      Validators.required
+    ]),
+
+    "dietType": new FormControl("", [
+      Validators.required
+    ]),
+  })
+
+  fullNameErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.fullName]
+  ])
+
+  phoneNumberErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.phoneNumber]
+  ])
+
+  passwordErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.strongPassword]
+  ])
+
+  emailErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.email]
+  ])
+
+  dateOfBirthErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["dateBeforeToday", ValidationMessages.dateOfBirth]
+  ])
+
+  heightErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.height]
+  ])
+
+  genderErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.gender]
+  ])
+
+  dietTypeErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.dietType]
+  ])
+
+  get phoneNumberExistsError() {
+    return this.phoneNumberExists && !this.registerForm.controls.phoneNumber.dirty ? ValidationMessages.phoneNumberExists : "";
+  }
+
+  get emailExistsError() {
+    return this.emailExists && !this.registerForm.controls.email.dirty ? ValidationMessages.emailExists : "";
+  }
+
+  register() {
+    console.log(this.registerForm.controls.dateOfBirth.value);
+    if (this.registerForm.valid) {
+      
+      if (!this.registerForm.dirty) {
+        return;
       }
+
+      const registerData: RegisterData = {
+        dateOfBirth: this.registerForm.controls.dateOfBirth.value ?? "",
+        dietTypeId: this.registerForm.controls.dietType.value ?? "",
+        gender: this.registerForm.controls.gender.value ?? "",
+        height: Number.parseFloat(this.registerForm.controls.height.value!) ?? 0,
+        password: this.registerForm.controls.password.value ?? "",
+        phoneNumber: this.registerForm.controls.phoneNumber.value ?? "",
+        fullName: this.registerForm.controls.fullName.value ?? "",
+        email: this.registerForm.controls.email.value ?? ""
+      }
+
+      this.accountService.register(registerData).subscribe({
+        next: (user) => {
+          // navigate to home
+          console.log(user);
+        },
+        error: (error: HttpResponseError) => {
+          this.emailExists = false;
+          this.phoneNumberExists = false;   
+          for (const httpError of error.errors) {
+            if (httpError.message == "Email already exists" ) {
+                this.emailExists = true;
+            }
+            if (httpError.message == "Phone number already exists") {
+                this.phoneNumberExists = true;
+            }
+          }
+          this.registerForm.markAsPristine();
+          console.log(error)
+        }
+      })
     }
+    else {
+      this.registerForm.markAllAsTouched();
+      this.displayErrorOnControlDirty = false;
+    }
+  }
 }
