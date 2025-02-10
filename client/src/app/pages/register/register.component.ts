@@ -6,15 +6,18 @@ import { ValidationMessages } from '../../validation/validation-messages';
 import { AccountService } from '../../services/account.service';
 import { dateBeforeTodayValidator } from '../../validation/pastDateValidator';
 import { DietTypesService } from '../../services/diet-types.service';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RegisterData } from '../../models/register.data';
 import { HttpResponseError } from '../../models/http-error';
 import { ErrorComponent } from "../../components/error/error.component";
+import { PrimaryInputFieldComponent } from '../../components/primary-input-field/primary-input-field.component';
+import { PrimaryDropdownInputComponent } from "../../components/primary-dropdown-input/primary-dropdown-input.component";
+import { DropdownItem } from '../../components/primary-dropdown-input/dropdown-item';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormErrorComponent, ReactiveFormsModule, CommonModule, ErrorComponent],
+  imports: [ReactiveFormErrorComponent, ReactiveFormsModule, CommonModule, ErrorComponent, PrimaryInputFieldComponent, PrimaryDropdownInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -25,14 +28,28 @@ export class RegisterComponent implements OnInit {
   private dietTypeService = inject(DietTypesService);
 
   private phoneNumberExists = false;
-  private emailExists = false;
+  public emailExists = false;
 
-  dietTypes = this.dietTypeService.dietTypes$;
   displayErrorOnControlDirty = true;
+  displayErrorOnControlTouched = true;
 
+  dietTypeDropdownOptions: DropdownItem<string, string>[] = [];
+  genderDropdownOptions: DropdownItem<string, string>[] = [
+    {value: "Male", displayedValue: "Male"}, 
+    {value: "Female", displayedValue: "Female"}
+  ];
 
   ngOnInit(): void {
-    this.dietTypeService.loadDietTypes().subscribe();
+    this.dietTypeService.loadDietTypes().subscribe({
+      next: (dietTypes) => {
+        this.dietTypeDropdownOptions = dietTypes.map(dietType => {
+          return {
+            value: dietType.id,
+            displayedValue: dietType.name
+          }
+        })
+      }
+    });
 
   }
 
@@ -117,26 +134,16 @@ export class RegisterComponent implements OnInit {
     ["pattern", ValidationMessages.dietType]
   ])
 
-
-
   get phoneNumberExistsError() {
     return this.phoneNumberExists && !this.registerForm.controls.phoneNumber.dirty ? ValidationMessages.phoneNumberExists : "";
   }
 
   get emailExistsError() {
-    return this.emailExists && this.registerForm.controls.email.dirty ? ValidationMessages.emailExists : "";
+    return this.emailExists && !this.registerForm.controls.email.dirty ? ValidationMessages.emailExists : "";
   }
-
-  markAsDirtyIfUnselected(controlName: string) {
-    const control = this.registerForm.get(controlName);
-    if (control && control.value === '') {
-      control.markAsDirty();
-    }
-  }
-
-
 
   register() {
+    console.log(this.registerForm.controls.dateOfBirth.value);
     if (this.registerForm.valid) {
       
       if (!this.registerForm.dirty) {
@@ -160,6 +167,8 @@ export class RegisterComponent implements OnInit {
           console.log(user);
         },
         error: (error: HttpResponseError) => {
+          this.emailExists = false;
+          this.phoneNumberExists = false;   
           for (const httpError of error.errors) {
             if (httpError.message == "Email already exists" ) {
                 this.emailExists = true;
@@ -174,6 +183,7 @@ export class RegisterComponent implements OnInit {
       })
     }
     else {
+      this.registerForm.markAllAsTouched();
       this.displayErrorOnControlDirty = false;
     }
   }

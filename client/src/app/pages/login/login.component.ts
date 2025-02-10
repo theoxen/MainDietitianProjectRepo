@@ -8,11 +8,12 @@ import { AccountService } from '../../services/account.service';
 import { LoginData } from '../../models/login-data';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { PrimaryInputFieldComponent } from "../../components/primary-input-field/primary-input-field.component";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, ReactiveFormErrorComponent, ErrorComponent, MatInputModule, MatFormFieldModule],
+  imports: [ReactiveFormsModule, ReactiveFormErrorComponent, ErrorComponent, MatInputModule, MatFormFieldModule, PrimaryInputFieldComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -23,6 +24,7 @@ export class LoginComponent {
   private wereCredentialsWrong = false;
 
   displayErrorOnControlDirty = true;
+  displayErrorOnControlTouched = true;
 
   unauthorizedErrorMessage = ValidationMessages.unauthorized;
 
@@ -79,7 +81,7 @@ export class LoginComponent {
 
     }
     else {
-      this.displayErrorOnControlDirty = false;
+      this.loginForm.markAllAsTouched();
     }
   }
 }

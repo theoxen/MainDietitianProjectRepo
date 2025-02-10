@@ -3,120 +3,70 @@
         <div class="primary-hover-box">
             <div class="split-hover-box">
                 <div class="title-subtitle-box">
-                    <h1 class="title" style="margin: 0px;">Sign Up</h1>
+                    <h1 class="title" style="margin: 0px; margin-bottom: 10px;">Sign Up</h1>
                     <p class="sub-title">Rafaella Panagiotou - Clinical
                         Dietitian & Nutritionist</p>
                 </div>
-                <div class="client-credentials" style="flex: 3;">
+                <div class="client-credentials" style="flex: 4;">
                     <h3 style="margin: 0px;">CLIENT CREDENTIALS</h3>
                     <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
-                        <div class="input-container">
-                            <input type="text" class="primary-input-field" placeholder="Full Name"
-                                formControlName="fullName" (blur)="markAsDirtyIfUnselected('fullName')">
-                            <div class="error-container">
-                                <app-reactive-form-error [control]="registerForm.controls.fullName"
-                                    [errorMessages]="fullNameErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                            </div>
+
+                        <app-primary-input-field [label]="'Full Name'" [placeholder]="'Full Name'"
+                            [control]="registerForm.controls.fullName" [errorMessages]="fullNameErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-input-field>
+
+                        <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+                            <app-primary-input-field [label]="'Phone Number'" [placeholder]="'Phone Number'"
+                                [control]="registerForm.controls.phoneNumber" [errorMessages]="phoneNumberErrorMessages"
+                                [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                                [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                            </app-primary-input-field>
+                            <app-error [errorMessage]="phoneNumberExistsError" style="text-align: center;"></app-error>
                         </div>
 
-                        <div class="input-container">
-                            <input type="text" class="primary-input-field" placeholder="Phone Number"
-                                formControlName="phoneNumber" (blur)="markAsDirtyIfUnselected('phoneNumber')">
-                            <div class="error-container">
-                                <app-reactive-form-error [control]="registerForm.controls.phoneNumber"
-                                    [errorMessages]="phoneNumberErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                                <app-error [errorMessage]="phoneNumberExistsError" style="text-align: center;"></app-error>
-                            </div>
+                        <app-primary-input-field [label]="'Password'" placeholder="Password" [type]="'password'"
+                            [control]="registerForm.controls.password" [errorMessages]="passwordErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-input-field>
+
+                        <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+                            <app-primary-input-field [label]="'Email'" placeholder="Email"
+                                [control]="registerForm.controls.email" [errorMessages]="emailErrorMessages"
+                                [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                                [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                            </app-primary-input-field>
+                            <app-error [errorMessage]="emailExistsError" style="text-align: center;"></app-error>
                         </div>
 
-                        <div class="input-container">
-                            <input type="text" class="primary-input-field" placeholder="Password"
-                                formControlName="password" (blur)="markAsDirtyIfUnselected('password')">
-                            <div class="error-container">
-                                <app-reactive-form-error style="text-align: center;"
-                                    [control]="registerForm.controls.password" [errorMessages]="passwordErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                            </div>
-                        </div>
+                        <app-primary-input-field [label]="'Date Of Birth'" placeholder="Date Of Birth" [type]="'date'"
+                            [control]="registerForm.controls.dateOfBirth" [errorMessages]="dateOfBirthErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-input-field>
 
-                        <div class="input-container">
-                            <input type="text" class="primary-input-field" placeholder="Email"
-                                formControlName="email" (blur)="markAsDirtyIfUnselected('email')">
-                            <div class="error-container">
-                                <app-reactive-form-error style="text-align: center;"
-                                    [control]="registerForm.controls.email" [errorMessages]="emailErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                                <app-error [errorMessage]="emailExistsError" style="text-align: center;"></app-error>
-                            </div>
-                        </div>
+                        <app-primary-input-field [label]="'Height(cm)'" placeholder="Height(cm)"
+                            [control]="registerForm.controls.height" [errorMessages]="heightErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-input-field>
 
-                        <div class="input-container">
-
-                            <input type="text" class="primary-input-field" placeholder="Date Of Birth"
-                                onfocus="(this.type='date')" onblur="(this.type='text') " formControlName="dateOfBirth">
-                            <!-- TODO: FIX THE DATE TO DD/MM/YYYY BOTH IN TYPE TEXT AND IN DATE -->
-
-                            <div class="error-container">
-                                <app-reactive-form-error [control]="registerForm.controls.dateOfBirth"
-                                    [errorMessages]="dateOfBirthErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                            </div>
-                        </div>
-
-                        <div class="input-container" style="width: 100%;">
-                            <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; ">
-                                <input type="text" class="primary-input-field" placeholder="Height(cm)"
-                                    formControlName="height" (blur)="markAsDirtyIfUnselected('height')">
-                            </div>
-
-                            <div class="error-container">
+                        <app-primary-dropdown-input [placeholder]="'Select Diet Type'"
+                            [control]="registerForm.controls.dietType" [dropdownItems]="dietTypeDropdownOptions"
+                            [errorMessages]="dietTypeErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-dropdown-input>
 
 
-                                <app-reactive-form-error [control]="registerForm.controls.height"
-                                    [errorMessages]="heightErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                            </div>
-                        </div>
-
-                        <div class="input-container" style="flex: 6; width: 100%;">
-                            <select class="custom-dropdown"
-                                style="width: 80%; height:45px; border-radius: 15px; border: 2px #C8C8C8 solid;"
-                                formControlName="dietType" (blur)="markAsDirtyIfUnselected('dietType')">
-                                <option value="" disabled selected style="color:black">Select Diet Type</option>
-
-                                @for (dietType of dietTypes | async; track $index) {
-                                <option [value]="dietType.id">{{dietType.name}}</option>
-                                }
-
-                            </select>
-                            <div>
-                                <app-reactive-form-error [control]="registerForm.controls.dietType"
-                                    [errorMessages]="dietTypeErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                            </div>
-                        </div>
-
-                        <div class="input-container">
-                            <div style="width: 80%;">
-                                <select class="custom-dropdown"
-                                    style="width: 100%; height: 45px; border-radius: 15px; border: 2px #C8C8C8 solid;"
-                                    formControlName="gender" (blur)="markAsDirtyIfUnselected('gender')">
-                                    <option value="" disabled selected style="color:black">Select Gender
-                                    </option>
-                                    <option value="Male">Male
-                                    </option>
-                                    <option value="Female" style="color:black">Female
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="error-container">
-                                <app-reactive-form-error [control]="registerForm.controls.gender"
-                                    [errorMessages]="genderErrorMessages"
-                                    [showOnControlDirty]="displayErrorOnControlDirty"></app-reactive-form-error>
-                            </div>
-                        </div>
+                        <app-primary-dropdown-input [placeholder]="'Select Gender'"
+                            [control]="registerForm.controls.gender" [dropdownItems]="genderDropdownOptions"
+                            [errorMessages]="genderErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-dropdown-input>
 
 
 

@@ -1,0 +1,12 @@
+<div class="input-container">
+    <div class="form-floating" style="width: 100%;">
+        <input [type]="type" [placeholder]="placeholder" class="primary-input-field form-control"
+            [formControl]="control" style="width: 100%;">
+        <label>{{label}}</label>
+    </div>
+
+    <div style="text-align: center;">
+        <app-reactive-form-error [control]="control" [errorMessages]="errorMessages"
+            [showOnControlTouched]="showErrorOnControlTouched" [showOnControlDirty]="showErrorOnControlDirty"></app-reactive-form-error>
+    </div>
+</div>

@@ -36,53 +36,64 @@ public class UserService : IUserService
 
     public async Task<Result<Empty>> RegisterClientAsync(RegisterClientDto registerClientDto)
     {
+        List<ResultError> validationErrors = new();
+
+        if (!Regex.IsMatch(registerClientDto.PhoneNumber, @"^\d+$"))
+        {
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "PhoneNumber",
+                Message = "Invalid phone number"
+            });
+        }
+
+        // Validate email with regex: ^[^@\s]+@[^@\s]+\.[^@\s]+$
+        if (!Regex.IsMatch(registerClientDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        {
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "Email",
+                Message = "Invalid email"
+            });
+        }
+
         if (!Enum.TryParse<Genders>(registerClientDto.Gender, out Genders gender)) // Tries to match the gender to any of our enums. Out creates a variable (outside of the if scope)
         {
-            return Result<Empty>.BadRequest([new ResultError{
+            validationErrors.Add(new ResultError
+            {
                 Identifier = "Gender",
                 Message = "Invalid gender"
-            }]);
+            });
+        }
+
+        bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(registerClientDto.PhoneNumber);
+        if (phoneNumberExists)
+        {
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "PhoneNumber",
+                Message = "Phone number already exists"
+            });
+        }
+
+        var userExistsFromEmail = await _userManager.FindByEmailAsync(registerClientDto.Email);
+        if (userExistsFromEmail != null)
+        {
+            validationErrors.Add(new ResultError{
+                Identifier = "Email",
+                Message = "Email already exists"
+            });
+        }
+
+        if (validationErrors.Count > 0)
+        {
+            return Result<Empty>.BadRequest(validationErrors);
         }
 
         DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(registerClientDto.DietTypeId);
         if (dietType == null)
         {
             return Result<Empty>.NotFound();
-        }
-
-        if (!Regex.IsMatch(registerClientDto.PhoneNumber, @"^\d+$"))
-        {
-            return Result<Empty>.BadRequest([new ResultError{
-                Identifier = "PhoneNumber",
-                Message = "Invalid phone number"
-            }]);
-        }
-
-        bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(registerClientDto.PhoneNumber);
-        if (phoneNumberExists)
-        {
-            return Result<Empty>.BadRequest([new ResultError{
-                Identifier = "PhoneNumber",
-                Message = "Phone number already exists"
-            }]);
-        }
-
-        // Validate email with regex: ^[^@\s]+@[^@\s]+\.[^@\s]+$
-        if (!Regex.IsMatch(registerClientDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-        {
-            return Result<Empty>.BadRequest([new ResultError{
-                Identifier = "Email",
-                Message = "Invalid email"
-            }]);
-        }
-
-        var userExistsFromEmail = await _userManager.FindByEmailAsync(registerClientDto.Email);
-        if (userExistsFromEmail != null)
-        {
-            return Result<Empty>.BadRequest([new ResultError{
-                Identifier = "Email",
-                Message = "Email already exists"
-            }]);
         }
 
         registerClientDto.FullName = UserHelperFunctions.TrimFullName(registerClientDto.FullName);
