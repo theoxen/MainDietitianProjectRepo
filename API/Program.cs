@@ -16,7 +16,7 @@ builder.Services.AddSecurityServices(builder.Configuration);
 builder.Services.AddCors(x=>{
     x.AddDefaultPolicy(x=>x.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 });
-
+var eg;
 var app = builder.Build();
 
 await using(var serviceScope = app.Services.CreateAsyncScope()) // "using" is used to dispose of the serviceScope after the block is done executing
