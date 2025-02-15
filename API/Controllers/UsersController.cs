@@ -40,7 +40,7 @@ namespace API.Controllers
         }
 
         
-        [HttpGet(Endpoints.Users.VerifyOtp)]
+        [HttpPost(Endpoints.Users.VerifyOtp)]
         public async Task<IActionResult> VerifyOtp(OtpVerificationDto otpVerificationDto)
         {
             var result = await _userService.VerifyOtpAsync(otpVerificationDto.Email, otpVerificationDto.Otp);

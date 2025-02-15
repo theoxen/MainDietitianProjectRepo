@@ -53,7 +53,7 @@ export class AccountService {
   }
 
   register(userToRegister: RegisterData) {
-    const url = this.baseUrl + 'users/register'
+    const url = this.baseUrl + 'users/register';
 
     return this.http.post<User>(url, userToRegister).pipe(
       map(user => {
@@ -66,6 +66,17 @@ export class AccountService {
         return null;
       })
     )
+  }
+
+  sendOtp(email: string) {
+    const url = this.baseUrl + 'users/send-otp';
+    return this.http.post<string>(url, { email })
+  }
+
+  verifyOtp(email: string, otp: string) {
+    const url = this.baseUrl + 'users/verify-otp';
+    console.log(email, otp);
+    return this.http.post(url, { email, otp });
   }
   
 }

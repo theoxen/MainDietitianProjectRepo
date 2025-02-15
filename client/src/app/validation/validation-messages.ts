@@ -12,5 +12,9 @@ export class ValidationMessages
     static dietType="*Diet type must be 'Special Diet', 'Muscle Gain', 'Fat Loss', 'Weight Gain', or 'Weight Loss'";
     static email="*Email must be a valid email address (x@x.x)";
     static emailExists="*Email already exists";
+    static emailDoesNotExist="*Email does not exist";
     static phoneNumberExists="*Phone number already exists";
+    static otp="*OTP must be a 6 digit number";
+    static invalidOtp="*Invalid OTP";
+    static otpNotRequested="*OTP not requested";
 }

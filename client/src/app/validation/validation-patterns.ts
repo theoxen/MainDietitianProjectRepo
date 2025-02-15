@@ -7,4 +7,5 @@ export class ValidationPatterns
     static fullName = /^[a-zA-Z ]+$/; // The space is needed so it also accepts spaces instead of only alphabetic letters
     static height = /^\d{2,3}$/;
     static email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    static otp = /^\d{6}$/;
 }

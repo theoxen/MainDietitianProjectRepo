@@ -160,10 +160,17 @@ public class UserService : IUserService
 
     public async Task<Result<string>> SendOtpAsync(string email)
     {
+        List<ResultError> validationErrors = new();
+
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            return Result<string>.NotFound();
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "EmailNotFound",
+                Message = "Email not found"
+            });
+            return Result<string>.BadRequest(validationErrors);
         }
 
         string otp = _otpGenerator.GenerateOtp();
@@ -174,22 +181,44 @@ public class UserService : IUserService
             return Result<string>.BadRequest(result.ResultErrors);
         }
 
+        // Send the otp to the user via email (using sendgrid)
+
+
         return Result<string>.Ok(otp);
     }
 
 
-    public async Task<Result<Empty>> VerifyOtpAsync(string phoneNumber, string otp)
+    public async Task<Result<Empty>> VerifyOtpAsync(string email, string otp)
     {
-        var otpRetrieved = await _otpCache.RetrieveOtpAsync(phoneNumber);
+        List<ResultError> validationErrors = new();
+
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "EmailNotFound",
+                Message = "Email not found"
+            });
+            return Result<Empty>.BadRequest(validationErrors);
+        }
+
+
+        var otpRetrieved = await _otpCache.RetrieveOtpAsync(email);
         if (otpRetrieved is null)
         {
-            return Result<Empty>.NotFound();
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "OtpNotRequested",
+                Message = "User has not requested an OTP"
+            });
+            return Result<Empty>.BadRequest(validationErrors);
         }
 
         if (!otpRetrieved.Equals(otp)) // Checking the otp retrieved from cache and the otp that we are provided with the user
         {
             return Result<Empty>.BadRequest([new ResultError{
-                Identifier = "Otp",
+                Identifier = "OtpInvalid",
                 Message = "Invalid OTP"
             }]);
         }

@@ -143,7 +143,6 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log(this.registerForm.controls.dateOfBirth.value);
     if (this.registerForm.valid) {
       
       if (!this.registerForm.dirty) {
@@ -178,13 +177,13 @@ export class RegisterComponent implements OnInit {
             }
           }
           this.registerForm.markAsPristine();
-          console.log(error)
+          console.log(error);
         }
       })
     }
     else {
       this.registerForm.markAllAsTouched();
-      this.displayErrorOnControlDirty = false;
+      //this.displayErrorOnControlDirty = false; // TODO: Why is this needed?
     }
   }
 }
