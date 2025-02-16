@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
 
     "dateOfBirth": new FormControl("", [
       Validators.required,
-      dateBeforeTodayValidator()
+      dateBeforeTodayValidator() // Function that takes an AbstractControl as an argument and returns either null if the control is valid or an object containing validation errors if the control is invalid.
     ]),
 
     "height": new FormControl("", [

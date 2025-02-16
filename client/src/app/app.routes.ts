@@ -5,7 +5,7 @@ import { ForgotPasswordStep1Component } from './pages/forgot-password/forgot-pas
 import { ForgotPasswordStep2Component } from './pages/forgot-password/forgot-password-step-2/forgot-password-step-2.component';
 
 export const routes: Routes = [
-   { path: "", component:ForgotPasswordStep1Component },
+   { path: "users/forgot-password", component:ForgotPasswordStep1Component },
    { path:"users/login", component:LoginComponent },
    { path:"users/register", component:RegisterComponent },
    { path:"users/forgot-password/change-password", component:ForgotPasswordStep2Component }

@@ -50,6 +50,7 @@ namespace API.Controllers
         [HttpPost(Endpoints.Users.ChangePassword)]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
         {
+            Console.WriteLine("ChangePassword: " + changePasswordDto.Email + " " + changePasswordDto.Otp + " " + changePasswordDto.NewPassword);
             var response = await _userService.ChangePasswordAsync(changePasswordDto);
             return MapToHttpResponse(response);
         }

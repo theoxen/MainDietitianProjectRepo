@@ -86,7 +86,7 @@ export class ForgotPasswordStep1Component {
               this.emailExists = false;
             }
           });
-          
+
           this.emailForm.controls.emailFormControl.markAsPristine();
           console.log(error);
         }
@@ -106,13 +106,12 @@ export class ForgotPasswordStep1Component {
 
       this.accountService.verifyOtp(this.forgotPasswordForm.controls.email.value, this.forgotPasswordForm.controls.otp.value).subscribe({
         next: () => {
-          // navigate to step-2 component
-          this.router.navigate(['/users/forgot-password/change-password'], {
-            queryParams: {
-              email: this.forgotPasswordForm.controls.email.value,
-              otp: this.forgotPasswordForm.controls.otp.value
-            }
-          });
+          // Store email and otp in session storage
+          sessionStorage.setItem('email', this.forgotPasswordForm.controls.email.value!);
+          sessionStorage.setItem('otp', this.forgotPasswordForm.controls.otp.value!);
+
+          // Navigate to step-2 component
+          this.router.navigate(['/users/forgot-password/change-password']);
         },
         error: (error: HttpResponseError) => {
           this.emailExists = true;

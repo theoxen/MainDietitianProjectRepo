@@ -14,10 +14,11 @@ body {
     outline: none;
 }
 
-.primary-hover-box {
+/* TODO: MEDIA FOR SMALLER SCREENS, UP THE WIDTH % I THINK */
+.primary-hover-box { 
     max-width: 1500px;
-    width: 80%;
-    height: 650px;
+    width: 60%;
+    height: 600px;
     background-color: white;
     border-top: 5px solid #FFB453;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

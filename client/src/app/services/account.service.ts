@@ -79,4 +79,9 @@ export class AccountService {
     return this.http.post(url, { email, otp });
   }
   
+  changePassword(email: string, otp: string, newPassword: string) {
+    const url = this.baseUrl + 'users/change-password';
+    return this.http.post(url, { email, otp, newPassword });
+  }
+
 }

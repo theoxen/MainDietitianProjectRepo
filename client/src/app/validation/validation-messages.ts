@@ -17,4 +17,5 @@ export class ValidationMessages
     static otp="*OTP must be a 6 digit number";
     static invalidOtp="*Invalid OTP";
     static otpNotRequested="*OTP not requested";
+    static passwordMismatch="*Passwords do not match";
 }

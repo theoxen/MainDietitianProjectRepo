@@ -20,7 +20,7 @@
     padding-top: 50px;
     padding-left: 30px;
     padding-right : 30px;
-    height: 600px;
+    height: 550px;
 }
 
 @media (max-width: 768px) {
@@ -40,7 +40,7 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    max-height: 600px; /* Adjust based on your needs */
+    max-height: 550px; /* Adjust based on your needs */
     overflow-y: auto;
     padding-right: 10px; /* To prevent content from touching the scrollbar */
 }
