@@ -94,7 +94,6 @@ export class ForgotPasswordStep1Component {
     }
     else {
       this.emailForm.controls.emailFormControl.markAllAsTouched();
-      this.showErrorOnControlDirty = false;
     }
   }
 
