@@ -183,7 +183,6 @@ export class RegisterComponent implements OnInit {
     }
     else {
       this.registerForm.markAllAsTouched();
-      //this.displayErrorOnControlDirty = false; // TODO: Why is this needed?
     }
   }
 }

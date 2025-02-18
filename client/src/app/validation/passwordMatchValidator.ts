@@ -1,11 +1,11 @@
 import { AbstractControl, FormGroup, ValidatorFn } from "@angular/forms";
 
-export function passwordMatchValidator(): ValidatorFn {
+export function passwordMatchValidator(): ValidatorFn { // TODO: TEST AGAIN BECAUSE MAYBE IT DOESN'T WORK (+ WHEN I CLICK ON A FIELD AND THEN I CLICK OFF, THE ERROR MESSAGE DOESN'T DISAPPEAR)
     return (control: AbstractControl) => {
         const formGroup = control as FormGroup; // Cast the control to a FormGroup
         const password = formGroup.get('password');
         const confirmPassword = formGroup.get('confirmPassword');
-
+    
         if (!password || !confirmPassword) {
             return null;
         }
@@ -16,6 +16,7 @@ export function passwordMatchValidator(): ValidatorFn {
 
         } else {
             if (confirmPassword.errors) {
+
                 const { passwordMismatch, ...otherErrors } = confirmPassword.errors;
                 if (Object.keys(otherErrors).length === 0) {
                     confirmPassword.setErrors(null);

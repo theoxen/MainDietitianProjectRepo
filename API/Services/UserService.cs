@@ -210,7 +210,7 @@ public class UserService : IUserService
             validationErrors.Add(new ResultError
             {
                 Identifier = "OtpNotRequested",
-                Message = "User has not requested an OTP"
+                Message = "User has not requested an OTP or has expired"
             });
             return Result<Empty>.BadRequest(validationErrors);
         }

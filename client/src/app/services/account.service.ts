@@ -5,6 +5,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { LoginData } from '../models/login-data';
 import { RegisterData } from '../models/register.data';
+import { HttpResponseError } from '../models/http-error';
 
 @Injectable({
   providedIn: 'root'
@@ -75,7 +76,6 @@ export class AccountService {
 
   verifyOtp(email: string, otp: string) {
     const url = this.baseUrl + 'users/verify-otp';
-    console.log(email, otp);
     return this.http.post(url, { email, otp });
   }
   

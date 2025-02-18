@@ -1,3 +1,4 @@
+
 namespace API.Models.ForgetPassword
 {
     public class OtpVerificationDto

@@ -16,7 +16,7 @@ namespace API.MobileMessaging
             var cacheKey = $"OTP_{email}";
             var cacheOptions = new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5) // OTP expires in 5 minutes
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(0.1) // OTP expires in 5 minutes
             };
 
             await _cache.SetStringAsync(cacheKey, otp, cacheOptions);

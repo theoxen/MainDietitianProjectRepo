@@ -18,4 +18,5 @@ export class ValidationMessages
     static invalidOtp="*Invalid OTP";
     static otpNotRequested="*OTP not requested";
     static passwordMismatch="*Passwords do not match";
+    static emailOrOtpMissing="*Email or OTP is missing, please head to the previous page and re-enter your Email and OTP"
 }
