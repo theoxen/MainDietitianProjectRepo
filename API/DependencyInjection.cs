@@ -1,6 +1,4 @@
-using System;
 using System.Text;
-using System.Threading.Tasks;
 using API.Data;
 using API.MobileMessaging;
 using API.MobileMessaging.Interfaces;
@@ -45,6 +43,30 @@ public static class DependencyInjection
 
         services.AddSingleton<IOtpGenerator, DefaultOtpGenerator>();
         services.AddScoped<IOtpCache, DefaultOtpCache>();
+
+        services.AddScoped<IAppointmentService, AppointmentService>();
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
+        services.AddScoped<IArticleService, ArticleService>();
+        services.AddScoped<IArticleRepository, ArticleRepository>();
+
+        services.AddScoped<IDietService, DietService>();
+        services.AddScoped<IDietRepository, DietRepository>();
+
+        services.AddScoped<IMetricsService, MetricsService>();
+        services.AddScoped<IMetricsRepository, MetricsRepository>();
+
+        services.AddScoped<INoteService, NoteService>();
+        services.AddScoped<INoteRepository, NoteRepository>();
+        
+        services.AddScoped<IRecipeService, RecipeService>();
+        services.AddScoped<IRecipeRepository, RecipeRepository>();
+
+        services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<IReportRepository, ReportRepository>();
+
+        services.AddScoped<IReviewService, ReviewService>();
+        services.AddScoped<IReviewRepository, ReviewRepository>();
 
         services.AddDistributedMemoryCache();
 
