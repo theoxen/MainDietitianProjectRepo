@@ -30,6 +30,8 @@ public static class DependencyInjection
         .AddDefaultTokenProviders() // DefaultTokenProviders are for password reset
         .AddUserValidator<FullNameValidator>(); // Register the custom user validator. We can chain multiple validators to the User object with AddUserValidator
 
+        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+
         return services;
     }
 
@@ -67,6 +69,8 @@ public static class DependencyInjection
 
         services.AddScoped<IReviewService, ReviewService>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
+
+        services.AddTransient<IMessagingService, MessagingService>();
 
         services.AddDistributedMemoryCache();
 

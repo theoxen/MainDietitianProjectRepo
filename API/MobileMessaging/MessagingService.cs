@@ -1,24 +1,32 @@
 using System.Net;
 using System.Net.Mail;
 using API.MobileMessaging.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace API.MobileMessaging
 {
     public class MessagingService : IMessagingService
     {
+        private readonly EmailSettings _emailSettings;
+
+        public MessagingService(IOptions<EmailSettings> emailSettings)
+        {
+            _emailSettings = emailSettings.Value;
+        }
+        
         public async Task<bool> SendEmail(string to, string subject, string body)
         {
-            var fromAddress = new MailAddress("theodosisx874@gmail.com", "TEST");
+            var fromAddress = new MailAddress(_emailSettings.FromAddress, _emailSettings.FromName);
             var toAddress = new MailAddress(to);
-            const string fromPassword = "dlah xrdm kted qcky";
+            string fromPassword = _emailSettings.FromPassword;
 
             var smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
+                Host = _emailSettings.Host,
+                Port = _emailSettings.Port,
+                EnableSsl = _emailSettings.EnableSsl,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
+                UseDefaultCredentials = _emailSettings.UseDefaultCredentials,
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
 

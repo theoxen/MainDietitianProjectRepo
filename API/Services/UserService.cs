@@ -23,8 +23,9 @@ public class UserService : IUserService
     private readonly JwtService _jwtService;
     private readonly IOtpGenerator _otpGenerator;
     private readonly IOtpCache _otpCache;
+    private readonly IMessagingService _messagingService;
 
-    public UserService(UserManager<User> userManager, IDietTypeRepository dietTypeRepository, IUserRepository userRepository, JwtService jwtService, IOtpGenerator otpGenerator, IOtpCache otpCache)
+    public UserService(UserManager<User> userManager, IDietTypeRepository dietTypeRepository, IUserRepository userRepository, JwtService jwtService, IOtpGenerator otpGenerator, IOtpCache otpCache, IMessagingService messagingService)
     {
         _userManager = userManager;
         _dietTypeRepository = dietTypeRepository;
@@ -32,6 +33,7 @@ public class UserService : IUserService
         _jwtService = jwtService;
         _otpGenerator = otpGenerator;
         _otpCache = otpCache;
+        _messagingService = messagingService;
     }
 
     public async Task<Result<Empty>> RegisterClientAsync(RegisterClientDto registerClientDto)
@@ -158,7 +160,7 @@ public class UserService : IUserService
         return Result<UserDto>.Ok(userDto);
     }
 
-    public async Task<Result<string>> SendOtpAsync(string email)
+    public async Task<Result<Empty>> SendOtpAsync(string email)
     {
         List<ResultError> validationErrors = new();
 
@@ -170,7 +172,7 @@ public class UserService : IUserService
                 Identifier = "EmailNotFound",
                 Message = "Email not found"
             });
-            return Result<string>.BadRequest(validationErrors);
+            return Result<Empty>.BadRequest(validationErrors);
         }
 
         string otp = _otpGenerator.GenerateOtp();
@@ -178,13 +180,18 @@ public class UserService : IUserService
         var result = await _otpCache.StoreOtpAsync(otp, email);
         if (!result.IsSuccessful)
         {
-            return Result<string>.BadRequest(result.ResultErrors);
+            return Result<Empty>.BadRequest(result.ResultErrors);
         }
 
-        // Send the otp to the user via email (using sendgrid)
+        // Send the otp to the user via email
+        var emailResult = await _messagingService.SendEmail(email, "Password Reset OTP", $"Your OTP is: {otp}. Expires in 5 minutes.");
 
+        if (!emailResult)
+        {
+            return Result<Empty>.InternalServerError();
+        }
 
-        return Result<string>.Ok(otp);
+        return Result<Empty>.Ok(new Empty());
     }
 
 
@@ -226,21 +233,21 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
-    public async Task<Result<UserDto>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
+    public async Task<Result<Empty>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
     {
         // Verify the otp
         var verificationResult = await VerifyOtpAsync(changePasswordDto.Email, changePasswordDto.Otp);
 
         if (!verificationResult.IsSuccessful)
         {
-            return Result<UserDto>.BadRequest(verificationResult.ResultErrors);
+            return Result<Empty>.BadRequest(verificationResult.ResultErrors);
         }
 
         // Get the user by email
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == changePasswordDto.Email);
         if (user == null)
         {
-            return Result<UserDto>.NotFound();
+            return Result<Empty>.NotFound();
         }
 
         // Generating dummy token to authorize the user to change the password because we already checked the OTP
@@ -250,27 +257,28 @@ public class UserService : IUserService
 
         if (!result.Succeeded)
         {
-            return Result<UserDto>.BadRequest(result.Errors.Select(x => new ResultError
+            return Result<Empty>.BadRequest(result.Errors.Select(x => new ResultError
             {
                 Identifier = x.Code,
                 Message = x.Description
             }).ToList());
         }
 
+        // THE FOLLOWING COMMENTED OUT PART IS FOR DIRECTLY LOGGING IN THE USER AFTER CHANGING THE PASSWORD INSTEAD OF TRANSFERING THEM TO THE LOGIN PAGE.
         // Get the user roles
-        string[] roles = (await _userManager.GetRolesAsync(user)).ToArray();
+        // string[] roles = (await _userManager.GetRolesAsync(user)).ToArray();
 
-        // Create a new UserDto
-        UserDto userDto = new()
-        {
-            FullName = user.FullName!,
-            Roles = roles,
-            Token = _jwtService.GenerateSecurityToken(user, roles)
-        };
+        // // Create a new UserDto
+        // UserDto userDto = new()
+        // {
+        //     FullName = user.FullName!,
+        //     Roles = roles,
+        //     Token = _jwtService.GenerateSecurityToken(user, roles)
+        // };
 
         // Remove the otp from cache
         await _otpCache.RemoveOtpAsync(changePasswordDto.Email);
 
-        return Result<UserDto>.Ok(userDto);
+        return Result<Empty>.Ok(new Empty());
     }
 }

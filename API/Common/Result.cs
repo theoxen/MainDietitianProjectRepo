@@ -5,7 +5,8 @@ public enum ResultTypes
     Ok,
     NotFound,
     BadRequest,
-    Unauthorized
+    Unauthorized,
+    InternalServerError
 }
 
 public class Result<T>
@@ -50,6 +51,15 @@ public class Result<T>
         {
             IsSuccessful = false,
             ResultType = ResultTypes.Unauthorized
+        };
+    }
+
+    public static Result<T> InternalServerError()
+    {
+        return new Result<T>
+        {
+            IsSuccessful = false,
+            ResultType = ResultTypes.InternalServerError
         };
     }
 }
