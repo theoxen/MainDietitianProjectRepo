@@ -70,7 +70,12 @@ public static class DependencyInjection
         services.AddScoped<IReviewService, ReviewService>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
 
+
+        services.AddScoped<IAdviceService, AdviceService>();
+        services.AddScoped<IAdviceRepository, AdviceRepository>();
+
         services.AddTransient<IMessagingService, MessagingService>();
+
 
         services.AddDistributedMemoryCache();
 
