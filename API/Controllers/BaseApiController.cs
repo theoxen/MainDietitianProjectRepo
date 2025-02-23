@@ -15,6 +15,7 @@ namespace API.Controllers
                 ResultTypes.NotFound => NotFound(),
                 ResultTypes.BadRequest => BadRequest(result.ResultErrors),
                 ResultTypes.Unauthorized => Unauthorized(),
+                ResultTypes.InternalServerError => StatusCode(StatusCodes.Status500InternalServerError),
                 _ => BadRequest()
             };
         }
