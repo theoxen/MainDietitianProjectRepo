@@ -13,6 +13,9 @@ public class DataContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim
     }
 
     public DbSet<DietType> DietTypes { get; set; }
+    public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<Advice> Advice { get; set; }
+    public DbSet<Article> Articles { get; set; }    
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -52,7 +55,6 @@ public class DataContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim
             x.HasOne(x => x.DietDay).WithMany(x => x.DietMeals).HasForeignKey(x => x.DietDayId).OnDelete(DeleteBehavior.Cascade);
         });
 
-        // TODO: ADD MORE CASCADING DELETES? (NOTES, APPOINTMENTS, METRICS, USERDIETS). ON DELETE SET NULL ON REVIEWS 
         builder.Entity<Note>(x =>
         {
             x.HasOne(x => x.User)
