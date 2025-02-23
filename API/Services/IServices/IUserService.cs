@@ -9,7 +9,7 @@ public interface IUserService
 {
     public Task<Result<Empty>> RegisterClientAsync(RegisterClientDto registerClientDto);
     public Task<Result<UserDto>> LoginUserAsync(LoginUserDto loginUserDto);
-    public Task<Result<string>> SendOtpAsync(string email);
+    public Task<Result<Empty>> SendOtpAsync(string email);
     public Task<Result<Empty>> VerifyOtpAsync(string email, string otp);
-    public Task<Result<UserDto>> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
+    public Task<Result<Empty>> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
 }
