@@ -15,7 +15,8 @@ public class DataContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim
     public DbSet<DietType> DietTypes { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Advice> Advice { get; set; }
-    public DbSet<Article> Articles { get; set; }    
+    public DbSet<Article> Articles { get; set; }
+    public DbSet<Note> Notes { get; set; }    
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

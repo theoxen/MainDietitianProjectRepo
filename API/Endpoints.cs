@@ -21,4 +21,10 @@ public static class Endpoints
         private const string Base= BaseUrl+"diet-types";
         public const string GetAllDietTypes=Base;
     }
+
+    public static class Notes
+    {
+        private const string Base = BaseUrl + "notes";
+        public const string Create = Base + "/create";
+    }
 }
