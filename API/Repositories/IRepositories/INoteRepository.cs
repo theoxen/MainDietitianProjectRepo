@@ -3,8 +3,11 @@ using API.Data;
 
 namespace API.Repositories.IRepositories
 {
-    public interface INoteRepository
+    public interface INoteRepository : IBaseRepository
     {
-        public Task<bool> CreateNoteAsync(Note note);
+        public Task<bool> HasNoteAsync(Guid userId);
+        public void CreateNote(Note note);
+        public void DeleteNote(Note note);
+        public Task<Note?> GetNoteAsync(Guid noteId);
     }
 }

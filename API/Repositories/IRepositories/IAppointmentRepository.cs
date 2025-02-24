@@ -1,6 +1,6 @@
 namespace API.Repositories.IRepositories
 {
-    public interface IAppointmentRepository
+    public interface IAppointmentRepository : IBaseRepository
     {
         
     }

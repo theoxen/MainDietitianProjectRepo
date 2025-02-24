@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Repositories.IRepositories
 {
-    public interface IAdviceRepository
+    public interface IAdviceRepository : IBaseRepository
     {
         
     }

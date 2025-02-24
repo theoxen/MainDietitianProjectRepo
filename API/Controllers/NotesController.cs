@@ -1,5 +1,4 @@
 using API.Models.Notes;
-using API.Services;
 using API.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +16,27 @@ namespace API.Controllers
         public async Task<IActionResult> CreateNoteAsync(CreateNoteDto createNoteDto)
         {
             var result = await _noteService.CreateNoteAsync(createNoteDto);
+            return MapToHttpResponse(result);
+        }
+
+        [HttpDelete(Endpoints.Notes.Delete)] // url example: http://localhost:5207/api/notes/131c296e-75cd-476b-ad9b-a430d986c736
+        public async Task<IActionResult> DeleteNoteAsync(Guid noteId)
+        {
+            var result = await _noteService.DeleteNoteAsync(noteId);
+            return MapToHttpResponse(result);
+        }
+
+        [HttpGet(Endpoints.Notes.GetNote)] // url example: http://localhost:5207/api/notes/get-note?noteid=131c296e-75cd-476b-ad9b-a430d986c736
+        public async Task<IActionResult> GetNoteAsync(Guid noteId)
+        {
+            var result = await _noteService.GetNoteAsync(noteId);
+            return MapToHttpResponse(result);
+        }
+
+        [HttpPut(Endpoints.Notes.UpdateNote)] // UPDATE IS HTTP PUT!
+        public async Task<IActionResult> UpdateNoteAsync(UpdateNoteDto updateNoteDto)
+        {
+            var result = await _noteService.UpdateNoteAsync(updateNoteDto);
             return MapToHttpResponse(result);
         }
     }

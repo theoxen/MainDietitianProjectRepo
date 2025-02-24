@@ -11,11 +11,16 @@ public class UserRepository : IUserRepository
 
     public UserRepository(DataContext dataContext)
     {
-        this._dataContext = dataContext;
+        _dataContext = dataContext;
     }
-    
+
     public Task<bool> DoesPhoneNumberExistAsync(string phoneNumber)
     {
         return _dataContext.Users.AnyAsync(x => x.PhoneNumber == phoneNumber);
+    }
+
+    public async Task<bool> Commit()
+    {
+        return await _dataContext.SaveChangesAsync() > 0;
     }
 }

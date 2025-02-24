@@ -1,6 +1,6 @@
 namespace API.Controllers
 {
-    public class DietsController
+    public class DietsController : BaseApiController
     {
         
     }

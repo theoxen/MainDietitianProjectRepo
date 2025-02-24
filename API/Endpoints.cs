@@ -26,6 +26,9 @@ public static class Endpoints
     public static class Notes
     {
         private const string Base = BaseUrl + "notes";
-        public const string Create = Base + "/create";
+        public const string Create = Base ;
+        public const string Delete = Base + "/{noteId}"; // the {noteId} must be the same name as the parameter in the controller method
+        public const string GetNote = Base + "/{noteId}"; // the {noteId} must be the same name as the parameter in the controller method
+        public const string UpdateNote = Base;
     }
 }

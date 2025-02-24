@@ -1,6 +1,6 @@
 namespace API.Controllers
 {
-    public class ReportsController
+    public class ReportsController : BaseApiController
     {
         
     }

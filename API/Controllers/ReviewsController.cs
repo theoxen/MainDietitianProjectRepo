@@ -1,6 +1,6 @@
 namespace API.Controllers
 {
-    public class ReviewsController
+    public class ReviewsController : BaseApiController
     {
         
     }

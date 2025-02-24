@@ -1,6 +1,6 @@
 namespace API.Repositories.IRepositories
 {
-    public interface IReportRepository
+    public interface IReportRepository : IBaseRepository
     {
         
     }

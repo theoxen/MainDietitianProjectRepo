@@ -1,6 +1,7 @@
 using API.Common;
 using API.Data;
 using API.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
 {
@@ -12,16 +13,36 @@ namespace API.Repositories
         {
             _dataContext = dataContext;
         }
-        
-        public async Task<bool> CreateNoteAsync(Note note)
+
+        public async Task<bool> HasNoteAsync(Guid userId)
         {
-            await _dataContext.Notes.AddAsync(note);
-            var result = await _dataContext.SaveChangesAsync();
-            if (result > 0)
+            var note = await _dataContext.Notes.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (note == null)
             {
-                return true;
+                return false;
             }
-            return false;  
+            return true;
+        }
+
+        public void CreateNote(Note note)
+        {
+            _dataContext.Notes.Add(note);
+        }
+
+        public void DeleteNote(Note note)
+        {
+            _dataContext.Notes.Remove(note);
+        }
+
+        public async Task<Note?> GetNoteAsync(Guid noteId)
+        {
+            var note = await _dataContext.Notes.FirstOrDefaultAsync(x => x.Id == noteId);
+            return note;
+        }
+        
+        public async Task<bool> Commit()
+        {
+            return await _dataContext.SaveChangesAsync() > 0;
         }
     }
 }

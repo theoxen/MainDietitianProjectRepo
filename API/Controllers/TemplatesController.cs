@@ -1,6 +1,6 @@
 namespace API.Controllers
 {
-    public class TemplatesController
+    public class TemplatesController : BaseApiController
     {
         
     }
