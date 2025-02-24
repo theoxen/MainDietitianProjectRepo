@@ -12,4 +12,5 @@ public interface IUserService
     public Task<Result<Empty>> SendOtpAsync(string email);
     public Task<Result<Empty>> VerifyOtpAsync(string email, string otp);
     public Task<Result<Empty>> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
+    //public Task<Result<UserDto>> ViewClientProfileAsync(string phoneNumber);
 }

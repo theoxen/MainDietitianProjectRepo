@@ -53,5 +53,17 @@ namespace API.Controllers
             var response = await _userService.ChangePasswordAsync(changePasswordDto);
             return MapToHttpResponse(response);
         }
+
+        // [HttpPost(Endpoints.Users.ViewProfile)]
+
+        // public async Task<IActionResult> ViewProfile()
+        // {
+        //     var response = await _userService.ViewClientProfileAsync();
+        //     return MapToHttpResponse(response);
+        // }
+
     }
+
+
+
 }
