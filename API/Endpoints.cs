@@ -14,11 +14,21 @@ public static class Endpoints
         public const string SendOtp = Base + "/send-otp";
         public const string VerifyOtp = Base + "/verify-otp";
         public const string ChangePassword = Base + "/change-password";
+        public const string ViewProfile = Base + "/view-profile";
     }
 
     public static class DietTypes
     {   
         private const string Base= BaseUrl+"diet-types";
         public const string GetAllDietTypes=Base;
+    }
+
+    public static class Notes
+    {
+        private const string Base = BaseUrl + "notes";
+        public const string Create = Base ;
+        public const string Delete = Base + "/{noteId}"; // the {noteId} must be the same name as the parameter in the controller method
+        public const string GetNote = Base + "/{noteId}"; // the {noteId} must be the same name as the parameter in the controller method
+        public const string UpdateNote = Base;
     }
 }

@@ -281,4 +281,21 @@ public class UserService : IUserService
 
         return Result<Empty>.Ok(new Empty());
     }
+
+    // public async Task<Result<UserDto>> ViewClientProfileAsync(string phoneNumber)
+    // {
+    //     var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+    //     if (user == null)
+    //     {
+    //         return Result<UserDto>.NotFound();
+    //     }   
+
+    //     UserProfileDto userProfileDto = new()
+    //     {
+    //         FullName = user.FullName!,
+           
+    //     };
+    //     return Result<UserProfileDto>.Ok(userDto);
+    // }
+
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Repositories.IRepositories
+namespace API.Models.Users
 {
-    public interface IAdviceRepository : IBaseRepository
+    public class UserProfileDto
     {
-        
+        public required int MyProperty { get; set; }
     }
 }

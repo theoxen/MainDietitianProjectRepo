@@ -1,6 +1,6 @@
 namespace API.Controllers
 {
-    public class AppointmentsController
+    public class AppointmentsController : BaseApiController
     {
         
     }

@@ -1,6 +1,6 @@
 namespace API.Controllers
 {
-    public class MetricsController
+    public class MetricsController : BaseApiController
     {
         
     }

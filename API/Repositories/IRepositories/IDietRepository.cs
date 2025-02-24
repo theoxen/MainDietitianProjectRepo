@@ -1,6 +1,6 @@
 namespace API.Repositories.IRepositories
 {
-    public interface IDietRepository
+    public interface IDietRepository : IBaseRepository
     {
         
     }

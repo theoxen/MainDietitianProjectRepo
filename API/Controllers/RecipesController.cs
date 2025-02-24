@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
         // View Recipes => Get
-        [HttpGet("api/recipes/view")]
+        [HttpGet("api/recipes/view")] // GET MIGHT REQUIRE /{id} IN THE URL PATH
         public async Task<IActionResult> ViewRecipes(Guid id)
         {
             var result = await _recipeService.ViewRecipes(id);

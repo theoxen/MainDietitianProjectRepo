@@ -17,6 +17,10 @@ namespace API.Repositories
         {
             return await _context.Recipes.FirstOrDefaultAsync(x => x.Id == id);
         }
+        public async Task<bool> Commit()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
 
     }
 }

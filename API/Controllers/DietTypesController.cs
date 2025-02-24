@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
     public class DietTypesController : BaseApiController
     {
         private readonly IDietTypesService dietTypesService;

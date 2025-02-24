@@ -1,6 +1,6 @@
 namespace API.Repositories.IRepositories
 {
-    public interface IMetricsRepository
+    public interface IMetricsRepository : IBaseRepository
     {
         
     }
