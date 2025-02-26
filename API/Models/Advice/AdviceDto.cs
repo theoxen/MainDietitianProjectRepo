@@ -1,4 +1,4 @@
-namespace API.Models.Notes
+namespace API.Models.Advice
 {
     public class AdviceDto
     {

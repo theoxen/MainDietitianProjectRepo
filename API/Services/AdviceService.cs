@@ -8,6 +8,7 @@ using API.Data;
 using API.Models.Advice;
 using API.Repositories.IRepositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace API.Services
 {
@@ -85,6 +86,7 @@ namespace API.Services
             return Result<AdviceDto>.Ok(new AdviceDto
             {
                 Id = advice.Id,
+                Title = advice.Title,
                 AdviceText = advice.AdviceText,
                 DateCreated = advice.DateCreated
             });
@@ -96,6 +98,7 @@ namespace API.Services
             var adviceDtoList = adviceList.Select(advice => new AdviceDto
             {
                 Id = advice.Id,
+                Title = advice.Title, 
                 AdviceText = advice.AdviceText,
                 DateCreated = advice.DateCreated
             });
@@ -118,6 +121,7 @@ namespace API.Services
                 return Result<AdviceDto>.Ok(new AdviceDto
                 {
                     Id = advice.Id,
+                    Title = advice.Title,
                     AdviceText = advice.AdviceText,
                     DateCreated = advice.DateCreated
                 });
