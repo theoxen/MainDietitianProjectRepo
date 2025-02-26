@@ -13,11 +13,12 @@ import { ErrorComponent } from "../../components/error/error.component";
 import { PrimaryInputFieldComponent } from '../../components/primary-input-field/primary-input-field.component';
 import { PrimaryDropdownInputComponent } from "../../components/primary-dropdown-input/primary-dropdown-input.component";
 import { DropdownItem } from '../../components/primary-dropdown-input/dropdown-item';
+import { NavBarComponent } from "../../components/nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormErrorComponent, ReactiveFormsModule, CommonModule, ErrorComponent, PrimaryInputFieldComponent, PrimaryDropdownInputComponent],
+  imports: [ReactiveFormErrorComponent, ReactiveFormsModule, CommonModule, ErrorComponent, PrimaryInputFieldComponent, PrimaryDropdownInputComponent, NavBarComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

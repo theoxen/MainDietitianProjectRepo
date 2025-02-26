@@ -7,11 +7,12 @@ import { HttpResponseError } from '../../../models/http-error';
 import { AccountService } from '../../../services/account.service';
 import { ErrorComponent } from "../../../components/error/error.component";
 import { Router } from '@angular/router';
+import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-forgot-password-step-1',
   standalone: true,
-  imports: [PrimaryInputFieldComponent, ErrorComponent, ReactiveFormsModule],
+  imports: [PrimaryInputFieldComponent, ErrorComponent, ReactiveFormsModule, NavBarComponent],
   templateUrl: './forgot-password-step-1.component.html',
   styleUrl: './forgot-password-step-1.component.css'
 })
