@@ -34,6 +34,7 @@ namespace API.Services
                 return Result<AdviceDto>.Ok(new AdviceDto
                 {
                     Id = advice.Id,
+                    Title = advice.Title,
                     AdviceText = advice.AdviceText,
                     DateCreated = advice.DateCreated
                 });
