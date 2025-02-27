@@ -14,7 +14,10 @@ public static class Endpoints
         public const string SendOtp = Base + "/send-otp";
         public const string VerifyOtp = Base + "/verify-otp";
         public const string ChangePassword = Base + "/change-password";
-        public const string ViewProfile = Base + "/view-profile";
+        public const string ViewProfile = Base + "/view-profile/{phoneNumber}";
+        public const string DeleteUser = Base + "/delete/{phoneNumber}";
+        public const string UpdateProfile = Base + "/update-profile";
+        
     }
 
     public static class DietTypes

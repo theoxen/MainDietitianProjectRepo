@@ -54,16 +54,28 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
-        // [HttpPost(Endpoints.Users.ViewProfile)]
+        [HttpGet(Endpoints.Users.ViewProfile)]
 
-        // public async Task<IActionResult> ViewProfile()
-        // {
-        //     var response = await _userService.ViewClientProfileAsync();
-        //     return MapToHttpResponse(response);
-        // }
+        public async Task<IActionResult> ViewProfile(string phoneNumber)
+        {
+            var response = await _userService.ViewClientProfileAsync(phoneNumber);
+            return MapToHttpResponse(response);
+        }
+
+        [HttpDelete(Endpoints.Users.DeleteUser)]
+        public async Task<IActionResult> DeleteUser(string phoneNumber)
+        {
+            var response = await _userService.DeleteUserAsync(phoneNumber);
+            return MapToHttpResponse(response);
+        }
+
+        
+        [HttpPut(Endpoints.Users.UpdateProfile)]
+        public async Task<IActionResult> UpdateProfile(UserProfileUpdateDto userProfileUpdateDto)
+        {
+            var response = await _userService.UpdateUserProfileAsync(userProfileUpdateDto);
+            return MapToHttpResponse(response);
+        }
 
     }
-
-
-
 }

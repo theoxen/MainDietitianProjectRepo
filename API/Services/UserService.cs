@@ -282,20 +282,147 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
-    // public async Task<Result<UserDto>> ViewClientProfileAsync(string phoneNumber)
-    // {
-    //     var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
-    //     if (user == null)
-    //     {
-    //         return Result<UserDto>.NotFound();
-    //     }   
+    public async Task<Result<UserProfileDto>> ViewClientProfileAsync(string phoneNumber)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        if (user == null)
+        {
+            return Result<UserProfileDto>.NotFound();
+        }   
 
-    //     UserProfileDto userProfileDto = new()
-    //     {
-    //         FullName = user.FullName!,
+
+        string dietTypeName = "Unknown";
+    if (user.DietTypeId.HasValue)
+    {
+        var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
+        if (dietType != null)
+        {
+            dietTypeName = dietType.Name; // Assuming DietType has a Name property
+        }
+    }
+
+        UserProfileDto userProfileDto = new()
+        {
+            FullName = user.FullName!,
+            PhoneNumber = user.PhoneNumber!,
+            Email = user.Email!,
+            Height = user.Height!,
+            DietTypeName = dietTypeName
            
-    //     };
-    //     return Result<UserProfileDto>.Ok(userDto);
-    // }
+        };
+        return Result<UserProfileDto>.Ok(userProfileDto);
+    }
+
+    public async Task<Result<Empty>> DeleteUserAsync(string phoneNumber)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        if (user == null)
+        {
+            return Result<Empty>.NotFound();
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        if (!result.Succeeded)
+        {
+            return Result<Empty>.BadRequest(result.Errors.Select(x => new ResultError
+            {
+                Identifier = x.Code,
+                Message = x.Description
+            }).ToList());
+        }
+
+        return Result<Empty>.Ok(new Empty());
+    }
+
+    public async Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto){
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userProfileUpdateDto.UserId);
+        if (user == null)
+        {
+            return Result<Empty>.NotFound();
+        }
+
+        DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(userProfileUpdateDto.DietTypeId);
+        if (dietType == null)
+        {
+            return Result<Empty>.NotFound();
+        }
+        
+        if (!Regex.IsMatch(userProfileUpdateDto.PhoneNumber, @"^\d+$"))
+        {
+            return Result<Empty>.BadRequest(new List<ResultError>
+            {
+                new ResultError
+                {
+                    Identifier = "PhoneNumber",
+                    Message = "Invalid phone number"
+                }
+            });
+        }
+
+        if (!Regex.IsMatch(userProfileUpdateDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        {
+            return Result<Empty>.BadRequest(new List<ResultError>
+            {
+                new ResultError
+                {
+                    Identifier = "Email",
+                    Message = "Invalid email"
+                }
+                });
+        }
+
+     // Check if phone number already exists
+    bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(userProfileUpdateDto.PhoneNumber);
+    if (phoneNumberExists && user.PhoneNumber != userProfileUpdateDto.PhoneNumber)
+    {
+        return Result<Empty>.BadRequest(new List<ResultError>
+        {
+            new ResultError
+            {
+                Identifier = "PhoneNumber",
+                Message = "Phone number already exists"
+            }
+        });
+    }
+
+    // Check if email already exists
+    var userExistsFromEmail = await _userManager.FindByEmailAsync(userProfileUpdateDto.Email);
+    if (userExistsFromEmail != null && userExistsFromEmail.Id != userProfileUpdateDto.UserId)
+    {
+        return Result<Empty>.BadRequest(new List<ResultError>
+        {
+            new ResultError
+            {
+                Identifier = "Email",
+                Message = "Email already exists"
+            }
+        });
+    }
+        
+        
+        // Update user properties
+        user.FullName = userProfileUpdateDto.FullName;
+        user.PhoneNumber = userProfileUpdateDto.PhoneNumber;
+        user.Email = userProfileUpdateDto.Email;
+        user.Height = userProfileUpdateDto.Height;
+        user.DietTypeId = userProfileUpdateDto.DietTypeId;
+        user.UserName = UserHelperFunctions.GenerateUniqueUserName(user.FullName);
+
+        var result = await _userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            return Result<Empty>.BadRequest(result.Errors.Select(x => new ResultError
+            {
+                Identifier = x.Code,
+                Message = x.Description
+            }).ToList());
+        }
+
+        
+
+        return Result<Empty>.Ok(new Empty());
+
+    }
+
 
 }
