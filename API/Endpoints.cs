@@ -31,4 +31,15 @@ public static class Endpoints
         public const string GetNote = Base + "/{noteId}"; // the {noteId} must be the same name as the parameter in the controller method
         public const string UpdateNote = Base;
     }
+
+    public static class Metrics
+    {
+        private const string Base = BaseUrl + "metrics";
+        public const string Add = Base ;
+        public const string Delete = Base + "/{metricsId}"; 
+        public const string ViewMetrics = Base + "/{metricsId}"; 
+        public const string EditMetrics = Base;
+        public const string SearchMetrics = Base + "/search";
+
+    }
 }

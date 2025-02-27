@@ -1,5 +1,4 @@
 using API.Common;
-using API.Data;
 using API.Models.Notes;
 
 namespace API.Services.IServices
