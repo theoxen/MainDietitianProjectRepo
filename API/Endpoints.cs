@@ -15,8 +15,8 @@ public static class Endpoints
         public const string VerifyOtp = Base + "/verify-otp";
         public const string ChangePassword = Base + "/change-password";
         public const string ViewProfile = Base + "/view-profile/{phoneNumber}";
-        public const string DeleteUser = Base + "/delete/{phoneNumber}";
-        public const string UpdateProfile = Base + "/update-profile";
+        public const string DeleteUser = Base + "/{id}";
+        public const string UpdateProfile = Base;
         
     }
 
@@ -29,11 +29,12 @@ public static class Endpoints
     public static class Advice
     {
         private const string Base = BaseUrl + "advice";
-        public const string Create = Base + "/create";
+        public const string Create = Base;
         public const string Delete = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
         public const string GetAdvice = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
         public const string UpdateAdvice = Base;
         public const string GetAll = Base;
+        public const string Search = Base + "/search";
     }
 
     public static class Notes
@@ -54,5 +55,17 @@ public static class Endpoints
         public const string EditMetrics = Base;
         public const string SearchMetrics = Base + "/search";
 
+    }
+
+    public static class Recipes
+    {
+        private const string Base = BaseUrl + "recipes";
+        public const string Upload = Base;
+        public const string View = Base + "/{id}"; 
+        public const string ViewAll = Base; 
+        
+        public const string Edit = Base; 
+        public const string Search = Base + "/search"; 
+        public const string Delete = Base + "/{id}"; 
     }
 }

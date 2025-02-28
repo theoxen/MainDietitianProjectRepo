@@ -28,11 +28,16 @@ namespace API.Repositories
             return await _dataContext.Advice.FirstOrDefaultAsync(x => x.Id == adviceId);
         }
 
-        public async Task<IEnumerable<Advice>> GetAllAdviceAsync()
+        public async Task<List<Advice>> GetAllAdviceAsync()
         {
             return await _dataContext.Advice.ToListAsync();
         }
         
+        public async Task<List<Advice>> SearchAdviceAsync(string searchTerm)
+        {
+            return await _dataContext.Advice.Where(a => a.Title.Contains(searchTerm)).ToListAsync();
+        }
+
         public async Task<bool> Commit()
         {
             return await _dataContext.SaveChangesAsync() > 0;

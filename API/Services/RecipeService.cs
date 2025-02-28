@@ -184,5 +184,24 @@ namespace API.Services
                 }
             });
         }
+
+        public async Task<Result<List<RecipesDto>>> ViewAllRecipes()
+        {
+            List<Recipe> recipes = await _recipeRepository.GetAllRecipes();
+            List<RecipesDto> recipesDto = recipes.Select(recipe => new RecipesDto
+            {
+                Id = recipe.Id,
+                Name = recipe.Name,
+                Ingredients = recipe.Ingredients,
+                Directions = recipe.Directions,
+                DateCreated = recipe.DateCreated,
+                Protein = recipe.Protein,
+                Carbs = recipe.Carbs,
+                Fat = recipe.Fat,
+                Calories = recipe.Calories
+            }).ToList();
+
+            return Result<List<RecipesDto>>.Ok(recipesDto);
+        }
     }
 }

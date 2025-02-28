@@ -40,6 +40,15 @@ public class UserService : IUserService
     {
         List<ResultError> validationErrors = new();
 
+        if (!Regex.IsMatch(registerClientDto.Height.ToString(), @"^\d{1,3}$"))
+        {
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "Height",
+                Message = "Invalid height (must be 2 or 3 digits)"
+            });
+        }
+
         if (!Regex.IsMatch(registerClientDto.PhoneNumber, @"^\d+$"))
         {
             validationErrors.Add(new ResultError
@@ -56,6 +65,15 @@ public class UserService : IUserService
             {
                 Identifier = "Email",
                 Message = "Invalid email"
+            });
+        }
+
+        if (!Regex.IsMatch(registerClientDto.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$"))
+        {
+            validationErrors.Add(new ResultError
+            {
+                Identifier = "Password",
+                Message = "Password must be at least 6 characters, contain an uppercase, a lowercase, a number, and a special character"
             });
         }
 
@@ -81,7 +99,8 @@ public class UserService : IUserService
         var userExistsFromEmail = await _userManager.FindByEmailAsync(registerClientDto.Email);
         if (userExistsFromEmail != null)
         {
-            validationErrors.Add(new ResultError{
+            validationErrors.Add(new ResultError
+            {
                 Identifier = "Email",
                 Message = "Email already exists"
             });
@@ -137,6 +156,18 @@ public class UserService : IUserService
 
     public async Task<Result<UserDto>> LoginUserAsync(LoginUserDto loginUserDto)
     {
+        if (!Regex.IsMatch(loginUserDto.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$"))
+        {
+            return Result<UserDto>.BadRequest(new List<ResultError>
+            {
+                new ResultError
+                {
+                    Identifier = "Password",
+                    Message = "Password must be at least 6 characters, contain an uppercase, a lowercase, a number, and a special character"
+                }
+            });
+        }
+
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == loginUserDto.PhoneNumber); // FirstOrDefault instead of SingleOrDefault so it doesnt perform duplication checks
         if (user == null)
         {
@@ -235,6 +266,17 @@ public class UserService : IUserService
 
     public async Task<Result<Empty>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
     {
+        if (!Regex.IsMatch(changePasswordDto.NewPassword, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$"))
+        {
+            return Result<Empty>.BadRequest(new List<ResultError>
+            {
+                new ResultError
+                {
+                    Identifier = "Password",
+                    Message = "Password must be at least 6 characters, contain an uppercase, a lowercase, a number, and a special character"
+                }
+            });
+        }
         // Verify the otp
         var verificationResult = await VerifyOtpAsync(changePasswordDto.Email, changePasswordDto.Otp);
 
@@ -288,18 +330,18 @@ public class UserService : IUserService
         if (user == null)
         {
             return Result<UserProfileDto>.NotFound();
-        }   
+        }
 
 
         string dietTypeName = "Unknown";
-    if (user.DietTypeId.HasValue)
-    {
-        var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
-        if (dietType != null)
+        if (user.DietTypeId.HasValue)
         {
-            dietTypeName = dietType.Name; // Assuming DietType has a Name property
+            var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
+            if (dietType != null)
+            {
+                dietTypeName = dietType.Name; // Assuming DietType has a Name property
+            }
         }
-    }
 
         UserProfileDto userProfileDto = new()
         {
@@ -307,15 +349,16 @@ public class UserService : IUserService
             PhoneNumber = user.PhoneNumber!,
             Email = user.Email!,
             Height = user.Height!,
-            DietTypeName = dietTypeName
-           
+            DietTypeName = dietTypeName,
+            Gender = user.Gender,
+            DateOfBirth = user.DateOfBirth
         };
         return Result<UserProfileDto>.Ok(userProfileDto);
     }
 
-    public async Task<Result<Empty>> DeleteUserAsync(string phoneNumber)
+    public async Task<Result<Empty>> DeleteUserAsync(Guid id)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
         {
             return Result<Empty>.NotFound();
@@ -334,19 +377,19 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
-    public async Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto){
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userProfileUpdateDto.UserId);
-        if (user == null)
+    public async Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto)
+    {
+        if (!Regex.IsMatch(userProfileUpdateDto.Height.ToString(), @"^\d{1,3}$"))
         {
-            return Result<Empty>.NotFound();
+            return Result<Empty>.BadRequest(new List<ResultError>
+            {
+                new ResultError{
+                    Identifier = "Height",
+                    Message = "Invalid height (must be 2 or 3 digits)"
+                }
+            });
         }
 
-        DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(userProfileUpdateDto.DietTypeId);
-        if (dietType == null)
-        {
-            return Result<Empty>.NotFound();
-        }
-        
         if (!Regex.IsMatch(userProfileUpdateDto.PhoneNumber, @"^\d+$"))
         {
             return Result<Empty>.BadRequest(new List<ResultError>
@@ -371,35 +414,46 @@ public class UserService : IUserService
                 });
         }
 
-     // Check if phone number already exists
-    bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(userProfileUpdateDto.PhoneNumber);
-    if (phoneNumberExists && user.PhoneNumber != userProfileUpdateDto.PhoneNumber)
-    {
-        return Result<Empty>.BadRequest(new List<ResultError>
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userProfileUpdateDto.UserId);
+        if (user == null)
         {
-            new ResultError
-            {
-                Identifier = "PhoneNumber",
-                Message = "Phone number already exists"
-            }
-        });
-    }
+            return Result<Empty>.NotFound();
+        }
 
-    // Check if email already exists
-    var userExistsFromEmail = await _userManager.FindByEmailAsync(userProfileUpdateDto.Email);
-    if (userExistsFromEmail != null && userExistsFromEmail.Id != userProfileUpdateDto.UserId)
-    {
-        return Result<Empty>.BadRequest(new List<ResultError>
+        DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(userProfileUpdateDto.DietTypeId);
+        if (dietType == null)
         {
-            new ResultError
+            return Result<Empty>.NotFound();
+        }
+
+        // Check if phone number already exists
+        bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(userProfileUpdateDto.PhoneNumber);
+        if (phoneNumberExists && user.PhoneNumber != userProfileUpdateDto.PhoneNumber)
+        {
+            return Result<Empty>.BadRequest(new List<ResultError>
             {
-                Identifier = "Email",
-                Message = "Email already exists"
-            }
-        });
-    }
-        
-        
+                new ResultError
+                {
+                    Identifier = "PhoneNumber",
+                    Message = "Phone number already exists"
+                }
+            });
+        }
+
+        // Check if email already exists
+        var userExistsFromEmail = await _userManager.FindByEmailAsync(userProfileUpdateDto.Email);
+        if (userExistsFromEmail != null && userExistsFromEmail.Id != userProfileUpdateDto.UserId)
+        {
+            return Result<Empty>.BadRequest(new List<ResultError>
+            {
+                new ResultError
+                {
+                    Identifier = "Email",
+                    Message = "Email already exists"
+                }
+            });
+        }
+
         // Update user properties
         user.FullName = userProfileUpdateDto.FullName;
         user.PhoneNumber = userProfileUpdateDto.PhoneNumber;
@@ -417,12 +471,7 @@ public class UserService : IUserService
                 Message = x.Description
             }).ToList());
         }
-
         
-
         return Result<Empty>.Ok(new Empty());
-
     }
-
-
 }

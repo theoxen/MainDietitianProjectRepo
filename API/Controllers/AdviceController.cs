@@ -47,5 +47,12 @@ namespace API.Controllers
         var result = await _adviceService.GetAllAdviceAsync();
         return MapToHttpResponse(result);
         }
+
+        [HttpGet(Endpoints.Advice.Search)] // GET http://localhost:5207/api/advice/search?searchTerm=yourSearchTerm
+        public async Task<IActionResult> SearchAdviceAsync([FromQuery] string searchTerm)
+        {
+            var result = await _adviceService.SearchAdviceAsync(searchTerm);
+            return MapToHttpResponse(result);
+        }
     }
 }

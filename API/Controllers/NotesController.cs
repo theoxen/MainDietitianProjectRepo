@@ -19,14 +19,14 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
-        [HttpDelete(Endpoints.Notes.Delete)] // url example: http://localhost:5207/api/notes/131c296e-75cd-476b-ad9b-a430d986c736
+        [HttpDelete(Endpoints.Notes.Delete)] // url example: http://localhost:5207/api/notes/69de298f-9b71-4bda-2121-08dd57fdddcd
         public async Task<IActionResult> DeleteNoteAsync(Guid noteId)
         {
             var result = await _noteService.DeleteNoteAsync(noteId);
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Notes.GetNote)] // url example: http://localhost:5207/api/notes/get-note?noteid=131c296e-75cd-476b-ad9b-a430d986c736
+        [HttpGet(Endpoints.Notes.GetNote)] // url example: http://localhost:5207/api/notes/69de298f-9b71-4bda-2121-08dd57fdddcd
         public async Task<IActionResult> GetNoteAsync(Guid noteId)
         {
             var result = await _noteService.GetNoteAsync(noteId);

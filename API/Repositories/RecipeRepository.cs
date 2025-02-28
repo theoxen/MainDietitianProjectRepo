@@ -42,11 +42,16 @@ namespace API.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Recipe>> GetAllRecipes()
+        {
+            return await _context.Recipes.ToListAsync();
+        }
 
         // Commit method is to save all the changes of the context to the database
         public async Task<bool> Commit()
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
     }
 }

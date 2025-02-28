@@ -10,5 +10,6 @@ namespace API.Services.IServices
         public Task<Result<RecipesDto>> EditRecipe(UpdateRecipeDto updateRecipeDto);
         public Task<Result<List<RecipesDto>>> SearchRecipes(string searchTerm);
         public Task<Result<Empty>> DeleteRecipes(Guid id);
+        public Task<Result<List<RecipesDto>>> ViewAllRecipes();
     }
 }

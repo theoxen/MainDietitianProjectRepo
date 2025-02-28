@@ -63,9 +63,9 @@ namespace API.Controllers
         }
 
         [HttpDelete(Endpoints.Users.DeleteUser)]
-        public async Task<IActionResult> DeleteUser(string phoneNumber)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var response = await _userService.DeleteUserAsync(phoneNumber);
+            var response = await _userService.DeleteUserAsync(id);
             return MapToHttpResponse(response);
         }
 

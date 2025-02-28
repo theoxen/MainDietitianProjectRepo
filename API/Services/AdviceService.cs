@@ -113,7 +113,7 @@ namespace API.Services
         }
 
         // Method to retrieve all advice entries
-        public async Task<Result<IEnumerable<AdviceDto>>> GetAllAdviceAsync()
+        public async Task<Result<List<AdviceDto>>> GetAllAdviceAsync()
         {
             // Retrieve all advice entries from the repository
             var adviceList = await _adviceRepository.GetAllAdviceAsync();
@@ -124,9 +124,29 @@ namespace API.Services
                 Title = advice.Title, 
                 AdviceText = advice.AdviceText,
                 DateCreated = advice.DateCreated
-            });
+            }).ToList();
             // Return a successful result with the list of advice DTOs
-            return Result<IEnumerable<AdviceDto>>.Ok(adviceDtoList);
+            return Result<List<AdviceDto>>.Ok(adviceDtoList);
+        }
+
+        public async Task<Result<List<AdviceDto>>> SearchAdviceAsync(string searchTerm)
+        {
+            List<Advice> adviceList = await _adviceRepository.SearchAdviceAsync(searchTerm);
+
+            if(adviceList == null)
+            {
+                return Result<List<AdviceDto>>.NotFound();
+            }
+
+            List<AdviceDto> adviceDtoList = adviceList.Select(advice => new AdviceDto
+            {
+                Id = advice.Id,
+                Title = advice.Title,
+                AdviceText = advice.AdviceText,
+                DateCreated = advice.DateCreated
+            }).ToList();
+
+            return Result<List<AdviceDto>>.Ok(adviceDtoList);
         }
 
         // Method to update an existing advice entry

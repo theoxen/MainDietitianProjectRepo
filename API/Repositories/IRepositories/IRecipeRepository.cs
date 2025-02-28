@@ -14,5 +14,7 @@ namespace API.Repositories.IRepositories
         //Search Recipes finished needs to be tested
         public Task<List<Recipe>> SearchRecipes(string searchTerm);
 
+        public Task<List<Recipe>> GetAllRecipes();
+
     }
 }

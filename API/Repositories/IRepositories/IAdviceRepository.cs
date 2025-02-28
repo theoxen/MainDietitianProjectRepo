@@ -9,9 +9,10 @@ namespace API.Repositories.IRepositories
 {
     public interface IAdviceRepository : IBaseRepository
     {
-    public void CreateAdvice(Advice advice);
-    public void DeleteAdvice(Advice advice);
-    Task<Advice?> GetAdviceAsync(Guid adviceId);
-    Task<IEnumerable<Advice>> GetAllAdviceAsync();
+        public void CreateAdvice(Advice advice);
+        public void DeleteAdvice(Advice advice);
+        Task<Advice?> GetAdviceAsync(Guid adviceId);
+        Task<List<Advice>> GetAllAdviceAsync();
+        Task<List<Advice>> SearchAdviceAsync(string searchTerm);
     }
 }

@@ -14,5 +14,7 @@ namespace API.Models.Users
         public required string Email { get; set; }
         public required int Height { get; set; }
         public required string DietTypeName { get; set; }
+        public required string Gender { get; set; }
+        public required DateOnly DateOfBirth { get; set; }
     }
 }
