@@ -1,5 +1,18 @@
-body {
-    font-family: Arial;
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", serif;
+}
+
+.page {
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(167, 91, 5, 0.384), rgba(160, 88, 6, 0.384));
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    overflow-x:hidden;
 }
 
 .primary-input-field.form-control {
@@ -18,11 +31,22 @@ body {
 .primary-hover-box { 
     max-width: 1500px;
     width: 60%;
-    height: 600px;
-    background-color: white;
+    height: auto;
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
     border-top: 5px solid #FFB453;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+}
+
+@media (max-width: 1100px) {
+    .primary-hover-box {
+        width: 90%;
+        height: auto;
+        padding-bottom: 50px;
+        margin-bottom: 100px;
+    }
+    
 }
 
 .title {
@@ -80,5 +104,5 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on active */
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
