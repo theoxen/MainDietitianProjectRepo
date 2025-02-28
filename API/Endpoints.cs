@@ -23,6 +23,16 @@ public static class Endpoints
         public const string GetAllDietTypes=Base;
     }
 
+    public static class Advice
+    {
+        private const string Base = BaseUrl + "advice";
+        public const string Create = Base + "/create";
+        public const string Delete = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
+        public const string GetAdvice = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
+        public const string UpdateAdvice = Base;
+        public const string GetAll = Base;
+    }
+
     public static class Notes
     {
         private const string Base = BaseUrl + "notes";
