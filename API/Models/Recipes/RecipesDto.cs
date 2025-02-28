@@ -11,6 +11,7 @@ namespace API.Models.Recipes
         public required string Name { get; set; }
         public required string Ingredients { get; set; }
         public required string Directions { get; set; }
+        public required DateTime DateCreated { get; set; }
         public required float Protein { get; set; }
         public required float Carbs { get; set; }
         public required float Fat { get; set; }

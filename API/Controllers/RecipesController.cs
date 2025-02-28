@@ -2,6 +2,7 @@ using API.Data;
 using API.Models.Recipes;
 using API.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Differencing;
 
 namespace API.Controllers
 {
@@ -17,35 +18,50 @@ namespace API.Controllers
         }
 
         // Uplode recipes => Post
-        [HttpPost("api/recipes/upload")]
-        public async Task<IActionResult> UploadRecipes(RecipesDto recipesDto)
+        [HttpPost(Endpoints.Recipes.Upload)]
+        public async Task<IActionResult> UploadRecipes(CreateRecipeDto createRecipeDto)
         {
-            var result = await _recipeService.UploadRecipes(recipesDto);
+            var result = await _recipeService.UploadRecipes(createRecipeDto);
             return MapToHttpResponse(result);
         }
 
         // View Recipes => Get
-        [HttpGet("api/recipes/view")] // GET MIGHT REQUIRE /{id} IN THE URL PATH
+        [HttpGet(Endpoints.Recipes.View)] // GET MIGHT REQUIRE /{id} IN THE URL PATH
         public async Task<IActionResult> ViewRecipes(Guid id)
         {
             var result = await _recipeService.ViewRecipes(id);
             return MapToHttpResponse(result);
         }
-        
-        // Edit Recipes => post
-        [HttpPost("api/recipes/edit")]
-        public async Task<IActionResult> EditRecipes(RecipesDto recipesDto)
+
+        [HttpGet(Endpoints.Recipes.ViewAll)]
+        public async Task<IActionResult> ViewAllRecipes()
         {
-            var result = await _recipeService.EditRecipes(recipesDto);
+            var result = await _recipeService.ViewAllRecipes();
+            return MapToHttpResponse(result);
+        }
+        
+        // Edit Recipes => Put
+        [HttpPut(Endpoints.Recipes.Edit)] // POST MIGHT REQUIRE /{id} IN THE URL PATH
+        public async Task<IActionResult> EditRecipes(UpdateRecipeDto updateRecipeDto)
+        {
+            var result = await _recipeService.EditRecipe(updateRecipeDto);
+            return MapToHttpResponse(result);
+        }
+
+        // Search Recipes => Get
+        [HttpGet(Endpoints.Recipes.Search)]
+        public async Task<IActionResult> SearchRecipes([FromQuery] string searchTerm)
+        {
+            var result = await _recipeService.SearchRecipes(searchTerm);
             return MapToHttpResponse(result);
         }
 
 
-        // Search Recipes => Post
-        [HttpPost("api/recipes/search")]
-        public async Task<IActionResult> SearchRecipes(RecipesDto recipesDto)
+        // Delete Recipes => Delete
+        [HttpDelete(Endpoints.Recipes.Delete)] // POST MIGHT REQUIRE /{id} IN THE URL PATH
+        public async Task<IActionResult> DeleteRecipes(Guid id)
         {
-            var result = await _recipeService.SearchRecipes(recipesDto);
+            var result = await _recipeService.DeleteRecipes(id);
             return MapToHttpResponse(result);
         }
     }

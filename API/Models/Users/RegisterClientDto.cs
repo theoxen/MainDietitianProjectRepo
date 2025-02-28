@@ -10,6 +10,6 @@ public class RegisterClientDto
     public string FullName { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public DateOnly DateOfBirth { get; set; }
-    public  int Height { get; set; } 
+    public int Height { get; set; } 
     public string Gender { get; set; } = string.Empty;
 }

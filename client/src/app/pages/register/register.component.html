@@ -1,4 +1,5 @@
 <div class="page">
+    <app-nav-bar></app-nav-bar>
     <div class="register-container">
         <div class="primary-hover-box">
             <div class="split-hover-box">
@@ -8,7 +9,7 @@
                         Dietitian & Nutritionist</p>
                 </div>
                 <div class="client-credentials" style="flex: 4;">
-                    <h3 style="margin: 0px;">CLIENT CREDENTIALS</h3>
+                    <h3 style="margin: 0px; text-align: center;">CLIENT CREDENTIALS</h3>
                     <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
 
                         <app-primary-input-field [label]="'Full Name'" [placeholder]="'Full Name'"

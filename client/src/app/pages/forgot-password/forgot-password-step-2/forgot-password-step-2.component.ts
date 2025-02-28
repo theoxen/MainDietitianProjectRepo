@@ -8,11 +8,12 @@ import { PrimaryInputFieldComponent } from "../../../components/primary-input-fi
 import { ValidationMessages } from '../../../validation/validation-messages';
 import { ErrorComponent } from "../../../components/error/error.component";
 import { HttpResponseError } from '../../../models/http-error';
+import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-forgot-password-step-2',
   standalone: true,
-  imports: [ReactiveFormsModule, PrimaryInputFieldComponent, ErrorComponent],
+  imports: [ReactiveFormsModule, PrimaryInputFieldComponent, ErrorComponent, NavBarComponent],
   templateUrl: './forgot-password-step-2.component.html',
   styleUrl: './forgot-password-step-2.component.css'
 })
@@ -33,17 +34,18 @@ export class ForgotPasswordStep2Component implements OnInit {
     this.email = sessionStorage.getItem('email');
     this.otp = sessionStorage.getItem('otp');
 
-    if (!this.email || !this.otp) {
-      this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
-      this.changePasswordForm.disable(); // Disable the form if email or otp is missing
-    }
+    // TODO: UNCOMMENT THIS 
+    // if (!this.email || !this.otp) {
+    //   this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
+    //   this.changePasswordForm.disable(); // Disable the form if email or otp is missing
+    // }
 
-    // Set a timeout to remove email and otp from session storage after 5 minutes
-    this.timeoutId = setTimeout(() => {
-      sessionStorage.removeItem('email');
-      sessionStorage.removeItem('otp');
-      this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page after expiration
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    // // Set a timeout to remove email and otp from session storage after 5 minutes
+    // this.timeoutId = setTimeout(() => {
+    //   sessionStorage.removeItem('email');
+    //   sessionStorage.removeItem('otp');
+    //   this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page after expiration
+    // }, 5 * 60 * 1000); // 5 minutes in milliseconds
   }
 
   ngOnDestroy(): void {

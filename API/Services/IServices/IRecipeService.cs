@@ -5,9 +5,11 @@ namespace API.Services.IServices
 {
     public interface IRecipeService
     {
-        public Task<Result<Empty>> UploadRecipes(RecipesDto recipesDto);
+        public Task<Result<RecipesDto>> UploadRecipes(CreateRecipeDto createRecipeDto);
         public Task<Result<RecipesDto>> ViewRecipes(Guid id);
-        public Task<Result<Empty>> EditRecipes(RecipesDto recipesDto);
-        public Task<Result<List<RecipesDto>>> SearchRecipes(RecipesDto recipesDto);
+        public Task<Result<RecipesDto>> EditRecipe(UpdateRecipeDto updateRecipeDto);
+        public Task<Result<List<RecipesDto>>> SearchRecipes(string searchTerm);
+        public Task<Result<Empty>> DeleteRecipes(Guid id);
+        public Task<Result<List<RecipesDto>>> ViewAllRecipes();
     }
 }

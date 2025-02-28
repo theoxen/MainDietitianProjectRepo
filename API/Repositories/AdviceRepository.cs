@@ -1,5 +1,7 @@
 using API.Data;
+using API.Common;
 using API.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
 {
@@ -9,6 +11,31 @@ namespace API.Repositories
         public AdviceRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public void CreateAdvice(Advice advice)
+        {
+            _dataContext.Advice.Add(advice);
+        }
+
+        public void DeleteAdvice(Advice advice)
+        {
+            _dataContext.Advice.Remove(advice);
+        }
+
+        public async Task<Advice?> GetAdviceAsync(Guid adviceId)
+        {
+            return await _dataContext.Advice.FirstOrDefaultAsync(x => x.Id == adviceId);
+        }
+
+        public async Task<List<Advice>> GetAllAdviceAsync()
+        {
+            return await _dataContext.Advice.ToListAsync();
+        }
+        
+        public async Task<List<Advice>> SearchAdviceAsync(string searchTerm)
+        {
+            return await _dataContext.Advice.Where(a => a.Title.Contains(searchTerm)).ToListAsync();
         }
 
         public async Task<bool> Commit()

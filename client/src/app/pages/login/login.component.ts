@@ -8,11 +8,12 @@ import { AccountService } from '../../services/account.service';
 import { LoginData } from '../../models/login-data';
 import { PrimaryInputFieldComponent } from "../../components/primary-input-field/primary-input-field.component";
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavBarComponent } from "../../components/nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, ReactiveFormErrorComponent, ErrorComponent, PrimaryInputFieldComponent, RouterLink, RouterLinkActive],
+  imports: [ReactiveFormsModule, ReactiveFormErrorComponent, ErrorComponent, PrimaryInputFieldComponent, RouterLink, RouterLinkActive, NavBarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

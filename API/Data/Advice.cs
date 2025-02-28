@@ -1,6 +1,5 @@
 namespace API.Data
-{
-    public class Advice
+{    public class Advice
     {
         public Guid Id { get; set; } = new Guid();
         public string Title { get; set; } = string.Empty;
