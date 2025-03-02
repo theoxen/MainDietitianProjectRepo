@@ -16,6 +16,7 @@ public static class Endpoints
         public const string ChangePassword = Base + "/change-password";
         public const string ViewProfile = Base + "/view-profile/{phoneNumber}";
         public const string DeleteUser = Base + "/{id}";
+        public const string GetNoteByUserId = Base + "/{userId}/note"; 
         public const string UpdateProfile = Base;
         
     }

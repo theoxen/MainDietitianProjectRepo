@@ -35,17 +35,17 @@ export class ForgotPasswordStep2Component implements OnInit {
     this.otp = sessionStorage.getItem('otp');
 
     // TODO: UNCOMMENT THIS 
-    // if (!this.email || !this.otp) {
-    //   this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
-    //   this.changePasswordForm.disable(); // Disable the form if email or otp is missing
-    // }
+    if (!this.email || !this.otp) {
+      this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
+      this.changePasswordForm.disable(); // Disable the form if email or otp is missing
+    }
 
-    // // Set a timeout to remove email and otp from session storage after 5 minutes
-    // this.timeoutId = setTimeout(() => {
-    //   sessionStorage.removeItem('email');
-    //   sessionStorage.removeItem('otp');
-    //   this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page after expiration
-    // }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    // Set a timeout to remove email and otp from session storage after 5 minutes
+    this.timeoutId = setTimeout(() => {
+      sessionStorage.removeItem('email');
+      sessionStorage.removeItem('otp');
+      this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page after expiration
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
   }
 
   ngOnDestroy(): void {

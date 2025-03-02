@@ -40,9 +40,16 @@ namespace API.Repositories
             return note;
         }
         
+        public async Task<Note?> GetNoteByUserIdAsync(Guid userId)
+        {
+            var note = await _dataContext.Notes.FirstOrDefaultAsync(x => x.UserId == userId);
+            return note;
+        }
+
         public async Task<bool> Commit()
         {
             return await _dataContext.SaveChangesAsync() > 0;
         }
+
     }
 }

@@ -454,6 +454,8 @@ public class UserService : IUserService
             });
         }
 
+        // NO NEED TO CHECK FOR EQUAL CONTENT OF THE FIELDS BECAUSE USERMANAGER DOES NOT RETURN AN ERROR IF THE NEW VALUE IS THE SAME AS THE OLD VALUE
+
         // Update user properties
         user.FullName = userProfileUpdateDto.FullName;
         user.PhoneNumber = userProfileUpdateDto.PhoneNumber;

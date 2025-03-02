@@ -1,5 +1,6 @@
 using API.Common;
 using API.Data;
+using API.Helpers;
 using API.Models.Recipes;
 using API.Repositories.IRepositories;
 using API.Services.IServices;
@@ -23,6 +24,24 @@ namespace API.Services
             if (recipe == null) // If the recipe is not found
             {
                 return Result<RecipesDto>.NotFound();
+            }
+
+            bool changeDetected = UpdatingEntitiesHelperFunction.ChangeInFieldsDetected(recipe, updateRecipeDto); // Check if any changes are detected
+
+            if (!changeDetected) // If no changes are detected
+            {
+                return Result<RecipesDto>.Ok(new RecipesDto
+                {
+                    Id = recipe.Id,
+                    Name = recipe.Name,
+                    Ingredients = recipe.Ingredients,
+                    Directions = recipe.Directions,
+                    DateCreated = recipe.DateCreated,
+                    Protein = recipe.Protein,
+                    Carbs = recipe.Carbs,
+                    Fat = recipe.Fat,
+                    Calories = recipe.Calories
+                });
             }
 
             recipe.Name = updateRecipeDto.Name;

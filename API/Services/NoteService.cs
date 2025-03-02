@@ -1,5 +1,6 @@
 using API.Common;
 using API.Data;
+using API.Helpers;
 using API.Models.Notes;
 using API.Repositories.IRepositories;
 using API.Services.IServices;
@@ -112,12 +113,45 @@ namespace API.Services
             return Result<NoteDto>.Ok(returnedNoteDto);
         }
 
-        public async Task<Result<NoteDto>> UpdateNoteAsync(UpdateNoteDto updateNoteDto)
+        public async Task<Result<NoteDto>> GetNoteByUserIdAsync(Guid userId)
         {
-            var note = await _noteRepository.GetNoteAsync(updateNoteDto.Id); // When we get the note from the database, dotnet tracks the changes. So when we change the note text, it will be updated in the database when we call await _noteRepository.Commit().
+            var note = await _noteRepository.GetNoteByUserIdAsync(userId);
             if (note == null)
             {
                 return Result<NoteDto>.NotFound();
+            }
+
+            var returnedNoteDto = new NoteDto
+            {
+                Id = note.Id,
+                NoteText = note.NoteText,
+                DateCreated = note.DateCreated,
+                UserId = note.UserId
+            };
+
+            return Result<NoteDto>.Ok(returnedNoteDto);
+        }
+
+        public async Task<Result<NoteDto>> UpdateNoteAsync(UpdateNoteDto updateNoteDto)
+        {
+            var note = await _noteRepository.GetNoteAsync(updateNoteDto.Id); // When we get the note from the database, dotnet tracks the changes. So when we change the note text, it will be updated in the database when we call await _noteRepository.Commit().
+
+            if (note == null)
+            {
+                return Result<NoteDto>.NotFound();
+            }
+
+            bool changeDetected = UpdatingEntitiesHelperFunction.ChangeInFieldsDetected(note, updateNoteDto); // Checking if there is a change in the fields of the note entity
+
+            if(!changeDetected)
+            {
+                return Result<NoteDto>.Ok(new NoteDto
+                {
+                    Id = note.Id,
+                    NoteText = note.NoteText,
+                    DateCreated = note.DateCreated,
+                    UserId = note.UserId
+                });
             }
 
             note.NoteText = updateNoteDto.NoteText;

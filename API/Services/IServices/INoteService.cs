@@ -7,7 +7,8 @@ namespace API.Services.IServices
     {
         public Task<Result<NoteDto>> CreateNoteAsync(CreateNoteDto createNoteDto);
         public Task<Result<Empty>> DeleteNoteAsync(Guid noteId);
-        public Task<Result<NoteDto>> GetNoteAsync(Guid userId);
+        public Task<Result<NoteDto>> GetNoteAsync(Guid noteId);
+        public Task<Result<NoteDto>> GetNoteByUserIdAsync(Guid userId);
         public Task<Result<NoteDto>> UpdateNoteAsync(UpdateNoteDto updateNoteDto);
     }
 }

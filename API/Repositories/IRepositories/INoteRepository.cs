@@ -9,5 +9,6 @@ namespace API.Repositories.IRepositories
         public void CreateNote(Note note);
         public void DeleteNote(Note note);
         public Task<Note?> GetNoteAsync(Guid noteId);
+        public Task<Note?> GetNoteByUserIdAsync(Guid userId);
     }
 }

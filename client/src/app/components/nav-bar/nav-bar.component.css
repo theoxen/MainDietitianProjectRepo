@@ -6,12 +6,17 @@ nav {
 }
 
 nav img {
-    width: 80px;
+    width: 50px;
 }
 
+ul {
+    margin-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 50px;
+}
 .nav-links {
     flex: 1;
-    text-align: right;
+    text-align: center;
 }
 
 .nav-links ul li {
@@ -24,7 +29,7 @@ nav img {
 .nav-links ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .nav-links ul li::after {
@@ -47,7 +52,7 @@ nav .fa-xmark {
     display: none;
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 1100px) {
     .nav-links ul li {
         display: block;
     }
@@ -77,8 +82,5 @@ nav .fa-xmark {
         font-size: 22px;
         cursor: pointer;
     }
-    
-    .nav-links ul {
-        padding: 20px;
-    }
+
 }

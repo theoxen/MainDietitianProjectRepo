@@ -1,0 +1,25 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+        <div class="flex-container">
+            <div class="primary-hover-box">
+
+                <h1 class="title">Manage Note</h1>
+                <form [formGroup]="clientNote" style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+                    @if (!clientNoteIsNull) {
+                        <textarea formControlName="note" class="primary-text-area"></textarea>
+                        <div class="button-container">
+                            <button (click)="openConfirmationWindow()" class="primary-button-danger">Delete</button>
+                            <button (click)="editNote()" class="primary-button">Save</button>
+                        </div>
+                        <app-confirmation-window [isVisible]="isConfirmationWindowVisible"
+                            (confirmed)="handleDeleteConfirmation($event)"></app-confirmation-window>
+                    }
+                    @else {
+                        <textarea placeholder="Type a note..." formControlName="note" class="primary-text-area"></textarea>
+                        <button (click)="addNote()" style="align-self: flex-end;" class="primary-button">Add Note</button>
+                    }
+                </form>
+            </div>
+        </div>
+
+</div>
