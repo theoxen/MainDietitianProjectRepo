@@ -33,6 +33,13 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [HttpGet(Endpoints.Users.GetNoteByUserId)] // /users/{userId}/note
+        public async Task<IActionResult> GetNoteByUserIdAsync(Guid userId)
+        {
+            var result = await _noteService.GetNoteByUserIdAsync(userId);
+            return MapToHttpResponse(result);
+        }
+
         [HttpPut(Endpoints.Notes.UpdateNote)] // UPDATE IS HTTP PUT!
         public async Task<IActionResult> UpdateNoteAsync(UpdateNoteDto updateNoteDto)
         {

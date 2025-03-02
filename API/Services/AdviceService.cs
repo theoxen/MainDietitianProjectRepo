@@ -9,6 +9,7 @@ using API.Models.Advice;
 using API.Repositories.IRepositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Components.Web;
+using API.Helpers;
 
 namespace API.Services
 {
@@ -158,6 +159,21 @@ namespace API.Services
             {
                 return Result<AdviceDto>.NotFound();
             }
+
+            bool changeDetected = UpdatingEntitiesHelperFunction.ChangeInFieldsDetected(advice, updateAdviceDto); // Checking if there is a change in the fields of the advice entity
+            
+            if(!changeDetected)
+            {
+                return Result<AdviceDto>.Ok(new AdviceDto
+                {
+                    Id = advice.Id,
+                    Title = advice.Title,
+                    AdviceText = advice.AdviceText,
+                    DateCreated = advice.DateCreated
+                });
+            }
+
+
             // Update the advice properties
             advice.Title = updateAdviceDto.Title; 
             advice.AdviceText = updateAdviceDto.AdviceText;

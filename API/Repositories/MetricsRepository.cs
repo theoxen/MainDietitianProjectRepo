@@ -28,11 +28,6 @@ namespace API.Repositories
             _dataContext.Metrics.Remove(metrics); 
         }
 
-        public void EditMetrics(Metrics metrics)
-        {
-            _dataContext.Metrics.Update(metrics);
-        }
-
         public async Task<Metrics?> GetMetricsAsync(Guid metricsId)
         {
             var metrics = await _dataContext.Metrics.FirstOrDefaultAsync(x => x.Id == metricsId);

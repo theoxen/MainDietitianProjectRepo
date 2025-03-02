@@ -92,6 +92,8 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .primary-button:hover {
@@ -102,6 +104,50 @@
 .primary-button:active {
     background-color: #FF9800; /* Even darker shade for active state */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on active */
+}
+
+.primary-button-danger {
+    height: 45px;
+    width: 270px;
+    background-color: #f7614d;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+.primary-button-danger:hover {
+    background-color: #f0442d; /* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+.primary-button-danger:active {
+    background-color: #f0442d; /* Even darker shade for active state */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on active */
+}
+
+
+.primary-text-area {
+    width: 300px;
+    height: 150px;
+    background: white;
+    border-radius: 15px;
+    border: 2px #C8C8C8 solid;
+    font-size: 20px;
+    padding-left: 20px;
+    padding-top: 10px;
+    outline: none;
+}
+
+.primary-text-area:focus {
+    border: 2px #FFB453 solid;
 }
 
 /* html, body { height: 100%; }
