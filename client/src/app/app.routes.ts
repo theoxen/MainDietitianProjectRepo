@@ -6,6 +6,9 @@ import { ForgotPasswordStep2Component } from './pages/forgot-password/forgot-pas
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NoteManagementComponent } from './pages/note-management/note-management.component';
 import { ClientSearchComponent } from './pages/client-management/client-search/client-search.component';
+import { EditClientDetailsComponent } from './pages/client-management/edit-client-details/edit-client-details.component';
+import { ClientHistoryComponent } from './pages/client-management/client-history/client-history.component';
+import { ManageClientComponent } from './pages/client-management/manage-client/manage-client.component';
 
 export const routes: Routes = [
    { path: "", component: HomePageComponent },
@@ -19,9 +22,9 @@ export const routes: Routes = [
    },
 
    { path: "clients", component: ClientSearchComponent },
-   { path: "clients/:clientId", component: NoteManagementComponent },
-   { path: "clients/:clientId/edit-details", component: NoteManagementComponent },
-   { path: "clients/:clientId/history", component: NoteManagementComponent },
+   { path: "clients/:clientId", component: ManageClientComponent },
+   { path: "clients/:clientId/edit-details", component: EditClientDetailsComponent },
+   { path: "clients/:clientId/history", component: ClientHistoryComponent },
    { path: "clients/:clientId/note", component: NoteManagementComponent },
 
 
