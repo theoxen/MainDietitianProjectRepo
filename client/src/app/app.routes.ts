@@ -19,6 +19,9 @@ export const routes: Routes = [
    },
 
    { path: "clients", component: ClientSearchComponent },
+   { path: "clients/:clientId", component: NoteManagementComponent },
+   { path: "clients/:clientId/edit-details", component: NoteManagementComponent },
+   { path: "clients/:clientId/history", component: NoteManagementComponent },
    { path: "clients/:clientId/note", component: NoteManagementComponent },
 
 
