@@ -5,6 +5,7 @@ import { ForgotPasswordStep1Component } from './pages/forgot-password/forgot-pas
 import { ForgotPasswordStep2Component } from './pages/forgot-password/forgot-password-step-2/forgot-password-step-2.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NoteManagementComponent } from './pages/note-management/note-management.component';
+import { ClientSearchComponent } from './pages/client-management/client-search/client-search.component';
 
 export const routes: Routes = [
    { path: "", component: HomePageComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
       ]
    },
 
+   { path: "clients", component: ClientSearchComponent },
    { path: "clients/:clientId/note", component: NoteManagementComponent },
 
 
