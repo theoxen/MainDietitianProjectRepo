@@ -12,12 +12,13 @@
                 <div class="credentials-title">Client Credentials</div>
                 <form [formGroup]="searchClientForm" (ngSubmit)="searchClient()">
                     <app-primary-input-field [label]="'Phone Number'" [control]="searchClientForm.controls.phoneNumber" [errorMessages]="phoneNumberErrorMessages" [showErrorOnControlDirty]="displayErrorOnControlDirty" [showErrorOnControlTouched]="displayErrorOnControlTouched"></app-primary-input-field>
+                    <app-error style="text-align: center;" [errorMessage]="phoneNumberExistsMessage"></app-error>
                     <button type="submit" class="primary-button">Search</button>
                 </form>
 
                 <div class="sign-up-container">
-                    Sign a New Client Up
-                    <button class="primary-button">Sign Up</button>
+                    Sign a New Client Up:
+                    <button routerLink="../auth/register" class="primary-button">Sign Up</button>
                 </div>
             </div>
         </div>

@@ -10,7 +10,8 @@ export class ClientManagementService {
   
   constructor(private http: HttpClient) { }
 
-  GetClientIdByPhoneNumber(phoneNumber: string) {
-    throw new Error('Method not implemented.');
+  getClientIdByPhoneNumber(phoneNumber: string) {
+    const url = this.baseUrl + `users/${phoneNumber}/get-user-id`;
+    return this.http.get<string>(url);
   }
 }
