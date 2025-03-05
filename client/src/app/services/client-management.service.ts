@@ -13,6 +13,7 @@ export class ClientManagementService {
   
   constructor(private http: HttpClient) { }
 
+
   getClientDetails(clientId: string): Observable<ClientProfile> {
     return this.http.get<ClientProfile>(`${this.baseUrl}/view-profile/${clientId}`);
   }
@@ -23,5 +24,10 @@ export class ClientManagementService {
 
   deleteClient(clientId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/delete-profile/${clientId}`);
+
+  getClientIdByPhoneNumber(phoneNumber: string) {
+    const url = this.baseUrl + `users/${phoneNumber}/get-user-id`;
+    return this.http.get<string>(url);
+
   }
 }
