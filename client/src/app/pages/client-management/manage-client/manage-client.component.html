@@ -1,1 +1,35 @@
-<p>manage-client works!</p>
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="flex-container">
+        <div class="primary-hover-box">
+            <h1 class="title">Manage Details for Client</h1>
+            <form [formGroup]="clientmanagement" style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+                <label for="fullName">Full Name</label>
+                <input id="fullName" formControlName="fullName" class="primary-input" type="text" />
+
+                <label for="phoneNumber">Phone Number</label>
+                <input id="phoneNumber" formControlName="phoneNumber" class="primary-input" type="text" />
+
+                <label for="email">Email</label>
+                <input id="email" formControlName="email" class="primary-input" type="email" />
+
+                <label for="height">Height</label>
+                <input id="height" formControlName="height" class="primary-input" type="number" />
+
+                <label for="dietTypeName">Diet Type</label>
+                <input id="dietTypeName" formControlName="dietTypeName" class="primary-input" type="text" />
+
+                <label for="gender">Gender</label>
+                <input id="gender" formControlName="gender" class="primary-input" type="text" />
+
+                <label for="dateOfBirth">Date of Birth</label>
+                <input id="dateOfBirth" formControlName="dateOfBirth" class="primary-input" type="date" />
+
+                <div class="button-container">
+                    <button type="button" (click)="updateClient(clientmanagement.value)" class="primary-button">Save</button>
+                    <button type="button" (click)="deleteClient()" class="primary-button-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
