@@ -118,26 +118,6 @@ export class EditClientDetailsComponent {
   }
 
   updateClient() {
-    if (this.clientId && this.clientUpdateForm.valid) {
-      const updatedClient: ClientProfile = {
-        ...this.client!,
-        fullName: this.clientUpdateForm.controls.FullName.value!,
-        phoneNumber: this.clientUpdateForm.controls.PhoneNumber.value!,
-        email: this.clientUpdateForm.controls.Email.value!,
-        height: this.clientUpdateForm.controls.Height.value!,
-        dietTypeName: this.dietTypeDropdownOptions.find(
-          diet => diet.value === this.clientUpdateForm.controls.DietTypeName.value
-        )?.displayedValue || ""
-      };
-
-      this.clientManagementService.updateClient(this.clientId, updatedClient).subscribe({
-        next: () => {
-          alert("Client updated successfully!");
-        },
-        error: (error) => {
-          console.error("Error updating client:", error);
-        }
-      });
-    }
+    
   }
 }
