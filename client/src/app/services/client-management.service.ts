@@ -14,16 +14,18 @@ export class ClientManagementService {
   constructor(private http: HttpClient) { }
 
 
-  getClientDetails(clientId: string): Observable<ClientProfile> {
-    return this.http.get<ClientProfile>(`${this.baseUrl}/view-profile/${clientId}`);
+  getClientDetails(clientId: string) {
+    const url = this.baseUrl + `users/view-profile/${clientId}`;
+    return this.http.get<ClientProfile>(url);
   }
 
-  updateClient(clientId: string, client: ClientProfile): Observable<void> {
+  updateClient(clientId: string, client: ClientProfile){
     return this.http.put<void>(`${this.baseUrl}/update-profile/${clientId}`, client);
   }
 
-  deleteClient(clientId: string): Observable<void> {
+  deleteClient(clientId: string){
     return this.http.delete<void>(`${this.baseUrl}/delete-profile/${clientId}`);
+  }
 
   getClientIdByPhoneNumber(phoneNumber: string) {
     const url = this.baseUrl + `users/${phoneNumber}/get-user-id`;

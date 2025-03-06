@@ -4,6 +4,5 @@ export interface ClientProfile {
     email: string;
     height: number;
     dietTypeName: string; 
-    gender: string; 
-    dateOfBirth: Date; 
+    userId: string;
 }
