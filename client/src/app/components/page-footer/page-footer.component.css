@@ -1,0 +1,80 @@
+.page-footer {
+
+
+    /* Original styles */
+    background-color: rgba(243, 148, 5, 0.822);
+    color: black;
+    text-align: center;
+    
+    /* Hide vertical overflow & allow horizontal scrolling if needed */
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    /* Make padding fit into the 100px total height */
+    /* Adjust if you want more or less vertical space */
+    padding: 20px 20px;
+
+    /* Ensures padding is counted within the 100px height */
+    /* box-sizing: border-box; */
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 4px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 10px auto;
+
+    /* Remove or reduce horizontal padding if the content is too wide */
+    padding: 0 100px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    /* Prevents wrapping onto a new line, keeping the height fixed */
+    /* flex-wrap: nowrap;
+    white-space: nowrap; */
+
+    /* Vertically center items within the 100px height */
+    /* align-items: center; */
+}
+
+.footer-nav a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.footer-nav a:hover {
+    text-decoration: underline;
+}
+
+.icon-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-icon {
+    width: 200px;
+}
+
+@media screen and (max-width: 600px) {
+    .main-icon {
+        display: none;
+    }
+    .footer-content {
+        padding: 0;
+    }
+}
