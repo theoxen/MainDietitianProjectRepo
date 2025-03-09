@@ -8,6 +8,9 @@ export class ValidationPatterns
     static height = /^\d{2,3}$/;
     static email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     static otp = /^\d{6}$/;
+    static bodyweight = /^\d+(\.\d{1,3})?$/;
+    static musclemass = /^\d+(\.\d{1,3})?$/;
+    static fatmass = /^\d+(\.\d{1,})?$/;
 
     static floatPattern = /^\d+(\.\d+)?$/;
 }

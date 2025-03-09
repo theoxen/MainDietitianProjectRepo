@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Note } from '../models/notes/note';
 import { environment } from '../environments/environment';
 import { NoteToAdd } from '../models/notes/note-to-add';
-import { NoteToUpdate } from '../models/notes/note-to-update';
+import { NoteToUpdate } from '../models/notes/note-to-edit';
 
 @Injectable({
   providedIn: 'root'
