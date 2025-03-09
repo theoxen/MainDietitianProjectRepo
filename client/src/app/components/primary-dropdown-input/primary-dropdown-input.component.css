@@ -16,6 +16,8 @@
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 16px;
+    
+    cursor: pointer;
 }
 
 .custom-dropdown:focus {

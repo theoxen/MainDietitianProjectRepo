@@ -268,6 +268,9 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsAnonymous")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ReviewText")
                         .HasColumnType("nvarchar(max)");
 

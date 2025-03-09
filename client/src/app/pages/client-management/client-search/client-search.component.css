@@ -1,0 +1,55 @@
+.page-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary-hover-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 48px;
+}
+
+.sub-title {
+    font-size: 22px;
+}
+
+.primary-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.credentials-title {
+    padding-left: 3px;
+    font-weight: bold;
+}
+
+.sign-up-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+@media (max-width: 640px) {
+    .primary-hover-box {
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: 35px;
+    }
+    
+    .sub-title {
+        font-size: 18px;
+    }
+}

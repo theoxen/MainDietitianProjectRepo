@@ -1,0 +1,51 @@
+.flex-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.primary-hover-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 100px;
+    padding-right: 100px;
+    gap: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: xx-large;
+}
+
+.primary-text-area {
+    max-width: 100%;
+    width: 100%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    
+    gap: 20px;
+}
+
+.primary-button {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 520px) {
+    .primary-button {
+        width: fit-content;
+    }
+
+    .primary-button-danger {
+        width: fit-content;
+    }
+
+    .primary-hover-box {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}

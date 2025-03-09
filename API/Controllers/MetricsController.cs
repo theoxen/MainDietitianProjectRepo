@@ -42,7 +42,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Metrics.SearchMetrics)] // url example: http://localhost:5207/api/metrics/search?query=yourSearchTerm
+        [HttpGet(Endpoints.Metrics.SearchMetrics)] // url example: http://localhost:5207/api/metrics/search?userId=131c296e-75cd-476b-ad9b-a430d986c736&date=2021-09-01&date=2021-09-30
         public async Task<IActionResult> SearchMetricsAsync([FromQuery] Guid userId, [FromQuery] DateTime? date)
         {
             var result = await _metricsService.SearchMetricsAsync(userId, date);

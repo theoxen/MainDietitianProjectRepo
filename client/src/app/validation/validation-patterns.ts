@@ -11,4 +11,6 @@ export class ValidationPatterns
     static bodyweight = /^\d+(\.\d{1,3})?$/;
     static musclemass = /^\d+(\.\d{1,3})?$/;
     static fatmass = /^\d+(\.\d{1,})?$/;
+
+    static floatPattern = /^\d+(\.\d+)?$/;
 }
