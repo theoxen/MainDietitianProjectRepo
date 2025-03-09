@@ -20,7 +20,6 @@
     height: 45px;
     background: white;
     border-radius: 15px;
-    
     border: 2px #C8C8C8 solid;
     font-size: 20px;
     padding-left: 20px;
@@ -38,20 +37,9 @@
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 }
-
-@media (max-width: 1100px) {
-    .primary-hover-box {
-        width: 90%;
-        height: auto;
-        padding-bottom: 50px;
-        margin-bottom: 100px;
-    }
-    
-}
-
 .title {
     font-weight: 550;
-    font-size: 55px;
+    font-size: 50px;
     color: black;
 }
 
@@ -152,3 +140,23 @@
 
 /* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+
+@media (max-width: 1100px) {
+    .primary-hover-box {
+        width: 90%;
+        height: auto;
+        padding-bottom: 50px;
+        margin-bottom: 100px;
+    }
+
+    .title {
+        font-size: 35px;
+    }
+
+    .sub-title {
+        font-size: 18px;
+    }
+    
+}
+

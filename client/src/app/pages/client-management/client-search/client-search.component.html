@@ -1,0 +1,27 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="page-content">
+        <div class="primary-hover-box">
+            <div class="info-container">
+                <div class="title">Search Client</div>
+                <div class="sub-title">Rafaella Panagiotou - Clinical Dietitian</div>
+                <div> Please Enter the Phone Number of the Client to Manage </div>
+
+            </div>
+            <div>
+                <div class="credentials-title">Client Credentials</div>
+                <form [formGroup]="searchClientForm" (ngSubmit)="searchClient()">
+                    <app-primary-input-field [label]="'Phone Number'" [control]="searchClientForm.controls.phoneNumber" [errorMessages]="phoneNumberErrorMessages" [showErrorOnControlDirty]="displayErrorOnControlDirty" [showErrorOnControlTouched]="displayErrorOnControlTouched"></app-primary-input-field>
+                    <app-error style="text-align: center;" [errorMessage]="phoneNumberExistsMessage"></app-error>
+                    <button type="submit" class="primary-button">Search</button>
+                </form>
+
+                <div class="sign-up-container">
+                    Sign a New Client Up:
+                    <button routerLink="../auth/register" class="primary-button">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Also put a button to sign user up in this page. We will not have add client in the navbar. We will have it here. So put a button to take the dietitian to the sign up page (see app.routes.ts)-->
+</div>

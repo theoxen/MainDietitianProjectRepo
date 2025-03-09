@@ -19,4 +19,24 @@ export class ValidationMessages
     static otpNotRequested="*OTP not requested";
     static passwordMismatch="*Passwords do not match";
     static emailOrOtpMissing="*Email or OTP is missing, please head to the previous page and re-enter your Email and OTP"
+    static bodyweight = "*Bodyweight must be a number";
+    static fatmass = "*Fat Mass (in %) must be a number";
+    static musclemass = "*Muscle Mass must be a number";
+    static fatMassMaxValue = "*Fat Mass shouldn't be greater than 100%";
+    static fatMassMinValue = "*Fat Mass shouldn't be less than 2%";
+    static maxTwoDecimalPlacesFatMass = "*Fat Mass must not have more than 2 decimal places";
+    static maxTwoDecimalPlacesBodyWeight = "*Body Weight must not have more than 2 decimal places";
+    static maxTwoDecimalPlacesMuscleMass= "*Muscle Mass must not have more than 2 decimal places";
+
+
+
+    static recipeName="*Name must contain only letters";
+    static recipeDescription="*Description must contain only letters";
+    static recipeIngredients="*Ingredients must contain only letters";
+    static recipeProtein="*Protein must be a number";
+    static recipeCarbs="*Carbs must be a number";
+    static recipeFats="*Fats must be a number";
+    static recipeCalories="*Calories must be a number";
+
+
 }

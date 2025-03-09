@@ -324,9 +324,9 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
-    public async Task<Result<UserProfileDto>> ViewClientProfileAsync(string phoneNumber)
+    public async Task<Result<UserProfileDto>> ViewClientProfileAsync(Guid id)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
         {
             return Result<UserProfileDto>.NotFound();
@@ -356,6 +356,37 @@ public class UserService : IUserService
         return Result<UserProfileDto>.Ok(userProfileDto);
     }
 
+    public async Task<Result<UserProfileDto>> GetUserByIdAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return Result<UserProfileDto>.NotFound();
+        }
+
+        string dietTypeName = "Unknown";
+        if (user.DietTypeId.HasValue)
+        {
+            var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
+            if (dietType != null)
+            {
+                dietTypeName = dietType.Name; // Assuming DietType has a Name property
+            }
+        }
+
+        UserProfileDto userProfileDto = new()
+        {
+            FullName = user.FullName!,
+            PhoneNumber = user.PhoneNumber!,
+            Email = user.Email!,
+            Height = user.Height!,
+            DietTypeName = dietTypeName,
+            Gender = user.Gender,
+            DateOfBirth = user.DateOfBirth    
+        };
+        return Result<UserProfileDto>.Ok(userProfileDto);
+    }
+    
     public async Task<Result<Empty>> DeleteUserAsync(Guid id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
@@ -473,7 +504,30 @@ public class UserService : IUserService
                 Message = x.Description
             }).ToList());
         }
-        
+
         return Result<Empty>.Ok(new Empty());
     }
+
+    public async Task<Result<Guid>> GetUserIdByPhoneNumberAsync(string phoneNumber)
+    {
+        if (!Regex.IsMatch(phoneNumber, @"^\d+$"))
+        {
+            return Result<Guid>.BadRequest(new List<ResultError>
+            {
+                new ResultError{
+                    Identifier = "PhoneNumber",
+                    Message = "Invalid phone number"
+                }
+            });
+        }
+
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        if (user == null)
+        {
+            return Result<Guid>.NotFound();
+        }
+
+        return Result<Guid>.Ok(user.Id);
+    }
+
 }
