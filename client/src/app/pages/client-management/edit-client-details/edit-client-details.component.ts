@@ -127,23 +127,32 @@ export class EditClientDetailsComponent {
   }
   updateClient() {
     if (!this.clientId) return;
-    console.log(this.clientUpdateForm.controls.DietTypeName.value)
-    const clientProfileUpdate: ClientProfileUpdate = {
-      userId: this.clientId!,
-      fullName: this.clientUpdateForm.controls.FullName.value!,
-      phoneNumber: this.clientUpdateForm.controls.PhoneNumber.value!,
-      email: this.clientUpdateForm.controls.Email.value!,
-      height: this.clientUpdateForm.controls.Height.value!,
-      dietTypeId: this.clientUpdateForm.controls.DietTypeName.value!
-    };
-  
-    this.clientManagementService.updateClient(clientProfileUpdate).subscribe({
-      next: (response) => {
-        console.log('Client updated successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error updating client:', error);
+    if(this.clientUpdateForm.valid) {
+
+      if (!this.clientUpdateForm.dirty) {
+        return;
       }
-    });
+      
+      const clientProfileUpdate: ClientProfileUpdate = {
+        userId: this.clientId!,
+        fullName: this.clientUpdateForm.controls.FullName.value!,
+        phoneNumber: this.clientUpdateForm.controls.PhoneNumber.value!,
+        email: this.clientUpdateForm.controls.Email.value!,
+        height: this.clientUpdateForm.controls.Height.value!,
+        dietTypeId: this.clientUpdateForm.controls.DietTypeName.value!
+      };
+    
+      this.clientManagementService.updateClient(clientProfileUpdate).subscribe({
+        next: (response) => {
+          console.log('Client updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating client:', error);
+        }
+      });
+    } else {
+      this.clientUpdateForm.markAllAsTouched();
+    }
+    
   }
 }
