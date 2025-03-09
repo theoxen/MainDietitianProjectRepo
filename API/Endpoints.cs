@@ -14,10 +14,11 @@ public static class Endpoints
         public const string SendOtp = Base + "/send-otp";
         public const string VerifyOtp = Base + "/verify-otp";
         public const string ChangePassword = Base + "/change-password";
-        public const string ViewProfile = Base + "/view-profile/{phoneNumber}";
+        public const string ViewProfile = Base + "/view-profile/{id}";
         public const string DeleteUser = Base + "/{id}";
         public const string GetNoteByUserId = Base + "/{userId}/note"; 
         public const string UpdateProfile = Base;
+        public const string GetUserIdByPhoneNumber = Base + "/{phoneNumber}/get-user-id";
         
     }
 
