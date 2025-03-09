@@ -19,4 +19,12 @@ export class ValidationMessages
     static otpNotRequested="*OTP not requested";
     static passwordMismatch="*Passwords do not match";
     static emailOrOtpMissing="*Email or OTP is missing, please head to the previous page and re-enter your Email and OTP"
+    static bodyweight = "*Bodyweight must be a number";
+    static fatmass = "*Fat Mass (in %) must be a number";
+    static musclemass = "*Muscle Mass must be a number";
+    static fatMassMaxValue = "*Fat Mass shouldn't be greater than 100%";
+    static fatMassMinValue = "*Fat Mass shouldn't be less than 2%";
+    static maxTwoDecimalPlacesFatMass = "*Fat Mass must not have more than 2 decimal places";
+    static maxTwoDecimalPlacesBodyWeight = "*Body Weight must not have more than 2 decimal places";
+    static maxTwoDecimalPlacesMuscleMass= "*Muscle Mass must not have more than 2 decimal places";
 }

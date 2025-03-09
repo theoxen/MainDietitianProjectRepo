@@ -79,8 +79,8 @@ namespace API.Services
             {
                 new ResultError
                 {
-                    Identifier = "FailedDeletingNote",
-                    Message = "Failed to delete note"
+                    Identifier = "FailedDeletingMetrics",
+                    Message = "Failed to delete metrics"
                 }
             });
         }
