@@ -13,5 +13,31 @@ import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
   styleUrl: './manage-client.component.css'
 })
 export class ManageClientComponent{
-  
+  clientManagementService = inject(ClientManagementService);
+
+  clientId: string | null = null;
+  client: ClientProfile | null = null;
+
+  displayErrorOnControlTouched = true;
+  displayErrorOnControlDirty = true;
+
+  constructor(private route: ActivatedRoute, private router: Router) { }
+
+  ngOnInit(): void{
+    this.clientId = this.route.snapshot.paramMap.get('clientId');
+    if (!this.clientId) return;
+
+    const client$ = this.clientManagementService.getClientDetails(this.clientId);
+    client$.subscribe(client => {
+      this.client = client;
+    });
+  }
+
+  navigateTo(route: string) {
+    if (this.clientId) {
+      const updatedRoute = route.replace(':clientId', this.clientId);
+      this.router.navigate([updatedRoute]);
+    }
+  }
+
 }
