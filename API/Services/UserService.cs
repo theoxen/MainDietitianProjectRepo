@@ -529,4 +529,5 @@ public class UserService : IUserService
 
         return Result<Guid>.Ok(user.Id);
     }
+
 }

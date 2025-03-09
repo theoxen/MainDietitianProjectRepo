@@ -1,4 +1,5 @@
 using API.Common;
+using API.Data;
 using API.Models;
 using API.Models.ForgetPassword;
 using API.Models.Users;
@@ -16,5 +17,5 @@ public interface IUserService
     public Task<Result<Empty>> DeleteUserAsync(Guid id);
     public Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto);
     public Task<Result<Guid>> GetUserIdByPhoneNumberAsync(string phoneNumber);
-
+    public Task<Result<UserProfileDto>> GetUserByIdAsync(Guid userId);
 }

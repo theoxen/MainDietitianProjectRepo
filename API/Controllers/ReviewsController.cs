@@ -74,5 +74,12 @@ namespace API.Controllers
             var result = await _reviewService.GetAllReviewsAsync();
             return MapToHttpResponse(result);
         }
+
+        [HttpGet(Endpoints.Users.GetReviewByUserId)] // GET http://localhost:5207/api/users/{userId}/review
+        public async Task<IActionResult> GetReviewsByUserId(Guid userId)
+        {
+            var result = await _reviewService.GetReviewByUserIdAsync(userId);
+            return MapToHttpResponse(result);
+        }
     }
 }
