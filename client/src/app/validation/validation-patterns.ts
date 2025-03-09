@@ -8,4 +8,6 @@ export class ValidationPatterns
     static height = /^\d{2,3}$/;
     static email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     static otp = /^\d{6}$/;
+
+    static floatPattern = /^\d+(\.\d+)?$/;
 }

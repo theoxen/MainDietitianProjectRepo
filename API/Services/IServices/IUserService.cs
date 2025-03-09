@@ -16,4 +16,5 @@ public interface IUserService
     public Task<Result<Empty>> DeleteUserAsync(Guid id);
     public Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto);
     public Task<Result<Guid>> GetUserIdByPhoneNumberAsync(string phoneNumber);
+
 }

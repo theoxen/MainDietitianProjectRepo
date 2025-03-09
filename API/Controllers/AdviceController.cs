@@ -48,8 +48,8 @@ namespace API.Controllers
         return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Advice.Search)] // GET http://localhost:5207/api/advice/search?searchTerm=yourSearchTerm
-        public async Task<IActionResult> SearchAdviceAsync([FromQuery] string searchTerm)
+        [HttpGet(Endpoints.Advice.Search)] // GET http://localhost:5207/api/advice/search?searchTerm=yourSearchTerm 
+        public async Task<IActionResult> SearchAdviceAsync([FromQuery] string searchTerm)     //search term can be lower or upper case just be in the title
         {
             var result = await _adviceService.SearchAdviceAsync(searchTerm);
             return MapToHttpResponse(result);

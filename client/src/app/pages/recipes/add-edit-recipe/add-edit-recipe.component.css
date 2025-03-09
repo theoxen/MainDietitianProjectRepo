@@ -1,0 +1,79 @@
+.primary-hover-box {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+    align-items: center
+}
+
+.form-managment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+} 
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* .form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+} */
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+.primary-button {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 60%;
+    height: 100%;
+    text-align: center;
+}
+
+.Recipe-title {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    height: 100px;
+    background: white;
+    border-radius: 15px;
+    border: 2px #C8C8C8 solid;
+    font-size: 20px;
+    padding-left: 20px;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: orange;
+    box-shadow: 0 0 0 .05rem #f2b669;
+}
+
+.input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

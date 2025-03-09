@@ -39,6 +39,17 @@ public static class Endpoints
         public const string Search = Base + "/search";
     }
 
+    public static class Reviews
+    {
+        private const string Base = BaseUrl + "reviews";
+        public const string Create = Base;
+        public const string UpdateReview = Base;
+        public const string Delete = Base + "/{reviewId}";
+        public const string GetReview = Base + "/{reviewId}";
+        public const string Search = Base + "/search";
+        public const string GetAll = Base;
+    }
+
     public static class Notes
     {
         private const string Base = BaseUrl + "notes";
@@ -66,8 +77,17 @@ public static class Endpoints
         public const string View = Base + "/{id}"; 
         public const string ViewAll = Base; 
         
-        public const string Edit = Base; 
+        public const string Edit = Base + "/{id}"; 
         public const string Search = Base + "/search"; 
         public const string Delete = Base + "/{id}"; 
+    }
+
+     public static class Diets
+    {
+        private const string Base = BaseUrl + "diets";
+        public const string Create = Base;
+        public const string Delete = Base + "/{dietId}";
+        public const string GetDiet = Base + "/{dietId}";
+        public const string UpdateDiet = Base;
     }
 }
