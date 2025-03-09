@@ -38,6 +38,17 @@ public static class Endpoints
         public const string Search = Base + "/search";
     }
 
+    public static class Reviews
+    {
+        private const string Base = BaseUrl + "reviews";
+        public const string Create = Base;
+        public const string UpdateReview = Base;
+        public const string Delete = Base + "/{reviewId}";
+        public const string GetReview = Base + "/{reviewId}";
+        public const string Search = Base + "/search";
+        public const string GetAll = Base;
+    }
+
     public static class Notes
     {
         private const string Base = BaseUrl + "notes";
