@@ -204,6 +204,9 @@ namespace API.Services
             });
         }
 
+
+
+/////////////////////////////////////////////////////////////////////View All Recipes///////////////////////////////////////////////////////////////////////
         public async Task<Result<List<RecipesDto>>> ViewAllRecipes()
         {
             List<Recipe> recipes = await _recipeRepository.GetAllRecipes();

@@ -5,6 +5,9 @@ import { ForgotPasswordStep1Component } from './pages/forgot-password/forgot-pas
 import { ForgotPasswordStep2Component } from './pages/forgot-password/forgot-password-step-2/forgot-password-step-2.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NoteManagementComponent } from './pages/note-management/note-management.component';
+import { RecipesComponent } from './pages/recipes/recipes.component';
+import { AddEditRecipeComponent } from './pages/recipes/add-edit-recipe/add-edit-recipe.component';
+import { ViewComponent } from './pages/recipes/view/view.component';
 
 export const routes: Routes = [
    { path: "", component: HomePageComponent },
@@ -18,6 +21,10 @@ export const routes: Routes = [
    },
 
    { path: "clients/:clientId/note", component: NoteManagementComponent },
+   { path: "recipes", component: RecipesComponent },
+   { path: "recipes/add", component: AddEditRecipeComponent },
+   { path: "recipes/:recipeId/edit", component: AddEditRecipeComponent }, //TODO change the name of the url to edit-view
+   { path: "recipes/:recipeId", component: ViewComponent },
 
 
    { path: "", redirectTo: "/", pathMatch: "prefix" }
