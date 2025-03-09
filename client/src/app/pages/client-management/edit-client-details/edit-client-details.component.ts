@@ -11,6 +11,7 @@ import { DietTypesService } from '../../../services/diet-types.service';
 import { DropdownItem } from '../../../components/primary-dropdown-input/dropdown-item';
 import { PrimaryDropdownInputComponent } from "../../../components/primary-dropdown-input/primary-dropdown-input.component";
 import { combineLatest } from 'rxjs';
+import { ClientProfileUpdate } from '../../../models/client-management/client-update';
 
 @Component({
   selector: 'app-edit-client-details',
@@ -30,26 +31,26 @@ export class EditClientDetailsComponent {
   displayErrorOnControlTouched = true;
   displayErrorOnControlDirty = true;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  
 
   clientUpdateForm = new FormGroup({
-    FullName: new FormControl('', [
+    "FullName": new FormControl('', [
       Validators.pattern(ValidationPatterns.fullName),
       Validators.required
     ]),
-    PhoneNumber: new FormControl('', [
+    "PhoneNumber": new FormControl('', [
       Validators.pattern(ValidationPatterns.phoneNumber),
       Validators.required
     ]),
-    Email: new FormControl('', [
+    "Email": new FormControl('', [
       Validators.pattern(ValidationPatterns.email),
       Validators.required
     ]),
-    Height: new FormControl<number | null>(null, [
+    "Height": new FormControl<number | null>(null, [
       Validators.pattern(ValidationPatterns.height),
       Validators.required
     ]),
-    DietTypeName: new FormControl('', [
+    "DietTypeName": new FormControl('', [
       Validators.required
     ]),
   });
@@ -78,23 +79,29 @@ export class EditClientDetailsComponent {
     ["required", ValidationMessages.required]
   ]);
 
+  constructor(private route: ActivatedRoute, private router: Router) { }
+
   ngOnInit(): void {
     this.clientId = this.route.snapshot.paramMap.get('clientId');
+    
     if (!this.clientId) return;
 
     // Load both client details and diet types together
     const client$ = this.clientManagementService.getClientDetails(this.clientId);
     const diets$ = this.dietTypeService.loadDietTypes();
 
-    combineLatest([client$, diets$]).subscribe({ // Use combineLatest to wait for both observables to emit
+    combineLatest([client$, diets$]).subscribe({
       next: ([client, dietTypes]) => {
         this.client = client;
+        console.log('Client details:', client); // Debugging statement
+        console.log('Diet types:', dietTypes); // Debugging statement
 
         // Populate the diet dropdown options
         this.dietTypeDropdownOptions = dietTypes.map(dietType => ({
           value: dietType.id,
           displayedValue: dietType.name
         }));
+        console.log('Diet dropdown options:', this.dietTypeDropdownOptions); // Debugging statement
 
         // Set form values
         this.clientUpdateForm.controls.FullName.setValue(client.fullName);
@@ -114,10 +121,29 @@ export class EditClientDetailsComponent {
       error: (error) => {
         console.error('Error loading client details or diet types:', error);
       }
-    });
-  }
 
-  updateClient() {
+    });
     
+  }
+  updateClient() {
+    if (!this.clientId) return;
+    console.log(this.clientUpdateForm.controls.DietTypeName.value)
+    const clientProfileUpdate: ClientProfileUpdate = {
+      userId: this.clientId!,
+      fullName: this.clientUpdateForm.controls.FullName.value!,
+      phoneNumber: this.clientUpdateForm.controls.PhoneNumber.value!,
+      email: this.clientUpdateForm.controls.Email.value!,
+      height: this.clientUpdateForm.controls.Height.value!,
+      dietTypeId: this.clientUpdateForm.controls.DietTypeName.value!
+    };
+  
+    this.clientManagementService.updateClient(clientProfileUpdate).subscribe({
+      next: (response) => {
+        console.log('Client updated successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error updating client:', error);
+      }
+    });
   }
 }

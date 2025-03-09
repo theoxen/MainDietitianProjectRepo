@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { ClientProfile } from '../models/client-management/client-profile';
+import { ClientProfileUpdate } from '../models/client-management/client-update';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class ClientManagementService {
     return this.http.get<ClientProfile>(url);
   }
 
-  updateClient(clientId: string, client: ClientProfile){
-    return this.http.put<void>(`${this.baseUrl}/update-profile/${clientId}`, client);
+  updateClient(client: ClientProfileUpdate) {
+    return this.http.put(`${this.baseUrl}users/`, client);
   }
 
   deleteClient(clientId: string){

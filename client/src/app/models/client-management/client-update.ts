@@ -1,8 +1,8 @@
-export interface ClientProfile {
+export interface ClientProfileUpdate {
     fullName: string; 
     phoneNumber: string;
     email: string;
     height: number;
-    dietTypeName: string; 
+    dietTypeId: string; 
     userId: string;
 }
