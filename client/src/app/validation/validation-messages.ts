@@ -19,4 +19,15 @@ export class ValidationMessages
     static otpNotRequested="*OTP not requested";
     static passwordMismatch="*Passwords do not match";
     static emailOrOtpMissing="*Email or OTP is missing, please head to the previous page and re-enter your Email and OTP"
+
+
+
+    static recipeName="*Name must contain only letters";
+    static recipeDescription="*Description must contain only letters";
+    static recipeIngredients="*Ingredients must contain only letters";
+    static recipeProtein="*Protein must be a number";
+    static recipeCarbs="*Carbs must be a number";
+    static recipeFats="*Fats must be a number";
+    static recipeCalories="*Calories must be a number";
+
 }

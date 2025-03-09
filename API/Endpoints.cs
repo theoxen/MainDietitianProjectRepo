@@ -65,7 +65,7 @@ public static class Endpoints
         public const string View = Base + "/{id}"; 
         public const string ViewAll = Base; 
         
-        public const string Edit = Base; 
+        public const string Edit = Base + "/{id}"; 
         public const string Search = Base + "/search"; 
         public const string Delete = Base + "/{id}"; 
     }
