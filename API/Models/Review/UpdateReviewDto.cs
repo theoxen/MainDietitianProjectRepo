@@ -11,8 +11,7 @@ namespace API.Models.Review
     {
     public Guid Id { get; set; }
     public string? ReviewText { get; set; }
-
-    [Range(1, 5)]
     public int Stars { get; set; }
+    public bool IsAnonymous { get; set; } 
     }
 }

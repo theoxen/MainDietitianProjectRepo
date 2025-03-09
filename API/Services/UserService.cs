@@ -356,6 +356,37 @@ public class UserService : IUserService
         return Result<UserProfileDto>.Ok(userProfileDto);
     }
 
+    public async Task<Result<UserProfileDto>> GetUserByIdAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return Result<UserProfileDto>.NotFound();
+        }
+
+        string dietTypeName = "Unknown";
+        if (user.DietTypeId.HasValue)
+        {
+            var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
+            if (dietType != null)
+            {
+                dietTypeName = dietType.Name; // Assuming DietType has a Name property
+            }
+        }
+
+        UserProfileDto userProfileDto = new()
+        {
+            FullName = user.FullName!,
+            PhoneNumber = user.PhoneNumber!,
+            Email = user.Email!,
+            Height = user.Height!,
+            DietTypeName = dietTypeName,
+            Gender = user.Gender,
+            DateOfBirth = user.DateOfBirth    
+        };
+        return Result<UserProfileDto>.Ok(userProfileDto);
+    }
+    
     public async Task<Result<Empty>> DeleteUserAsync(Guid id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());

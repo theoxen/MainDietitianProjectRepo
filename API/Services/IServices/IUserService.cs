@@ -13,6 +13,8 @@ public interface IUserService
     public Task<Result<Empty>> VerifyOtpAsync(string email, string otp);
     public Task<Result<Empty>> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
     public Task<Result<UserProfileDto>> ViewClientProfileAsync(string phoneNumber);
+    public Task<Result<UserProfileDto>> GetUserByIdAsync(Guid id);
     public Task<Result<Empty>> DeleteUserAsync(Guid id);
     public Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto);
+
 }

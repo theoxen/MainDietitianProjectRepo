@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel.DataAnnotations;
 namespace API.Data
 {
     public class Review
@@ -8,6 +10,7 @@ namespace API.Data
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public string? UserFullName { get; set; } // Can be anonymous
         public Guid? UserId { get; set; }
+        public bool IsAnonymous { get; set; } 
         public User? User { get; set; } // Navigation property
     }
 }
