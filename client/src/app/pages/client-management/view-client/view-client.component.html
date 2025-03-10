@@ -1,0 +1,24 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="flex-container">
+        <div class="primary-hover-box">
+            <h1 class="title">Client Details for {{ client?.fullName }}</h1>
+            
+                <div style="display: flex; flex-direction: column; justify-content: center; gap: 10px; max-width:460px; width: 100%;">
+                    <app-primary-input-field [label]="'Full Name'"></app-primary-input-field>
+
+                    <app-primary-input-field [label]="'Phone Number'" ></app-primary-input-field>
+
+                    <app-primary-input-field [label]="'Email'" ></app-primary-input-field>
+
+                    <app-primary-input-field [label]="'Height'" ></app-primary-input-field>
+
+                    <app-primary-dropdown-input [placeholder]="'Diet Type'"
+                            ></app-primary-dropdown-input>
+
+                            <input >type="text" disabled value="{{ client?.fullName }}" />
+                </div>
+            
+        </div>
+    </div>
+</div>  

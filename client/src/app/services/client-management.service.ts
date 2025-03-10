@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { ClientProfile } from '../models/client-management/client-profile';
 import { ClientProfileUpdate } from '../models/client-management/client-update';
+import { ClientProfileAllView } from '../models/client-management/client-view-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,10 @@ export class ClientManagementService {
     const url = this.baseUrl + `users/${phoneNumber}/get-user-id`;
     return this.http.get<string>(url);
 
+  }
+
+  getAllClientDetails(clientId: string) {
+    const url = this.baseUrl + `users/view-profile/${clientId}`;
+    return this.http.get<ClientProfileAllView>(url);
   }
 }
