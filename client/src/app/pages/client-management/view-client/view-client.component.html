@@ -4,21 +4,42 @@
         <div class="primary-hover-box">
             <h1 class="title">Client Details for {{ client?.fullName }}</h1>
             
-                <div style="display: flex; flex-direction: column; justify-content: center; gap: 10px; max-width:460px; width: 100%;">
-                    <app-primary-input-field [label]="'Full Name'"></app-primary-input-field>
-
-                    <app-primary-input-field [label]="'Phone Number'" ></app-primary-input-field>
-
-                    <app-primary-input-field [label]="'Email'" ></app-primary-input-field>
-
-                    <app-primary-input-field [label]="'Height'" ></app-primary-input-field>
-
-                    <app-primary-dropdown-input [placeholder]="'Diet Type'"
-                            ></app-primary-dropdown-input>
-
-                            <input >type="text" disabled value="{{ client?.fullName }}" />
+            <div class="details-container">
+                <div class="detail-item">
+                    <label>Full Name</label>
+                    <span class="detail-value">{{ client?.fullName }}</span>
                 </div>
-            
+
+                <div class="detail-item">
+                    <label>Phone Number</label>
+                    <span class="detail-value">{{ client?.phoneNumber }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <label>Email</label>
+                    <span class="detail-value">{{ client?.email }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <label>Height</label>
+                    <span class="detail-value">{{ client?.height }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <label>Diet Type</label>
+                    <span class="detail-value">{{ client?.dietTypeName }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <label>Gender</label>
+                    <span class="detail-value">{{ client?.gender }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <label>Age</label>
+                    <span class="detail-value">{{ calculateClientAge(client) }}</span>
+                </div>
+            </div>
         </div>
     </div>
-</div>  
+</div>

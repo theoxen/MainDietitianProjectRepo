@@ -16,6 +16,7 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
 import { AddEditRecipeComponent } from './pages/recipes/add-edit-recipe/add-edit-recipe.component';
 import { ViewComponent } from './pages/recipes/view/view.component';
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
+import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 
 
 export const routes: Routes = [
@@ -33,6 +34,7 @@ export const routes: Routes = [
    { path: "clients/:clientId", component: ManageClientComponent },
    { path : "clients/:clientId/view", component: ViewClientDetailsComponent },
    { path: "clients/:clientId/edit-details", component: EditClientDetailsComponent },
+   { path: "clients/:clientId/delete", component: DeleteClientComponent },
    { path: "clients/:clientId/history", component: ClientHistoryComponent },
    { path: "clients/:clientId/note", component: NoteManagementComponent },
    { path: "recipes", component: RecipesComponent },

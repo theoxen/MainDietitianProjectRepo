@@ -26,7 +26,8 @@ export class ClientManagementService {
   }
 
   deleteClient(clientId: string){
-    return this.http.delete<void>(`${this.baseUrl}/delete-profile/${clientId}`);
+    const url = this.baseUrl + `users/${clientId}`;
+    return this.http.delete<void>(url);
   }
 
   getClientIdByPhoneNumber(phoneNumber: string) {
@@ -39,4 +40,5 @@ export class ClientManagementService {
     const url = this.baseUrl + `users/view-profile/${clientId}`;
     return this.http.get<ClientProfileAllView>(url);
   }
+  
 }

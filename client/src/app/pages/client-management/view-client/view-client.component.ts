@@ -27,6 +27,7 @@ export class ViewClientDetailsComponent implements OnInit {
   dietTypeDropdownOptions: DropdownItem<string, string>[] = [];
   clientId: string | null = null;
   client: ClientProfileAllView | null = null;
+clientAge: ClientProfileAllView | undefined;
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
@@ -38,12 +39,30 @@ export class ViewClientDetailsComponent implements OnInit {
     const client = this.clientManagementService.getAllClientDetails(this.clientId).subscribe({
       next: (client) => {;
         this.client = client;
-    
+  
         console.log('Client details:', client); // Debugging statement
-
-        // Set form values
       }
     });
-
+    
+    
+  }
+  calculateClientAge(client: ClientProfileAllView | null): number {
+    if (!client || !client.dateOfBirth) {
+      return 0; // Handle missing data
+    }
+    
+    const dob = new Date(client.dateOfBirth);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    
+    // Adjust if birthday hasn't occurred yet this year
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    
+    return age;
   }
 }
+
+
