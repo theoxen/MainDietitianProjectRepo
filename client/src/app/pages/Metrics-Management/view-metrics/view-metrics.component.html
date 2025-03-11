@@ -1,0 +1,28 @@
+<div class="page">
+  <app-nav-bar></app-nav-bar>
+  <div class="search-container">
+    <div class="search-bar">
+      <input class="form-control" type="text" placeholder="Search metrics by date" [formControl]="searchControl">
+      <button class="primary-button">Search</button>
+    </div>
+  </div>
+  <div class="metrics-container">
+    <div class="primary-hover-box">
+      <div class="hover-box">
+        <div class="title-box">
+          <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Metrics of {{clientName}}</h1>
+        </div>
+        <div class="metrics-cards">
+            @for (metric of filteredMetrics.slice().reverse(); track metric.date) {
+                <a [routerLink]="['/clients',metric.id,'edit-metrics']">
+                    <app-metric-card [title]="metric.date" 
+                                    [data]="metric.data">
+                    </app-metric-card>
+                </a>
+              }
+              
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

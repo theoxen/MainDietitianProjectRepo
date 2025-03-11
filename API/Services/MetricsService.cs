@@ -129,7 +129,8 @@ namespace API.Services
             
         }
 
-       
+
+
         public async Task<Result<List<MetricsDto>>> SearchMetricsAsync(Guid userId, DateTime? date)
         {
             var metrics = await _metricsRepository.SearchMetricsAsync(userId, date);

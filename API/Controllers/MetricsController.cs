@@ -28,12 +28,12 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Metrics.ViewMetrics)] // url example: http://localhost:5207/api/metrics/view-metrics?MetricsId=131c296e-75cd-476b-ad9b-a430d986c736
-        public async Task<IActionResult> ViewMetricsAsync(Guid metricsId)
-        {
-            var result = await _metricsService.ViewMetricsAsync(metricsId);
-            return MapToHttpResponse(result);
-        }
+        // [HttpGet(Endpoints.Metrics.ViewMetrics)] // url example: http://localhost:5207/api/metrics/view-metrics?MetricsId=131c296e-75cd-476b-ad9b-a430d986c736
+        // public async Task<IActionResult> ViewMetricsAsync(Guid metricsId)
+        // {
+        //     var result = await _metricsService.ViewMetricsAsync(metricsId);
+        //     return MapToHttpResponse(result);
+        // }
 
         [HttpPut(Endpoints.Metrics.EditMetrics)] // UPDATE IS HTTP PUT!
         public async Task<IActionResult> EditMetricsAsync(EditMetricsDto editMetricsDto)

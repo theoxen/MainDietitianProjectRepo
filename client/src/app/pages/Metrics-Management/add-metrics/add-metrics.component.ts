@@ -1,14 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl,Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MetricsService } from '../../services/metrics.service';
-import { MetricsToAdd } from '../../models/metrics/metrics-to-add';
-import { Metrics } from '../../models/metrics/metrics';
-import { NavBarComponent } from "../../components/nav-bar/nav-bar.component";
-import { PrimaryInputFieldComponent } from '../../components/primary-input-field/primary-input-field.component';
-import { ValidationMessages } from '../../validation/validation-messages';
-import { ValidationPatterns } from '../../validation/validation-patterns';
-import { CustomValidators } from '../../validation/CustomValidators';
+import { MetricsService } from '../../../services/metrics.service';
+import { MetricsToAdd } from '../../../models/metrics/metrics-to-add';
+import { Metrics } from '../../../models/metrics/metrics';
+import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+import { PrimaryInputFieldComponent } from '../../../components/primary-input-field/primary-input-field.component';
+import { ValidationMessages } from '../../../validation/validation-messages';
+import { ValidationPatterns } from '../../../validation/validation-patterns';
+import { CustomValidators } from '../../../validation/CustomValidators';
+import { ClientManagementService } from '../../../services/client-management.service';
+import { ClientProfile } from '../../../models/client-management/client-profile';
 
 @Component({
   selector: 'add-metrics', 
@@ -25,12 +27,15 @@ export class AddMetricsComponent implements OnInit {
   metricsid: string = "";
   errorMessage: string = "";
   metrics!: Metrics[];
+  clientName!: string;
 
   displayErrorOnControlDirty = true;
   displayErrorOnControlTouched = true;
 
   
   metricsService = inject(MetricsService);
+  clientManagementService = inject(ClientManagementService);
+
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder) {};  // Required to use route.snapshot.paramMap to get the user ID from the URL)
   
@@ -39,6 +44,12 @@ export class AddMetricsComponent implements OnInit {
     // Get the user ID from the URL
     this.clientId = this.route.snapshot.paramMap.get('clientId')!; // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
     
+    this.clientManagementService.getClientDetails(this.clientId).subscribe({
+              next: (fetchedClientDetails:ClientProfile) =>{
+                this.clientName = fetchedClientDetails.fullName;
+              }
+            })
+
     // if (this.clientId) {
     //   this.fetchMetricsForUser(this.clientId);
     // }
@@ -50,6 +61,7 @@ export class AddMetricsComponent implements OnInit {
     "bodyweight": new FormControl("", [
       Validators.pattern(ValidationPatterns.bodyweight),
       Validators.required,
+      CustomValidators.maxTwoDecimalPlaces()
     ]),
 
     "fatmass": new FormControl("", [
@@ -62,7 +74,8 @@ export class AddMetricsComponent implements OnInit {
 
     "musclemass": new FormControl("", [
       Validators.pattern(ValidationPatterns.musclemass),
-      Validators.required
+      Validators.required,
+      CustomValidators.maxTwoDecimalPlaces()
     ]),
   })
 
@@ -72,7 +85,7 @@ export class AddMetricsComponent implements OnInit {
 
   //   this.metricsService.fetchMetricsForUser(clientId).subscribe({
   //     next: (fetchedMetrics) => {
-  //       this.metricsid = fetchedMetrics.id; // Set the note ID
+  //       this.metricsid = fetchedMetrics.id; // Set the metrics ID
   //       this.addclientMetricsForm.controls.bodyweight.setValue(fetchedMetrics.Bodyweight); // Set the BodyWeight
   //       this.addclientMetricsForm.controls.fatmass.setValue(fetchedMetrics.FatMass); // Set the FatMass
   //       this.addclientMetricsForm.controls['musclemass'].setValue(fetchedMetrics.MuscleMass); // Set the MuscleMass

@@ -1,3 +1,31 @@
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    width: 150%;
+    box-sizing: border-box;
+}
+
+.primary-button {
+    margin: 0 10px;
+}
+
+
+
 .metrics-container {
     display: flex;
     justify-content: center;
@@ -18,26 +46,30 @@
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
-    height: 550px;
+    
 }
 
+a {
+    color: black;
+    text-decoration: none;
+    display: block; /* Ensure the anchor tag is a block element */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+a:hover {
+    transform: scale(1.03); /* Scale up the card on hover */
+}
+
+
+
+
+app-metric-card {
+    display: block; /* Ensure the metric card is a block element */
+}
 /* .client-metrics {
     
 } */
 
-.addMetrics-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 50px; 
-    padding-left: 13%;
-    padding-right: 13%;
-}
-
-.primary-button{
-    width: 100%;
-}
 
 
 @media (max-width: 900px) {

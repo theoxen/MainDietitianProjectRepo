@@ -14,8 +14,9 @@ export class MetricsService {
   constructor(private http: HttpClient) { }
 
   fetchMetricsForUser(clientId: string) {
-    const url = this.baseUrl + `users/${clientId}/metrics`;
-    return this.http.get<Metrics>(url); // Get request to fetch metrics for a user
+    const url = this.baseUrl + 'metrics/search';
+    let params = new HttpParams().set('userId', clientId);
+    return this.http.get<Metrics[]>(url, { params }); // Get request to search metrics
   }
 
   addMetrics(metrics: MetricsToAdd) {

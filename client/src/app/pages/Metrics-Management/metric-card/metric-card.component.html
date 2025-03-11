@@ -1,0 +1,7 @@
+<div class="metric-card">
+    <h2>{{ title }}</h2>
+    @for (item of data; track item.title) {
+      <p><strong>{{ item.title }}:</strong> {{ item.value }} {{ item.unit }}</p>
+    }
+</div>  
+  
