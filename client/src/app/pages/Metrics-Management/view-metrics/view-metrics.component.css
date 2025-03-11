@@ -13,11 +13,20 @@
     max-width: 600px;
 }
 
-.search-bar input {
-    padding: 10px;
-    font-size: 16px;
-    width: 150%;
-    box-sizing: border-box;
+.search-bar app-primary-input-field {
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+app-primary-input-field:focus-within + .search-icon{
+    color: #FFB453;
 }
 
 .primary-button {
@@ -46,7 +55,7 @@
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
-    
+
 }
 
 a {

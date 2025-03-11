@@ -9,12 +9,13 @@ import { User } from '../../../models/user';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { PrimaryInputFieldComponent } from "../../../components/primary-input-field/primary-input-field.component";
 
 
 @Component({
   selector: 'view-metrics',
   standalone: true,
-  imports: [NavBarComponent,MetricCardComponent,ReactiveFormsModule,RouterLink],
+  imports: [NavBarComponent, MetricCardComponent, ReactiveFormsModule, RouterLink, PrimaryInputFieldComponent],
   templateUrl: './view-metrics.component.html',
   styleUrls: ['./view-metrics.component.css']
 })
@@ -36,6 +37,8 @@ export class ViewMetricsComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+
     this.clientId = this.route.snapshot.paramMap.get('clientId')!;
     if (this.clientId) {
       

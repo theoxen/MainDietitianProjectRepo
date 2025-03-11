@@ -19,13 +19,18 @@ export class MetricsService {
     return this.http.get<Metrics[]>(url, { params }); // Get request to search metrics
   }
 
+  fetchMetricsWithMetricsId(metricsId: string) {
+    const url = `${this.baseUrl}metrics/${metricsId}`;
+    return this.http.get<Metrics>(url); // Get request to fetch metrics by ID
+}
+
   addMetrics(metrics: MetricsToAdd) {
     const url = this.baseUrl + 'metrics';
     return this.http.post<Metrics>(url, metrics); // Post request to add a new metric
   }
 
   editMetrics(metricsToEdit: MetricsToEdit) {
-    const url = this.baseUrl + `metrics/${metricsToEdit.id}`;
+    const url = this.baseUrl + `metrics`;
     return this.http.put<Metrics>(url, metricsToEdit); // Put request to edit an existing metric
   }
 

@@ -70,7 +70,6 @@ public static class Endpoints
         public const string ViewMetrics = Base + "/{metricsId}"; 
         public const string EditMetrics = Base;
         public const string SearchMetrics = Base + "/search";
-        public const string GetMetricsByUserId = Base + "/fetch"; 
     
 
     }

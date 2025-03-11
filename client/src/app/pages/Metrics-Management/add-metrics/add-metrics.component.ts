@@ -79,24 +79,6 @@ export class AddMetricsComponent implements OnInit {
     ]),
   })
 
-  // fetchMetricsForUser(clientId: string): void {
-
-  //   // this.clientNote.controls.note.setValue("test"); // Set the note for the user
-
-  //   this.metricsService.fetchMetricsForUser(clientId).subscribe({
-  //     next: (fetchedMetrics) => {
-  //       this.metricsid = fetchedMetrics.id; // Set the metrics ID
-  //       this.addclientMetricsForm.controls.bodyweight.setValue(fetchedMetrics.Bodyweight); // Set the BodyWeight
-  //       this.addclientMetricsForm.controls.fatmass.setValue(fetchedMetrics.FatMass); // Set the FatMass
-  //       this.addclientMetricsForm.controls['musclemass'].setValue(fetchedMetrics.MuscleMass); // Set the MuscleMass
-  //     },
-  //     error: (error: any) => {
-  //       this.errorMessage = "Error fetching metrics. Please try again later.";
-  //       console.error("Error fetching metrics:", error); // Log detailed error to the console
-  //     }
-  //   });
-
-  // }
 
   openConfirmationWindow() {
     this.isConfirmationWindowVisible = true;
@@ -126,58 +108,6 @@ export class AddMetricsComponent implements OnInit {
 
   }
 
-  // editMetrics() {
-  //   const MetricsToEdit: MetricsToEdit = { // Assigning the values of the controls to the object to be sent to the service
-  //     Bodyweight: this.addclientMetricsForm.controls['bodyweight'].value!, 
-  //     FatMass: this.addclientMetricsForm.controls['fatmass'].value!,
-  //     MuscleMass: this.addclientMetricsForm.controls['musclemass'].value!,
-  //     id: this.metricsid!
-  //   }
-  //   // Call service to update the note
-  //   this.metricsService.editMetrics(MetricsToEdit).subscribe({
-  //     next: () => {
-  //       console.log("Metrics updated.");
-  //     },
-  //     error: (error: any) => {
-  //       this.errorMessage = "Error updating metrics. Please try again later.";
-  //       console.error("Error updating metrics:", error); // Log detailed error to the console
-  //     }
-  //   })
-  // }
-
-  // handleDeleteConfirmation(result: boolean) {
-  //   this.isConfirmationWindowVisible = false;
-  //   if (result) {
-  //     // Call service to delete the metrics
-  //     // IF WE WANTED TO MANUALLY SUBMIT THE FORM AFTER THE CONFIRMATION WINDOW WE WOULD DO this.onSubmit(); 
-  //     this.metricsService.deleteMetrics(this.metricsid).subscribe({
-  //       next: () => {
-  //         console.log("Metrics deleted.");
-  //         this.addclientMetricsForm.controls['bodyweight'].setValue(null);
-  //       },
-  //       error: (error: any) => {
-  //         this.errorMessage = "Error deleting metrics. Please try again later.";
-  //         console.error("Error deleting metrics:", error); // Log detailed error to the console
-  //       }
-  //     });
-  //   } else {
-  //     console.log('Cancelled.');
-  //   }
-  // }
-
-  // searchMetrics(): void {
-  //   const userId = this.addclientMetricsForm.get('userId')?.value;
-  //   const date = this.addclientMetricsForm.get('date')?.value ? new Date(this.addclientMetricsForm.get('date')?.value) : undefined;
-
-  //   this.metricsService.searchMetrics(userId, date).subscribe({
-  //     next: (metrics) => {
-  //       this.metrics = metrics;
-  //     },
-  //     error: (error) => {
-  //       console.error('Error searching metrics:', error);
-  //     }
-  //   });
-  // }
 
 
     bodyWeightErrorMessages = new Map<string, string>([
