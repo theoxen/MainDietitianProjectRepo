@@ -1,4 +1,4 @@
-<div class="page">
+<!-- <div class="page">
     <app-nav-bar></app-nav-bar>
     <div class="search-container">
         <div class="search-bar">
@@ -9,13 +9,32 @@
 
 
     @for (recipe of recipes; track $index) {
-        <div class="cards-container">
+        <a [routerLink]="['/recipe',recipe.id]" class="cards-container">
             <div class="primary-hover-box">
                 <div class="card-body">
                       <h5 class="card-title">{{recipe.name}}</h5>
                       <p class="card-text">Protein: {{recipe.protein}}g, Cabs: {{recipe.carbs}}g, Fats: {{recipe.fat}}g, Calories: {{recipe.calories}}kcal</p>
                 </div>
             </div>
-        </div>
+        </a>
     }
+</div> -->
+
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="search-container">
+        <div class="search-bar">
+            <input class="form-control" type="text" placeholder="Search recipe name" [(ngModel)]="searchTerm" (input)="filterRecipes()">
+            <button class="primary-button" (click)="filterRecipes()">Search</button>
+        </div>
+    </div>
+
+    <div *ngFor="let recipe of recipes; trackBy: trackById" class="cards-container">
+        <a [routerLink]="['/recipes', recipe.id]" class="primary-hover-box">
+            <div class="card-body">
+                <h5 class="card-title">{{recipe.name}}</h5>
+                <p class="card-text">Protein: {{recipe.protein}}g, Carbs: {{recipe.carbs}}g, Fats: {{recipe.fat}}g, Calories: {{recipe.calories}}kcal</p>
+            </div>
+        </a>
+    </div>
 </div>

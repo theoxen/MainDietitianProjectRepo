@@ -40,6 +40,11 @@ export class RecipesService {
     return this.http.get<RecipeView>(url);
   }
 
+  searchRecipes(search: string): Observable<RecipeAll[]> {
+    const url = `${this.baseUrl}recipes/search?search=${encodeURIComponent(search)}`;
+    return this.http.get<RecipeAll[]>(url);
+  }
+
 
   // View all recipes
   viewAllRecipes(): Observable<RecipeAll[]> {
