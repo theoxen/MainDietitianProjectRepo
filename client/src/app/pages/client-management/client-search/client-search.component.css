@@ -1,18 +1,31 @@
 .page-content {
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap; /* Allow wrapping */
-    gap: 20px; /* Add gap between columns */
-    padding: 20px; /* Add padding to the container */
+    flex-direction: column;
 }
 
-.primary-hover-box, .search-container, table {
-    flex: 1 1 45%; /* Allow elements to take up half the screen */
-    max-width: 45%; /* Ensure elements don't exceed half the screen */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+.primary-hover-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+}
+
+td a {
+    color: inherit; /* Keeps the text color the same as normal text */
+    text-decoration: none; /* Removes underline */
+    font-weight: normal; /* Ensures it doesn't appear bold */
+    cursor: pointer; /* Shows pointer cursor to indicate clickability */
+}
+
+td a:hover {
+    text-decoration: underline; /* Show underline only on hover */
 }
 
 .search-container {
+    width: 100%;
     display: flex;
     justify-content: center;
     margin: 20px 0;
@@ -23,7 +36,99 @@
     align-items: center;
     position: relative;
     width: 100%;
-    gap: 10px;
+    max-width: 600px;
+}
+
+.search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%; /* Adjust width to fit within the container */
+    box-sizing: border-box;
+}
+
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-size: 48px;
+    align-items: center;
+}
+
+.sub-title {
+    font-size: 22px;
+    align-items: center;
+}
+
+.primary-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.credentials-title {
+    padding-left: 3px;
+    font-weight: bold;
+    align-items: center;
+}
+
+.sign-up-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+table {
+    width: 80%; /* Reduce table width */
+    max-width: 800px; /* Limit max width */
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Style for the sorting dropdown */
+.sort-dropdown {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.sort-dropdown:hover {
+    border-color: #999;
+    background-color: #f1f1f1;
+}
+
+/* Make dropdown smaller */
+.sort-dropdown {
+    width: auto;
+    min-width: 120px;
+}
+
+/* Style for better alignment */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Ensure spacing between search inputs and dropdown */
+    border-radius: 4px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between elements */
 }
 
 .search-bar input {
@@ -37,78 +142,10 @@
     transition: border-color 0.3s; /* Add transition for border color */
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #f9f9f9; /* Add background color */
-    border-radius: 8px; /* Add rounded corners */
-    overflow: hidden; /* Ensure rounded corners are visible */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-}
-
-th, td {
-    padding: 15px; /* Increase padding */
-    border-bottom: 1px solid #ddd; /* Add border to bottom */
-    text-align: left;
-}
-
-th {
-    background-color: #007bff; /* Add background color to header */
-    color: white; /* Change text color to white */
-    text-transform: uppercase; /* Transform text to uppercase */
-    font-weight: bold; /* Make text bold */
-}
-
-td a {
-    color: #007bff; /* Change link color */
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s; /* Add transition for color */
-}
-
-td a:hover {
-    color: #0056b3; /* Change link color on hover */
-}
-
-.primary-hover-box {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    gap: 20px;
-}
-
-.info-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.title {
-    font-size: 48px;
-}
-
-.sub-title {
-    font-size: 22px;
-}
-
-.primary-button {
-    margin-top: 10px;
-    width: 100%;
-}
-
-.credentials-title {
-    padding-left: 3px;
-    font-weight: bold;
-}
-
-.sign-up-container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 50px;
-}
 
 @media (max-width: 640px) {
-    .primary-hover-box, .search-container, table {
-        flex: 1 1 100%; /* Allow elements to take up full width on small screens */
-        max-width: 100%; /* Ensure elements don't exceed full width on small screens */
+    .primary-hover-box {
+        flex-direction: column;
     }
 
     .title {

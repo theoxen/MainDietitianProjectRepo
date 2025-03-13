@@ -10,14 +10,13 @@ import { ErrorComponent } from "../../../components/error/error.component";
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ClientProfile } from '../../../models/client-management/client-profile';
-import { CommonModule } from '@angular/common'; // Add this import
-
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-client-search',
   standalone: true,
-  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, ErrorComponent, RouterLink, CommonModule],
+  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, ErrorComponent, RouterLink, CommonModule, FormsModule],
   templateUrl: './client-search.component.html',
   styleUrl: './client-search.component.css'
 })
@@ -32,7 +31,7 @@ export class ClientSearchComponent implements OnInit {
   searchDietTypeControl = new FormControl('');
 
   clientManagementService = inject(ClientManagementService);
-clientId: any|string;
+  clientId: any|string;
 
   constructor(private router: Router) { }
 
@@ -56,26 +55,64 @@ clientId: any|string;
 
   fetchClients(): void {
     this.clientManagementService.getAllClients().subscribe({
-      next: (clients) => {
-        console.log('Fetched clients:', clients); // Add this line
-        this.clients = clients;
-        this.filteredClients = clients;
-      },
-      error: (error: any) => {
-        console.error("Error fetching clients:", error);
-      }
+        next: (clients) => {
+            // Remove admin and sort A → Z only on first load
+            this.clients = clients
+                .filter(client => client.fullName.toLowerCase() !== "admin")
+                .sort((a, b) => a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()));
+
+            this.filteredClients = [...this.clients]; // Ensure initially sorted list
+        },
+        error: (error: any) => {
+            console.error("Error fetching clients:", error);
+        }
     });
-  }
+}
 
-  filterClients(): ClientProfile[] {
-    const nameFilter = this.searchNameControl.value?.toLowerCase() || '';
-    const dietTypeFilter = this.searchDietTypeControl.value?.toLowerCase() || '';
+sortOrder: string = 'asc';
 
-    return this.clients.filter(client =>
-      client.fullName.toLowerCase().includes(nameFilter) &&
-      client.dietTypeName.toLowerCase().includes(dietTypeFilter)
-    );
-  }
+filterClients(): ClientProfile[] {
+  const nameFilter = this.searchNameControl.value?.toLowerCase().trim() || '';
+  const dietTypeFilter = this.searchDietTypeControl.value?.toLowerCase().trim() || '';
+
+  let filtered = this.clients
+      .filter(client =>
+          client.fullName.toLowerCase().includes(nameFilter) &&
+          client.dietTypeName.toLowerCase().includes(dietTypeFilter)
+      );
+
+  // Prioritize clients whose names START with the filter
+  filtered.sort((a, b) => {
+      const aStartsWith = a.fullName.toLowerCase().startsWith(nameFilter) ? -1 : 1;
+      const bStartsWith = b.fullName.toLowerCase().startsWith(nameFilter) ? -1 : 1;
+
+      // If both start with the filter or neither does, apply sorting
+      if (aStartsWith === bStartsWith) {
+          return this.applySorting([a, b])[0] === a ? -1 : 1;
+      }
+      return aStartsWith - bStartsWith;
+  });
+
+  return filtered;
+}
+// Method to trigger sorting when dropdown changes
+sortClients(): void {
+  this.filteredClients = this.applySorting(this.filterClients());
+}
+
+applySorting(list: ClientProfile[]): ClientProfile[] {
+  return list.sort((a, b) => {
+      const nameA = a.fullName.toLowerCase();
+      const nameB = b.fullName.toLowerCase();
+
+      if (this.sortOrder === 'asc') {
+          return nameA.localeCompare(nameB); // A → Z
+      } else if (this.sortOrder === 'desc') {
+          return nameB.localeCompare(nameA); // Z → A
+      }
+      return 0; // Default, no sorting change
+  });
+}
 
   searchClientForm = new FormGroup({
     "phoneNumber": new FormControl("", [

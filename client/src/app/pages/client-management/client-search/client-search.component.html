@@ -6,6 +6,7 @@
                 <div class="title">Search Client</div>
                 <div class="sub-title">Rafaella Panagiotou - Clinical Dietitian</div>
                 <div> Please Enter the Phone Number of the Client to Manage </div>
+
             </div>
             <div>
                 <div class="credentials-title">Client Credentials</div>
@@ -21,14 +22,18 @@
                 </div>
             </div>
         </div>
-
         <div class="search-container">
             <div class="search-bar">
                 <input [formControl]="searchNameControl" placeholder="Search by name">
                 <input [formControl]="searchDietTypeControl" placeholder="Search by diet type">
+                <!-- Sorting Dropdown with Styled Class -->
+                <select [(ngModel)]="sortOrder" (change)="sortClients()" class="sort-dropdown">
+                    <option value="asc">Sort: A → Z</option>
+                    <option value="desc">Sort: Z → A</option>
+                </select>
+
             </div>
         </div>
-
         <table>
             <thead>
                 <tr>
@@ -36,12 +41,12 @@
                     <th>Diet Type</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let client of filteredClients">
-                    <td><a [routerLink]="['/clients.', clientId]">{{ client.fullName }}</a></td>                    
-                    <td>{{ client.dietTypeName }}</td>
-                </tr>
-            </tbody>
+        <tbody>
+            <tr *ngFor="let client of filteredClients">
+                <td><a [routerLink]="['/clients.', clientId]">{{ client.fullName }}</a></td>                    
+                <td>{{ client.dietTypeName }}</td>
+            </tr>
+        </tbody>
         </table>
     </div>
 </div>
