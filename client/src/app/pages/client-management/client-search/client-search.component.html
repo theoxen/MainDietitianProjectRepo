@@ -6,7 +6,6 @@
                 <div class="title">Search Client</div>
                 <div class="sub-title">Rafaella Panagiotou - Clinical Dietitian</div>
                 <div> Please Enter the Phone Number of the Client to Manage </div>
-
             </div>
             <div>
                 <div class="credentials-title">Client Credentials</div>
@@ -22,6 +21,27 @@
                 </div>
             </div>
         </div>
+
+        <div class="search-container">
+            <div class="search-bar">
+                <input [formControl]="searchNameControl" placeholder="Search by name">
+                <input [formControl]="searchDietTypeControl" placeholder="Search by diet type">
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Diet Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of filteredClients">
+                    <td><a [routerLink]="['/clients.', clientId]">{{ client.fullName }}</a></td>                    
+                    <td>{{ client.dietTypeName }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <!-- Also put a button to sign user up in this page. We will not have add client in the navbar. We will have it here. So put a button to take the dietitian to the sign up page (see app.routes.ts)-->
 </div>

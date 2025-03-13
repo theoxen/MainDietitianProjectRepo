@@ -23,4 +23,10 @@ public class UserRepository : IUserRepository
     {
         return await _dataContext.SaveChangesAsync() > 0;
     }
+
+     public async Task<IEnumerable<User>> GetAllClientsAsync()
+    {
+        return await _dataContext.Users.ToListAsync();
+    }
+
 }

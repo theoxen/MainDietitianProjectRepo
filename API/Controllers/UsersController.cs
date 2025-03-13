@@ -85,6 +85,14 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
+        [HttpGet(Endpoints.Users.GetAllClients)]
+        public async Task<IActionResult> GetAllClients()
+        {
+            var result = await _userService.GetAllClientsAsync();
+            return MapToHttpResponse(result);
+        }
+
+
     }
 }
     

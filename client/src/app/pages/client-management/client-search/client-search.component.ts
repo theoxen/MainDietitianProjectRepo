@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { PrimaryInputFieldComponent } from "../../../components/primary-input-field/primary-input-field.component";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,24 +8,75 @@ import { ClientManagementService } from '../../../services/client-management.ser
 import { HttpResponseError } from '../../../models/http-error';
 import { ErrorComponent } from "../../../components/error/error.component";
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ClientProfile } from '../../../models/client-management/client-profile';
+import { CommonModule } from '@angular/common'; // Add this import
+
+
 
 @Component({
   selector: 'app-client-search',
   standalone: true,
-  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, ErrorComponent, RouterLink],
+  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, ErrorComponent, RouterLink, CommonModule],
   templateUrl: './client-search.component.html',
   styleUrl: './client-search.component.css'
 })
-export class ClientSearchComponent {
+export class ClientSearchComponent implements OnInit {
   
   displayErrorOnControlDirty = true;
   displayErrorOnControlTouched = true;
   phoneNumberExists = true;
+  clients: ClientProfile[] = [];
+  filteredClients: ClientProfile[] = [];
+  searchNameControl = new FormControl('');
+  searchDietTypeControl = new FormControl('');
 
   clientManagementService = inject(ClientManagementService);
+clientId: any|string;
 
   constructor(private router: Router) { }
-  
+
+  ngOnInit(): void {
+    this.fetchClients();
+
+    this.searchNameControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(() => {
+      this.filteredClients = this.filterClients();
+    });
+
+    this.searchDietTypeControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(() => {
+      this.filteredClients = this.filterClients();
+    });
+  }
+
+  fetchClients(): void {
+    this.clientManagementService.getAllClients().subscribe({
+      next: (clients) => {
+        console.log('Fetched clients:', clients); // Add this line
+        this.clients = clients;
+        this.filteredClients = clients;
+      },
+      error: (error: any) => {
+        console.error("Error fetching clients:", error);
+      }
+    });
+  }
+
+  filterClients(): ClientProfile[] {
+    const nameFilter = this.searchNameControl.value?.toLowerCase() || '';
+    const dietTypeFilter = this.searchDietTypeControl.value?.toLowerCase() || '';
+
+    return this.clients.filter(client =>
+      client.fullName.toLowerCase().includes(nameFilter) &&
+      client.dietTypeName.toLowerCase().includes(dietTypeFilter)
+    );
+  }
+
   searchClientForm = new FormGroup({
     "phoneNumber": new FormControl("", [
       Validators.required,

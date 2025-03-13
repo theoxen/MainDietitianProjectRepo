@@ -40,5 +40,10 @@ export class ClientManagementService {
     const url = this.baseUrl + `users/view-profile/${clientId}`;
     return this.http.get<ClientProfileAllView>(url);
   }
+
+  getAllClients(): Observable<ClientProfile[]> {
+    const url = this.baseUrl + 'users/all-clients';
+    return this.http.get<ClientProfile[]>(url);
+  }
   
 }
