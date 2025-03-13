@@ -55,64 +55,69 @@ export class ClientSearchComponent implements OnInit {
 
   fetchClients(): void {
     this.clientManagementService.getAllClients().subscribe({
-        next: (clients) => {
+        next: (clients) => { 
             // Remove admin and sort A → Z only on first load
             this.clients = clients
                 .filter(client => client.fullName.toLowerCase() !== "admin")
                 .sort((a, b) => a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()));
 
             this.filteredClients = [...this.clients]; // Ensure initially sorted list
+
+            console.log("Fetched clients:", this.clients);
+
         },
         error: (error: any) => {
             console.error("Error fetching clients:", error);
         }
     });
-}
+    
+    
+  }
 
 sortOrder: string = 'asc';
 
-filterClients(): ClientProfile[] {
-  const nameFilter = this.searchNameControl.value?.toLowerCase().trim() || '';
-  const dietTypeFilter = this.searchDietTypeControl.value?.toLowerCase().trim() || '';
+  filterClients(): ClientProfile[] {
+    const nameFilter = this.searchNameControl.value?.toLowerCase().trim() || '';
+    const dietTypeFilter = this.searchDietTypeControl.value?.toLowerCase().trim() || '';
 
-  let filtered = this.clients
-      .filter(client =>
-          client.fullName.toLowerCase().includes(nameFilter) &&
-          client.dietTypeName.toLowerCase().includes(dietTypeFilter)
-      );
+    let filtered = this.clients
+        .filter(client =>
+            client.fullName.toLowerCase().includes(nameFilter) &&
+            client.dietTypeName.toLowerCase().includes(dietTypeFilter)
+        );
 
-  // Prioritize clients whose names START with the filter
-  filtered.sort((a, b) => {
-      const aStartsWith = a.fullName.toLowerCase().startsWith(nameFilter) ? -1 : 1;
-      const bStartsWith = b.fullName.toLowerCase().startsWith(nameFilter) ? -1 : 1;
+    // Prioritize clients whose names START with the filter
+    filtered.sort((a, b) => {
+        const aStartsWith = a.fullName.toLowerCase().startsWith(nameFilter) ? -1 : 1;
+        const bStartsWith = b.fullName.toLowerCase().startsWith(nameFilter) ? -1 : 1;
 
-      // If both start with the filter or neither does, apply sorting
-      if (aStartsWith === bStartsWith) {
-          return this.applySorting([a, b])[0] === a ? -1 : 1;
-      }
-      return aStartsWith - bStartsWith;
-  });
+        // If both start with the filter or neither does, apply sorting
+        if (aStartsWith === bStartsWith) {
+            return this.applySorting([a, b])[0] === a ? -1 : 1;
+        }
+        return aStartsWith - bStartsWith;
+    });
 
-  return filtered;
-}
-// Method to trigger sorting when dropdown changes
-sortClients(): void {
-  this.filteredClients = this.applySorting(this.filterClients());
-}
+    return filtered;
+  }
+  // Method to trigger sorting when dropdown changes
+  sortClients(): void {
+    this.filteredClients = this.applySorting(this.filterClients());
+  }
 
-applySorting(list: ClientProfile[]): ClientProfile[] {
-  return list.sort((a, b) => {
-      const nameA = a.fullName.toLowerCase();
-      const nameB = b.fullName.toLowerCase();
+  applySorting(list: ClientProfile[]): ClientProfile[] {
+    return list.sort((a, b) => {
+        const nameA = a.fullName.toLowerCase();
+        const nameB = b.fullName.toLowerCase();
 
-      if (this.sortOrder === 'asc') {
-          return nameA.localeCompare(nameB); // A → Z
-      } else if (this.sortOrder === 'desc') {
-          return nameB.localeCompare(nameA); // Z → A
-      }
-      return 0; // Default, no sorting change
-  });
-}
+        if (this.sortOrder === 'asc') {
+            return nameA.localeCompare(nameB); // A → Z
+        } else if (this.sortOrder === 'desc') {
+            return nameB.localeCompare(nameA); // Z → A
+        }
+        return 0; // Default, no sorting change
+    });
+  }
 
   searchClientForm = new FormGroup({
     "phoneNumber": new FormControl("", [
@@ -140,6 +145,7 @@ applySorting(list: ClientProfile[]): ClientProfile[] {
       if (this.searchClientForm.controls.phoneNumber.value != null)
       {
         this.clientManagementService.getClientIdByPhoneNumber(this.searchClientForm.controls.phoneNumber.value).subscribe({
+
           next: (clientId) => {
             this.router.navigate([`/clients/${clientId}`]);
             this.phoneNumberExists = true;

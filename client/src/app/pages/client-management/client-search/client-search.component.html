@@ -41,12 +41,17 @@
                     <th>Diet Type</th>
                 </tr>
             </thead>
-        <tbody>
-            <tr *ngFor="let client of filteredClients">
-                <td><a [routerLink]="['/clients.', clientId]">{{ client.fullName }}</a></td>                    
-                <td>{{ client.dietTypeName }}</td>
-            </tr>
-        </tbody>
+            <tbody>
+                <tr *ngFor="let client of filteredClients">
+                    <td>
+                        <a [routerLink]="['/clients', client.userId]" class="unstyled-link">
+                            {{ client.fullName }}
+                        </a>
+                    </td>                    
+                    <td>{{ client.dietTypeName }}</td>
+                </tr>
+            </tbody>
+    
         </table>
     </div>
 </div>

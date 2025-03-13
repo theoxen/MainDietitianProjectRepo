@@ -45,5 +45,6 @@ export class ClientManagementService {
     const url = this.baseUrl + 'users/all-clients';
     return this.http.get<ClientProfile[]>(url);
   }
+
   
 }

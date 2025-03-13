@@ -12,7 +12,10 @@ import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
   templateUrl: './manage-client.component.html',
   styleUrl: './manage-client.component.css'
 })
-export class ManageClientComponent{
+export class ManageClientComponent implements OnInit {
+
+  userId: string | null = null;
+
   clientManagementService = inject(ClientManagementService);
 
   clientId: string | null = null;
@@ -25,7 +28,13 @@ export class ManageClientComponent{
 
   ngOnInit(): void{
     this.clientId = this.route.snapshot.paramMap.get('clientId');
+
+    console.log("Captured Client ID in ManageClientComponent:", this.clientId); // Debugging
+
     if (!this.clientId) return;
+
+    
+    console.log("Managing client with ID:", this.clientId);
 
     const client$ = this.clientManagementService.getClientDetails(this.clientId);
     client$.subscribe(client => {
