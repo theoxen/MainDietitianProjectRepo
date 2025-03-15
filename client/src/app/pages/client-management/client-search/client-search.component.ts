@@ -33,11 +33,14 @@ export class ClientSearchComponent implements OnInit {
   clientManagementService = inject(ClientManagementService);
   clientId: any|string;
 
+  
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.fetchClients();
-
+    //console.log("Client ID ngonit: ", this.clientId); //debugging
+    
     this.searchNameControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -55,24 +58,36 @@ export class ClientSearchComponent implements OnInit {
 
   fetchClients(): void {
     this.clientManagementService.getAllClients().subscribe({
-        next: (clients) => { 
+        next: (clients) => {
+            //console.log("Client ID fetched: ", this.clientId); //debugging
+
             // Remove admin and sort A → Z only on first load
             this.clients = clients
                 .filter(client => client.fullName.toLowerCase() !== "admin")
                 .sort((a, b) => a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()));
 
+            // Fetch client IDs by phone number
+            this.clients.forEach(client => {
+                this.clientManagementService.getClientIdByPhoneNumber(client.phoneNumber).subscribe({
+                    next: (clientId) => {
+                        client.id = clientId;
+                        //console.log(`Client ID for ${client.phoneNumber}: ${clientId}`); // Debugging
+                    },
+                    error: (error: any) => {
+                        console.error(`Error fetching client ID for ${client.phoneNumber}:`, error);
+                    }
+                });
+            });
+
             this.filteredClients = [...this.clients]; // Ensure initially sorted list
 
-            console.log("Fetched clients:", this.clients);
-
+            
         },
         error: (error: any) => {
             console.error("Error fetching clients:", error);
         }
     });
-    
-    
-  }
+}
 
 sortOrder: string = 'asc';
 
@@ -121,7 +136,7 @@ sortOrder: string = 'asc';
 
   searchClientForm = new FormGroup({
     "phoneNumber": new FormControl("", [
-      Validators.required,
+     // Validators.required,
       Validators.pattern(ValidationPatterns.phoneNumber)
     ])
   });

@@ -44,8 +44,8 @@
             <tbody>
                 <tr *ngFor="let client of filteredClients">
                     <td>
-                        <a [routerLink]="['/clients', client.userId]" class="unstyled-link">
-                            {{ client.fullName }}
+                        <a [routerLink]="['/clients', client.id]" class="unstyled-link">
+                            {{ client.fullName }} 
                         </a>
                     </td>                    
                     <td>{{ client.dietTypeName }}</td>

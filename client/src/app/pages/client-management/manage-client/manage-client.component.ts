@@ -29,12 +29,12 @@ export class ManageClientComponent implements OnInit {
   ngOnInit(): void{
     this.clientId = this.route.snapshot.paramMap.get('clientId');
 
-    console.log("Captured Client ID in ManageClientComponent:", this.clientId); // Debugging
+    //console.log("Captured Client ID in ManageClientComponent:", this.clientId); // Debugging
 
     if (!this.clientId) return;
 
     
-    console.log("Managing client with ID:", this.clientId);
+    //console.log("Managing client with ID:", this.clientId);
 
     const client$ = this.clientManagementService.getClientDetails(this.clientId);
     client$.subscribe(client => {

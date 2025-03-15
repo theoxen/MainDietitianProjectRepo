@@ -40,7 +40,7 @@ clientAge: ClientProfileAllView | undefined;
       next: (client) => {;
         this.client = client;
   
-        console.log('Client details:', client); // Debugging statement
+        //console.log('Client details:', client); // Debugging statement
       }
     });
     
