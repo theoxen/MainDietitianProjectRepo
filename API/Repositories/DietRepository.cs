@@ -1,61 +1,58 @@
-using API.Common;
 using API.Data;
 using API.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using API.Models.Diets;
+
 namespace API.Repositories
 {
     public class DietRepository : IDietRepository
     {
- private readonly DataContext _dataContext;
+        private readonly DataContext _dataContext;
 
         public DietRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public void AddDay(DietDay dietDay)
-        {
-            _dataContext.DietDays.Add(dietDay);
-        }
-
-        public void DeleteDay(DietDay dietDay)
-        {
-            _dataContext.DietDays.Remove(dietDay);
-        }
-
-        public async Task<DietDay?> GetDayAsync(Guid dayId)
-        {
-            return await _dataContext.DietDays.FirstOrDefaultAsync(x => x.Id == dayId);
-        }
-
-        public void AddMeal(DietMeal dietMeal)
-        {
-            _dataContext.DietMeals.Add(dietMeal);
-        }
-
-        public void DeleteMeal(DietMeal dietMeal)
-        {
-            _dataContext.DietMeals.Remove(dietMeal);
-        }
-
-        public async Task<DietMeal?> GetMealAsync(Guid mealId)
-        {
-            return await _dataContext.DietMeals.FirstOrDefaultAsync(x => x.Id == mealId);
-        }
-
-        public async Task<Diet?> GetDietByUserIdAsync(Guid userId, Guid dietId)
+        public async Task<Diet?> GetDietByIdAsync(Guid id)
         {
             return await _dataContext.Diets
                 .Include(d => d.DietDays)
-                .ThenInclude(dd => dd.DietMeals)
-                .FirstOrDefaultAsync(d => d.Id == dietId && d.UserDiets.Any(ud => ud.UserId == userId));
+                .ThenInclude(d => d.DietMeals)
+                .FirstOrDefaultAsync(d => d.Id == id);
+        }
+
+        public async Task<List<Diet>> GetAllDietsAsync()
+        {
+            return await _dataContext.Diets
+                .Include(d => d.DietDays)
+                .ThenInclude(d => d.DietMeals)
+                .ToListAsync();
+        }
+
+        public async Task<Diet?> GetDietByNameAsync(string name)
+        {
+            return await _dataContext.Diets
+                .FirstOrDefaultAsync(d => d.Name == name);
+        }
+
+        public void CreateDiet(Diet diet)
+        {
+            _dataContext.Diets.Add(diet);
+        }
+
+        public void UpdateDiet(Diet diet)
+        {
+            _dataContext.Diets.Update(diet);
+        }
+
+        public void DeleteDiet(Diet diet)
+        {
+            _dataContext.Diets.Remove(diet);
         }
 
         public async Task<bool> Commit()
         {
             return await _dataContext.SaveChangesAsync() > 0;
         }
-
     }
 }
