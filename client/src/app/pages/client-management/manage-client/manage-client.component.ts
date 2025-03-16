@@ -32,10 +32,6 @@ export class ManageClientComponent implements OnInit {
     //console.log("Captured Client ID in ManageClientComponent:", this.clientId); // Debugging
 
     if (!this.clientId) return;
-
-    
-    //console.log("Managing client with ID:", this.clientId);
-
     const client$ = this.clientManagementService.getClientDetails(this.clientId);
     client$.subscribe(client => {
       this.client = client;
