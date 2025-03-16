@@ -5,7 +5,6 @@ import { Metrics } from '../../../models/metrics/metrics';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { MetricCardComponent } from '../metric-card/metric-card.component';
 import { ClientManagementService } from '../../../services/client-management.service';
-import { User } from '../../../models/user';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';

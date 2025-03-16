@@ -86,6 +86,18 @@ public static class Endpoints
         public const string Delete = Base + "/{id}"; 
     }
 
+  public static class Appointments
+    {
+        private const string Base = BaseUrl + "appointments";
+        public const string Make = Base ;
+        public const string View = Base + "/{appointmentId}"; 
+        public const string ViewAll = Base; 
+        
+        public const string Edit = Base + "/{appointmentId}"; // FOR LATER
+        public const string Search = Base + "/search"; 
+        public const string Cancel = Base + "/{appointmentId}"; 
+    }
+
      public static class Diets
     {
         private const string Base = BaseUrl + "diets";
