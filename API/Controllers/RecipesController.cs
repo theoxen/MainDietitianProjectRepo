@@ -50,7 +50,7 @@ namespace API.Controllers
 
         // Search Recipes => Get
         [HttpGet(Endpoints.Recipes.Search)]
-        public async Task<IActionResult> SearchRecipes([FromQuery] string searchTerm)
+        public async Task<IActionResult> SearchRecipes([FromQuery] string? searchTerm)
         {
             var result = await _recipeService.SearchRecipes(searchTerm);
             return MapToHttpResponse(result);
