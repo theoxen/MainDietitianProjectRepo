@@ -71,7 +71,7 @@ export class LoginComponent {
 
       this.accountService.login(loginData).subscribe({
         next:(user)=>{
-          // navigate to home
+          this.router.navigateByUrl("/");
           console.log(user);
         },
         error:(error)=>{

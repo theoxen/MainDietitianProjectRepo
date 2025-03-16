@@ -93,15 +93,15 @@ export class EditClientDetailsComponent {
     combineLatest([client$, diets$]).subscribe({
       next: ([client, dietTypes]) => {
         this.client = client;
-        console.log('Client details:', client); // Debugging statement
-        console.log('Diet types:', dietTypes); // Debugging statement
+        //console.log('Client details:', client); // Debugging statement
+        //console.log('Diet types:', dietTypes); // Debugging statement
 
         // Populate the diet dropdown options
         this.dietTypeDropdownOptions = dietTypes.map(dietType => ({
           value: dietType.id,
           displayedValue: dietType.name
         }));
-        console.log('Diet dropdown options:', this.dietTypeDropdownOptions); // Debugging statement
+        //console.log('Diet dropdown options:', this.dietTypeDropdownOptions); // Debugging statement
 
         // Set form values
         this.clientUpdateForm.controls.FullName.setValue(client.fullName);
@@ -132,7 +132,7 @@ export class EditClientDetailsComponent {
       if (!this.clientUpdateForm.dirty) {
         return;
       }
-      
+        
       const clientProfileUpdate: ClientProfileUpdate = {
         userId: this.clientId!,
         fullName: this.clientUpdateForm.controls.FullName.value!,

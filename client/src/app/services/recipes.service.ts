@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RecipeAll } from '../models/recipes/RecipeAll';
@@ -40,6 +40,12 @@ export class RecipesService {
     return this.http.get<RecipeView>(url);
   }
 
+  // Search recipes by name
+  searchRecipes(name: string): Observable<RecipeAll[]> {
+    const url = `${this.baseUrl}recipes/search`;
+    const params = new HttpParams().set('searchTerm', name);
+    return this.http.get<RecipeAll[]>(url, { params });
+  }
 
   // View all recipes
   viewAllRecipes(): Observable<RecipeAll[]> {

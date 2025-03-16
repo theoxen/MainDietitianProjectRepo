@@ -18,19 +18,19 @@
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
-    height: 550px;
+
 }
 
-/* .client-metrics {
-    
-} */
+.client-metrics {
+    margin-bottom:-1%;
+}
 
 .addMetrics-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 50px; 
+    gap: 20px; 
     padding-left: 13%;
     padding-right: 13%;
 }
@@ -41,6 +41,9 @@
 
 
 @media (max-width: 900px) {
+    .hover-box{
+        margin-bottom: 25px;
+    }
     .hover-box {
         flex-direction: column;
         align-items: center;

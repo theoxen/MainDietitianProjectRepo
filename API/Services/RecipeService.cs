@@ -80,8 +80,26 @@ namespace API.Services
 /////////////////////////////////////////////////////////////////////Search Recipes///////////////////////////////////////////////////////////////////////
         // This method is used to search for recipes by name or ingredients
 
-        public async Task<Result<List<RecipesDto>>> SearchRecipes(string searchTerm)
+        public async Task<Result<List<RecipesDto>>> SearchRecipes(string? searchTerm)
         {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                // Optional: Return all recipes instead of an error
+                var allRecipes = await _recipeRepository.GetAllRecipes();
+                return Result<List<RecipesDto>>.Ok(allRecipes.Select(recipe => new RecipesDto
+                {
+                    Id = recipe.Id,
+                    Name = recipe.Name,
+                    Ingredients = recipe.Ingredients,
+                    Directions = recipe.Directions,
+                    DateCreated = recipe.DateCreated,
+                    Protein = recipe.Protein,
+                    Carbs = recipe.Carbs,
+                    Fat = recipe.Fat,
+                    Calories = recipe.Calories
+                }).ToList());
+            }
+            
             var recipes = await _recipeRepository.SearchRecipes(searchTerm);
 
             if (recipes == null)

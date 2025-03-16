@@ -530,4 +530,22 @@ public class UserService : IUserService
         return Result<Guid>.Ok(user.Id);
     }
 
+    public async Task<Result<IEnumerable<UserProfileDto>>> GetAllClientsAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var userProfiles = users.Select(user => new UserProfileDto
+        {
+            FullName = user.FullName!,
+            PhoneNumber = user.PhoneNumber!,
+            Email = user.Email!,
+            Height = user.Height!,
+            DietTypeName = user.DietTypeId.HasValue ? _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value).Result?.Name ?? "Unknown" : "Unknown",
+            Gender = user.Gender,
+            DateOfBirth = user.DateOfBirth
+        });
+
+        return Result<IEnumerable<UserProfileDto>>.Ok(userProfiles);
+    }
+
+
 }

@@ -1,5 +1,8 @@
 export interface ClientProfile {
-    userId: string;
+    dateOfBirth: any;
+    gender: any;
+    id: any;
+    //userId: string;
     fullName: string; 
     phoneNumber: string;
     email: string;

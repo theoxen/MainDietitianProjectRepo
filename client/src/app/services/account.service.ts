@@ -32,6 +32,10 @@ export class AccountService {
 
   }
 
+  getUserToken() {
+    return this.currentUserSubject.value?.token;
+  }
+
   login(loginData: LoginData) {
 
     const url = this.baseUrl + 'users/login'

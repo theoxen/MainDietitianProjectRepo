@@ -1,6 +1,6 @@
-export interface MetricsToEdit {
-    id: string;
+export interface MetricsToEdit{
     Bodyweight: number;
     FatMass: number;
     MuscleMass: number;
+    metricsId: string;
 }
