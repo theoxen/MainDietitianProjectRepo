@@ -7,10 +7,6 @@ namespace API.Extensions
         public static Guid? GetUserId(this HttpContext httpContext)
         {
             var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return null;
-            }
 
             if (Guid.TryParse(userId, out var parsedUserId))
             {

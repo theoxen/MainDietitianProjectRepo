@@ -80,7 +80,7 @@ namespace API.Services
 /////////////////////////////////////////////////////////////////////Search Recipes///////////////////////////////////////////////////////////////////////
         // This method is used to search for recipes by name or ingredients
 
-        public async Task<Result<List<RecipesDto>>> SearchRecipes(string searchTerm)
+        public async Task<Result<List<RecipesDto>>> SearchRecipes(string? searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
