@@ -5,7 +5,7 @@ import { ForgotPasswordStep1Component } from './pages/forgot-password/forgot-pas
 import { ForgotPasswordStep2Component } from './pages/forgot-password/forgot-password-step-2/forgot-password-step-2.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NoteManagementComponent } from './pages/note-management/note-management.component';
-import { AddMetricsComponent } from './pages/add-metrics/add-metrics.component';
+import { AddMetricsComponent } from './pages/Metrics-Management/add-metrics/add-metrics.component';
 
 import { ClientSearchComponent } from './pages/client-management/client-search/client-search.component';
 import { EditClientDetailsComponent } from './pages/client-management/edit-client-details/edit-client-details.component';
@@ -15,8 +15,13 @@ import { ManageClientComponent } from './pages/client-management/manage-client/m
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { AddEditRecipeComponent } from './pages/recipes/add-edit-recipe/add-edit-recipe.component';
 import { ViewComponent } from './pages/recipes/view/view.component';
+
+import { ViewMetricsComponent } from './pages/Metrics-Management/view-metrics/view-metrics.component';
+import { EditMetricsComponent } from './pages/Metrics-Management/edit-metrics/edit-metrics.component';
+
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
+
 
 
 export const routes: Routes = [
@@ -43,6 +48,8 @@ export const routes: Routes = [
    { path: "recipes/:recipeId", component: ViewComponent },
 
    { path: "clients/:clientId/add-metrics", component: AddMetricsComponent },
+   { path: "clients/:clientId/view-metrics", component: ViewMetricsComponent },
+   { path: "clients/:metricsId/edit-metrics", component: EditMetricsComponent },
 
 
    { path: "", redirectTo: "/", pathMatch: "prefix" }

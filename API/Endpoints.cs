@@ -21,6 +21,7 @@ public static class Endpoints
         public const string GetAllClients = Base + "/all-clients";
 
         public const string GetNoteByUserId = Base + "/{userId}/note"; 
+        
         public const string GetReviewByUserId = Base + "/{userId}/review";
         
     }
@@ -70,6 +71,7 @@ public static class Endpoints
         public const string ViewMetrics = Base + "/{metricsId}"; 
         public const string EditMetrics = Base;
         public const string SearchMetrics = Base + "/search";
+    
 
     }
 
@@ -83,6 +85,18 @@ public static class Endpoints
         public const string Edit = Base + "/{id}"; 
         public const string Search = Base + "/search"; 
         public const string Delete = Base + "/{id}"; 
+    }
+
+  public static class Appointments
+    {
+        private const string Base = BaseUrl + "appointments";
+        public const string Make = Base ;
+        public const string View = Base + "/{appointmentId}"; 
+        public const string ViewAll = Base; 
+        
+        public const string Edit = Base + "/{appointmentId}"; // FOR LATER
+        public const string Search = Base + "/search"; 
+        public const string Cancel = Base + "/{appointmentId}"; 
     }
 
      public static class Diets

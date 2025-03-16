@@ -28,11 +28,21 @@ namespace API.Repositories
             _dataContext.Metrics.Remove(metrics); 
         }
 
+
         public async Task<Metrics?> GetMetricsAsync(Guid metricsId)
         {
             var metrics = await _dataContext.Metrics.FirstOrDefaultAsync(x => x.Id == metricsId);
             return metrics;
         }
+
+        public async Task<List<Metrics>> GetMetricsByUserIdAsync(Guid userId)
+        {
+            var metrics = await _dataContext.Metrics
+            .Where(x => x.UserId == userId)
+            .ToListAsync();
+            return metrics;
+        }
+
 
           public async Task<List<Metrics>> SearchMetricsAsync(Guid userId, DateTime? date)
         {

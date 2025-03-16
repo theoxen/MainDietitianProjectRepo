@@ -1,8 +1,8 @@
 export interface Metrics {
     id: string;
-    Bodyweight: number;
-    FatMass: number;
-    MuscleMass: number;
-    DateCreated: Date;
+    bodyweight: number;
+    fatMass: number;
+    muscleMass: number;
+    dateCreated: Date;
     userId: string;
 }

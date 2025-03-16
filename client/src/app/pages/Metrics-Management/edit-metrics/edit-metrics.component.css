@@ -1,0 +1,108 @@
+.metrics-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.title-box {
+    display: flex;
+    justify-content: center;
+ 
+}
+
+.dateCreated{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2%;
+}
+
+.hover-box {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+}
+
+.client-metrics {
+    margin-bottom:-1%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    
+    gap: 20px;
+}
+
+.addMetrics-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 30px; 
+    padding-left: 13%;
+    padding-right: 13%;
+}
+
+app-confirmation-window{
+    z-index: 2;
+}
+
+@media screen and (max-width: 800px) {
+    .hover-box {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        height: fit-content;
+    }
+
+    .primary-button {
+        width: fit-content;
+    }
+
+    .primary-button-danger {
+        width: fit-content;
+    }
+
+    .primary-hover-box {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .title-box {
+        border-right: none;
+        height: min-content;
+        flex: 1;
+    }
+
+    .client-credentials {
+        width: 90%;
+        overflow-x: hidden;
+
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .sub-title {
+        text-align: center;
+    }
+
+    .client-credentials {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        padding-right: 10px;
+        max-height: none;
+        max-width: 500px;
+        padding-bottom: 30px;
+    }
+    .title {
+        padding-top: 30px;
+    }
+}
