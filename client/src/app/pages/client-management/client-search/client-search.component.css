@@ -3,6 +3,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .primary-hover-box {
@@ -28,7 +29,7 @@ td a:hover {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .search-bar {
@@ -37,6 +38,7 @@ td a:hover {
     position: relative;
     width: 100%;
     max-width: 600px;
+    margin: 1px 0;
 }
 
 .search-bar input {
@@ -84,13 +86,21 @@ table {
     width: 80%; /* Reduce table width */
     max-width: 800px; /* Limit max width */
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
+    padding: 10px;
+    border: 2px solid #C8C8C8;
+    border-radius: 15px; /* Ensure this is applied */
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
 }
+
 th, td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: none;
     text-align: left;
 }
 

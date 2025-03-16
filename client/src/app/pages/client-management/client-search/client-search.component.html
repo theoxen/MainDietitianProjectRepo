@@ -21,12 +21,12 @@
                     <button routerLink="../auth/register" class="primary-button">Sign Up</button>
                 </div>
             </div>
-        </div>
+        
         <div class="search-container">
             <div class="search-bar">
                 <input [formControl]="searchNameControl" placeholder="Search by name">
                 <input [formControl]="searchDietTypeControl" placeholder="Search by diet type">
-                <!-- Sorting Dropdown with Styled Class -->
+        
                 <select [(ngModel)]="sortOrder" (change)="sortClients()" class="sort-dropdown">
                     <option value="asc">Sort: A → Z</option>
                     <option value="desc">Sort: Z → A</option>
@@ -34,6 +34,7 @@
 
             </div>
         </div>
+        
         <table>
             <thead>
                 <tr>
@@ -53,5 +54,6 @@
             </tbody>
     
         </table>
+    </div>
     </div>
 </div>

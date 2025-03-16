@@ -132,7 +132,7 @@ export class EditClientDetailsComponent {
       if (!this.clientUpdateForm.dirty) {
         return;
       }
-      
+        
       const clientProfileUpdate: ClientProfileUpdate = {
         userId: this.clientId!,
         fullName: this.clientUpdateForm.controls.FullName.value!,
