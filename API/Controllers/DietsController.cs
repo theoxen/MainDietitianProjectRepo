@@ -1,56 +1,74 @@
 using API.Models.Diets;
 using API.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using API.Data;
-using API.Common;
-using System;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DietsController : BaseApiController
+    public class DietController : ControllerBase
     {
         private readonly IDietService _dietService;
+         private readonly ILogger<DietController> _logger;   //for debugging use only - can be removed
 
-        public DietsController(IDietService dietService)
+        public DietController(IDietService dietService ,  ILogger<DietController> logger)
         {
             _dietService = dietService;
+            _logger = logger;                                  //for debugging use only - can be removed
         }
 
-        [HttpPost("days")]
-        public async Task<IActionResult> AddDay([FromBody] DietDayDto dietDayDto)
+        // [Authorize(Roles = "admin")]
+        [HttpPost(Endpoints.Diets.Create)]
+        public async Task<IActionResult> CreateDiet(CreateDietDto createDietDto)
         {
-            var result = await _dietService.AddDayAsync(dietDayDto);
-            return MapToHttpResponse(result);
+        
+        var result = await _dietService.CreateDietAsync(createDietDto);
+
+        _logger.LogInformation("Hello1"); //for debugging use only - can be removed
+
+        if (!ModelState.IsValid)                            //for debugging use only - can be removed
+        {
+             _logger.LogWarning("Model state is invalid"); //for debugging use only - can be removed
+            return BadRequest(ModelState);                 //for debugging use only - can be removed
+        }
+            
+        _logger.LogInformation("Received CreateDiet request with Name: {Name}", createDietDto.Name); //for debugging use only - can be removed
+
+
+            
+
+            return Ok(result);
         }
 
-        [HttpDelete("days/{dayId}")]
-        public async Task<IActionResult> DeleteDay(Guid dayId)
+        // [Authorize(Roles = "admin")]
+        [HttpPut(Endpoints.Diets.Update)]
+
+        public async Task<IActionResult> UpdateDiet(UpdateDietDto updateDietDto)
         {
-            var result = await _dietService.DeleteDayAsync(dayId);
-            return MapToHttpResponse(result);
+            var result = await _dietService.UpdateDietAsync(updateDietDto);
+            return Ok(result);
         }
 
-        [HttpPost("meals")]
-        public async Task<IActionResult> AddMeal([FromBody] DietMealDto dietMealDto)
+        [HttpGet(Endpoints.Diets.GetDiet)]
+        
+        public async Task<IActionResult> GetDietById(Guid id)
         {
-            var result = await _dietService.AddMealAsync(dietMealDto);
-            return MapToHttpResponse(result);
+            var result = await _dietService.GetDietByIdAsync(id);
+            return Ok(result);
         }
 
-        [HttpDelete("meals/{mealId}")]
-        public async Task<IActionResult> DeleteMeal(Guid mealId)
+        [HttpGet(Endpoints.Diets.GetAll)]
+        public async Task<IActionResult> GetAllDiets()
         {
-            var result = await _dietService.DeleteMealAsync(mealId);
-            return MapToHttpResponse(result);
+            var result = await _dietService.GetAllDietsAsync();
+            return Ok(result);
         }
 
-        [HttpGet("{userId}/{dietId}")]
-        public async Task<IActionResult> GetDietByUserId(Guid userId, Guid dietId)
+        //Remove // [Authorize(Roles = "admin")]
+        [HttpDelete(Endpoints.Diets.Delete)]
+        public async Task<IActionResult> DeleteDiet(Guid id)
         {
-            var result = await _dietService.GetDietByUserIdAsync(userId, dietId);
-            return MapToHttpResponse(result);
+            var result = await _dietService.DeleteDietAsync(id);
+            return Ok(result);
         }
     }
 }

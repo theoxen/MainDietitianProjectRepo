@@ -81,12 +81,13 @@ public static class Endpoints
         public const string Delete = Base + "/{id}"; 
     }
 
-     public static class Diets
+public static class Diets
     {
         private const string Base = BaseUrl + "diets";
         public const string Create = Base;
-        public const string Delete = Base + "/{dietId}";
-        public const string GetDiet = Base + "/{dietId}";
-        public const string UpdateDiet = Base;
+        public const string Update = Base;
+        public const string GetDiet = Base + "/{id}";
+        public const string GetAll = Base;
+        public const string Delete = Base + "/{id}";
     }
 }

@@ -6,5 +6,9 @@ namespace API.Models.Diets
         public required string Name { get; set; }
         public required bool IsTemplate { get; set; }
         public required DateTime DateCreated { get; set; }
+        public List<DayDto> Days { get; set; } = new();
+
     }
 }
+
+
