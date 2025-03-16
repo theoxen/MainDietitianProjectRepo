@@ -15,6 +15,7 @@ import { ManageClientComponent } from './pages/client-management/manage-client/m
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { AddEditRecipeComponent } from './pages/recipes/add-edit-recipe/add-edit-recipe.component';
 import { ViewComponent } from './pages/recipes/view/view.component';
+import { ReviewsCreateEditComponent } from './pages/reviews-management/reviews-create-edit/reviews-create-edit.component';
 
 
 export const routes: Routes = [
@@ -40,7 +41,8 @@ export const routes: Routes = [
 
    { path: "clients/:clientId/add-metrics", component: AddMetricsComponent },
 
-
+   { path: "reviews", component: ReviewsCreateEditComponent },
+   { path: "reviews/:reviewId/edit", component: ReviewsCreateEditComponent },
    { path: "", redirectTo: "/", pathMatch: "prefix" }
 
 ];

@@ -22,7 +22,7 @@ namespace API.Controllers
         {
             var userId = HttpContext.GetUserId();
             if (userId == null)
-            {
+           {
                 return Unauthorized();
             }
             var result = await _reviewService.CreateReviewAsync(createReviewDto, userId.Value);
