@@ -1,0 +1,67 @@
+
+
+.auto-resize {
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  border-radius: 8px; /* Adjust the value as needed */
+  padding: 10px; /* Optional: Add padding for better appearance */
+  border: 1px solid #ccc; /* Optional: Add border for better appearance */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+.review-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.primary-hover-box {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 750px;
+}
+
+.hover-box {
+  padding: 20px;
+}
+
+.title-box {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.review {
+  margin-top: 20px;
+}
+
+.reviewForm-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.primary-button{
+  width: 100%;
+}
+
+.star-rating {
+  display: flex;
+  flex-direction: row;
+}
+
+.star-rating span {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.star-rating .filled {
+  color: gold;
+}
+

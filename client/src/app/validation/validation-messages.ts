@@ -27,7 +27,8 @@ export class ValidationMessages
     static maxTwoDecimalPlacesFatMass = "*Fat Mass must not have more than 2 decimal places";
     static maxTwoDecimalPlacesBodyWeight = "*Body Weight must not have more than 2 decimal places";
     static maxTwoDecimalPlacesMuscleMass= "*Muscle Mass must not have more than 2 decimal places";
-
+    static ReviewMinValue="*Value must be at least 1";
+    static ReviewMaxValue="*Value must be at most 5";
 
 
     static recipeName="*Name must contain only letters";
