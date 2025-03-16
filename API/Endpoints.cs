@@ -18,6 +18,7 @@ public static class Endpoints
         public const string DeleteUser = Base + "/{id}";
         public const string UpdateProfile = Base;
         public const string GetUserIdByPhoneNumber = Base + "/{phoneNumber}/get-user-id";
+        public const string GetAllClients = Base + "/all-clients";
 
         public const string GetNoteByUserId = Base + "/{userId}/note"; 
         public const string GetReviewByUserId = Base + "/{userId}/review";

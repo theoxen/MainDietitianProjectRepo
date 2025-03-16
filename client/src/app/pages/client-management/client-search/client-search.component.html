@@ -21,7 +21,39 @@
                     <button routerLink="../auth/register" class="primary-button">Sign Up</button>
                 </div>
             </div>
+        
+        <div class="search-container">
+            <div class="search-bar">
+                <input [formControl]="searchNameControl" placeholder="Search by name">
+                <input [formControl]="searchDietTypeControl" placeholder="Search by diet type">
+        
+                <select [(ngModel)]="sortOrder" (change)="sortClients()" class="sort-dropdown">
+                    <option value="asc">Sort: A → Z</option>
+                    <option value="desc">Sort: Z → A</option>
+                </select>
+
+            </div>
         </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Diet Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of filteredClients">
+                    <td>
+                        <a [routerLink]="['/clients', client.id]" class="unstyled-link">
+                            {{ client.fullName }} 
+                        </a>
+                    </td>                    
+                    <td>{{ client.dietTypeName }}</td>
+                </tr>
+            </tbody>
+    
+        </table>
     </div>
-    <!-- Also put a button to sign user up in this page. We will not have add client in the navbar. We will have it here. So put a button to take the dietitian to the sign up page (see app.routes.ts)-->
+    </div>
 </div>

@@ -1,12 +1,9 @@
-export interface ClientProfile {
-    dateOfBirth: any;
-    gender: any;
-    id: any;
-    //userId: string;
+export interface ClientProfileAllView {
     fullName: string; 
     phoneNumber: string;
     email: string;
     height: number;
     dietTypeName: string; 
-    
+    gender: string;
+    dateOfBirth: Date;
 }

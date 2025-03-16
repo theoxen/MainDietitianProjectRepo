@@ -2,26 +2,67 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .primary-hover-box {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+    align-items: center;
 }
+
+td a {
+    color: inherit; /* Keeps the text color the same as normal text */
+    text-decoration: none; /* Removes underline */
+    font-weight: normal; /* Ensures it doesn't appear bold */
+    cursor: pointer; /* Shows pointer cursor to indicate clickability */
+}
+
+td a:hover {
+    text-decoration: underline; /* Show underline only on hover */
+}
+
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 1px 0;
+}
+
+.search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%; /* Adjust width to fit within the container */
+    box-sizing: border-box;
+}
+
 
 .info-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .title {
     font-size: 48px;
+    align-items: center;
 }
 
 .sub-title {
     font-size: 22px;
+    align-items: center;
 }
 
 .primary-button {
@@ -32,6 +73,7 @@
 .credentials-title {
     padding-left: 3px;
     font-weight: bold;
+    align-items: center;
 }
 
 .sign-up-container {
@@ -39,6 +81,77 @@
     flex-direction: column;
     margin-top: 50px;
 }
+
+table {
+    width: 80%; /* Reduce table width */
+    max-width: 800px; /* Limit max width */
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    border: 2px solid #C8C8C8;
+    border-radius: 15px; /* Ensure this is applied */
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+th, td {
+    padding: 10px;
+    border: none;
+    text-align: left;
+}
+
+/* Style for the sorting dropdown */
+.sort-dropdown {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.sort-dropdown:hover {
+    border-color: #999;
+    background-color: #f1f1f1;
+}
+
+/* Make dropdown smaller */
+.sort-dropdown {
+    width: auto;
+    min-width: 120px;
+}
+
+/* Style for better alignment */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Ensure spacing between search inputs and dropdown */
+    border-radius: 4px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between elements */
+}
+
+.search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%; /* Adjust width to fit within the container */
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Add rounded corners */
+    outline: none; /* Remove default outline */
+    transition: border-color 0.3s; /* Add transition for border color */
+}
+
 
 @media (max-width: 640px) {
     .primary-hover-box {
