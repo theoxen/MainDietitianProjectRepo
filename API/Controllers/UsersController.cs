@@ -39,7 +39,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
-        
+
         [HttpPost(Endpoints.Users.VerifyOtp)]
         public async Task<IActionResult> VerifyOtp(OtpVerificationDto otpVerificationDto)
         {
@@ -56,9 +56,9 @@ namespace API.Controllers
 
         [HttpGet(Endpoints.Users.ViewProfile)]
 
-        public async Task<IActionResult> ViewProfile(string phoneNumber)
+        public async Task<IActionResult> ViewProfile(Guid id)
         {
-            var response = await _userService.ViewClientProfileAsync(phoneNumber);
+            var response = await _userService.ViewClientProfileAsync(id);
             return MapToHttpResponse(response);
         }
 
@@ -69,7 +69,7 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
-        
+
         [HttpPut(Endpoints.Users.UpdateProfile)]
         public async Task<IActionResult> UpdateProfile(UserProfileUpdateDto userProfileUpdateDto)
         {
@@ -77,5 +77,22 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
+    
+        [HttpGet(Endpoints.Users.GetUserIdByPhoneNumber)]
+        public async Task<IActionResult> GetUserIdByPhoneNumber(string phoneNumber)
+        {
+            var response = await _userService.GetUserIdByPhoneNumberAsync(phoneNumber);
+            return MapToHttpResponse(response);
+        }
+
+        [HttpGet(Endpoints.Users.GetAllClients)]
+        public async Task<IActionResult> GetAllClients()
+        {
+            var result = await _userService.GetAllClientsAsync();
+            return MapToHttpResponse(result);
+        }
+
+
     }
 }
+    

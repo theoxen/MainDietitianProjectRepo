@@ -324,9 +324,9 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
-    public async Task<Result<UserProfileDto>> ViewClientProfileAsync(string phoneNumber)
+    public async Task<Result<UserProfileDto>> ViewClientProfileAsync(Guid id)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
         {
             return Result<UserProfileDto>.NotFound();
@@ -504,7 +504,48 @@ public class UserService : IUserService
                 Message = x.Description
             }).ToList());
         }
-        
+
         return Result<Empty>.Ok(new Empty());
     }
+
+    public async Task<Result<Guid>> GetUserIdByPhoneNumberAsync(string phoneNumber)
+    {
+        if (!Regex.IsMatch(phoneNumber, @"^\d+$"))
+        {
+            return Result<Guid>.BadRequest(new List<ResultError>
+            {
+                new ResultError{
+                    Identifier = "PhoneNumber",
+                    Message = "Invalid phone number"
+                }
+            });
+        }
+
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        if (user == null)
+        {
+            return Result<Guid>.NotFound();
+        }
+
+        return Result<Guid>.Ok(user.Id);
+    }
+
+    public async Task<Result<IEnumerable<UserProfileDto>>> GetAllClientsAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var userProfiles = users.Select(user => new UserProfileDto
+        {
+            FullName = user.FullName!,
+            PhoneNumber = user.PhoneNumber!,
+            Email = user.Email!,
+            Height = user.Height!,
+            DietTypeName = user.DietTypeId.HasValue ? _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value).Result?.Name ?? "Unknown" : "Unknown",
+            Gender = user.Gender,
+            DateOfBirth = user.DateOfBirth
+        });
+
+        return Result<IEnumerable<UserProfileDto>>.Ok(userProfiles);
+    }
+
+
 }

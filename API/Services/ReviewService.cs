@@ -28,7 +28,7 @@ namespace API.Services
         public async Task<Result<ReviewDto>> CreateReviewAsync(CreateReviewDto createReviewDto, Guid userId)
         {
             // Check if the user has already created a review
-            var existingReview = await _reviewRepository.GetReviewAsync(userId);
+            var existingReview = await _reviewRepository.GetReviewByUserIdAsync(userId);
             if (existingReview != null)
             {
                 return Result<ReviewDto>.BadRequest(new List<ResultError>
@@ -276,6 +276,30 @@ namespace API.Services
             
             // Return a successful result with the list of review DTOs
             return Result<List<ReviewDto>>.Ok(reviewDtoList);
+        }
+
+        public async Task<Result<ReviewDto>> GetReviewByUserIdAsync(Guid userId)
+        {
+            // Retrieve the review entry from the repository
+            var review = await _reviewRepository.GetReviewByUserIdAsync(userId);
+            if (review == null)
+            {
+                return Result<ReviewDto>.NotFound();
+            }
+
+            // Map the review entry to a DTO
+            var reviewDto = new ReviewDto
+            {
+                Id = review.Id,
+                ReviewText = review.ReviewText,
+                Stars = review.Stars,
+                DateCreated = review.DateCreated,
+                UserFullName = review.IsAnonymous ? "Anonymous" : review.UserFullName ?? "Anonymous",
+                UserId = review.UserId
+            };
+
+            // Return a successful result with the review DTO
+            return Result<ReviewDto>.Ok(reviewDto);
         }
     }
 }

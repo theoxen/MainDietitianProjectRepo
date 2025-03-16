@@ -34,3 +34,9 @@
     background-color: #f1f1f1;
     border-radius: 4px;
 }
+
+.button-container {
+    display: flex;         /* Use Flexbox */
+    gap: 10px;             /* Add space between buttons */
+    justify-content: center; /* Align buttons to the center */
+}

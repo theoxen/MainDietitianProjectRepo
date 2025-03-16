@@ -6,7 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
 import { NoteToAdd } from '../../models/notes/note-to-add';
 import { Note } from '../../models/notes/note';
-import { NoteToUpdate } from '../../models/notes/note-to-update';
+import { NoteToUpdate } from '../../models/notes/note-to-edit';
 
 @Component({
   selector: 'app-note-management',

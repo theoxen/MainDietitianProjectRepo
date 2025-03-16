@@ -48,9 +48,16 @@ namespace API.Repositories
             return await _dataContext.Reviews.ToListAsync();
         }
 
+        public async Task<Review?> GetReviewByUserIdAsync(Guid userId)
+        {
+            return await _dataContext.Reviews.FirstOrDefaultAsync(r => r.UserId == userId);
+        }
+
         public async Task<bool> Commit()
         {
             return await _dataContext.SaveChangesAsync() > 0;
         }
+
+
     }
 }

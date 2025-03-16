@@ -1,0 +1,44 @@
+<div class="page" >
+    <app-nav-bar></app-nav-bar>
+    <div class="metrics-container">
+        <div class="primary-hover-box">
+            <div class="hover-box">
+                <div class="title-box">
+                    <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Edit Metrics for {{clientName}}</h1>
+                </div>
+                <div class="client-metrics" >
+                    <h2 class="dateCreated">{{dateCreatedString}}</h2>
+                        
+                    <form class="addMetrics-form" [formGroup]="clientMetrics" (ngSubmit)="submitEditedMetrics()">
+                        <app-primary-input-field [label]="'Bodyweight (in kg)'" [placeholder]="'Bodyweight'"
+                            [control]="clientMetrics.controls['bodyweight']" [errorMessages]="bodyWeightErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%; ">
+                        </app-primary-input-field>
+                        
+
+                        <app-primary-input-field [label]="'Fat Mass (in %)'" [placeholder]="'FatMass'"
+                            [control]="clientMetrics.controls['fatmass']" [errorMessages]="fatMassErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-input-field>
+
+                        <app-primary-input-field [label]="'Muscle Mass (in kg)'" [placeholder]="'MuscleMass'"
+                            [control]="clientMetrics.controls['musclemass']"[errorMessages]="fatMassErrorMessages"
+                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        </app-primary-input-field>
+                            
+                    <div class="button-container">
+                        <button (click)="openConfirmationWindow()" class="primary-button-danger">Delete</button>
+                        <button type="submit" class="primary-button" [disabled]="clientMetrics.invalid">Submit</button>
+                        <app-confirmation-window [isVisible]="isConfirmationWindowVisible"
+                            (confirmed)="handleDeleteConfirmation($event) "></app-confirmation-window>
+                    </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -59,12 +59,12 @@ nav .fa-xmark {
     .nav-links {
         position: absolute;
         background: rgb(248, 185, 68);
-        height: 100vh;
+        height: 100%;
         width: 200px;
         top: 0;
         right: -200px;
         text-align: left;
-        z-index: 2;
+        z-index: 3;
         transition: 1s;
     }
 

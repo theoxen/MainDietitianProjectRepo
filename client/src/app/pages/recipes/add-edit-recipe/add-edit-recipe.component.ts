@@ -4,15 +4,16 @@ import { RecipeEdit } from '../../../models/recipes/RecipeEdit';
 import { RecipesService } from '../../../services/recipes.service';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { PrimaryInputFieldComponent } from "../../../components/primary-input-field/primary-input-field.component";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationMessages } from '../../../validation/validation-messages';
 import { ValidationPatterns } from '../../../validation/validation-patterns';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RecipeView } from '../../../models/recipes/RecipeView';
 
 @Component({
   selector: 'app-add-edit-recipe',
   standalone: true,
-  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule],
+  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, RouterModule, FormsModule],
   templateUrl: './add-edit-recipe.component.html',
   styleUrl: './add-edit-recipe.component.css'
 })
@@ -144,6 +145,7 @@ export class AddEditRecipeComponent implements OnInit {
       this.recipeService.uploadRecipe(recipes).subscribe({
         next: (recipe) => {                   //an to request exei ginei swsta, parethesi ti ena mou epistepsi
           console.log(recipe);
+          this.router.navigate(['/recipes']); 
         },
         error: (error) => {
           console.log(error);
@@ -151,7 +153,6 @@ export class AddEditRecipeComponent implements OnInit {
       })      
     }
   }
-
 
 
   editRecipe() {
@@ -174,6 +175,7 @@ export class AddEditRecipeComponent implements OnInit {
     this.recipeService.EditRecipe(recipes).subscribe({
       next: (recipe) => {
         console.log(recipe);
+        this.router.navigate(['/recipes', recipe.id]);
       },
       error: (error) => {
         console.log(error);

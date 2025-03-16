@@ -79,8 +79,8 @@ namespace API.Services
             {
                 new ResultError
                 {
-                    Identifier = "FailedDeletingNote",
-                    Message = "Failed to delete note"
+                    Identifier = "FailedDeletingMetrics",
+                    Message = "Failed to delete metrics"
                 }
             });
         }
@@ -129,7 +129,8 @@ namespace API.Services
             
         }
 
-       
+
+
         public async Task<Result<List<MetricsDto>>> SearchMetricsAsync(Guid userId, DateTime? date)
         {
             var metrics = await _metricsRepository.SearchMetricsAsync(userId, date);
