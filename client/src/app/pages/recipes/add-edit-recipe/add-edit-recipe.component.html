@@ -16,27 +16,10 @@
                 </div>
                 <div class="form-group">
                     <textarea id="ingredients" formControlName="ingredients" class="form-control" placeholder="Ingredients"></textarea>
-                    
-                    <!-- <app-primary-input-field [label]="'Ingredients'"
-
-                        [control]="recipeForm.controls.ingredients" 
-                        [errorMessages]="ingredientsErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
-                    </app-primary-input-field> -->
                 </div>
                 <div class="form-group">
                     <textarea id="description" formControlName="description" class="form-control" placeholder="Description"></textarea>
-                
-                    <!-- <app-primary-input-field [label]="'Description'"
-                        [placeholder]="'Description'"
-                        [control]="recipeForm.controls.description" 
-                        [errorMessages]="descriptionErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
-                    </app-primary-input-field> -->
+            
                 </div>
                 <div class="form-group">
                     <app-primary-input-field [label]="'Protein (g)'"
@@ -69,8 +52,8 @@
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field [label]="'Calories (g)'"
-                        [placeholder]="'Calories (g)'"
+                    <app-primary-input-field [label]="'Calories (kcal/100g)'"
+                        [placeholder]="'Calories (kcal/100g)'"
                         [control]="recipeForm.controls.calories" 
                         [errorMessages]="caloriesErrorMessages" 
                         [showErrorOnControlTouched]="displayErrorOnControlTouched" 
@@ -88,3 +71,5 @@
     </div>
 </div>
 
+
+<!-- [routerLink]="['/recipes']" -->
