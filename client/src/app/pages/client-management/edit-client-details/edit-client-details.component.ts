@@ -155,4 +155,7 @@ export class EditClientDetailsComponent {
     }
     
   }
+  cancel(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
 }

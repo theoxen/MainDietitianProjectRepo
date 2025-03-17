@@ -63,6 +63,14 @@ clientAge: ClientProfileAllView | undefined;
     
     return age;
   }
+
+  
+  navigateTo(route: string) {
+    if (this.clientId) {
+      const updatedRoute = route.replace(':clientId', this.clientId);
+      this.router.navigate([updatedRoute]);
+    }
+  }
 }
 
 

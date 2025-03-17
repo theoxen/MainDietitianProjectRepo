@@ -29,6 +29,10 @@ export class DeleteClientComponent implements OnInit {
     this.clientId = this.route.snapshot.paramMap.get('clientId');
   }
 
+  cancel(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
   deleteClient(): void {
     if (!this.clientId) return;
 

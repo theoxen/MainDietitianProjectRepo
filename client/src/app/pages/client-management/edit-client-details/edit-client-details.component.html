@@ -24,7 +24,10 @@
                                 [showErrorOnControlDirty]="displayErrorOnControlDirty">
                             </app-primary-dropdown-input>
                 </div>
-                <button type="submit" class="primary-button">Update</button>
+                <div class="button-container">
+                    <button type="button" class="primary-button" (click)="cancel()">Cancel</button>                
+                    <button type="submit" class="primary-button">Update</button>
+             </div>
             </form>
         </div>
     </div>
