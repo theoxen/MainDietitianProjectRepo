@@ -21,6 +21,8 @@ export class ClientHistoryComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void{
+    window.scrollTo(0, 0);
+
     this.clientId = this.route.snapshot.paramMap.get('clientId');
 
     console.log("Captured Client ID in ClientHistoryComponent:", this.clientId);

@@ -26,6 +26,7 @@ export class DeleteClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.clientId = this.route.snapshot.paramMap.get('clientId');
   }
 

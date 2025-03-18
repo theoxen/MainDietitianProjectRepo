@@ -42,6 +42,8 @@ export class ClientSearchComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
+    
     this.fetchClients();
     this.loadDietTypes();
     //console.log("Client ID ngonit: ", this.clientId); //debugging

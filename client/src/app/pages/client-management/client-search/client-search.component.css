@@ -40,8 +40,7 @@ td a:hover {
     color: black;
 }
 
-.search-bar input,
-.search-input {
+.search-input{
     padding: 10px;
     font-size: 16px;
     width: 100%;
@@ -49,11 +48,14 @@ td a:hover {
     border: 1px solid #ccc; /* Default border */
     border-radius: 16px; /* Increased for a more rounded look */
     outline: none;
-    color: black !important; /* Ensure text color is black */
+    color: black; /* Ensure text color is black */
     background-color: white;
     transition: border-color 0.3s ease-in-out;
 }
-
+/* Style the placeholder text */
+.search-input::placeholder {
+    color: black ; /* Ensure placeholder text color is black */
+}
 /* Match dropdown hover/focus effect */
 .search-bar input:focus,
 .search-input:focus {
