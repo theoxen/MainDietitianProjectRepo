@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 
+
 @Component({
   selector: 'app-client-history',
   standalone: true,
