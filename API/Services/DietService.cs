@@ -7,18 +7,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Controllers;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace API.Services
 {
     public class DietService : IDietService
     {
+        private readonly UserManager<User> _userManager;
         private readonly IDietRepository _dietRepository;
         private readonly ILogger<DietService> _logger;  //for debugging use only - can be removed
 
 
-        public DietService(IDietRepository dietRepository, ILogger<DietService> logger) //for debugging use only - can be removed
+        public DietService(UserManager<User> userManager,IDietRepository dietRepository, ILogger<DietService> logger) //for debugging use only - can be removed
         {
+            _userManager = userManager;
             _dietRepository = dietRepository;   
             _logger = logger;                   //for debugging use only - can be removed
         }
@@ -34,7 +38,24 @@ namespace API.Services
 
             //     throw new ArgumentException("Diet name cannot be null or empty", nameof(createDietDto.Name));
             // }
-            
+                        
+           foreach (var userDiet in createDietDto.UserDiets)
+          {
+                var user = await _userManager.FindByIdAsync(userDiet.UserId.ToString());
+                if (user == null) // If the given userId is not found in the database
+                {
+                    return Result<DietDto>.BadRequest(new List<ResultError>
+                {
+                    new ResultError
+                    {
+                        Identifier = "UserDoesNotExists",
+                        Message = "You can not create a diet for a user that does not exist"
+                    }
+                });
+                }
+          }
+
+            ////////////////////////////////////////////
             
             var existingDiet = await _dietRepository.GetDietByNameAsync(createDietDto.Name);
             if (existingDiet != null)
@@ -53,6 +74,13 @@ namespace API.Services
             {
                 Name = createDietDto.Name,
                 IsTemplate = createDietDto.IsTemplate,
+
+                UserDiets = createDietDto.UserDiets.Select(ud => new UserDiet
+                {
+                    UserId = ud.UserId 
+
+                }).ToList(),
+
                 DietDays = createDietDto.Days.Select(d => new DietDay
                 {
                     DayName = d.DayName,
@@ -64,7 +92,24 @@ namespace API.Services
                 }).ToList()
             };
 
+            // Add the diet to the database
             _dietRepository.CreateDiet(diet);
+
+
+    // foreach (var userDiet in createDietDto.UserDiets)
+    // {
+    //     _dietRepository.AddUserToDiet(userDiet.UserId, diet.Id);
+    // }
+
+
+
+                // Link the diet to the user
+            // var UserId = createDietDto.UserDiets.Select(userdiet => userdiet.UserId).ToList();
+            // foreach (var id in UserId)
+            // {
+            //     _dietRepository.AddUserToDiet(id, diet.Id);
+            // }    
+
 
             if (await _dietRepository.Commit())
             {
@@ -74,7 +119,9 @@ namespace API.Services
                     Name = diet.Name,
                     IsTemplate = diet.IsTemplate,
                     DateCreated = diet.DateCreated,
+                    UserDiets = createDietDto.UserDiets,
                     Days = createDietDto.Days
+
                 });
             }
 
@@ -118,6 +165,7 @@ namespace API.Services
                     Name = diet.Name,
                     IsTemplate = diet.IsTemplate,
                     DateCreated = diet.DateCreated,
+                    UserDiets = updateDietDto.UserDiets, 
                     Days = updateDietDto.Days
                 });
             }
@@ -146,6 +194,13 @@ namespace API.Services
                 Name = diet.Name,
                 IsTemplate = diet.IsTemplate,
                 DateCreated = diet.DateCreated,
+                UserDiets = diet.UserDiets.Select(userdiet => new UserDietDto
+                {
+
+                    UserId = userdiet.UserId
+
+                }).ToList(),
+                
                 Days = diet.DietDays.Select(d => new DayDto
                 {
                     DayName = d.DayName,
@@ -169,6 +224,13 @@ namespace API.Services
                 Name = d.Name,
                 IsTemplate = d.IsTemplate,
                 DateCreated = d.DateCreated,
+                UserDiets = d.UserDiets.Select(userdiet => new UserDietDto
+                {
+
+                    UserId = userdiet.UserId
+
+                }).ToList(),
+
                 Days = d.DietDays.Select(day => new DayDto
                 {
                     DayName = day.DayName,

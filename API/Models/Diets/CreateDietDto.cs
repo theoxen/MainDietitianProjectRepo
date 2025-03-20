@@ -11,6 +11,14 @@ namespace API.Models.Diets
         public required string Name { get; set; }
         public bool IsTemplate { get; set; }
         public List<DayDto> Days { get; set; } = new();
+        public List<UserDietDto> UserDiets { get; set; } = new();
+    }
+
+    public class UserDietDto
+    {
+      //  public required Guid DietId { get; set; }
+      public required Guid UserId { get; set; }
+        
     }
 
     public class DayDto
