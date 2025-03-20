@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 namespace API.Models.Diets
 {
 
-
-
     public class CreateDietDto
     {
         public required string Name { get; set; }
@@ -16,7 +14,6 @@ namespace API.Models.Diets
 
     public class UserDietDto
     {
-      //  public required Guid DietId { get; set; }
       public required Guid UserId { get; set; }
         
     }
@@ -30,6 +27,6 @@ namespace API.Models.Diets
     public class MealDto
     {
         public required string Meal { get; set; }
-        public required String Type { get; set; } // 1: Breakfast, 2: Snack1, 3: Lunch, 4: Snack2, 5: Dinner
+        public required String Type { get; set; } // Breakfast, Lunch, Dinner, Snack
     }
 }
