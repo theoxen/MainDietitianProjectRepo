@@ -4,31 +4,81 @@
 </head>
 <div class="page">
   <app-nav-bar></app-nav-bar>
-  <div class="search-container">
-    <div class="search-bar">
-      <!-- <input class="form-control" type="text" placeholder="Search metrics by date" [formControl]="searchControl"> -->
-      <app-primary-input-field [label]="'Search metrics by date'" [placeholder]="'Search metrics by date'"
-      [control]="searchControl" style="width: 100%; ">
-  </app-primary-input-field>
-  <i class="fas fa-search search-icon"></i>
-    </div>
-  </div>
+  
   <div class="metrics-container">
     <div class="primary-hover-box">
       <div class="hover-box">
         <div class="title-box">
           <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Metrics of {{clientName}}</h1>
         </div>
-        <div class="metrics-cards">
-            @for (metric of filteredMetrics.slice().reverse(); track metric.date) {
-                <a [routerLink]="['/clients',metric.id,'edit-metrics']">
-                    <app-metric-card [title]="metric.date" 
-                                    [data]="metric.data">
-                    </app-metric-card>
-                </a>
-              }
-              
+      
+      <div class="FoundMetricsAndAddNew">
+        <div class="input-container">
+          <div class="form-floating" style="width: 100%;">
+              <input [type]="type" [placeholder]="placeholder" class="primary-input-field form-control"
+                   [formControl]="searchControl" style="width: 100%;">
+              <label class="LabelSearchMetricsByDate"> Search metrics by date </label>
+              <i class="fas fa-search search-icon"></i>
           </div>
+      
+          <div style="text-align: center;">
+              <app-reactive-form-error [control]="control" [errorMessages]="errorMessages"
+                  [showOnControlTouched]="showErrorOnControlTouched" [showOnControlDirty]="showErrorOnControlDirty"></app-reactive-form-error>
+          </div>
+      </div>
+        <button (click)="openAddMetricsModal(clientId)" class="AddNewButton"><i class="fa-solid fa-plus"></i>Add New</button>
+        
+      </div>
+
+      <p class="MetricsFound"><i class="fa-solid fa-circle-info"></i> Found {{filteredMetrics.length}} metrics. </p>
+      
+        <!-- Table of Metrics Using Paged Items -->
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 40px; margin-right: 80px;">Date</th>
+              <th class="thHeaders">Body Weight</th>
+              <th class="thHeaders">Fat Mass</th>
+              <th class="thHeaders">Muscle Mass</th>
+              <th style="width: 65px;margin-right: 65px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (metric of pagedItems; track metric.date) {
+              <tr>
+                <td>
+                  <h2>{{ metric.date }}</h2>
+                </td>
+                <td>
+                  {{ metric.data[0].value }} {{ metric.data[0].unit }}
+                </td>
+                <td>
+                  {{ metric.data[1].value }} {{ metric.data[1].unit }}
+                </td>
+                <td>
+                  {{ metric.data[2].value }} {{ metric.data[2].unit }}
+                </td>
+                <td>
+                  <button (click)="openEditMetricsModal(metric.id)" class="EditButton">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        
+      <div class="pagination-container">
+        <app-pagination 
+          [totalItems]="filteredMetrics.length"
+          [pageSize]="pageSize"
+          [currentPage]="currentPage"
+          (pageChanged)="onPageChanged($event)">
+        </app-pagination>
+      </div>
+        
+
       </div>
     </div>
   </div>
