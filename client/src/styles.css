@@ -137,7 +137,11 @@
 .primary-text-area:focus {
     border: 2px #FFB453 solid;
 }
-
+.mat-mdc-dialog-surface {
+    align-items: center;
+    background-color: rgba(95, 158, 160, 0) !important;
+}
+  
 /* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 

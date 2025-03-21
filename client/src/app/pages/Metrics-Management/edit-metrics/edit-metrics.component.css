@@ -1,9 +1,3 @@
-.metrics-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
 
 .title-box {
     display: flex;
@@ -11,10 +5,14 @@
  
 }
 
+
 .dateCreated{
     display: flex;
     justify-content: center;
     padding-bottom: 2%;
+}
+.primary-hover-box {
+    width: 100%;
 }
 
 .hover-box {

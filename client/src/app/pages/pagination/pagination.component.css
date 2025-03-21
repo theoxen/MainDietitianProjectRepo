@@ -1,0 +1,33 @@
+/* Default page link style */
+.pagination .page-link {
+    color: #333;             /* Text color */
+    background-color: #fff;  /* Background color */
+    border: 1px solid #ddd;  /* Border color */
+  }
+  
+  /* Active page style */
+  .pagination .page-item.active .page-link {
+    background-color: #FFA726; /* Change to your desired active background color */
+    border-color: #FFA726;   /* Change to your desired active border color */
+    color: #fff;                /* Active text color */
+  }
+  
+  /* Hover state for page links */
+  .pagination .page-link:hover {
+    background-color: #efede9;  /* Hover background color */
+    color: #333;                /* Hover text color */
+  }
+  
+  /* Optional: Disabled state for buttons that shouldn't be clickable */
+.pagination .page-item.disabled .page-link {
+    color: #333;
+    background-color: #a1a1a140;
+    border-color: #ddd;
+  }
+
+.page-link:active,
+.page-link:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 166, 0, 0.194); /* orange focus ring */
+  }
+  
