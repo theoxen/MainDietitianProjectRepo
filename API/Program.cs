@@ -1,11 +1,12 @@
 using API;
 using API.Data;
+using API.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -14,17 +15,23 @@ builder.Services.AddPersistance(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices(builder.Configuration);
 builder.Services.AddCors(x=>{
-    x.AddDefaultPolicy(x=>x.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
+    x.AddDefaultPolicy(x=>x.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().WithExposedHeaders("Content-Disposition"));
 });
+
 
 var app = builder.Build();
 
-await using(var serviceScope = app.Services.CreateAsyncScope()) // "using" is used to dispose of the serviceScope after the block is done executing
+// Needed for deployment
+await using (var serviceScope = app.Services.CreateAsyncScope())
 {
-    var dataContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>(); // Getting the existing dataContext from DependencyInjection file because we have no constructor in Program.cs
+    var dataContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+
+    // Apply any pending migrations to the database
+    await dataContext.Database.MigrateAsync();
+
     var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
-    
-    // Initialize the database
+
+    // Initialize the database (seed roles, users, etc.)
     await DbInitializer.Initialize(dataContext, userManager);
 }
 
@@ -38,8 +45,14 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles(); // Needed for deployment
+app.UseStaticFiles(); // Needed for deployment
+
 app.MapControllers();
+
+// app.MapFallbackToController("Index", "Fallback"); // TODO: UNCOMMENT THIS. Needed for deployment
 
 app.Run();

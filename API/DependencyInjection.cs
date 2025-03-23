@@ -76,6 +76,11 @@ public static class DependencyInjection
 
         services.AddTransient<IMessagingService, MessagingService>();
 
+        services.AddScoped<IDataBackupAndRestoreService, DataBackupAndRestoreService>(sp => 
+        {
+            var context = sp.GetRequiredService<DataContext>();
+            return new DataBackupAndRestoreService(context);
+        });
 
         services.AddDistributedMemoryCache();
 

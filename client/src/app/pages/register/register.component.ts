@@ -164,7 +164,6 @@ export class RegisterComponent implements OnInit {
 
       this.accountService.register(registerData).subscribe({
         next: (user) => {
-          // navigate to home
           console.log(user);
         },
         error: (error: HttpResponseError) => {

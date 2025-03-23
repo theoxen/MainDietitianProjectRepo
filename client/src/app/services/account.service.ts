@@ -63,9 +63,6 @@ export class AccountService {
     return this.http.post<User>(url, userToRegister).pipe(
       map(user => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-
           return user;
         }
         return null;
@@ -86,6 +83,34 @@ export class AccountService {
   changePassword(email: string, otp: string, newPassword: string) {
     const url = this.baseUrl + 'users/change-password';
     return this.http.post(url, { email, otp, newPassword });
+  }
+
+  getTokenExpiration(): Date | null {
+    const token = this.getUserToken();
+    if (!token) return null;
+    
+    try {
+      // Get the payload part of the token (second part)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      
+      // The 'exp' claim is seconds since epoch
+      if (payload.exp) {
+        // Convert to milliseconds and return as Date
+        return new Date(payload.exp * 1000);
+      }
+    } catch (error) {
+      console.error('Error decoding token', error);
+    }
+    
+    return null;
+  }
+  
+  isTokenExpired(): boolean {
+    const expiration = this.getTokenExpiration();
+    if (!expiration) return false;
+    
+    // Return true if token is expired
+    return expiration.getTime() <= Date.now();
   }
 
 }
