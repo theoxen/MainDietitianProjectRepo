@@ -22,6 +22,8 @@ import { EditMetricsComponent } from './pages/Metrics-Management/edit-metrics/ed
 
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
+import { AddDietsComponent } from './pages/add-diets/add-diets.component';
+import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 
 
 
@@ -43,18 +45,30 @@ export const routes: Routes = [
    { path: "clients/:clientId/delete", component: DeleteClientComponent },
    { path: "clients/:clientId/history", component: ClientHistoryComponent },
    { path: "clients/:clientId/note", component: NoteManagementComponent },
+   
    { path: "recipes", component: RecipesComponent },
    { path: "recipes/add", component: AddEditRecipeComponent },
    { path: "recipes/:recipeId/edit", component: AddEditRecipeComponent }, //TODO change the name of the url to edit-view
    { path: "recipes/:recipeId", component: ViewComponent },
 
-   { path: "clients/:clientId/add-metrics", component: AddMetricsComponent },
-   { path: "clients/:clientId/view-metrics", component: ViewMetricsComponent },
-   { path: "clients/:metricsId/edit-metrics", component: EditMetricsComponent },
+   { path: "clients/:clientId/metrics", component: ViewMetricsComponent },
+
+   { path: "clients/:clientId/diet", component: ViewMetricsComponent },
+
+
+
+   { path: "clients/:clientId/add-diets", component: AddDietsComponent }, // to change component
+
 
    { path: "reviews", component: ReviewsCreateEditComponent },
    { path: "reviews/:reviewId/edit", component: ReviewsCreateEditComponent },
+
    { path: "reviews/:clientId", component: ReviewsCreateEditComponent },
    { path: "", redirectTo: "/", pathMatch: "prefix" }
 
+
+   { path: "manage-data", component: ManageDataComponent },
+
+
+   { path: "", redirectTo: "/", pathMatch: "prefix" },
 ];

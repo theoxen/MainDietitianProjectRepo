@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class DietController : ControllerBase
+    public class DietController : BaseApiController
     {
         private readonly IDietService _dietService;
          private readonly ILogger<DietController> _logger;   //for debugging use only - can be removed
@@ -17,7 +17,7 @@ namespace API.Controllers
         }
 
         // [Authorize(Roles = "admin")]
-        [HttpPost(Endpoints.Diets.Create)]
+       [HttpPost(Endpoints.Diets.Create)]
         public async Task<IActionResult> CreateDiet(CreateDietDto createDietDto)
         {
         
@@ -31,7 +31,7 @@ namespace API.Controllers
             return BadRequest(ModelState);                 //for debugging use only - can be removed
         }
             
-        _logger.LogInformation("Received CreateDiet request with Name: {Name}", createDietDto.Name); //for debugging use only - can be removed
+        _logger.LogInformation("Received CreateDiet request with UserDiets: {UserDiets}", createDietDto.UserDiets); //for debugging use only - can be removed
 
 
             

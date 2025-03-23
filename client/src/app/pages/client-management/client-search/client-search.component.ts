@@ -12,11 +12,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DietTypesService } from '../../../services/diet-types.service';
+import { DropdownItem } from '../../../components/primary-dropdown-input/dropdown-item';
+import { PrimaryDropdownInputComponent } from "../../../components/primary-dropdown-input/primary-dropdown-input.component";
 
 @Component({
   selector: 'app-client-search',
   standalone: true,
-  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, ErrorComponent, RouterLink, CommonModule, FormsModule],
+  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, ErrorComponent, RouterLink, CommonModule, FormsModule, PrimaryDropdownInputComponent],
   templateUrl: './client-search.component.html',
   styleUrl: './client-search.component.css'
 })
@@ -28,8 +31,9 @@ export class ClientSearchComponent implements OnInit {
   clients: ClientProfile[] = [];
   filteredClients: ClientProfile[] = [];
   searchNameControl = new FormControl('');
-  searchDietTypeControl = new FormControl('');
-
+  searchDietTypeControl = new FormControl(''); 
+  dietTypeDropdownOptions: DropdownItem<string, string>[] = []; 
+  dietTypeService = inject(DietTypesService);
   clientManagementService = inject(ClientManagementService);
   clientId: any|string;
 
@@ -38,7 +42,10 @@ export class ClientSearchComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
+    
     this.fetchClients();
+    this.loadDietTypes();
     //console.log("Client ID ngonit: ", this.clientId); //debugging
     
     this.searchNameControl.valueChanges.pipe(
@@ -55,6 +62,23 @@ export class ClientSearchComponent implements OnInit {
       this.filteredClients = this.filterClients();
     });
   }
+
+  loadDietTypes(): void {
+    this.dietTypeService.loadDietTypes().subscribe({
+      next: (dietTypes) => {
+        this.dietTypeDropdownOptions = [
+          { value: '', displayedValue: 'ALL' }, // Add the "ALL" option
+          ...dietTypes.map(dietType => ({
+            value: dietType.name, // Filter by name instead of ID
+            displayedValue: dietType.name
+          }))
+        ];
+      },
+      error: (error) => {
+        console.error("Error loading diet types:", error);
+      }
+    });
+}
 
   fetchClients(): void {
     this.clientManagementService.getAllClients().subscribe({

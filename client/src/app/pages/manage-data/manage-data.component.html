@@ -1,0 +1,18 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="hover-box-container">
+        <div class="primary-hover-box">
+            <div class="title">Manage Data</div>
+            <div class="backup-restore-container">
+                <div class="backup-container">
+                    <button class="primary-button" (click)="backup()">BACKUP</button>
+                </div>
+                <div class="restore-container">
+                    <input type="file" #fileInput (change)="onFileSelected($event)" />
+                    <button class="primary-button" (click)="restore()">Restore Backup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TODO: FIX THE STYLE AND THE STRUCTURE -->

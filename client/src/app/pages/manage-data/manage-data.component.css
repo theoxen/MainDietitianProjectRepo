@@ -1,0 +1,39 @@
+.hover-box-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.primary-hover-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.backup-restore-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.restore-container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+    .primary-button {
+        width: fit-content;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .backup-restore-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

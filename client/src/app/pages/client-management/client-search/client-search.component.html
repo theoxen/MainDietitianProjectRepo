@@ -4,8 +4,7 @@
         <div class="primary-hover-box">
             <div class="info-container">
                 <div class="title">Search Client</div>
-                <div class="sub-title">Rafaella Panagiotou - Clinical Dietitian</div>
-                <div> Please Enter the Phone Number of the Client to Manage </div>
+                
 
             </div>
             <div>
@@ -16,16 +15,17 @@
                     <button type="submit" class="primary-button">Search</button>
                 </form>
 
-                <div class="sign-up-container">
-                    Sign a New Client Up:
-                    <button routerLink="../auth/register" class="primary-button">Sign Up</button>
-                </div>
             </div>
         
         <div class="search-container">
             <div class="search-bar">
-                <input [formControl]="searchNameControl" placeholder="Search by name">
-                <input [formControl]="searchDietTypeControl" placeholder="Search by diet type">
+                <input [formControl]="searchNameControl" placeholder="Search by name" class="search-input">
+                <app-primary-dropdown-input
+                    [placeholder]="'Select Diet Type'"
+                    [control]="searchDietTypeControl"
+                    [dropdownItems]="dietTypeDropdownOptions"
+                    style="width: 100%;">
+                </app-primary-dropdown-input>
         
                 <select [(ngModel)]="sortOrder" (change)="sortClients()" class="sort-dropdown">
                     <option value="asc">Sort: A → Z</option>
@@ -35,25 +35,29 @@
             </div>
         </div>
         
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Diet Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let client of filteredClients">
-                    <td>
-                        <a [routerLink]="['/clients', client.id]" class="unstyled-link">
-                            {{ client.fullName }} 
-                        </a>
-                    </td>                    
-                    <td>{{ client.dietTypeName }}</td>
-                </tr>
-            </tbody>
-    
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Diet Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of filteredClients">
+                        <td>
+                            <a [routerLink]="['/clients', client.id]" class="unstyled-link">
+                                {{ client.fullName }} 
+                            </a>
+                        </td>                    
+                        <td>{{ client.dietTypeName }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        
+
     </div>
     </div>
 </div>

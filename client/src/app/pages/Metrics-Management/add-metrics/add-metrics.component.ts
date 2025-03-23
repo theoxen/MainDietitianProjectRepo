@@ -1,21 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl,Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Inject, inject, OnInit } from '@angular/core';
+import { FormControl,Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MetricsService } from '../../../services/metrics.service';
 import { MetricsToAdd } from '../../../models/metrics/metrics-to-add';
 import { Metrics } from '../../../models/metrics/metrics';
-import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { PrimaryInputFieldComponent } from '../../../components/primary-input-field/primary-input-field.component';
 import { ValidationMessages } from '../../../validation/validation-messages';
 import { ValidationPatterns } from '../../../validation/validation-patterns';
 import { CustomValidators } from '../../../validation/CustomValidators';
 import { ClientManagementService } from '../../../services/client-management.service';
 import { ClientProfile } from '../../../models/client-management/client-profile';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'add-metrics', 
   standalone: true,
-  imports: [ReactiveFormsModule, NavBarComponent, PrimaryInputFieldComponent],
+  imports: [ReactiveFormsModule, PrimaryInputFieldComponent],
   templateUrl: './add-metrics.component.html',
   styleUrl: './add-metrics.component.css'
 })
@@ -37,22 +36,24 @@ export class AddMetricsComponent implements OnInit {
   clientManagementService = inject(ClientManagementService);
 
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {};  // Required to use route.snapshot.paramMap to get the user ID from the URL)
-  
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { clientId: string },
+    private dialogRef: MatDialogRef<AddMetricsComponent>) {}
 
   ngOnInit(): void {
-    // Get the user ID from the URL
-    this.clientId = this.route.snapshot.paramMap.get('clientId')!; // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
+    // Get the user ID from the data 
+    this.clientId = this.data.clientId;
     
     this.clientManagementService.getClientDetails(this.clientId).subscribe({
               next: (fetchedClientDetails:ClientProfile) =>{
                 this.clientName = fetchedClientDetails.fullName;
+              },
+              error: (err) => {
+                console.error('Error fetching client details:', err);
+                this.clientName = 'Unknown Client'; // Fallback value in case of an error
               }
             })
 
-    // if (this.clientId) {
-    //   this.fetchMetricsForUser(this.clientId);
-    // }
+  
 
    
   }
@@ -85,7 +86,10 @@ export class AddMetricsComponent implements OnInit {
   }
 
   addMetrics() {
-    
+    if (this.addclientMetricsForm.invalid) {
+      this.addclientMetricsForm.markAllAsTouched();
+      return;
+    }
     const MetricsToAdd: MetricsToAdd = { // Assigning the values of the controls to the object to be sent to the service
       Bodyweight: Number.parseFloat(this.addclientMetricsForm.controls['bodyweight'].value!), // The ! (non-null assertion operator) in TypeScript is used to tell the compiler: "I am sure this value will never be null or undefined, so don’t show any errors."
       FatMass:  Number.parseFloat(this.addclientMetricsForm.controls['fatmass'].value!),
@@ -98,7 +102,10 @@ export class AddMetricsComponent implements OnInit {
       next: (metrics: Metrics) => {
         console.log("Metrics added.");
         this.metricsid = metrics.id;
-        this.addclientMetricsForm.reset();  // Clear the form after adding metrics
+        // this.addclientMetricsForm.reset();  // Clear the form after adding metrics
+        this.dialogRef.close(); // Close the modal after successful addition
+
+        
       },
       error: (error:any) => {
         //this.errorMessage = "Error adding metrics. Please try again later.";

@@ -10,5 +10,6 @@ namespace API.Services.IServices
         Task<Result<DietDto>> GetDietByIdAsync(Guid id);
         Task<Result<List<DietDto>>> GetAllDietsAsync();
         Task<Result<Empty>> DeleteDietAsync(Guid id);
+
     }
 }

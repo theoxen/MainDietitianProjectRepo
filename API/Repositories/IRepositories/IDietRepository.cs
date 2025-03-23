@@ -10,5 +10,9 @@ namespace API.Repositories.IRepositories
         void CreateDiet(Diet diet);
         void UpdateDiet(Diet diet);
         void DeleteDiet(Diet diet);
+
+        void AddUserToDiet(Guid userId, Guid dietId);
+
+        
     }
 }
