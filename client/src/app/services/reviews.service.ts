@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { ReviewsToAdd } from '../models/reviews/reviews-to-add';
 import { ReviewsToUpdate } from '../models/reviews/reviews-to-edit';
 import { ReviewsToView } from '../models/reviews/reviews-to-view';
+import { Reviews } from '../models/reviews/reviews';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,17 @@ export class ReviewsService {
 
   constructor(private http: HttpClient) { }
 
-
   // epikinona me to back end gia na anevaso ta recipes me to API url
   // Create a new review
-  createReview(review: ReviewsToAdd): Observable<any> {
+  createReview(review: ReviewsToAdd) {
     const url = `${this.baseUrl}reviews`;
-    return this.http.post<ReviewsToAdd>(url, review);
+    return this.http.post<Reviews>(url, review);
   }
 
   // Update an existing review
-  updateReview(review: ReviewsToUpdate): Observable<ReviewsToUpdate> {
-    const url = `${this.baseUrl}reviews/${review.reviewId}`;
-    return this.http.put<ReviewsToUpdate>(url, review);
+  updateReview(ReviewToUpdate: ReviewsToUpdate) {
+    const url = `${this.baseUrl}reviews/${ReviewToUpdate.Id}`;
+    return this.http.put<Reviews>(url, ReviewToUpdate);
   }
 
   // Delete a review by ID
@@ -37,7 +37,7 @@ export class ReviewsService {
   // Get a review by ID
   getReview(id: string): Observable<ReviewsToView> {
     const url = `${this.baseUrl}reviews/${id}`;
-    return this.http.get<ReviewsToView>(url);
+    return this.http.get<Reviews>(url);
   }
 
   // Search reviews by user full name

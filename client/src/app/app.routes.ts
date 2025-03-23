@@ -54,6 +54,7 @@ export const routes: Routes = [
 
    { path: "reviews", component: ReviewsCreateEditComponent },
    { path: "reviews/:reviewId/edit", component: ReviewsCreateEditComponent },
+   { path: "reviews/:clientId", component: ReviewsCreateEditComponent },
    { path: "", redirectTo: "/", pathMatch: "prefix" }
 
 ];

@@ -4,33 +4,53 @@
     <div class="primary-hover-box">
       <div class="hover-box">
         <div class="title-box">
-          <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Add a Review</h1>
+          <h1 class="title" style="margin: 0px; margin-bottom: 20px;">
+            {{ isEditMode ? 'Update Review' : 'Add a Review' }}
+          </h1>
         </div>
         <div class="review">
           <form class="reviewForm-form" [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
-
             <div class="form-group">
               <div class="star-rating">
                 <span *ngFor="let star of stars; let i = index" (click)="rate(i + 1)" [ngClass]="{'filled': i < reviewForm.controls['Stars'].value!}">
                   &#9733;
                 </span>
               </div>
+              <div *ngIf="reviewForm.controls['Stars'].touched && reviewForm.controls['Stars'].invalid" class="error-message">
+                *Please give a star rating.
+              </div>
             </div>
-
             <div class="form-group">
               <textarea id="reviewText" formControlName="Review Text" rows="4" placeholder="Enter your review here..." class="auto-resize"></textarea>
             </div>
-
             <div class="form-group">
               <label>
                 <input type="checkbox" formControlName="Anonymous" [value]="true">
                 Anonymous Review
               </label>
             </div>
-
-            <button type="submit" class="primary-button">Submit</button>
+            <div *ngIf="isEditMode" class="form-group button-group">
+              <button type="button" class="primary-button-danger" (click)="openConfirmationWindow()">Delete</button>
+              <button type="submit" class="primary-button">
+                Update
+              </button>
+            </div>
+            <div *ngIf="!isEditMode" class="form-group single-button">
+              <button type="submit" class="primary-button">
+                Submit
+                </button>
+            </div>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isConfirmationWindowVisible" class="confirmation-popup">
+    <div class="confirmation-content">
+      <p>Are you sure you want to delete this review?</p>
+      <div class="button-group">
+        <button type="button" class="primary-button-danger" (click)="onDelete()">Delete</button>
+        <button type="button" class="primary-button" (click)="cancelDelete()">Cancel</button>
       </div>
     </div>
   </div>
