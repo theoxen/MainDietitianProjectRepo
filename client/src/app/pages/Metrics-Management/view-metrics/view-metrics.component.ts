@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MetricsService } from '../../../services/metrics.service';
 import { Metrics } from '../../../models/metrics/metrics';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
@@ -48,7 +48,7 @@ export class ViewMetricsComponent implements OnInit {
 
 
   
-  constructor(private dialog: MatDialog, private route: ActivatedRoute) {}
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
   ngOnInit(): void {
     this.loadPage(this.currentPage);
 
@@ -91,10 +91,10 @@ export class ViewMetricsComponent implements OnInit {
             this.totalItems = this.filteredMetrics.length;
             this.loadPage(this.currentPage);
           },
-      error: (error: any) => {
-        this.errorMessage = "Error fetching metrics. Please try again later.";
-        console.error("Error fetching metrics:", error);
-      }
+          error: (error: any) => {
+            console.error("Error fetching metrics:", error);
+            
+          }
     });
   }
 
@@ -141,7 +141,7 @@ export class ViewMetricsComponent implements OnInit {
     const dialogRef = this.dialog.open(EditMetricsComponent, {
       width: '150%',
       height: 'auto',
-      maxWidth: '50vw',
+      maxWidth: '1000px',
       maxHeight: '100vh',
       data: { metricId }
     });
@@ -149,7 +149,15 @@ export class ViewMetricsComponent implements OnInit {
       // Refresh the metrics after the modal is closed
       if (this.clientId) {
         this.fetchMetricsForUser(this.clientId);
+        if (this.metrics[0].id == "default"){
+          console.log("Hello My friends");
+          this.totalItems = 0;
+        }
       }
+      
+        
+     
+
     });
   }
 
@@ -157,7 +165,7 @@ export class ViewMetricsComponent implements OnInit {
     const dialogRef = this.dialog.open(AddMetricsComponent, {
       width: '150%',
       height: 'auto',
-      maxWidth: '60vw',
+      maxWidth: '1000px',
       maxHeight: '100vh',
       data: { clientId:clientsId }
     });
