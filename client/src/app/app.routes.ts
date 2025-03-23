@@ -22,6 +22,7 @@ import { EditMetricsComponent } from './pages/Metrics-Management/edit-metrics/ed
 
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
+import { AddDietsComponent } from './pages/add-diets/add-diets.component';
 
 
 
@@ -54,8 +55,15 @@ export const routes: Routes = [
    { path: "clients/:clientId/diet", component: ViewMetricsComponent },
 
 
+
+   { path: "clients/:clientId/add-diets", component: AddDietsComponent }, // to change component
+
+
    { path: "reviews", component: ReviewsCreateEditComponent },
    { path: "reviews/:reviewId/edit", component: ReviewsCreateEditComponent },
    { path: "", redirectTo: "/", pathMatch: "prefix" }
+
+
+
 
 ];

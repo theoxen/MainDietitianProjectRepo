@@ -37,7 +37,9 @@ namespace API.Repositories
 
         public void CreateDiet(Diet diet)
         {
-            _dataContext.Diets.Add(diet);
+        _dataContext.Diets.Add(diet);
+        // var userDiet = new UserDiet { UserId = userId, DietId = diet.Id };
+        // _dataContext.UserDiets.Add(userDiet);
         }
 
         public void UpdateDiet(Diet diet)
@@ -49,6 +51,17 @@ namespace API.Repositories
         {
             _dataContext.Diets.Remove(diet);
         }
+
+    public void AddUserToDiet(Guid userId, Guid dietId)
+    {
+    var userDiet = new UserDiet
+    {
+        UserId = userId,
+        DietId = dietId
+    };
+    _dataContext.UserDiets.Add(userDiet);
+
+    }
 
         public async Task<bool> Commit()
         {
