@@ -2,7 +2,6 @@ import { Component, Inject, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MetricsService } from '../../../services/metrics.service';
 import { Metrics } from '../../../models/metrics/metrics';
-import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { ClientManagementService } from '../../../services/client-management.service';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
