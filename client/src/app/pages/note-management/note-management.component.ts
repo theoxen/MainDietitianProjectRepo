@@ -31,6 +31,7 @@ export class NoteManagementComponent implements OnInit {
   constructor(private route: ActivatedRoute) { } // Required to use route.snapshot.paramMap to get the user ID from the URL
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.clientId = this.route.snapshot.paramMap.get('clientId')!; // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
     this.fetchNoteForUser(this.clientId);
     // console.log(this.clientNote.controls.note.value); // Log the note for the user

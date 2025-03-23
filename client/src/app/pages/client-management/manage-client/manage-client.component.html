@@ -3,12 +3,12 @@
     <div class="flex-container">
         <div class="primary-hover-box">
             <h1 class="title">Manage Client {{ client?.fullName }}</h1>
-            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/view')">View Client's Details</button>
-            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/edit-details')">Edit Client's Details</button>
-            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/diets')">Client's Diets</button>
-            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/history')">View Client's History</button>
-            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/add-metrics')">Add Metrics</button>
-            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/note')">Manage Note</button>
+            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/view')">View Details</button>
+            <!-- <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/edit-details')">Edit Details</button> -->
+            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/diets')">Diets</button>
+            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/history')">View History</button>
+            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/add-metrics')">Metrics</button>
+            <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/note')">Personal Note</button>
             <button type="button" class="primary-button-danger" (click)="navigateTo('/clients/:clientId/delete')">Delete Client</button>
         </div>
     </div>

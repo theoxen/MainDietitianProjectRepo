@@ -82,6 +82,7 @@ export class EditClientDetailsComponent {
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.clientId = this.route.snapshot.paramMap.get('clientId');
     
     if (!this.clientId) return;
@@ -154,5 +155,8 @@ export class EditClientDetailsComponent {
       this.clientUpdateForm.markAllAsTouched();
     }
     
+  }
+  cancel(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }
