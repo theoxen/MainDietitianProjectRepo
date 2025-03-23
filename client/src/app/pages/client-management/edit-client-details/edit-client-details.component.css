@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .primary-hover-box {
@@ -27,7 +28,7 @@
 .button-container {
     display: flex;
     justify-content: space-between;
-    
+    width: 75%;
     gap: 20px;
 }
 

@@ -1,16 +1,19 @@
-.metrics-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
 
 .title-box {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px; 
+ 
 }
 
+
+.dateCreated{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2%;
+}
+.primary-hover-box {
+    width: 100%;
+}
 
 .hover-box {
     display: flex;
@@ -25,25 +28,28 @@
     margin-bottom:-1%;
 }
 
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    
+    gap: 20px;
+}
+
 .addMetrics-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 20px; 
+    gap: 30px; 
     padding-left: 13%;
     padding-right: 13%;
 }
 
-.primary-button{
-    width: 100%;
+app-confirmation-window{
+    z-index: 2;
 }
 
-
-@media (max-width: 900px) {
-    .hover-box{
-        margin-bottom: 25px;
-    }
+@media screen and (max-width: 800px) {
     .hover-box {
         flex-direction: column;
         align-items: center;
@@ -51,8 +57,17 @@
         height: fit-content;
     }
 
+    .primary-button {
+        width: fit-content;
+    }
+
+    .primary-button-danger {
+        width: fit-content;
+    }
+
     .primary-hover-box {
-        padding: 0;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
     .title-box {

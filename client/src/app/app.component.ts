@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { PageFooterComponent } from "./components/page-footer/page-footer.component";
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,18 @@ import { PageFooterComponent } from "./components/page-footer/page-footer.compon
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'client';
 
+export class AppComponent implements OnInit {
+  // title = 'client';
+  constructor(private accountService: AccountService, private router: Router) {}
+
+  ngOnInit() {
+    // Check token on app start
+    const token = this.accountService.getUserToken();
+    if (token && this.accountService.isTokenExpired()) {
+      console.log('Token expired on app initialization');
+      this.accountService.logout();
+      this.router.navigateByUrl('/login');
+    }
+  }
 }

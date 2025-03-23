@@ -109,4 +109,10 @@ public static class Endpoints
         public const string GetAll = Base;
         public const string Delete = Base + "/{id}";
     }
+
+    public static class BackupAndRestore
+    {
+        public const string CreateDataBackup = BaseUrl + "backup";
+        public const string RestoreData = BaseUrl + "restore";
+    }
 }

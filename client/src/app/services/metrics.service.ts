@@ -4,6 +4,7 @@ import { Metrics } from '../models/metrics/metrics';
 import { environment } from '../environments/environment';
 import { MetricsToAdd } from '../models/metrics/metrics-to-add';
 import { MetricsToEdit } from '../models/metrics/metrics-to-edit';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,13 @@ export class MetricsService {
   fetchMetricsForUser(clientId: string) {
     const url = this.baseUrl + 'metrics/search';
     let params = new HttpParams().set('userId', clientId);
-    return this.http.get<Metrics[]>(url, { params }); // Get request to search metrics
+    return this.http.get<Metrics[]>(url, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching metrics:', error);
+        // Return an empty array on error so that the subscriber always gets data
+        return ([]);
+      })
+    );
   }
 
   fetchMetricsWithMetricsId(metricsId: string) {

@@ -1,8 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MetricsService } from '../../../services/metrics.service';
 import { Metrics } from '../../../models/metrics/metrics';
-import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { ClientManagementService } from '../../../services/client-management.service';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,11 +10,12 @@ import { ValidationPatterns } from '../../../validation/validation-patterns';
 import { CustomValidators } from '../../../validation/CustomValidators';
 import { MetricsToEdit } from '../../../models/metrics/metrics-to-edit';
 import { ConfirmationWindowComponent } from "../../../components/confirmation-window/confirmation-window.component";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'edit-metrics',
   standalone: true,
-  imports: [NavBarComponent, ReactiveFormsModule, PrimaryInputFieldComponent, ConfirmationWindowComponent],
+  imports: [ ReactiveFormsModule, PrimaryInputFieldComponent, ConfirmationWindowComponent],
   templateUrl: './edit-metrics.component.html',
   styleUrls: ['./edit-metrics.component.css']
 })
@@ -61,11 +61,13 @@ clientMetrics = new FormGroup({
   displayErrorOnControlTouched = true;
   location: any;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { metricId: string },
+  private dialogRef: MatDialogRef<EditMetricsComponent>,
+  private router: Router) {}
 
   ngOnInit(): void {
+    this.metricsId = this.data.metricId;
     window.scrollTo(0, 0); // Scroll to the top of the page
-    this.metricsId = this.route.snapshot.paramMap.get('metricsId')!;
     if (this.metricsId) {
       this.fetchMetricsForUser(this.metricsId);
     }
@@ -109,7 +111,10 @@ fetchMetricsForUser(metricsId: string): void {
   }
   
   submitEditedMetrics(): void {
-    
+    if (!this.clientMetrics.dirty) {
+      
+      return;
+    }
     const EditedMetricsToSubmit: MetricsToEdit = { // Assigning the values of the controls to the object to be sent to the service
       Bodyweight: Number.parseFloat(this.clientMetrics.controls['bodyweight'].value!), // The ! (non-null assertion operator) in TypeScript is used to tell the compiler: "I am sure this value will never be null or undefined, so don’t show any errors."
       FatMass:  Number.parseFloat(this.clientMetrics.controls['fatmass'].value!),
@@ -122,7 +127,7 @@ fetchMetricsForUser(metricsId: string): void {
       next: (metrics: Metrics) => {
         console.log("Metrics Edited.");
         this.metricsId = metrics.id;
-        this.router.navigate([`clients/${this.userId}/view-metrics`]); 
+        this.dialogRef.close(); // Close the modal after successful submission
       },
       error: (error:any) => {
         //this.errorMessage = "Error adding metrics. Please try again later.";
@@ -145,7 +150,7 @@ fetchMetricsForUser(metricsId: string): void {
       this.metricsService.deleteMetrics(this.metricsId!).subscribe({
         next: () => {
           console.log("Metrics deleted.");
-          this.router.navigate([`clients/${this.userId}/view-metrics`]); 
+          this.dialogRef.close(); // Close the modal after successful deletion
         }
       });
     } else {

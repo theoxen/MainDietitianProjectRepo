@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ClientProfile } from '../models/client-management/client-profile';
 import { ClientProfileUpdate } from '../models/client-management/client-update';
 import { ClientProfileAllView } from '../models/client-management/client-view-profile';
+import { Note } from '../models/notes/note';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,8 @@ export class ClientManagementService {
     return this.http.get<ClientProfile[]>(url);
   }
 
-  
+  fetchNoteForUser(clientId: string) {
+      const url = this.baseUrl + `users/${clientId}/note`;
+      return this.http.get<Note>(url); // Get request on URL, and return type Note (from models/notes/note.ts the interface should contain the same properties as the response)
+    }
 }
