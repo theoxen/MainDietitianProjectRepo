@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ValidationMessages } from '../../../validation/validation-messages';
 import { FormBuilder, FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from '../../../components/nav-bar/nav-bar.component';
@@ -9,24 +9,27 @@ import { ValidationPatterns } from '../../../validation/validation-patterns';
 import { Reviews } from '../../../models/reviews/reviews';
 import { ReviewsToAdd } from '../../../models/reviews/reviews-to-add';
 import { CommonModule } from '@angular/common';
+import { ReviewsToUpdate } from '../../../models/reviews/reviews-to-edit';
+import { ErrorComponent } from "../../../components/error/error.component";
 
 
 
 @Component({
   selector: 'app-reviews-create-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, NavBarComponent, PrimaryInputFieldComponent, CommonModule],
+  imports: [ReactiveFormsModule, NavBarComponent, PrimaryInputFieldComponent, CommonModule, ErrorComponent],
   templateUrl: './reviews-create-edit.component.html',
-  styleUrls: ['./reviews-create-edit.component.css']
+  styleUrls: ['./reviews-create-edit.component.css'],
 })
 
 export class ReviewsCreateEditComponent implements OnInit {
   isConfirmationWindowVisible = false;
   clientId?: string;
-  reviewId: string = "";
+  reviewId?: string;
   errorMessage: string = "";
   reviews!: Reviews[];
   stars: boolean[] = Array(5).fill(false);
+  isEditMode: boolean = false;
 
   reviewForm = new FormGroup({
     "Stars": new FormControl<number>(0, [
@@ -53,10 +56,9 @@ export class ReviewsCreateEditComponent implements OnInit {
 
   reviewsService = inject(ReviewsService);
 
-constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
+constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {}
 
   reviewTextErrorMessages = new Map<string, string>([
-    ["required", ValidationMessages.required]
   ]);
 
   starsErrorMessages = new Map<string, string>([
@@ -66,17 +68,40 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
   ]);
 
   isAnonymousErrorMessages = new Map<string, string>([
-    ["required", ValidationMessages.required]
   ]);
 
   
   ngOnInit(): void {
+    this.reviewForm = this.fb.group({
+      Stars: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
+      'Review Text': [''],
+      Anonymous: [false]
+    });
     // Get the user ID from the URL
-    this.clientId = this.route.snapshot.paramMap.get('clientId')!; // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
-    
-    // if (this.clientId) {
-    //   this.fetchMetricsForUser(this.clientId);
-    // }
+    this.clientId = this.route.snapshot.paramMap.get('clientId')!;  // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
+    this.route.paramMap.subscribe(params => {
+      const reviewId = params.get('reviewId');
+      this.reviewId = reviewId !== null ? reviewId : undefined;
+      if (this.reviewId) {
+        this.isEditMode = true;
+        this.loadReviewDetails(this.reviewId);
+      }
+    });
+  }
+
+
+  loadReviewDetails(reviewId: string): void {
+    this.reviewsService.getReview(reviewId).subscribe({
+      next: (review: Reviews) => {
+        this.reviewForm.controls['Stars'].setValue(review.stars);
+        this.reviewForm.controls['Review Text'].setValue(review.reviewText);
+        this.reviewForm.controls['Anonymous'].setValue(review.isAnonymous);
+      },
+      error: (error: any) => {
+        console.error("Error loading review details.",error);
+        this.errorMessage = "Error loading review details. Please try again later.";
+      }
+    });
   }
 
   rate(rating: number): void {
@@ -84,29 +109,72 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
   }
 
   onSubmit(): void {
-    if (this.reviewForm.valid) {
-      const ReviewsToAdd: ReviewsToAdd = { // Assigning the values of the controls to the object to be sent to the service
-        stars: Number(this.reviewForm.controls['Stars'].value!),
-        reviewText: this.reviewForm.controls['Review Text'].value!,
-        isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!),
-      };
-
-      // Call service to add the review
-    this.reviewsService.createReview(ReviewsToAdd).subscribe({
-      next: (review: Reviews) => {
-        console.log("Review added successfully.");
-        this.reviewId = review.reviewId;
-        this.reviewForm.reset();  // Clear the form after adding the review
-      },
-      error: (error: any) => {
-        console.error("Error adding review.");
-        this.errorMessage = "Error adding review. Please try again later.";
-      }
-    });
-     
-      // Handle form submission logic here
-    } else {
-      console.log('Form is invalid');
+    
+    if (this.reviewForm.invalid) {
+      this.reviewForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
+      return;
     }
+      if (this.isEditMode) {
+        const reviewsToUpdate: ReviewsToUpdate = {
+          Id: this.reviewId!,
+          stars: Number(this.reviewForm.controls['Stars'].value!),
+          reviewText: this.reviewForm.controls['Review Text'].value!,
+          isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!)
+        };
+
+        this.reviewsService.updateReview(reviewsToUpdate).subscribe({
+          next: (reviews : Reviews) => {
+            console.log("Review updated successfully.");
+            this.reviewId = reviews.reviewId;
+            this.router.navigate(['/']);
+          },
+          error: (error: any) => {
+            console.error("Error updating review.", error);
+            this.errorMessage = "Error updating review. Please try again later.";
+          }
+        });
+      } else {
+        const reviewsToAdd: ReviewsToAdd = {
+          stars: Number(this.reviewForm.controls['Stars'].value!),
+          reviewText: this.reviewForm.controls['Review Text'].value!,
+          isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!)
+        };
+
+        this.reviewsService.createReview(reviewsToAdd).subscribe({
+          next: () => {
+            console.log("Review added successfully.");
+            this.router.navigate(['/']);
+          },
+          error: (error: any) => {
+            console.error("Error adding review.", error);
+            this.errorMessage = "Error adding review. Please try again later.";
+          }
+        });
+      }
+  }
+
+  openConfirmationWindow() {
+    this.isConfirmationWindowVisible = true;
+  }
+
+  cancelDelete(): void {
+    this.isConfirmationWindowVisible = false;
+  }
+
+  onDelete(): void {
+    if (this.reviewId) {
+      this.isConfirmationWindowVisible = false;
+      this.reviewsService.deleteReview(this.reviewId).subscribe({
+        next: () => {
+          console.log("Review deleted successfully.");
+          this.router.navigate(['/']);
+        },
+        error: (error: any) => {
+          console.error("Error deleting review.", error);
+          this.errorMessage = "Error deleting review. Please try again later.";
+        }
+      });
+    
+  }
   }
 }

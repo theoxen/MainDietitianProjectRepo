@@ -1,5 +1,5 @@
 export interface ReviewsToUpdate {
-    reviewId: string;
+    Id: string;
     stars: number;
     reviewText: string;
     isAnonymous: boolean;

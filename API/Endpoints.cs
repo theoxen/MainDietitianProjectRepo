@@ -47,7 +47,7 @@ public static class Endpoints
     {
         private const string Base = BaseUrl + "reviews";
         public const string Create = Base;
-        public const string UpdateReview = Base;
+        public const string UpdateReview = Base + "/{reviewId}";
         public const string Delete = Base + "/{reviewId}";
         public const string GetReview = Base + "/{reviewId}";
         public const string Search = Base + "/search";

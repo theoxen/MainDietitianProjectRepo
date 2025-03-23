@@ -1,0 +1,19 @@
+<div *ngIf="getUserToken()" class="button-container">
+  <button class="primary-button" (click)="addOrUpdateReview()">
+    {{ userReview?.reviewId ? 'Update Review' : 'Add Review' }}
+  </button>
+</div>
+
+<div *ngFor="let review of reviews" class="review">
+  <p>Client's Name: {{ review.userFullName }}</p>
+  <div class="star-rating">
+    <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" [ngClass]="{'filled': i < review.stars}">
+      &#9733;
+    </span>
+  </div>
+  <p>{{ review.reviewText }}</p>
+</div>
+
+<div class="button-container">
+  <button class="primary-button" (click)="loadMoreReviews()" [disabled]="loading">Show More</button>
+</div>
