@@ -4,13 +4,18 @@ using System.ComponentModel.DataAnnotations;
 namespace API.Models.Diets
 {
 
-
-
     public class CreateDietDto
     {
         public required string Name { get; set; }
         public bool IsTemplate { get; set; }
         public List<DayDto> Days { get; set; } = new();
+        public List<UserDietDto> UserDiets { get; set; } = new();
+    }
+
+    public class UserDietDto
+    {
+      public required Guid UserId { get; set; }
+        
     }
 
     public class DayDto
@@ -22,6 +27,6 @@ namespace API.Models.Diets
     public class MealDto
     {
         public required string Meal { get; set; }
-        public required String Type { get; set; } // 1: Breakfast, 2: Snack1, 3: Lunch, 4: Snack2, 5: Dinner
+        public required String Type { get; set; } // Breakfast, Lunch, Dinner, Snack
     }
 }

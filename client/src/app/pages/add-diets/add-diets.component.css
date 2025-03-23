@@ -1,0 +1,8 @@
+.Periklis{
+display: flex;
+justify-content: center ;  
+background-color: rgb(182, 35, 35);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
