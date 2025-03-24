@@ -3,21 +3,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ValidationMessages } from '../../../validation/validation-messages';
 import { FormBuilder, FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from '../../../components/nav-bar/nav-bar.component';
-import { PrimaryInputFieldComponent } from '../../../components/primary-input-field/primary-input-field.component';
 import { ReviewsService } from '../../../services/reviews.service';
 import { ValidationPatterns } from '../../../validation/validation-patterns';
 import { Reviews } from '../../../models/reviews/reviews';
 import { ReviewsToAdd } from '../../../models/reviews/reviews-to-add';
 import { CommonModule } from '@angular/common';
 import { ReviewsToUpdate } from '../../../models/reviews/reviews-to-edit';
-import { ErrorComponent } from "../../../components/error/error.component";
+
 
 
 
 @Component({
   selector: 'app-reviews-create-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, NavBarComponent, PrimaryInputFieldComponent, CommonModule, ErrorComponent],
+  imports: [ReactiveFormsModule, NavBarComponent, CommonModule],
   templateUrl: './reviews-create-edit.component.html',
   styleUrls: ['./reviews-create-edit.component.css'],
 })
