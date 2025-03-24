@@ -64,7 +64,7 @@ export const routes: Routes = [
    { path: "reviews/:reviewId/edit", component: ReviewsCreateEditComponent },
 
    { path: "reviews/:clientId", component: ReviewsCreateEditComponent },
-   { path: "", redirectTo: "/", pathMatch: "prefix" }
+   { path: "", redirectTo: "/", pathMatch: "prefix" },
 
 
    { path: "manage-data", component: ManageDataComponent },
