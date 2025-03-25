@@ -221,7 +221,7 @@ setupLiveDateSearch(): void {
     });
     dialogRef.afterClosed().subscribe(result => {
       // Refresh the metrics after the modal is closed
-      if (this.clientId) {
+      if (this.clientId) {  
         this.fetchMetricsForUser(this.clientId);
       }
     });

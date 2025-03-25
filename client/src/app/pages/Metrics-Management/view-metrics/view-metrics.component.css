@@ -44,7 +44,7 @@
 }
 .StartDate > input, .EndDate > input{
     height: 45px;
-    width: 160px;
+    width: 160px;   
     border-radius: 15px;
     border: none; /* Remove border color property */
     color: black;

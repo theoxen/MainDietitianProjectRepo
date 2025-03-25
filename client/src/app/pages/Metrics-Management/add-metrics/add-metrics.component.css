@@ -49,6 +49,14 @@ app-confirmation-window{
     z-index: 2;
 }
 
+@media (max-width: 1100px) {
+    .primary-hover-box {
+        height: auto;
+        padding-bottom: 50px;
+        margin-bottom: 0px;
+    }
+}
+
 @media screen and (max-width: 800px) {
     .hover-box {
         flex-direction: column;
@@ -104,3 +112,4 @@ app-confirmation-window{
         padding-top: 30px;
     }
 }
+

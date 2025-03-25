@@ -22,7 +22,7 @@ import { EditMetricsComponent } from './pages/Metrics-Management/edit-metrics/ed
 
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
-import { AddDietsComponent } from './pages/add-diets/add-diets.component';
+import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 
 
