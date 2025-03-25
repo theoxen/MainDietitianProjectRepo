@@ -24,6 +24,8 @@ import { ViewClientDetailsComponent } from './pages/client-management/view-clien
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
+import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
+import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
 
 
 
@@ -58,6 +60,11 @@ export const routes: Routes = [
 
 
    { path: "clients/:clientId/add-diets", component: AddDietsComponent }, // to change component
+   { path: "clients/:clientId/view-diets", component: ViewDietsComponent }, // to change component
+   { path: "clients/:clientId/edit-diets", component: EditDietsComponent }, // to change component
+
+
+
 
 
    { path: "reviews", component: ReviewsCreateEditComponent },
