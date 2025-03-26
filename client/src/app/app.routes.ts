@@ -24,6 +24,8 @@ import { ViewClientDetailsComponent } from './pages/client-management/view-clien
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 import { AddDietsComponent } from './pages/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { UploadsComponent } from './pages/uploads/uploads.component';
 
 
 
@@ -67,6 +69,9 @@ export const routes: Routes = [
 
    { path: "manage-data", component: ManageDataComponent },
 
+   { path: "about-us", component: AboutUsComponent },
+
+   { path: "uploads", component: UploadsComponent },
 
    { path: "", redirectTo: "/", pathMatch: "prefix" },
 ];
