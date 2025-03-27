@@ -108,6 +108,8 @@ public static class Endpoints
         public const string GetDiet = Base + "/{id}";
         public const string GetAll = Base;
         public const string Delete = Base + "/{id}";
+        public const string GetDietByClientId = Base + "/{clientId}/theclient";
+        public const string GetDietIdByClientId = Base + "/client/{userId}";
     }
 
     public static class BackupAndRestore

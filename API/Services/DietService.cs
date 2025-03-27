@@ -269,5 +269,63 @@ namespace API.Services
                 }
             });
         }
+
+        public async Task<Result<DietDto>> GetDietByClientIdAsync(Guid userId)
+        {
+            var dietId = await _dietRepository.GetDietIdByClientIdAsync(userId);
+           
+            var diet = await _dietRepository.GetDietByIdAsync(dietId);
+            if (diet == null)
+            {
+                return Result<DietDto>.NotFound();
+            }
+
+            var dietDto = new DietDto
+            {
+                Id = diet.Id,
+                Name = diet.Name,
+                IsTemplate = diet.IsTemplate,
+                DateCreated = diet.DateCreated,
+                UserDiets = diet.UserDiets.Select(userdiet => new UserDietDto
+                {
+
+                    UserId = userdiet.UserId
+
+                }).ToList(),
+                
+                Days = diet.DietDays.Select(d => new DayDto
+                {
+                    DayName = d.DayName,
+                    Meals = d.DietMeals.Select(m => new MealDto
+                    {
+                        Meal = m.Meal,
+                        Type = m.MealType
+                    }).ToList()
+                }).ToList()
+            };
+
+            return Result<DietDto>.Ok(dietDto);
+        }
+
+        public async Task<Result<Guid>> GetDietIdByClientIdAsync(Guid userId)
+        {
+            // Retrieve the DietId from the repository.
+            Guid dietId = await _dietRepository.GetDietIdByClientIdAsync(userId);
+
+            // Optional: Log the retrieved DietId for debugging.
+            _logger?.LogInformation("Retrieved DietId for user {UserId}: {DietId}", userId, dietId);
+
+            // If no DietId is found (i.e. Guid.Empty), return a NotFound result.
+            if (dietId == Guid.Empty)
+            {
+                return Result<Guid>.NotFound();
+            }
+
+            // Otherwise, return the DietId wrapped in an Ok result.
+            return Result<Guid>.Ok(dietId);
+        }
+
+
+        
     }
 }

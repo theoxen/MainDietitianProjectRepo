@@ -5,7 +5,6 @@ import { ForgotPasswordStep1Component } from './pages/forgot-password/forgot-pas
 import { ForgotPasswordStep2Component } from './pages/forgot-password/forgot-password-step-2/forgot-password-step-2.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NoteManagementComponent } from './pages/note-management/note-management.component';
-import { AddMetricsComponent } from './pages/Metrics-Management/add-metrics/add-metrics.component';
 
 import { ClientSearchComponent } from './pages/client-management/client-search/client-search.component';
 import { EditClientDetailsComponent } from './pages/client-management/edit-client-details/edit-client-details.component';
@@ -18,7 +17,6 @@ import { ViewComponent } from './pages/recipes/view/view.component';
 import { ReviewsCreateEditComponent } from './pages/reviews-management/reviews-create-edit/reviews-create-edit.component';
 
 import { ViewMetricsComponent } from './pages/Metrics-Management/view-metrics/view-metrics.component';
-import { EditMetricsComponent } from './pages/Metrics-Management/edit-metrics/edit-metrics.component';
 
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
@@ -26,6 +24,7 @@ import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
+import { AppointmentsComponent } from './pages/appointments/appointments/appointments.component';
 
 
 
@@ -55,15 +54,13 @@ export const routes: Routes = [
 
    { path: "clients/:clientId/metrics", component: ViewMetricsComponent },
 
-   { path: "clients/:clientId/diet", component: ViewMetricsComponent },
 
 
+   { path: "clients/:clientId/add-diets", component: AddDietsComponent },
+   { path: "clients/:clientId/view-diets", component: ViewDietsComponent },
+   { path: "clients/:clientId/edit-diets", component: EditDietsComponent }, 
 
-   { path: "clients/:clientId/add-diets", component: AddDietsComponent }, // to change component
-   { path: "clients/:clientId/view-diets", component: ViewDietsComponent }, // to change component
-   { path: "clients/:clientId/edit-diets", component: EditDietsComponent }, // to change component
-
-
+   { path: "appointments", component: AppointmentsComponent },
 
 
 

@@ -1,0 +1,48 @@
+.appointmentsContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.primary-hover-box{
+    display: flex;
+    justify-content:center;
+    width: 50%;
+    padding: 20px;
+}
+.calendar{
+    width: 500px;
+    height: 450px;
+    padding: 20px;
+}
+.divisionLine{
+    height: 450px;
+    width: 2px;
+    margin-left: 20px;
+    margin-right: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.114);
+}
+.infoBox{
+    width:450px;
+    height: 450px;
+    border: 2px solid black;
+}
+
+.RegisterAnAppointmentContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+.steps{
+    width: 200px;
+}
+.Step1{
+    font-size: 20px;
+    
+}
+.logo{
+    width: 200px;
+    height:200px;
+}
