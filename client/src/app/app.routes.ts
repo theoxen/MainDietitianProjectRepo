@@ -38,12 +38,11 @@ export const routes: Routes = [
    {
       path: "auth",
       runGuardsAndResolvers: "always",
-      canActivate: [nonAuthGuard],
       children: [
-         { path: "forgot-password", component: ForgotPasswordStep1Component },
-         { path: "login", component: LoginComponent },
-         { path: "register", component: RegisterComponent },
-         { path: "forgot-password/change-password", component: ForgotPasswordStep2Component },
+         { path: "forgot-password", component: ForgotPasswordStep1Component,  canActivate: [nonAuthGuard] },
+         { path: "login", component: LoginComponent, canActivate: [nonAuthGuard] },
+         { path: "register", component: RegisterComponent, canActivate: [authGuard, adminGuard] },
+         { path: "forgot-password/change-password", component: ForgotPasswordStep2Component, canActivate: [nonAuthGuard] },
       ]
    },
 
