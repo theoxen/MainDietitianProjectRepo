@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 interface CalendarDate {
   date: number;
@@ -12,7 +13,16 @@ interface CalendarDate {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      // Fade in when the element is added
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms 100ms ease-in-out', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class CalendarComponent implements OnInit {
   currentMonth: Date = new Date(); // Current month by default
@@ -20,9 +30,13 @@ export class CalendarComponent implements OnInit {
   selectedDate: Date | null = null;
   availableTimes: string[] = ['5:30 PM', '6:30 PM', '7:30 PM', '8:30 PM', '9:30 PM'];
   selectedTime: string | null = null;
+  calendarDisplay: string = "block";    
+  calendarOpacity: string = "1"; 
+  @Output() dateClicked = new EventEmitter<CalendarDate>();
 
   ngOnInit() {
     this.generateCalendar();
+    
   }
 
   generateCalendar() {
@@ -76,6 +90,8 @@ export class CalendarComponent implements OnInit {
 
   selectDate(day: CalendarDate) {
     if (day.isCurrentMonth) {
+      this.calendarDisplay="none";
+      this.calendarOpacity = "0";
       // Deselect previous date
       this.calendarDays.forEach(d => d.isSelected = false);
       
@@ -86,6 +102,7 @@ export class CalendarComponent implements OnInit {
         this.currentMonth.getMonth(), 
         day.date
       );
+      this.dateClicked.emit(day);
     }
   }
 
@@ -94,8 +111,13 @@ export class CalendarComponent implements OnInit {
   }
 
   resetSelection() {
+    const day: CalendarDate = { date: -1, isCurrentMonth: true, isSelected: false };
+    this.selectDate(day);
+    this.calendarDisplay="block";
+    this.calendarOpacity = "1";
     this.selectedDate = null;
     this.selectedTime = null;
     this.calendarDays.forEach(d => d.isSelected = false);
+    
   }
 }
