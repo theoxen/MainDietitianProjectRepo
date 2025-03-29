@@ -44,7 +44,6 @@
         <div class="time-selection-container" [@fadeIn]>
           <div class="time-selection-header">
             <h3>{{ selectedDate | date:'fullDate' }}</h3>
-            <button (click)="resetSelection()" class="closeButton" >Cancel</button>
           </div>
           <div class="time-slots">
             @for (time of availableTimes; track time) {
@@ -58,7 +57,8 @@
             }
           </div>
           <div class="submitButtonContainer">
-            <button  class="SubmitButton">Submit</button>
+            <button (click)="resetSelection()" class="closeButton" >Cancel</button>
+            <button  (click)="makeAppointment()" class="SubmitButton" [ngStyle]="{'pointer-events': pointerEvent, 'opacity': opacity}">Make Appointment</button>
           </div>
           
         </div>

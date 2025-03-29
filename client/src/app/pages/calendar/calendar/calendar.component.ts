@@ -2,6 +2,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 
+export interface Appointment {
+  date: Date;
+  time: string;
+}
+
 interface CalendarDate {
   date: number;
   isCurrentMonth: boolean;
@@ -28,15 +33,18 @@ export class CalendarComponent implements OnInit {
   currentMonth: Date = new Date(); // Current month by default
   calendarDays: CalendarDate[] = [];
   selectedDate: Date | null = null;
-  availableTimes: string[] = ['5:30 PM', '6:30 PM', '7:30 PM', '8:30 PM', '9:30 PM'];
+  availableTimes: string[] = ['5:00 PM','5:30 PM', '6:00 PM','6:30 PM', '7:00 PM','7:30 PM', '8:30 PM', '9:30 PM'];
   selectedTime: string | null = null;
   calendarDisplay: string = "block";    
   calendarOpacity: string = "1"; 
+  pointerEvent: string = "none";
+  opacity: string = "0.4";
+
   @Output() dateClicked = new EventEmitter<CalendarDate>();
+  @Output() appointmentSelected = new EventEmitter<Appointment>();
 
   ngOnInit() {
     this.generateCalendar();
-    
   }
 
   generateCalendar() {
@@ -107,12 +115,26 @@ export class CalendarComponent implements OnInit {
   }
 
   selectTime(time: string) {
+    this.opacity = "1";
+    this.pointerEvent = "all";
     this.selectedTime = time;
+  }
+
+  makeAppointment(){
+    if (this.selectedDate && this.selectedTime) {
+      const appointment: Appointment = {
+        date: this.selectedDate,
+        time: this.selectedTime
+      };
+      this.appointmentSelected.emit(appointment);
+    }
   }
 
   resetSelection() {
     const day: CalendarDate = { date: -1, isCurrentMonth: true, isSelected: false };
     this.selectDate(day);
+    this.opacity = "0.4";
+    this.pointerEvent = "none";
     this.calendarDisplay="block";
     this.calendarOpacity = "1";
     this.selectedDate = null;

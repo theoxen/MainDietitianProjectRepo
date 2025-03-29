@@ -3,7 +3,7 @@ import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { DietService } from '../../../services/diet.service';
 import { Diet } from '../../../models/diet';
 import { ActivatedRoute } from '@angular/router';
-import { CalendarComponent } from '../../calendar/calendar/calendar.component';
+import { Appointment, CalendarComponent } from '../../calendar/calendar/calendar.component';
 import { CommonModule } from '@angular/common';
 
 interface CalendarDate {
@@ -42,8 +42,12 @@ export class AppointmentsComponent {
   }
 
 
+  handleAppointment(appointment: Appointment) {
+    console.log('Date:', appointment.date);
+    console.log('Time:', appointment.time);
+  }  
   
-  
+
   
 
   onCalendarDateClicked(selectedDate: CalendarDate) : void {

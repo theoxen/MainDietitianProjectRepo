@@ -86,19 +86,24 @@
     color: white;
   }
 
-  .closeButton{
-    border-radius: 25px;
-    width: 80px;
-    height: 30px;
-    border: none;
-    background-color:#ffe7e7 ;
-    transition: .3s;
-  }
-  .closeButton:hover{
-    background-color: #ff0000;
-  }
-  
-
+ 
+  .closeButton{ 
+    height: 45px;
+    width: 180px;
+    background-color: #ff7a7a;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+.closeButton:hover{
+    background-color: #ff3f3f;/* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
   
   .time-selection-overlay.active {
     display: flex;
@@ -125,11 +130,32 @@
     display: grid;
     gap: 10px;
     width: 100%;
+    max-height: 400px; /* Set a fixed height as needed */
+    overflow-y: auto;  /* Enable vertical scrolling */
   }
+
+  /* For Chrome, Safari and Opera */
+.time-slots::-webkit-scrollbar {
+  width: 8px;
+}
+
+.time-slots::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.time-slots::-webkit-scrollbar-thumb {
+  background: #8888888d;
+  border-radius: 10px;
+}
+
+.time-slots::-webkit-scrollbar-thumb:hover {
+  background: #5555558b;
+}
   
   .SubmitButton{ 
     height: 45px;
-    width: 150px;
+    width: 210px;
     background-color: #FFB453;
     border-radius: 15px;
     border: none; /* Remove border color property */
@@ -139,17 +165,19 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+
 }
 .SubmitButton:hover{
     background-color: #FFA726;/* Slightly darker shade for hover effect */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
 }
 .submitButtonContainer{
-  margin-top: 20px;
+  margin-top: 15px;
   width:100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 15px;
 }
   .time-slot {
     padding: 10px;

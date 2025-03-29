@@ -30,7 +30,7 @@
             <div class="divisionLine"></div>
             
             <div class="calendar">
-                 <app-calendar class="calendarInside" (dateClicked)="onCalendarDateClicked($event)"></app-calendar>
+                 <app-calendar class="calendarInside" (dateClicked)="onCalendarDateClicked($event)" (appointmentSelected)="handleAppointment($event)"></app-calendar>
             </div>
            
         </div>
