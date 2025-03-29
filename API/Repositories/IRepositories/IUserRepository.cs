@@ -9,7 +9,7 @@ public interface IUserRepository : IBaseRepository
 {
     Task<IEnumerable<User>> GetAllClientsAsync();
     public Task<bool> DoesPhoneNumberExistAsync(string phoneNumber);
-    Task<IEnumerable<UserHistoryDto>> GetUserHistoryAsync(Guid userId);
+    
 }
 
 

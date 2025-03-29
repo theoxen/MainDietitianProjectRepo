@@ -92,13 +92,6 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Users.GetUserHistory)]
-        public async Task<IActionResult> GetUserHistory(Guid id)
-        {
-            var result = await _userService.GetUserHistoryAsync(id);
-            return MapToHttpResponse(result);
-        }
-
 
     }
 }
