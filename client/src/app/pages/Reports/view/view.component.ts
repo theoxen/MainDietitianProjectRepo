@@ -37,29 +37,22 @@ export class ViewReportsComponent {
   }
 
   setReportContent(): void {
-    // Reset all flags
-    this.isNewUsersReport = false;
-    this.isAgeReport = false;
-    this.isAppointmentReport = false;
-    this.isDietTypeReport = false;
-
-    // Set the appropriate flag and content based on the report type
     switch (this.reportType) {
-      case 'New Users Report':
+      case 'ReportForm1':
         this.isNewUsersReport = true;
-        this.fetchNewUsersReport();
+        this.fetchNewUsersReport(this.reportData.field1, this.reportData.field2);
         break;
-      case 'Age Report':
+      case 'ReportForm2': // Add this case to handle ReportForm2
         this.isAgeReport = true;
-        this.fetchAgeReport();
+        this.fetchAgeReport(this.reportData.field1, this.reportData.field2);
         break;
-      case 'Appointment Report':
+      case 'ReportForm3':
         this.isAppointmentReport = true;
-        this.fetchAppointmentReport();
+        this.fetchAppointmentReport(this.reportData.field1, this.reportData.field2);
         break;
-      case 'Diet Type Report':
+      case 'ReportForm4':
         this.isDietTypeReport = true;
-        this.fetchDietTypeReport();
+        this.fetchDietTypeReport(this.reportData.dietTypeId);
         break;
       default:
         this.reportContent = 'Unknown report type.';
@@ -67,53 +60,61 @@ export class ViewReportsComponent {
     }
   }
 
-  fetchNewUsersReport(): void {
-    this.reportsService.fetchNewUsersReport(this.reportData).subscribe(
-      response => {
-        this.reportContent = `New Users Report Data: ${JSON.stringify(response)}`;
+  fetchNewUsersReport(datestart: string, dateend: string): void {
+    this.reportsService.fetchNewUsersReport(datestart, dateend).subscribe({
+      next: (data) => {
+        this.reportContent = `New Users Report: From ${datestart} to ${dateend}`;
       },
-      error => {
+      error: (error) => {
         console.error('Error fetching New Users Report:', error);
         this.reportContent = 'Failed to fetch New Users Report.';
       }
-    );
+    });
   }
+///////////////////////////////////////////////////////////////////////////
+fetchAgeReport(agestart: number, ageend: number): void {
+  console.log('Fetching Age Report:', agestart, ageend); // Debugging log
+  this.reportsService.fetchAgeReport(agestart, ageend).subscribe({
+    next: (data) => {
+      console.log('Age Report Data:', data); // Debugging log
+      this.reportData = data; // Store the fetched data in the component
+    },
+    error: (error) => {
+      console.error('Error fetching Age Report:', error);
+      this.reportContent = 'Failed to fetch Age Report.';
+    }
+  });
+}
+  /////////////////////////////////////////////////////////////////////////////////
 
-  fetchAgeReport(): void {
-    this.reportsService.fetchAgeReport(this.reportData).subscribe(
-      response => {
-        this.reportContent = `Age Report Data: ${JSON.stringify(response)}`;
+  fetchAppointmentReport(datestart: string, dateend: string): void {
+    this.reportsService.fetchAppointmentReport(datestart, dateend).subscribe({
+      next: (data) => {
+        this.reportContent = `Appointment Report: From ${datestart} to ${dateend}`;
       },
-      error => {
-        console.error('Error fetching Age Report:', error);
-        this.reportContent = 'Failed to fetch Age Report.';
-      }
-    );
-  }
-
-  fetchAppointmentReport(): void {
-    this.reportsService.fetchAppointmentReport(this.reportData).subscribe(
-      response => {
-        this.reportContent = `Appointment Report Data: ${JSON.stringify(response)}`;
-      },
-      error => {
+      error: (error) => {
         console.error('Error fetching Appointment Report:', error);
         this.reportContent = 'Failed to fetch Appointment Report.';
       }
-    );
+    });
   }
 
-  fetchDietTypeReport(): void {
-    this.reportsService.fetchDietTypeReport(this.reportData).subscribe(
-      response => {
-        this.reportContent = `Diet Type Report Data: ${JSON.stringify(response)}`;
+  fetchDietTypeReport(dietTypeId: string): void {
+    this.reportsService.fetchDietTypeReport(dietTypeId).subscribe({
+      next: (data) => {
+        this.reportContent = `Diet Type Report: Diet Type ID ${dietTypeId}`;
       },
-      error => {
+      error: (error) => {
         console.error('Error fetching Diet Type Report:', error);
         this.reportContent = 'Failed to fetch Diet Type Report.';
       }
-    );
+    });
   }
 
 
 }
+
+//TODO: need to fix dtos
+//take all the data from the report and show it in the view component
+//output the data in a table format
+

@@ -12,22 +12,22 @@ export class ReportsService {
   constructor(private http: HttpClient) { }//den exo idea giati
 
   // Fetch New Users Report
-  fetchNewUsersReport(params: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/reports/new-users`, { params });
+  fetchNewUsersReport(datestart: string, dateend: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}reports/users/${datestart}/${dateend}`);
   }
 
-  // Fetch Age Report
-  fetchAgeReport(params: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/reports/age`, { params });
+  // Fetch Age Group Report
+  fetchAgeReport(agestart: number, ageend: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}reports/agegroup/${agestart}/${ageend}`);
   }
 
   // Fetch Appointment Report
-  fetchAppointmentReport(params: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/reports/appointments`, { params });
+  fetchAppointmentReport(datestart: string, dateend: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}reports/appointment/${datestart}/${dateend}`);
   }
 
   // Fetch Diet Type Report
-  fetchDietTypeReport(params: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/reports/diet-type`, { params });
+  fetchDietTypeReport(dietTypeId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}reports/userstype/${dietTypeId}`);
   }
 }

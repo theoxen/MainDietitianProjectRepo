@@ -8,30 +8,30 @@
                 <!-- New Users Report -->
                 @if (isNewUsersReport) {
                     <p><strong>New Users Report:</strong></p>
-                    <p>{{ reportContent }}</p>
+                    <p>{{ reportData }}</p>
                 }
               
                 <!-- Age Report -->
                 @if (isAgeReport) {
                     <p><strong>Age Report:</strong></p>
-                    <p>{{ reportContent }}</p>
+                    <p>{{ reportData }}</p>
   
                 }
               
                 <!-- Appointment Report -->
                 @if (isAppointmentReport) {
                     <p><strong>Appointment Report:</strong></p>
-                    <p>{{ reportContent }}</p>
+                    <p>{{ reportData }}</p>
                 }
               
                 <!-- Diet Type Report -->
                 @if (isDietTypeReport) {
                     <p><strong>Diet Type Report:</strong></p>
-                    <p>{{ reportContent }}</p>
+                    <p>{{ reportData }}</p>
                 }
                 <!-- Default Case -->
                 @if (!isAgeReport && !isAppointmentReport && !isDietTypeReport && !isNewUsersReport) {
-                    <p>{{ reportContent }}</p>
+                    <p>{{ reportData }}</p>
                 }
 
               </div>

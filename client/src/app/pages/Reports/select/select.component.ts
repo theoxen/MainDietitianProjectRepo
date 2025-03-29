@@ -105,3 +105,8 @@ export class SelectComponent {
 
 
 }
+
+//TODO:I need to ask advice about the styling of the forms
+//TODO:i need to but the corect restrictions 
+//TODO:i need to make the 5th form and add the correct restrictions
+//TODO:I need to chech the 3rd or 4th form
