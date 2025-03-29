@@ -24,6 +24,8 @@ import { ViewClientDetailsComponent } from './pages/client-management/view-clien
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 import { AddDietsComponent } from './pages/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
+import { SelectComponent } from './pages/Reports/select/select.component';
+import { ViewReportsComponent } from './pages/Reports/view/view.component';
 
 
 
@@ -50,6 +52,9 @@ export const routes: Routes = [
    { path: "recipes/add", component: AddEditRecipeComponent },
    { path: "recipes/:recipeId/edit", component: AddEditRecipeComponent }, //TODO change the name of the url to edit-view
    { path: "recipes/:recipeId", component: ViewComponent },
+
+   { path: "reports", component: SelectComponent },
+   { path: "reports/view", component: ViewReportsComponent },
 
    { path: "clients/:clientId/metrics", component: ViewMetricsComponent },
 

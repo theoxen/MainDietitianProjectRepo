@@ -1,0 +1,43 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="center-container">
+        <div class="primary-hover-box">
+            <div class="report-view">
+                <h3>{{ reportType }}</h3>
+              
+                <!-- New Users Report -->
+                @if (isNewUsersReport) {
+                    <p><strong>New Users Report:</strong></p>
+                    <p>{{ reportContent }}</p>
+                }
+              
+                <!-- Age Report -->
+                @if (isAgeReport) {
+                    <p><strong>Age Report:</strong></p>
+                    <p>{{ reportContent }}</p>
+  
+                }
+              
+                <!-- Appointment Report -->
+                @if (isAppointmentReport) {
+                    <p><strong>Appointment Report:</strong></p>
+                    <p>{{ reportContent }}</p>
+                }
+              
+                <!-- Diet Type Report -->
+                @if (isDietTypeReport) {
+                    <p><strong>Diet Type Report:</strong></p>
+                    <p>{{ reportContent }}</p>
+                }
+                <!-- Default Case -->
+                @if (!isAgeReport && !isAppointmentReport && !isDietTypeReport && !isNewUsersReport) {
+                    <p>{{ reportContent }}</p>
+                }
+
+              </div>
+            <div class="center-button">
+                <button class="primary-button">PDF</button>
+            </div>            
+        </div>
+    </div>
+</div>
