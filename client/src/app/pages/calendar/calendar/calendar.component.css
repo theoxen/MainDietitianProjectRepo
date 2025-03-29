@@ -1,6 +1,6 @@
 .nutrition-calendar-container {
-    max-width: 500px;
-    width: 400px;
+
+    width: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #fff;
@@ -12,9 +12,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 2px 20px 10px 20px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    
   }
   
   .calendar-header .nav-button {
@@ -47,7 +48,9 @@
     text-align: center;
     font-weight: bold;
     color: #888;
+    font-size: 1.2vw;
     margin-bottom: 10px;
+    width:100%;
   }
   
   .calendar-days {
@@ -58,7 +61,8 @@
   }
   
   .calendar-day {
-    padding: 10px;
+    padding: 15px;
+    font-size: 1.2vw;
     cursor: pointer;
     border-radius: 4px;
     transition:  0.3s;
@@ -150,3 +154,14 @@
     color: white;
     border-color: #FFA500;
   }
+
+  @media (max-width: 1400px) {
+    .calendar-weekdays {
+      font-size: 2vw;
+    }
+    .calendar-day {
+      font-size: 2vw;
+    }
+      
+}
+

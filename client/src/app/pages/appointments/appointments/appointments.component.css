@@ -6,25 +6,26 @@
 }
 .primary-hover-box{
     display: flex;
-    justify-content:center;
+    justify-content: space-between;
+    align-items: center;
     width: 50%;
     padding: 20px;
+    transition: all 0.3s ease;
 }
 .calendar{
-    width: 500px;
-    height: 450px;
+    width: 60%;
     padding: 20px;
+    margin-right: 40px;
 }
 .divisionLine{
-    height: 450px;
+    height: 30vw;
     width: 2px;
-    margin-left: 20px;
-    margin-right: 40px;
+    margin-right: 5%;
     border: 1px solid rgba(0, 0, 0, 0.114);
 }
 .infoBox{
-    width:450px;
-    height: 450px;
+    width:45%;
+    height: 550px;
     border: 2px solid black;
 }
 
@@ -35,14 +36,125 @@
     flex-direction: column;
 
 }
-.steps{
-    width: 200px;
+.ManageAnAppointment{
+    font-size: 1.2vw;
+    margin: 0 10px 10px 10px;
+    white-space: nowrap;
+    display: inline-block;
 }
-.Step1{
+.steps{
+    width: 100%;
+    margin-left: 40px;
+}
+.Step1Text{
     font-size: 20px;
-    
+}
+.Step2Text{
+    font-size: 20px;
+    display: none;
+}
+.step1{
+    margin-top: 20px;
+}
+.step1 ,.step2{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.selectDate, .selectTime{
+    margin: 0;
+}
+.lineBetweenSteps{
+    height: 50px;
+    width:1px;
+    background-color: black;
+    margin: 10px 0 10px 20px;
+}
+.fa-calendar, .fa-clock{
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 25px;
+    display: flex;
+    margin-right: 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
 }
 .logo{
-    width: 200px;
-    height:200px;
+    width: 175px;
+    height:175px;
+    margin: 0 30px 30px 30px;
+}
+.SelectADate{
+    display: none;
+    
+}
+/* Improved responsive styles */
+@media (max-width: 1400px) {
+    .primary-hover-box {
+        width: 50%;
+    }
+    
+    .calendar{
+        width: 105%;
+        
+        
+    }
+    
+    
+    .divisionLine {
+        display: none; /* Hide the division line on smaller screens */
+    }
+    
+    .infoBox {
+        display: none; /* Hide the info box below 900px as requested */
+    }
+}
+
+@media (max-width: 1200px) {
+    .primary-hover-box {
+        width: 70%;
+    }
+    
+    .calendar {
+        width: 105%;
+    }
+    
+    .infoBox {
+        width: 400px;
+        height: 420px;
+    }
+}
+@media (max-width: 800px) {
+    .appointmentsContainer {
+        min-height: calc(100vh - 66.22px); /* Replace [header-height] with your header's height */
+        display: flex;
+        align-items: center;
+    }
+    .SelectADate{
+        display: block;
+        border: 2px solid black;
+        border-radius: 25px;
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+    .primary-hover-box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    :host ::ng-deep .calendar .calendar-weekdays, :host ::ng-deep .calendar .calendar-day {
+        font-size: 4vw;
+      }
+    
+    .infoBox {
+        width: 400px;
+        height: 420px;
+    }
 }
