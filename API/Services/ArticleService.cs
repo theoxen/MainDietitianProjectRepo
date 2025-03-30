@@ -16,7 +16,7 @@ namespace API.Services
             _articleRepository = articleRepository;
         }
 
-        public async Task<Result<Empty>> CreateArticleAsync(CreateArticleDto createArticleDto)
+        public async Task<Result<ArticleDto>> CreateArticleAsync(CreateArticleDto createArticleDto)
         {
             Article article = new Article
             {
@@ -29,10 +29,17 @@ namespace API.Services
 
             if(await _articleRepository.Commit())
             {
-                return Result<Empty>.Ok(new Empty());
+                return Result<ArticleDto>.Ok(new ArticleDto
+                {
+                    Id = article.Id,
+                    Title = article.Title,
+                    Description = article.Description,
+                    Link = article.Link,
+                    DateCreated = article.DateCreated
+                });
             }
             
-            return Result<Empty>.BadRequest(new List<ResultError>
+            return Result<ArticleDto>.BadRequest(new List<ResultError>
             {
                 new ResultError{
                     Message = "Error creating article",
@@ -72,7 +79,8 @@ namespace API.Services
                 Id = article.Id,
                 Title = article.Title,
                 Description = article.Description,
-                Link = article.Link
+                Link = article.Link,
+                DateCreated = article.DateCreated
             }).ToList();
 
             return Result<List<ArticleDto>>.Ok(articleDtos);
@@ -90,7 +98,8 @@ namespace API.Services
                 Id = article.Id,
                 Title = article.Title,
                 Description = article.Description,
-                Link = article.Link
+                Link = article.Link,
+                DateCreated = article.DateCreated
             };
 
             return Result<ArticleDto>.Ok(articleDto);
@@ -104,7 +113,8 @@ namespace API.Services
                 Id = article.Id,
                 Title = article.Title,
                 Description = article.Description,
-                Link = article.Link
+                Link = article.Link,
+                DateCreated = article.DateCreated
             }).ToList();
 
             return Result<List<ArticleDto>>.Ok(articleDtos);
@@ -128,7 +138,7 @@ namespace API.Services
                     Title = article.Title,
                     Description = article.Description,
                     Link = article.Link,
-                   
+                    DateCreated = article.DateCreated
                 });
             }
 
@@ -144,7 +154,7 @@ namespace API.Services
                     Title = article.Title,
                     Description = article.Description,
                     Link = article.Link,
-                   
+                    DateCreated = article.DateCreated
                 });
             }
             
