@@ -17,6 +17,8 @@ export class ValidationPatterns
     static reviewText = /^.{1,500}$/;
     static stars = /^[1-5]$/;
     static anonymous = /^(true|false)$/;
+    static title = /^.{1,100}$/;
+    static adviceText = /^.{1,500}$/;
 
     static floatPattern = /^\d+(\.\d+)?$/;
 }
