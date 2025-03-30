@@ -199,6 +199,103 @@
     border-color: #FFA500;
   }
 
+/* Month/Year Picker Styles */
+.month-year-picker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  z-index: 10;
+  width: 280px;
+}
+
+.picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.picker-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.close-picker {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+
+.year-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: #f5f5f5;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.year-nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.month-item {
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.month-item:hover {
+  background-color: #f0f0f0;
+}
+
+.month-item.selected {
+  background-color: #FFA500;
+  color: white;
+}
+
+.picker-close-btn {
+  width: 100%;
+  padding: 8px;
+  background-color: #FFA500;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.calendar-header h2 {
+  cursor: pointer;
+}
+
+.calendar-header h2:hover {
+  color: #FFA500;
+}
+
   @media (max-width: 1400px) {
     .calendar-weekdays {
       font-size: 2vw;
