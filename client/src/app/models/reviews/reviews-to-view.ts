@@ -1,10 +1,10 @@
 export interface ReviewsToView {
-    reviewId: string;
+    id: string;
     stars: number;
     reviewText: string;
     isAnonymous: boolean;
     userId: string;
     userFullName: string;
-    createdAt: Date;
-    updatedAt?: Date;   //otpional
+    dateCreated: Date;
+    updatedAt?: Date;
   }

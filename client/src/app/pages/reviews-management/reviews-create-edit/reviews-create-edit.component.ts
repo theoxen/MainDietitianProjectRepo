@@ -124,7 +124,7 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder, private rout
         this.reviewsService.updateReview(reviewsToUpdate).subscribe({
           next: (reviews : Reviews) => {
             console.log("Review updated successfully.");
-            this.reviewId = reviews.reviewId;
+            this.reviewId = reviews.id;
             this.router.navigate(['/']);
           },
           error: (error: any) => {

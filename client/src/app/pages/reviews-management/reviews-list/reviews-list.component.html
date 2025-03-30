@@ -1,19 +1,39 @@
-<div *ngIf="getUserToken()" class="button-container">
-  <button class="primary-button" (click)="addOrUpdateReview()">
-    {{ userReview?.reviewId ? 'Update Review' : 'Add Review' }}
-  </button>
-</div>
-
-<div *ngFor="let review of reviews" class="review">
-  <p>Client's Name: {{ review.userFullName }}</p>
-  <div class="star-rating">
-    <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" [ngClass]="{'filled': i < review.stars}">
-      &#9733;
-    </span>
-  </div>
-  <p>{{ review.reviewText }}</p>
-</div>
-
 <div class="button-container">
-  <button class="primary-button" (click)="loadMoreReviews()" [disabled]="loading">Show More</button>
+  @if(getUserToken()) {
+    <button class="primary-button" (click)="addOrUpdateReview()">
+      {{ userReview?.id ? 'Update Review' : 'Add Review' }}
+    </button>
+  }
+
+  <select class="sorting-select" (change)="sortReviews($event)">
+    <option value="best">Best Rating</option>
+    <option value="worst">Worst Rating</option>
+    <option value="newest">Newest</option>
+    <option value="oldest">Oldest</option>
+  </select>
 </div>
+
+@for (review of reviews; track review.id) {
+  <div class="review">
+    <div class="review-header">
+      <p>Client's Name: {{ review.userFullName }}</p>
+      <p>{{ review.dateCreated | date:'mediumDate' }}</p>
+    </div>
+    <div class="star-rating">
+      @for (star of [1, 2, 3, 4, 5]; track star) {
+        <span [ngClass]="{'filled': $index < review.stars}">
+          &#9733;
+        </span>
+      }
+    </div>
+    <p>{{ review.reviewText }}</p>
+  </div>
+}
+
+@if (hasMoreReviews()) {
+  <div class="button-container">
+    <button class="primary-button" (click)="loadMoreReviews()" [disabled]="loading">
+      Show More
+    </button>
+  </div>
+}

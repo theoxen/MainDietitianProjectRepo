@@ -57,4 +57,10 @@ export class ReviewsService {
     const url = `${this.baseUrl}users/${userId}/review`;
     return this.http.get<ReviewsToView>(url);
   }
+
+  // Get logged-in user ID from backend
+  getLoggedInUserId(): Observable<string> {
+    const url = `${this.baseUrl}userId`;
+    return this.http.get<string>(url);
+  }
 }

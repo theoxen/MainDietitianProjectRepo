@@ -22,6 +22,7 @@ import { ViewClientDetailsComponent } from './pages/client-management/view-clien
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
+import { AdviceCreateEditComponent } from './pages/advice-management/advice-create-edit/advice-create-edit.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
 import { AppointmentsComponent } from './pages/appointments/appointments/appointments.component';
@@ -30,7 +31,7 @@ import { UploadsComponent } from './pages/uploads/uploads.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { clientGuard } from './guards/client.guard';
-import { nonAuthGuard } from './guards/non-auth.guard';
+import { nonAuthGuard } from './guards/non-auth.guard;
 
 
 
@@ -68,7 +69,7 @@ export const routes: Routes = [
          { path: ":clientId/edit-diets", component: EditDietsComponent }, 
       ]
    },
-
+     
    {
       path: "recipes",
       runGuardsAndResolvers: "always",
@@ -89,9 +90,20 @@ export const routes: Routes = [
          { path: ":clientId", component: ReviewsCreateEditComponent },
       ]
    },
-
+     
+   {
+    path: "advice", // TODO for Kirikos. Maybe put them under the Uploads url because it will be the same page as all the other uploads
+    runGuardsAndResolvers: "always",
+    canActivate: [authGuard],
+    children: [
+       { path: "", component: AdviceCreateEditComponent},
+       { path: ":adviceId/edit", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
+    ]
+   },
+   
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
    { path: "appointments", component: AppointmentsComponent, canActivate: [authGuard, adminGuard] },
+
 
    { path: "about-us", component: AboutUsComponent },
    

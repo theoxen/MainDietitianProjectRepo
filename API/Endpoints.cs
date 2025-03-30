@@ -38,7 +38,7 @@ public static class Endpoints
         public const string Create = Base;
         public const string Delete = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
         public const string GetAdvice = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
-        public const string UpdateAdvice = Base;
+        public const string UpdateAdvice = Base + "/{adviceId}";
         public const string GetAll = Base;
         public const string Search = Base + "/search";
     }
