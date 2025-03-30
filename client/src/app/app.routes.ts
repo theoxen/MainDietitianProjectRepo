@@ -22,6 +22,8 @@ import { ViewClientDetailsComponent } from './pages/client-management/view-clien
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
+import { SelectComponent } from './pages/Reports/select/select.component';
+import { ViewReportsComponent } from './pages/Reports/view/view.component';
 import { AdviceCreateEditComponent } from './pages/advice-management/advice-create-edit/advice-create-edit.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
@@ -79,6 +81,7 @@ export const routes: Routes = [
       ]
    },
 
+
    {
       path: "reviews",
       runGuardsAndResolvers: "always",
@@ -96,6 +99,16 @@ export const routes: Routes = [
     children: [
        { path: "", component: AdviceCreateEditComponent},
        { path: ":adviceId/edit", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
+    ]
+   },
+  
+   {
+    path: "reports",
+    runGuardsAndResolvers: "always",
+    canActivate: [authGuard, adminGuard],
+    children: [
+       { path: "", component: SelectComponent },
+       { path: "view", component: ViewReportsComponent },
     ]
    },
    
