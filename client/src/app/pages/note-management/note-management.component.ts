@@ -7,6 +7,7 @@ import { NoteService } from '../../services/note.service';
 import { NoteToAdd } from '../../models/notes/note-to-add';
 import { Note } from '../../models/notes/note';
 import { NoteToUpdate } from '../../models/notes/note-to-edit';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-note-management',
@@ -23,6 +24,7 @@ export class NoteManagementComponent implements OnInit {
   noteId: string = "";
 
   noteService = inject(NoteService);
+  private toastr = inject(ToastrService);
 
   clientNote = new FormGroup({
     note: new FormControl<string | null>(null)
@@ -76,7 +78,7 @@ export class NoteManagementComponent implements OnInit {
     // Call service to add the note
     this.noteService.addNote(NoteToAdd).subscribe({
       next: (note: Note) => {
-        console.log("Note added.");
+        this.toastr.success("Note added.");
         this.clientNoteIsNull = false;
         this.noteId = note.id;
       }
@@ -92,7 +94,7 @@ export class NoteManagementComponent implements OnInit {
     // Call service to update the note
     this.noteService.updateNote(NoteToUpdate).subscribe({
       next: () => {
-        console.log("Note updated.");
+        this.toastr.success("Note updated.");
         this.clientNoteIsNull = false;
       }
     })
@@ -105,13 +107,11 @@ export class NoteManagementComponent implements OnInit {
       // IF WE WANTED TO MANUALLY SUBMIT THE FORM AFTER THE CONFIRMATION WINDOW WE WOULD DO this.onSubmit(); 
       this.noteService.deleteNote(this.noteId).subscribe({
         next: () => {
-          console.log("Note deleted.");
+          this.toastr.success("Note deleted.");
           this.clientNoteIsNull = true;
           this.clientNote.controls.note.setValue(null);
         }
       });
-    } else {
-      console.log('Cancelled.');
     }
   }
 }

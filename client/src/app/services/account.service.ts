@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
@@ -16,6 +16,8 @@ export class AccountService {
 
   public currentUser$: Observable<User | null>;
 
+  public userRole = signal<string | null>(null);
+  
   constructor(private http: HttpClient) {
 
     var user: User | null = null
@@ -24,6 +26,7 @@ export class AccountService {
 
     if (userInLocalStorage) {
       user = JSON.parse(userInLocalStorage);
+      this.userRole.set(user!.roles[0] || null);
     }
 
 
@@ -36,6 +39,15 @@ export class AccountService {
     return this.currentUserSubject.value?.token;
   }
 
+  // getUserRole() {
+  //   const userStr = localStorage.getItem('user');
+  //   if(userStr)
+  //   {
+  //     const userJson = JSON.parse(userStr);
+  //     return userJson.roles[0]? userJson.roles[0] : null;
+  //   }
+  // }
+
   login(loginData: LoginData) {
 
     const url = this.baseUrl + 'users/login'
@@ -45,6 +57,7 @@ export class AccountService {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSubject.next(user);
+          this.userRole.set(user.roles[0] || null);
         }
 
         return user;
@@ -55,6 +68,9 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
+    this.userRole.set(null);
+    // // Force refresh for the navbar
+    // window.location.reload();
   }
 
   register(userToRegister: RegisterData) {
