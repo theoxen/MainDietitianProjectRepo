@@ -1,39 +1,206 @@
-.hover-box-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
-
-.primary-hover-box {
+  
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+  
+.sub-title {
+    color: black;
+}
+  
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+  
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+  
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25);
+}
+  
+.card-header {
+    padding: 1.5rem;
+    background-color: #FFB453;
+    color: white;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+  
+.card-header i {
+    font-size: 1.5rem;
+}
+  
+.card-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+  
+.card-body {
+    padding: 1.5rem;
+}
+  
+.card-body p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+  
+/* Button styles */
+.btn {
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 60px;
-    padding-right: 60px;
-}
-
-.backup-restore-container {
-    display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 15px;
+    font-weight: 400;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.restore-container {
+  
+.btn i {
+    font-size: 1rem;
+}
+  
+.btn-primary {
+    background-color: #FFB453;
+    color: white;
+}
+  
+.btn-primary:hover {
+    background-color: #FFA726;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+  
+.btn-primary:active {
+    background-color: #FF9800;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+  
+.btn-secondary {
+    background-color: #FFB453;
+    color: white;
+    margin-top: 1rem;
+}
+  
+.btn-secondary:hover {
+    background-color: #FFA726;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+  
+.btn-secondary:active {
+    background-color: #FF9800;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+  
+.btn-secondary:disabled {
+    background-color: #C8C8C8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+  
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #FFB453;
+    color: #FFB453;
+    padding: 0.6rem 1.2rem;
+}
+  
+.btn-outline:hover {
+    background-color: #FFB453;
+    color: white;
+}
+  
+/* File upload styling */
+.file-upload {
+    margin-bottom: 1rem;
+}
+  
+.file-label {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px #C8C8C8 dashed;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+    margin-bottom: 0.75rem;
 }
-
-@media screen and (max-width: 768px) {
-    .primary-button {
-        width: fit-content;
+  
+.file-label:hover {
+    border: 2px #FFB453 solid;
+}
+  
+.file-input {
+    display: none;
+}
+  
+.file-name {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    padding: 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+  
+/* Additional data management section
+.data-management-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    border-top: 5px solid #FFB453;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+  
+.data-management-section h2 {
+    color: black;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 550;
+}
+  
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+*/
+  
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-container {
+      grid-template-columns: 1fr;
     }
-}
-
-@media screen and (max-width: 900px) {
-    .backup-restore-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    
+    .action-buttons {
+      flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+      width: 100%;
     }
 }

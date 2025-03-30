@@ -17,13 +17,8 @@ export class MetricsService {
   fetchMetricsForUser(clientId: string) {
     const url = this.baseUrl + 'metrics/search';
     let params = new HttpParams().set('userId', clientId);
-    return this.http.get<Metrics[]>(url, { params }).pipe(
-      catchError(error => {
-        console.error('Error fetching metrics:', error);
-        // Return an empty array on error so that the subscriber always gets data
-        return ([]);
-      })
-    );
+    return this.http.get<Metrics[]>(url, { params });
+
   }
 
   fetchMetricsWithMetricsId(metricsId: string) {

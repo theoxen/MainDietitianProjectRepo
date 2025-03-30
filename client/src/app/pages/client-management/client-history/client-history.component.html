@@ -1,1 +1,34 @@
-<p>client-history works for user Id: {{clientId}}!</p>
+<div class="client-history">
+    <h1>Client History</h1>
+  
+    <h2>Client Details</h2>
+    <p><strong>Name:</strong> {{ client?.fullName }}</p>
+    <p><strong>Email:</strong> {{ client?.email }}</p>
+    <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
+    <p><strong>ID:</strong> {{ clientId }}</p>
+    <p><strong>dateOfBirth:</strong> {{ client?.dateOfBirth }}</p>
+    <p><strong>Gender:</strong> {{ client?.gender }}</p>
+    <div class="detail-item">
+        <p><strong>Age: </strong>
+        <span class="detail-value">{{ calculateClientAge(client) }}</span>
+    </div>
+  
+    <h2>Client Note</h2>
+    <p>{{ clientNote?.noteText }}</p>
+  
+    <h2>Client Metrics</h2>
+    
+      <ul>
+        <li *ngFor="let metric of clientMetrics">
+          <!-- <p><strong>Date:</strong> {{ metric.dateCreated | date }}</p> -->
+          <p><strong>Bodyweight:</strong> {{ metric.bodyweight }} kg</p>
+          <p><strong>Fat Mass:</strong> {{ metric.fatMass }}%</p>
+          <p><strong>Muscle Mass:</strong> {{ metric.muscleMass }} kg</p>
+          <hr />
+        </li>
+      </ul>
+  
+    <ng-template #noMetrics>
+      <p>No metrics available for this client.</p>
+    </ng-template>
+  </div>

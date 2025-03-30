@@ -38,7 +38,7 @@ public static class Endpoints
         public const string Create = Base;
         public const string Delete = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
         public const string GetAdvice = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
-        public const string UpdateAdvice = Base;
+        public const string UpdateAdvice = Base + "/{adviceId}";
         public const string GetAll = Base;
         public const string Search = Base + "/search";
     }
@@ -108,11 +108,24 @@ public static class Endpoints
         public const string GetDiet = Base + "/{id}";
         public const string GetAll = Base;
         public const string Delete = Base + "/{id}";
+        public const string GetDietByClientId = Base + "/{clientId}/theclient";
+        public const string GetDietIdByClientId = Base + "/client/{userId}";
     }
 
     public static class BackupAndRestore
     {
         public const string CreateDataBackup = BaseUrl + "backup";
         public const string RestoreData = BaseUrl + "restore";
+    }
+
+    public static class Articles
+    {
+        private const string Base = BaseUrl + "articles";
+        public const string Create = Base;
+        public const string Update = Base;
+        public const string Delete = Base + "/{id}";
+        public const string GetById = Base + "/{id}";
+        public const string GetAll = Base; 
+        public const string Search = Base + "/search/{searchTerm}";
     }
 }

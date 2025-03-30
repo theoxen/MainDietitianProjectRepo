@@ -1,0 +1,211 @@
+.nutrition-calendar-container {
+
+    width: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  
+  .calendar-header {
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 20px 10px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    
+  }
+  
+  .calendar-header .nav-button {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .nav-button{
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    
+  }
+  .calendar-header .nav-button:hover {
+    opacity: 0.7;
+    background-color: #FFA500;
+  }
+  
+  .calendar-grid {
+    padding: 10px;
+    
+  }
+  
+  .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    color: #888;
+    font-size: 1.2vw;
+    margin-bottom: 10px;
+    width:100%;
+  }
+  
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+  }
+  
+  .calendar-day {
+    padding: 15px;
+    font-size: 1.2vw;
+    cursor: pointer;
+    border-radius: 4px;
+    transition:  0.3s;
+  }
+    
+  .calendar-day:hover{
+    background-color: #FFA500;
+  }
+  
+  .calendar-day.current-month {
+    color: #333;
+  }
+  
+  .calendar-day:not(.current-month) {
+    color: #ccc;
+    cursor: default;
+  }
+  
+  .calendar-day.selected {
+    background-color: #FFA500;
+    color: white;
+  }
+
+ 
+  .closeButton{ 
+    height: 45px;
+    width: 180px;
+    background-color: #ff7a7a;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+.closeButton:hover{
+    background-color: #ff3f3f;/* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+  
+  .time-selection-overlay.active {
+    display: flex;
+  }
+  
+  .time-selection-container {
+    background-color: white;
+    border-radius: 8px; 
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .time-selection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .time-slots {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    max-height: 400px; /* Set a fixed height as needed */
+    overflow-y: auto;  /* Enable vertical scrolling */
+  }
+
+  /* For Chrome, Safari and Opera */
+.time-slots::-webkit-scrollbar {
+  width: 8px;
+}
+
+.time-slots::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.time-slots::-webkit-scrollbar-thumb {
+  background: #8888888d;
+  border-radius: 10px;
+}
+
+.time-slots::-webkit-scrollbar-thumb:hover {
+  background: #5555558b;
+}
+  
+  .SubmitButton{ 
+    height: 45px;
+    width: 210px;
+    background-color: #FFB453;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+
+}
+.SubmitButton:hover{
+    background-color: #FFA726;/* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+.submitButtonContainer{
+  margin-top: 15px;
+  width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+  .time-slot {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .time-slot:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .time-slot.selected {
+    background-color: #FFA500;
+    color: white;
+    border-color: #FFA500;
+  }
+
+  @media (max-width: 1400px) {
+    .calendar-weekdays {
+      font-size: 2vw;
+    }
+    .calendar-day {
+      font-size: 2vw;
+    }
+      
+}
+

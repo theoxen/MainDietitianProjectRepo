@@ -7,6 +7,8 @@ namespace API.Repositories.IRepositories
         Task<Diet?> GetDietByIdAsync(Guid id);
         Task<List<Diet>> GetAllDietsAsync();
         Task<Diet?> GetDietByNameAsync(string name);
+        Task<Diet?> GetDietByClientIdAsync(Guid id);
+        Task<Guid> GetDietIdByClientIdAsync(Guid userId);
         void CreateDiet(Diet diet);
         void UpdateDiet(Diet diet);
         void DeleteDiet(Diet diet);
