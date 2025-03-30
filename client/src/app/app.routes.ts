@@ -31,7 +31,7 @@ import { UploadsComponent } from './pages/uploads/uploads.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { clientGuard } from './guards/client.guard';
-import { nonAuthGuard } from './guards/non-auth.guard;
+import { nonAuthGuard } from './guards/non-auth.guard';
 
 
 
@@ -48,9 +48,6 @@ export const routes: Routes = [
       ]
    },
 
-
-
-   { path: "appointments", component: AppointmentsComponent }
    {
       path: "clients",
       runGuardsAndResolvers: "always",
@@ -84,6 +81,7 @@ export const routes: Routes = [
 
    {
       path: "reviews",
+      runGuardsAndResolvers: "always",
       children: [
          { path: "", component: ReviewsCreateEditComponent },
          { path: ":reviewId/edit", component: ReviewsCreateEditComponent, canActivate: [authGuard, clientGuard] },
