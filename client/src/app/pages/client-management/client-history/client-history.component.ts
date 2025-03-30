@@ -4,37 +4,83 @@ import { ClientManagementService } from '../../../services/client-management.ser
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
-
+import { NoteService } from '../../../services/note.service';
+import { Note } from '../../../models/notes/note';
+import { MetricsService } from '../../../services/metrics.service';
+import { Metrics } from '../../../models/metrics/metrics';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-client-history',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './client-history.component.html',
   styleUrl: './client-history.component.css'
 })
 export class ClientHistoryComponent implements OnInit {
-  
   clientManagementService = inject(ClientManagementService);
+  noteService = inject(NoteService);
+  metricsService = inject(MetricsService);
+
   clientId: string | null = null;
   client: ClientProfile | null = null;
+  clientNote: Note | null = null;
+  clientMetrics: Metrics[] | null = null;
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     window.scrollTo(0, 0);
 
     this.clientId = this.route.snapshot.paramMap.get('clientId');
-
     console.log("Captured Client ID in ClientHistoryComponent:", this.clientId);
 
     if (this.clientId) {
-      const client$ = this.clientManagementService.getClientDetails(this.clientId);
-      client$.subscribe(client => {
+      // Fetch client details
+      this.clientManagementService.getClientDetails(this.clientId).subscribe(client => {
         this.client = client;
       });
+
+      // Fetch client note
+      this.noteService.fetchNoteForUser(this.clientId).subscribe({
+        next: (note) => {
+          this.clientNote = note;
+        },
+        error: (error) => {
+          console.error("Error fetching note:", error);
+        }
+      });
+
+      // Fetch client metrics
+      this.metricsService.fetchMetricsForUser(this.clientId).subscribe({
+        next: (metrics) => {
+          this.clientMetrics = metrics; // Store the metrics
+        },
+        error: (error) => {
+          console.error("Error fetching client metrics:", error);
+        }
+      });
     }
+    
   }
+
+  calculateClientAge(client: ClientProfile | null): number {
+      if (!client || !client.dateOfBirth) {
+        return 0; // Handle missing data
+      }
+      
+      const dob = new Date(client.dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      
+      // Adjust if birthday hasn't occurred yet this year
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      
+      return age;
+    }
 
   // navigateTo(route: string) {
   //   if (this.clientId) {
@@ -46,41 +92,4 @@ export class ClientHistoryComponent implements OnInit {
 }
 
 
-@Component({
-  selector: 'app-note-management',
-  template: '<p>Note Management works!</p>',
-})
-export class NoteManagementComponent implements OnInit {
-  clientId: any;
-  route: any;
-  noteService: any;
-  noteId: any;
-  clientNote: any;
-  clientNoteIsNull: boolean | undefined;
-  ngOnInit(): void {
-    window.scrollTo(0, 0);
-    this.clientId = this.route.snapshot.paramMap.get('clientId')!; // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
-    this.fetchNoteForUser(this.clientId);
-    console.log("Captured Client ID in NotesforHistory:", this.clientNote.controls.note.value); // Log the note for the user
-  }
-  fetchNoteForUser(clientId: string): void {
 
-    // this.clientNote.controls.note.setValue("test"); // Set the note for the user
-
-    // Implement your logic to fetch notes for the user
-    this.noteService.fetchNoteForUser(clientId).subscribe({
-      next: (fetchedNote: { id: any; noteText: any; }) => {
-        this.noteId = fetchedNote.id; // Set the note ID
-        this.clientNote.controls.note.setValue(fetchedNote.noteText); // Set the note
-        this.clientNoteIsNull = false;
-      },
-      error: (error: any) => {
-        this.clientNoteIsNull = true;
-        // if(error.statusCode === 404) {
-        //   console.log("Note not found.");
-        // }
-      }
-    });
-    
-}
-}
