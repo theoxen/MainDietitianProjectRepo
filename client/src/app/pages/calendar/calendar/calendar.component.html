@@ -1,0 +1,96 @@
+<div class="nutrition-calendar-container">
+  <!-- Calendar Header with Navigation -->
+  <div class="calendarHeaderBlockStatement" [ngStyle]="{'display': calendarDisplay}" [@fadeIn]>
+    <div class="calendar-header">
+      <button (click)="changeMonth(-1)" class="nav-button">
+        &lt;
+      </button>
+      <h2 (click)="toggleMonthYearPicker()">{{ currentMonth | date:'MMMM yyyy' }}</h2>
+      <button (click)="changeMonth(1)" class="nav-button">
+        &gt;
+      </button>
+    </div>
+  </div>
+
+  <!-- Month/Year Picker Overlay -->
+  @if (showMonthYearPicker) {
+    <div class="month-year-picker" [@fadeIn]>
+      <div class="picker-header">
+        <h3>Select Month & Year</h3>
+        <button class="close-picker" (click)="toggleMonthYearPicker()">×</button>
+      </div>
+      <div class="year-selector">
+        <button (click)="changeYear(-1)" class="year-nav">&lt;</button>
+        <span>{{ currentMonth | date:'yyyy' }}</span>
+        <button (click)="changeYear(1)" class="year-nav">&gt;</button>
+      </div>
+      <div class="month-grid">
+        @for (month of months; track month.value) {
+          <div 
+            class="month-item" 
+            [ngClass]="{'selected': currentMonth.getMonth() === month.value}"
+            (click)="selectMonth(month.value)"
+          >
+            {{ month.name }}
+          </div>
+        }
+      </div>
+      <button class="picker-close-btn" (click)="toggleMonthYearPicker()">Close</button>
+    </div>
+  }
+
+  
+    <!-- Calendar Grid -->
+    <div class="calendar-grid" [ngStyle]="{'display': calendarDisplay}" [@fadeIn]>
+      <div class="calendar-weekdays">
+        <div>Mo</div>
+        <div>Tu</div>
+        <div>We</div>
+        <div>Th</div>
+        <div>Fr</div>
+        <div>Sa</div>
+        <div>Su</div>
+      </div>
+      <div class="calendar-days" >
+        @for (day of calendarDays; track day.date) {
+          <div 
+            [ngClass]="{
+              'calendar-day': true,
+              'current-month': day.isCurrentMonth,
+              'selected': day.isSelected
+            }"
+            (click)="selectDate(day)"
+          >
+            {{ day.date }}
+          </div>
+        }
+      </div>
+    </div>
+    
+    <!-- Time Selection Overlay -->
+    @if (selectedDate) {
+
+        <div class="time-selection-container" [@fadeIn]>
+          <div class="time-selection-header">
+            <h3>{{ selectedDate | date:'fullDate' }}</h3>
+          </div>
+          <div class="time-slots">
+            @for (time of availableTimes; track time) {
+              <div 
+                class="time-slot"
+                [ngClass]="{'selected': selectedTime === time}"
+                (click)="selectTime(time)"
+              >
+                {{ time }}
+              </div>
+            }
+          </div>
+          <div class="submitButtonContainer">
+            <button (click)="resetSelection()" class="closeButton" >Cancel</button>
+            <button  (click)="makeAppointment()" class="SubmitButton" [ngStyle]="{'pointer-events': pointerEvent, 'opacity': opacity}">Make Appointment</button>
+          </div>
+          
+        </div>
+
+    }
+  </div>

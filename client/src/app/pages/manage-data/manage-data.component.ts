@@ -2,6 +2,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { NavBarComponent } from "../../components/nav-bar/nav-bar.component";
 import { HttpClient } from '@angular/common/http';
 import { DataManagementService } from '../../services/data-management.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-data',
@@ -13,6 +14,7 @@ import { DataManagementService } from '../../services/data-management.service';
 export class ManageDataComponent {
   httpClient = inject(HttpClient);
   dataManagementService = inject(DataManagementService);
+  private toastr = inject(ToastrService)
 
   selectedFile: File | null = null;
 
@@ -44,7 +46,8 @@ export class ManageDataComponent {
           window.URL.revokeObjectURL(url);
         },
         error: err => {
-          console.error('Error downloading backup:', err);
+          this.toastr.error('Error downloading backup');
+          // console.error('Error downloading backup:', err);
         }
       });
   }
@@ -59,19 +62,17 @@ export class ManageDataComponent {
 
   restore() {
     if (!this.selectedFile) {
-      console.error('No file selected');
+      this.toastr.error('No file selected for restore');
       return;
     }
  
     // Let the browser set the content type header automatically
     this.dataManagementService.restore(this.selectedFile).subscribe({
       next: (response) => {
-        console.log('File uploaded successfully', response);
-        // Add success message or UI feedback here
+        this.toastr.success('Restore successful');
       },
       error: (error) => {
-        console.error('Error uploading file', error);
-        // Add error handling or UI feedback here
+        this.toastr.error('Error restoring backup');
       }
     });
   }

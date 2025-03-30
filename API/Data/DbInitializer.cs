@@ -32,7 +32,7 @@ public class DbInitializer
     private static async Task<bool> InitializeUsers(UserManager<User> userManager)
     {
 
-        if(await userManager.Users.AnyAsync()) return true; //[Added by Fish] if users already exist in database we assume that the admin has already been created
+        if(await userManager.Users.AnyAsync()) return true; // If users already exist in database we assume that the admin has already been created
         
         User admin = new User{
             FullName = "admin",

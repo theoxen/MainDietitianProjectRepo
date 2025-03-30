@@ -13,6 +13,7 @@ import { Note } from '../models/notes/note';
 export class ClientManagementService {
  
   private baseUrl = environment.apiUrl;
+  dateOfBirth: any;
   
   constructor(private http: HttpClient) { }
 

@@ -1,18 +1,69 @@
 <div class="page">
     <app-nav-bar></app-nav-bar>
-    <div class="hover-box-container">
-        <div class="primary-hover-box">
-            <div class="title">Manage Data</div>
-            <div class="backup-restore-container">
-                <div class="backup-container">
-                    <button class="primary-button" (click)="backup()">BACKUP</button>
-                </div>
-                <div class="restore-container">
-                    <input type="file" #fileInput (change)="onFileSelected($event)" />
-                    <button class="primary-button" (click)="restore()">Restore Backup</button>
-                </div>
-            </div>
+    
+    <div class="container">
+      <div class="page-header">
+        <h1 class="title">Manage Data</h1>
+        <p class="sub-title">Backup, restore, and manage your application data</p>
+      </div>
+  
+      <div class="card-container">
+        <!-- Backup Card -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h2>Backup Data</h2>
+          </div>
+          <div class="card-body">
+            <p>Create a backup file of all your data for safekeeping.</p>
+            <button class="btn btn-primary" (click)="backup()">
+              <i class="fas fa-download"></i> Create Backup
+            </button>
+          </div>
         </div>
+  
+        <!-- Restore Card -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-cloud-download-alt"></i>
+            <h2>Restore Data</h2>
+          </div>
+          <div class="card-body">
+            <p>Upload a previously created backup file to restore your data.</p>
+            <div class="file-upload">
+              <label for="backupFile" class="file-label">
+                <i class="fas fa-file-upload"></i>
+                <span>Choose Backup File</span>
+              </label>
+              <input type="file" id="backupFile" #fileInput (change)="onFileSelected($event)" accept=".json,.bak" class="file-input" />
+
+              @if (selectedFile?.name) {
+                <span class="file-name">{{ selectedFile?.name }}</span>
+              }
+              
+            </div>
+            <button class="btn btn-secondary" [disabled]="!selectedFile" (click)="restore()">
+              <i class="fas fa-history"></i> Restore From Backup
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Additional Data Management Section (you can expand this)
+      <div class="data-management-section">
+        <h2>Additional Data Management</h2>
+        
+        <div class="action-buttons">
+          <button class="btn btn-outline">
+            <i class="fas fa-broom"></i> Clean Unused Data
+          </button>
+          <button class="btn btn-outline">
+            <i class="fas fa-sync"></i> Refresh Database
+          </button>
+          <button class="btn btn-outline">
+            <i class="fas fa-chart-bar"></i> Data Reports
+          </button>
+        </div>
+      </div>
     </div>
-</div>
-<!-- TODO: FIX THE STYLE AND THE STRUCTURE -->
+  </div> -->
