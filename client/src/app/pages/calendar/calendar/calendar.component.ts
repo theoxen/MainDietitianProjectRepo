@@ -13,6 +13,11 @@ interface CalendarDate {
   isSelected: boolean;
 }
 
+interface MonthItem {
+  name: string;
+  value: number;
+}
+
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -39,6 +44,22 @@ export class CalendarComponent implements OnInit {
   calendarOpacity: string = "1"; 
   pointerEvent: string = "none";
   opacity: string = "0.4";
+  showMonthYearPicker: boolean = false;
+  months: MonthItem[] = [
+    { name: 'Jan', value: 0 },
+    { name: 'Feb', value: 1 },
+    { name: 'Mar', value: 2 },
+    { name: 'Apr', value: 3 },
+    { name: 'May', value: 4 },
+    { name: 'Jun', value: 5 },
+    { name: 'Jul', value: 6 },
+    { name: 'Aug', value: 7 },
+    { name: 'Sep', value: 8 },
+    { name: 'Oct', value: 9 },
+    { name: 'Nov', value: 10 },
+    { name: 'Dec', value: 11 }
+  ];
+
 
   @Output() dateClicked = new EventEmitter<CalendarDate>();
   @Output() appointmentSelected = new EventEmitter<Appointment>();
@@ -85,6 +106,27 @@ export class CalendarComponent implements OnInit {
       });
     }
   }
+
+  // New methods for month/year picker
+  toggleMonthYearPicker() {
+    this.showMonthYearPicker = !this.showMonthYearPicker;
+  }
+
+  selectMonth(monthIndex: number) {
+    const newDate = new Date(this.currentMonth);
+    newDate.setMonth(monthIndex);
+    this.currentMonth = newDate;
+    this.generateCalendar();
+    this.showMonthYearPicker = false;
+  }
+
+  changeYear(increment: number) {
+    const newDate = new Date(this.currentMonth);
+    newDate.setFullYear(this.currentMonth.getFullYear() + increment);
+    this.currentMonth = newDate;
+    this.generateCalendar();
+  }
+
 
   changeMonth(increment: number) {
     // Create a new date object to avoid mutating the original
