@@ -1,0 +1,38 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="appointmentsContainer">
+        <div class="primary-hover-box">
+            <div class="infoBox">
+                <div class="RegisterAnAppointmentContainer">
+                    <a><img src="/images/logoDietitian.png" class="logo"></a>
+                    <h1 class="ManageAnAppointment">Manage An Appointment</h1>
+                    <div class="steps">
+                        <div class="stepsText">
+                            <div class="circleBeforeSteps"></div>
+                            <h1 class="Step1Text" [ngStyle]="{'display': step1Display}">Step 1</h1>
+                            <h1 class="Step2Text" [ngStyle]="{'display': step2Display}">Step 2</h1>
+                        </div>
+                        <div class="step1">
+                            <i class="fa-regular fa-calendar" [ngStyle]="{'background-color': dateColor}"></i>
+                            <p class="selectDate">Day</p>
+                        </div>
+                        <div class="lineBetweenSteps"></div>
+                        <div class="step2">
+                            <i class="fa-solid fa-clock" [ngStyle]="{'background-color': timeColor}"></i>
+                            <p class="selectTime">Time</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="divisionLine"></div>
+            
+            <div class="calendar">
+                 <app-calendar class="calendarInside" (dateClicked)="onCalendarDateClicked($event)" (appointmentSelected)="handleAppointment($event)"></app-calendar>
+            </div>
+           
+        </div>
+    </div>
+</div>    
