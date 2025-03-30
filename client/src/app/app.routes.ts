@@ -24,49 +24,72 @@ import { ViewClientDetailsComponent } from './pages/client-management/view-clien
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
 import { AddDietsComponent } from './pages/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { UploadsComponent } from './pages/uploads/uploads.component';
+import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
+import { clientGuard } from './guards/client.guard';
+import { nonAuthGuard } from './guards/non-auth.guard';
 
 
 
 export const routes: Routes = [
    { path: "", component: HomePageComponent },
    {
-      path: "auth", children: [
-         { path: "forgot-password", component: ForgotPasswordStep1Component },
-         { path: "login", component: LoginComponent },
-         { path: "register", component: RegisterComponent },
-         { path: "forgot-password/change-password", component: ForgotPasswordStep2Component },
-      ]  
+      path: "auth",
+      runGuardsAndResolvers: "always",
+      children: [
+         { path: "forgot-password", component: ForgotPasswordStep1Component,  canActivate: [nonAuthGuard] },
+         { path: "login", component: LoginComponent, canActivate: [nonAuthGuard] },
+         { path: "register", component: RegisterComponent, canActivate: [authGuard, adminGuard] },
+         { path: "forgot-password/change-password", component: ForgotPasswordStep2Component, canActivate: [nonAuthGuard] },
+      ]
    },
 
-   { path: "clients", component: ClientSearchComponent },
-   { path: "clients/:clientId", component: ManageClientComponent },
-   { path : "clients/:clientId/view", component: ViewClientDetailsComponent },
-   { path: "clients/:clientId/edit-details", component: EditClientDetailsComponent },
-   { path: "clients/:clientId/delete", component: DeleteClientComponent },
-   { path: "clients/:clientId/history", component: ClientHistoryComponent },
-   { path: "clients/:clientId/note", component: NoteManagementComponent },
+   {
+      path: "clients",
+      runGuardsAndResolvers: "always",
+      canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
+      children: [
+         { path: "", component: ClientSearchComponent }, // url path is additive to the parent path (for this case, it is clients)
+         { path: ":clientId", component: ManageClientComponent },
+         { path: ":clientId/view", component: ViewClientDetailsComponent },
+         { path: ":clientId/edit-details", component: EditClientDetailsComponent },
+         { path: ":clientId/delete", component: DeleteClientComponent },
+         { path: ":clientId/history", component: ClientHistoryComponent },
+         { path: ":clientId/note", component: NoteManagementComponent },
+         { path: ":clientId/metrics", component: ViewMetricsComponent },
+         { path: ":clientId/diet", component: ViewMetricsComponent }, // TODO (Nikitas/Panas) FOR A USER TO GET THEIR (LATEST) DIET, THEY WILL NAVIGATE TO /diet ONLY! NOT TO client/:clientId/diet (also wrong component here)
+         { path: ":clientId/add-diets", component: AddDietsComponent }, // to change component
+      ]
+   },
+
+   {
+      path: "recipes",
+      runGuardsAndResolvers: "always",
+      canActivate: [authGuard],
+      children: [
+         { path: "", component: RecipesComponent },
+         { path: "add", component: AddEditRecipeComponent, canActivate: [adminGuard] },
+         { path: ":recipeId/edit", component: AddEditRecipeComponent, canActivate: [adminGuard] }, //TODO change the name of the url to edit-view
+         { path: ":recipeId", component: ViewComponent }
+      ]
+   },
+
+   {
+      path: "reviews",
+      children: [
+         { path: "", component: ReviewsCreateEditComponent },
+         { path: ":reviewId/edit", component: ReviewsCreateEditComponent, canActivate: [authGuard, clientGuard] },
+         { path: ":clientId", component: ReviewsCreateEditComponent },
+      ]
+   },
+
+   { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
+
+   { path: "about-us", component: AboutUsComponent },
    
-   { path: "recipes", component: RecipesComponent },
-   { path: "recipes/add", component: AddEditRecipeComponent },
-   { path: "recipes/:recipeId/edit", component: AddEditRecipeComponent }, //TODO change the name of the url to edit-view
-   { path: "recipes/:recipeId", component: ViewComponent },
-
-   { path: "clients/:clientId/metrics", component: ViewMetricsComponent },
-
-   { path: "clients/:clientId/diet", component: ViewMetricsComponent },
-
-
-
-   { path: "clients/:clientId/add-diets", component: AddDietsComponent }, // to change component
-
-
-   { path: "reviews", component: ReviewsCreateEditComponent },
-   { path: "reviews/:reviewId/edit", component: ReviewsCreateEditComponent },
-
-   { path: "reviews/:clientId", component: ReviewsCreateEditComponent },
-
-   { path: "manage-data", component: ManageDataComponent },
-
+   { path: "uploads", component: UploadsComponent, canActivate: [authGuard] },
 
    { path: "", redirectTo: "/", pathMatch: "prefix" },
 ];

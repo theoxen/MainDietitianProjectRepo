@@ -115,4 +115,15 @@ public static class Endpoints
         public const string CreateDataBackup = BaseUrl + "backup";
         public const string RestoreData = BaseUrl + "restore";
     }
+
+    public static class Articles
+    {
+        private const string Base = BaseUrl + "articles";
+        public const string Create = Base;
+        public const string Update = Base;
+        public const string Delete = Base + "/{id}";
+        public const string GetById = Base + "/{id}";
+        public const string GetAll = Base; 
+        public const string Search = Base + "/search/{searchTerm}";
+    }
 }
