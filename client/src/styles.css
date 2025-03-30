@@ -140,6 +140,7 @@
 .mat-mdc-dialog-surface {
     align-items: center;
     background-color: rgba(95, 158, 160, 0) !important;
+    height: auto !important;
 }
   
 /* html, body { height: 100%; }

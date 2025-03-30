@@ -4,29 +4,36 @@ import { Metrics } from '../models/metrics/metrics';
 import { environment } from '../environments/environment';
 import { MetricsToAdd } from '../models/metrics/metrics-to-add';
 import { MetricsToEdit } from '../models/metrics/metrics-to-edit';
-import { catchError } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
+import { Diet } from '../models/diet';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MetricsService {
+export class DietService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  fetchMetricsForUser(clientId: string) {
+  fetchDietForUser(dietId: string): Observable<Diet[]> {
+    const url = `${this.baseUrl}diets/${dietId}`;
+    return this.http.get<Diet[]>(url);
+  }
+
+  fetchUserDietsWithUserId(userId: string) {
+    const url = this.baseUrl + `diets/client/${userId}`;
+    let params = new HttpParams().set('userId', userId);
+    return this.http.get<string[]>(url, { params });
+  }
+
+  fetchAllDiet(clientId: string) {
     const url = this.baseUrl + 'metrics/search';
     let params = new HttpParams().set('userId', clientId);
     return this.http.get<Metrics[]>(url, { params });
 
   }
 
-  fetchMetricsWithMetricsId(metricsId: string) {
-    const url = `${this.baseUrl}metrics/${metricsId}`;
-    return this.http.get<Metrics>(url); // Get request to fetch metrics by ID
-}
-
-  addMetrics(metrics: MetricsToAdd) {
+  addAppointment(metrics: MetricsToAdd) {
     const url = this.baseUrl + 'metrics';
     return this.http.post<Metrics>(url, metrics); // Post request to add a new metric
   }

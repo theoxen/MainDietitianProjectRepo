@@ -63,6 +63,20 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [HttpGet(Endpoints.Diets.GetDietByClientId)]
+        public async Task<IActionResult> GetDietByClientId(Guid id)
+        {
+            var result = await _dietService.GetDietByClientIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpGet(Endpoints.Diets.GetDietIdByClientId)]
+        public async Task<IActionResult> GetDietIdByClientIdAsync(Guid userId)
+        {
+            var result = await _dietService.GetDietIdByClientIdAsync(userId);
+            return Ok(result);
+        }
+
         //Remove // [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Diets.Delete)]
         public async Task<IActionResult> DeleteDiet(Guid id)

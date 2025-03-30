@@ -67,5 +67,21 @@ namespace API.Repositories
         {
             return await _dataContext.SaveChangesAsync() > 0;
         }
+
+        public async Task<Diet?> GetDietByClientIdAsync(Guid userId)
+        {
+            return await _dataContext.Diets
+                .Include(d => d.DietDays)
+                .ThenInclude(d => d.DietMeals)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Guid> GetDietIdByClientIdAsync(Guid userId)
+        {
+            return await _dataContext.UserDiets
+                .Where(d => d.UserId == userId)
+                .Select(d => d.DietId)
+                .FirstOrDefaultAsync();
+        }
     }
 }
