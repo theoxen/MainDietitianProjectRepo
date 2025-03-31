@@ -9,6 +9,8 @@ import { Note } from '../../../models/notes/note';
 import { MetricsService } from '../../../services/metrics.service';
 import { Metrics } from '../../../models/metrics/metrics';
 import { CommonModule } from '@angular/common';
+import { DietService } from '../../../services/diet.service';
+import { Diet } from '../../../models/diet';
 
 @Component({
   selector: 'app-client-history',
@@ -21,11 +23,20 @@ export class ClientHistoryComponent implements OnInit {
   clientManagementService = inject(ClientManagementService);
   noteService = inject(NoteService);
   metricsService = inject(MetricsService);
+  dietService = inject(DietService);
+
 
   clientId: string | null = null;
   client: ClientProfile | null = null;
   clientNote: Note | null = null;
   clientMetrics: Metrics[] | null = null;
+  dietId: string | null = null; 
+  clientDiet: any;
+
+  dietDays: any[] = [];
+  dietMeals: any[] = [];
+  allMealItems: any[] = [];
+
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
@@ -60,8 +71,66 @@ export class ClientHistoryComponent implements OnInit {
           console.error("Error fetching client metrics:", error);
         }
       });
+
+      // Fetch client diet ID then diet details
+      this.dietService.fetchUserDietsWithUserId(this.clientId).subscribe({
+        next: (userDietObject) => {
+          console.log('Fetched diets response:', userDietObject);
+          this.dietId = (userDietObject as any).data;
+          
+          if (this.dietId) {
+            // Fetch the detailed diet using the dietId
+            this.fetchClientDiet();
+          }
+        },
+        error: (error) => {
+          console.error("Error fetching diet id:", error);
+        }
+      });
     }
     
+  }
+
+  fetchClientDiet(): void {
+    if (!this.dietId) return;
+    
+    this.dietService.fetchDietForUser(this.dietId).subscribe({
+      next: (diet) => {
+        this.clientDiet = (diet as any).data;
+        console.log("Client Diet:", this.clientDiet);
+
+        if (this.clientDiet && this.clientDiet.days) {
+          this.dietDays = this.clientDiet.days;
+          
+          // Extract all meals across all days
+          this.dietMeals = [];
+          this.allMealItems = [];
+          
+          this.dietDays.forEach(day => {
+            if (day.meals && day.meals.length) {
+              day.meals.forEach((meal: any) => {
+                // Add day number to each meal for reference
+                meal.dayNumber = day.dayNumber || 1;
+                this.dietMeals.push(meal);
+                
+                // Extract all meal items
+                if (meal.items && meal.items.length) {
+                  meal.items.forEach((item: any) => {
+                    // Add meal period and day to each item for reference
+                    item.mealPeriod = meal.mealPeriod;
+                    item.dayNumber = day.dayNumber || 1;
+                    this.allMealItems.push(item);
+                  });
+                }
+              });
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error("Error fetching detailed diet:", error);
+      }
+    });
   }
 
   calculateClientAge(client: ClientProfile | null): number {

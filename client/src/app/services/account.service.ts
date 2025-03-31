@@ -26,7 +26,7 @@ export class AccountService {
 
     if (userInLocalStorage) {
       user = JSON.parse(userInLocalStorage);
-      this.userRole.set(user!.roles[0] || null);
+      this.userRole.set(user?.roles && user.roles.length > 0 ? user.roles[0] : null);
     }
 
 

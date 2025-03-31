@@ -32,3 +32,95 @@
       <p>No metrics available for this client.</p>
     </ng-template>
   </div>
+
+  <div class="section-container" *ngIf="clientDiet">
+    <h2>Diet Information</h2>
+    <div class="diet-details">
+      <p><strong>Date Created:</strong> {{clientDiet.dateCreated | date}}</p>
+      <p><strong>Template:</strong> {{clientDiet.isTemplate ? 'Yes' : 'No'}}</p>
+      
+      <!-- Diet Days Section -->
+<div class="diet-days-section">
+  <h3>Diet Days ({{dietDays.length}})</h3>
+  
+  <div *ngFor="let day of dietDays; let i = index" class="diet-day">
+    <h4>Day {{day.dayNumber || i + 1}}</h4>
+    
+    <table class="diet-day-table">
+      <thead>
+        <tr>
+          <th>Meal</th>
+          <th>Food Item</th>
+          <th>Quantity</th>
+          <th>Unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let meal of day.meals">
+          <tr *ngFor="let item of meal.items; let first = first">
+            <!-- Show meal period only for first item in the meal -->
+            <td *ngIf="first" [attr.rowspan]="meal.items.length">{{meal.mealPeriod}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.unit}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="diet-meals-section">
+  <h3>All Meals ({{dietMeals.length}})</h3>
+  
+  <table class="meals-table">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Meal Period</th>
+        <th>Food Item</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let meal of dietMeals">
+        <tr *ngFor="let item of meal.items; let first = first">
+          <!-- Show day/meal only for first item in each meal -->
+          <td *ngIf="first" [attr.rowspan]="meal.items.length">{{meal.dayNumber}}</td>
+          <td *ngIf="first" [attr.rowspan]="meal.items.length">{{meal.mealPeriod}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.unit}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+      <div class="food-items-section">
+        <h3>All Food Items ({{allMealItems.length}})</h3>
+        
+        <table class="food-items-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Meal</th>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of allMealItems">
+              <td>{{item.dayNumber}}</td>
+              <td>{{item.mealPeriod}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.unit}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
