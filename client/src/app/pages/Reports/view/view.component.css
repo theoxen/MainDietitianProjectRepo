@@ -23,3 +23,218 @@
     align-items: center;
     margin-top: 20px;
 }
+
+/* General Page Styling */
+.page {
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Report Header */
+.report-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.report-header h4 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: #FFB453;
+}
+
+.report-header p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Statistics Section */
+.statistics-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.statistics-section h5 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.statistics-section p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* User Section */
+.user-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-info h5 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #FFB453;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.info-grid p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Metrics Table */
+.metrics-table, .appointments-table {
+    margin-top: 20px;
+}
+
+.metrics-table h6, .appointments-table h6 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.metrics-table table, .appointments-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.metrics-table th, .appointments-table th,
+.metrics-table td, .appointments-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.metrics-table th, .appointments-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.metrics-table tr:nth-child(even), .appointments-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* No Data Message */
+p {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Button Styling */
+.center-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.primary-button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #FFB453;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: #FFB453;
+}
+
+
+/* Report Header */
+.report-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.report-header h4 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: #FFB453; /* Existing primary color */
+}
+
+.report-header p {
+    font-size: 1rem;
+    color: #555; /* Subtle text color */
+}
+
+/* Statistics Section */
+.statistics-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #ffffff; /* White background for contrast */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.statistics-section h5 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333; /* Darker text for headings */
+}
+
+.statistics-section p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* New Users Table */
+.new-users-table {
+    margin-top: 20px;
+}
+
+.new-users-table h6 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333; /* Darker text for headings */
+}
+
+.new-users-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.new-users-table th,
+.new-users-table td {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light border for table cells */
+    text-align: left;
+}
+
+.new-users-table th {
+    background-color: #f5f5f5; /* Light gray background for headers */
+    font-weight: bold;
+}
+
+.new-users-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+/* No Data Message */
+.no-data-message {
+    font-size: 1rem;
+    color: #666; /* Subtle text color */
+    text-align: center;
+    margin-top: 20px;
+}

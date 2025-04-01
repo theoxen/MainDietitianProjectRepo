@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
+import { ReportData } from '../models/Reports/ReportsData';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class ReportsService {
   }
 
   // Fetch Age Group Report
-  fetchAgeReport(agestart: number, ageend: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}reports/agegroup/${agestart}/${ageend}`);
+  fetchAgeReport(agestart: number, ageend: number): Observable<ReportData> {
+    return this.http.get<ReportData>(`${this.baseUrl}reports/agegroup/${agestart}/${ageend}`);
   }
 
   // Fetch Appointment Report
