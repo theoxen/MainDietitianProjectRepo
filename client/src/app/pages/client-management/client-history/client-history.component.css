@@ -70,3 +70,39 @@
     justify-content: center;
 }
 
+/* Scrollable table with correct scrollbar placement */
+.table-container {
+    max-height: 300px;
+    overflow-y: auto; 
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; 
+    border-radius: 10px;
+}
+
+/* Ensure table headers remain fixed */
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+}
+
+/* Ensure correct scrollbar position */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
