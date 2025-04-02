@@ -12,15 +12,16 @@
       <tbody>
         <tr *ngFor="let mealType of mealTypes">
           <td>{{ mealType }}</td>
-          <td *ngFor="let day of diet.DietDays">
-            <!-- Find the meal for each day and meal type -->
-            <div *ngIf="day.DietMeals.find(m => m.MealType === mealType) as meal">
-              {{ meal.Meal }}
-            </div>
-            <ng-template #notAvailable>
-              N/A
-            </ng-template>
-          </td>
+          <div *ngFor="let mealType of mealTypes">
+            <td>
+              <div *ngIf="getMealForDay(days, mealType) as meal; else notAvailable">
+                {{ meal.Meal }}
+              </div>
+              <ng-template #notAvailable>
+                N/A
+              </ng-template>
+            </td>
+          </div>
         </tr>
       </tbody>
     </table>

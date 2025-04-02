@@ -7,17 +7,18 @@
           <label>Diet Name</label>
           <input formControlName="Name" placeholder="Enter diet name"/>
         </div>
-        <div formArrayName="DietDays">
+        <!-- <div formArrayName="DietDays">
           <div *ngFor="let day of dietDays.controls; let i = index" [formGroupName]="i" class="day-group">
             <h3>{{ day.get('DayName')?.value }}</h3>
             <div formArrayName="DietMeals">
-              <div *ngFor="let meal of day.controls.DietMeals.controls; let j = index" [formGroupName]="j" class="meal-group">
+              <div *ngFor="let meal of day.get('DietMeals')?.controls; let j = index" [formGroupName]="j" class="meal-group">
                 <label>{{ meal.get('MealType')?.value }}</label>
                 <input formControlName="Meal" placeholder="Enter meal details"/>
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+        
         <button type="submit" class="primary-button">Add Diet</button>
       </form>
     </div>

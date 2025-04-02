@@ -1,15 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DietService } from '../../../services/diet.service';
 import { Router } from '@angular/router';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-add-diets',
   standalone: true,
   templateUrl: './add-diets.component.html',
   styleUrls: ['./add-diets.component.css'],
-  imports: [NavBarComponent]
+  imports: [NavBarComponent, CommonModule,ReactiveFormsModule]
 })
 export class AddDietsComponent implements OnInit {
   dietForm!: FormGroup;
@@ -19,28 +22,37 @@ export class AddDietsComponent implements OnInit {
 
   ngOnInit(): void {
     this.dietForm = this.fb.group({
-      Name: ['', Validators.required],
-      IsTemplate: [false],
-      // Days is an array of objects; for simplicity, we initialize with 7 days
-      DietDays: this.fb.array(Array(7).fill(0).map((_, i) =>
-        this.fb.group({
-          DayName: [`Day ${i + 1}`, Validators.required],
-          DietMeals: this.fb.array(
-            ['ΠΡΩΙΝΟ', 'ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ', 'ΜΕΣΗΜΕΡΙΑΝΟ'].map(type =>
-              this.fb.group({
-                MealType: [type],
-                Meal: ['', Validators.required]
-              })
-            )
-          )
-        })
-      )
+        Name: ['', Validators.required],
+        IsTemplate: [false],
+        // Days is an array of objects; for simplicity, we initialize with 7 days
+        DietDays: this.fb.array(
+            Array(7)
+                .fill(0)
+                .map((_, i) =>
+                    this.fb.group({
+                        DayName: [`Day ${i + 1}`, Validators.required],
+                        DietMeals: this.fb.array(
+                            ['ΠΡΩΙΝΟ', 'ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ', 'ΜΕΣΗΜΕΡΙΑΝΟ']
+                                .map(type =>
+                                    this.fb.group({
+                                        MealType: [type],
+                                        Meal: ['', Validators.required]
+                                    })
+                                )
+                        )
+                    })
+                )
+        )
     });
-  }
+}
 
-  get dietDays(): FormArray {
+get dietDays(): FormArray {
     return this.dietForm.get('DietDays') as FormArray;
-  }
+}
+
+get dietDaysFormGroup(): FormGroup {
+  return this.dietForm.get('DietDays') as FormGroup;
+}
 
   onSubmit(): void {
     if (this.dietForm.valid) {

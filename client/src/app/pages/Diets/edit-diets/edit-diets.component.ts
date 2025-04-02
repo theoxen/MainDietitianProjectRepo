@@ -1,13 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DietService } from '../../../services/diet.service';
+import { CommonModule } from '@angular/common';
+import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+
 
 @Component({
   selector: 'app-edit-diets',
   standalone: true,
   templateUrl: './edit-diets.component.html',
-  styleUrls: ['./edit-diets.component.css']
+  styleUrls: ['./edit-diets.component.css'],
+  imports: [CommonModule, ReactiveFormsModule, NavBarComponent]
 })
 export class EditDietsComponent implements OnInit {
   dietForm!: FormGroup;
@@ -30,18 +34,18 @@ export class EditDietsComponent implements OnInit {
     this.dietService.fetchDietById(this.dietId).subscribe({
       next: (diet) => {
         this.dietForm.patchValue({
-          Name: diet.Name,
-          IsTemplate: diet.IsTemplate
+          Name: diet.name,
+          IsTemplate: diet.isTemplate
         });
         const daysFA = this.fb.array(
-          diet.DietDays.map(day =>
+          diet.dietDays.map(day =>
             this.fb.group({
-              DayName: [day.DayName, Validators.required],
+              DayName: [day.dayName, Validators.required],
               DietMeals: this.fb.array(
-                day.DietMeals.map(meal =>
+                day.dietMeals.map(meal =>
                   this.fb.group({
-                    MealType: [meal.MealType],
-                    Meal: [meal.Meal, Validators.required]
+                    MealType: [meal.mealType],
+                    Meal: [meal.meal, Validators.required]
                   })
                 )
               )
