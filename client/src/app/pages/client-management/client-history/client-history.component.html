@@ -1,126 +1,75 @@
 <div class="client-history">
-    <h1>Client History</h1>
-  
-    <h2>Client Details</h2>
-    <p><strong>Name:</strong> {{ client?.fullName }}</p>
-    <p><strong>Email:</strong> {{ client?.email }}</p>
-    <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
-    <p><strong>ID:</strong> {{ clientId }}</p>
-    <p><strong>dateOfBirth:</strong> {{ client?.dateOfBirth }}</p>
-    <p><strong>Gender:</strong> {{ client?.gender }}</p>
-    <div class="detail-item">
-        <p><strong>Age: </strong>
-        <span class="detail-value">{{ calculateClientAge(client) }}</span>
+  <div class="title">Client History</div>
+
+  <div class="note-container">
+    <div class="primary-hover-box">
+  <h2>Client Details</h2>
+  <p><strong>Name:</strong> {{ client?.fullName }}</p>
+  <p><strong>Email:</strong> {{ client?.email }}</p>
+  <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
+  <p><strong>ID:</strong> {{ clientId }}</p>
+  <p><strong>dateOfBirth:</strong> {{ client?.dateOfBirth }}</p>
+  <p><strong>Gender:</strong> {{ client?.gender }}</p>
+  <div class="detail-item">
+      <p><strong>Age: </strong>
+      <span class="detail-value">{{ calculateClientAge(client) }}</span>
+  </div>
+</div>
+
+</div>
+
+  <div class="note-container">
+    
+    <div class="primary-hover-box">
+      <div class="title">Client Note</div>
+      <p>{{ clientNote?.noteText }}</p>
+
     </div>
-  
-    <h2>Client Note</h2>
-    <p>{{ clientNote?.noteText }}</p>
-  
-    <h2>Client Metrics</h2>
-    
-      <ul>
-        <li *ngFor="let metric of clientMetrics">
-          <!-- <p><strong>Date:</strong> {{ metric.dateCreated | date }}</p> -->
-          <p><strong>Bodyweight:</strong> {{ metric.bodyweight }} kg</p>
-          <p><strong>Fat Mass:</strong> {{ metric.fatMass }}%</p>
-          <p><strong>Muscle Mass:</strong> {{ metric.muscleMass }} kg</p>
-          <hr />
-        </li>
-      </ul>
-  
-    <ng-template #noMetrics>
-      <p>No metrics available for this client.</p>
-    </ng-template>
   </div>
 
-  <div class="section-container" *ngIf="clientDiet">
-    <h2>Diet Information</h2>
-    <div class="diet-details">
-      <p><strong>Date Created:</strong> {{clientDiet.dateCreated | date}}</p>
-      <p><strong>Template:</strong> {{clientDiet.isTemplate ? 'Yes' : 'No'}}</p>
-      
-      <!-- Diet Days Section -->
-<div class="diet-days-section">
-  <h3>Diet Days ({{dietDays.length}})</h3>
+
+
+
+
+
   
-  <div *ngFor="let day of dietDays; let i = index" class="diet-day">
-    <h4>Day {{day.dayNumber || i + 1}}</h4>
+  
+  <div class="metrics-container">
     
-    <table class="diet-day-table">
-      <thead>
-        <tr>
-          <th>Meal</th>
-          <th>Food Item</th>
-          <th>Quantity</th>
-          <th>Unit</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let meal of day.meals">
-          <tr *ngFor="let item of meal.items; let first = first">
-            <!-- Show meal period only for first item in the meal -->
-            <td *ngIf="first" [attr.rowspan]="meal.items.length">{{meal.mealPeriod}}</td>
-            <td>{{item.name}}</td>
-            <td>{{item.quantity}}</td>
-            <td>{{item.unit}}</td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="diet-meals-section">
-  <h3>All Meals ({{dietMeals.length}})</h3>
-  
-  <table class="meals-table">
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Meal Period</th>
-        <th>Food Item</th>
-        <th>Quantity</th>
-        <th>Unit</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let meal of dietMeals">
-        <tr *ngFor="let item of meal.items; let first = first">
-          <!-- Show day/meal only for first item in each meal -->
-          <td *ngIf="first" [attr.rowspan]="meal.items.length">{{meal.dayNumber}}</td>
-          <td *ngIf="first" [attr.rowspan]="meal.items.length">{{meal.mealPeriod}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.quantity}}</td>
-          <td>{{item.unit}}</td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
-
-      <div class="food-items-section">
-        <h3>All Food Items ({{allMealItems.length}})</h3>
-        
-        <table class="food-items-table">
+    <div class="primary-hover-box">
+      <div class="title">Dates Visited & Metrics</div>
+      <div class="hover-box">
+        <table *ngIf="clientMetrics && clientMetrics.length > 0; else noMetrics">
           <thead>
             <tr>
-              <th>Day</th>
-              <th>Meal</th>
-              <th>Item</th>
-              <th>Quantity</th>
-              <th>Unit</th>
+              <th style="width: 40px; margin-right: 80px;">Date Visited</th>
+              <th class="thHeaders">Body Weight</th>
+              <th class="thHeaders">Fat Mass</th>
+              <th class="thHeaders">Muscle Mass</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of allMealItems">
-              <td>{{item.dayNumber}}</td>
-              <td>{{item.mealPeriod}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.quantity}}</td>
-              <td>{{item.unit}}</td>
+            <tr *ngFor="let metric of clientMetrics">
+              <td>
+                <h2>{{ metric.dateCreated | date:'dd/MM/yyyy' }}</h2>
+              </td>
+              <td>
+                {{ metric.bodyweight }} kg
+              </td>
+              <td>
+                {{ metric.fatMass }} %
+              </td>
+              <td>
+                {{ metric.muscleMass }} kg
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+
+  <ng-template #noMetrics>
+    <p>No metrics available for this client.</p>
+  </ng-template>
+</div>
