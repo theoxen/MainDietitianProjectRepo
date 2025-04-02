@@ -1,66 +1,56 @@
-// import { Component } from '@angular/core';
-// import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
-
-// @Component({
-//   selector: 'app-add-diets',
-//   standalone: true,
-//   imports: [NavBarComponent],
-//   templateUrl: './add-diets.component.html',
-//   styleUrl: './add-diets.component.css'
-// })
-// export class AddDietsComponent {
-
-// }
-
-
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { DietService } from '../../../services/diet.service';
-import { Diet } from '../../../models/diet';
+import { Router } from '@angular/router';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 
 @Component({
-  selector: 'app-add-diet',
+  selector: 'app-add-diets',
   standalone: true,
-  imports: [ReactiveFormsModule, NavBarComponent],
   templateUrl: './add-diets.component.html',
-  styleUrls: ['./add-diets.component.css']
+  styleUrls: ['./add-diets.component.css'],
+  imports: [NavBarComponent]
 })
-export class AddDietComponent implements OnInit {
-  errorMessage: string = "";
-  addDietForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required)
-    // add other fields as needed
-  });
+export class AddDietsComponent implements OnInit {
+  dietForm!: FormGroup;
+  private fb = inject(FormBuilder);
+  private dietService = inject(DietService);
+  private router = inject(Router);
 
-  constructor(private dietService: DietService, private dialogRef: MatDialogRef<AddDietComponent>) {}
-
-  ngOnInit(): void {}
-
-  addDiet(): void {
-    if (this.addDietForm.invalid) {
-      this.addDietForm.markAllAsTouched();
-      return;
-    }
-    
-    const newDiet: Diet = {
-      id: "", // To be set by the backend
-      name: this.addDietForm.value.name!,
-      description: this.addDietForm.value.description!
-      // map additional properties
-    };
-
-    this.dietService.addDiet(newDiet).subscribe({
-      next: (diet) => {
-        console.log("Diet added");
-        this.dialogRef.close();
-      },
-      error: (error) => {
-        console.error("Error adding diet", error);
-        this.errorMessage = "Error adding diet";
-      }
+  ngOnInit(): void {
+    this.dietForm = this.fb.group({
+      Name: ['', Validators.required],
+      IsTemplate: [false],
+      // Days is an array of objects; for simplicity, we initialize with 7 days
+      DietDays: this.fb.array(Array(7).fill(0).map((_, i) =>
+        this.fb.group({
+          DayName: [`Day ${i + 1}`, Validators.required],
+          DietMeals: this.fb.array(
+            ['ΠΡΩΙΝΟ', 'ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ', 'ΜΕΣΗΜΕΡΙΑΝΟ'].map(type =>
+              this.fb.group({
+                MealType: [type],
+                Meal: ['', Validators.required]
+              })
+            )
+          )
+        })
+      )
     });
+  }
+
+  get dietDays(): FormArray {
+    return this.dietForm.get('DietDays') as FormArray;
+  }
+
+  onSubmit(): void {
+    if (this.dietForm.valid) {
+      this.dietService.addDiet(this.dietForm.value).subscribe({
+        next: (result) => {
+          console.log('Diet added:', result);
+          this.router.navigate(['/clients', this.dietForm.value.clientId, 'diets']);
+        },
+        error: (err) => console.error('Error adding diet:', err)
+      });
+    }
   }
 }

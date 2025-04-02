@@ -1,139 +1,31 @@
-<!--
-
-<html lang="el">
-
-
-
-
-<app-nav-bar></app-nav-bar>
-
-<table>
-    <tr>
-      <th>Name</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-    </tr>
-    @for (period of mealPeriods; track $index) {
+<div class="page">
+  <app-nav-bar></app-nav-bar>
+  <div class="diets-container" *ngIf="diet; else loading">
+    <h1 class="title">Diet Plan for Client</h1>
+    <table class="diet-table">
+      <thead>
         <tr>
-            <th>{{period}}</th>
-            @for(period of mealPeriods; track $index){
-
-            }
-            
+          <th>Meal Type</th>
+          <th *ngFor="let day of days">{{ day }}</th>
         </tr>
-    }
-    <tr>
-        <th>ΠΡΩΙΝΟ</th>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-    </tr>
-    <tr>
-        <th>ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ 1</th>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-    </tr>
-    <tr>
-        <th>ΜΕΣΗΜΕΡΙΑΝΟ</th>
-        <td>Ernst Handel</td>
-        <td>Roland Mendel</td>
-        <td>Austria</td>
-    </tr>
-    <tr>
-        <th>ΒΡΑΔΙΝΟ</th>
-        <td>Helen Bennett</td>
-        <td>UK</td>
-    </tr>
-    
-  </table>
-  </html>
-
--->
-
-  
-  <head>
-    <!-- Other head content -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  </head>
-  <div class="page">
-    <app-nav-bar></app-nav-bar>
-    
-    <div class="diets-container">
-      <div class="primary-hover-box">
-        <div class="hover-box">
-  
-          <div class="title-box">
-            <h1 class="title" style="margin: 0; margin-bottom: 20px;">Diets of {{clientName}}</h1>
-          </div>
-          
-          <div class="FoundDietsAndAddNew">
-            <form [formGroup]="dateSearchForm" class="date-search">
-              <div class="form-floating" style="width: 100%;">
-                <div class="StartDate">
-                  <label for="startDate">Start Date:</label>
-                  <input type="date" id="startDate" formControlName="startDate">
-                </div>
-                <div class="EndDate">
-                  <label for="endDate">End Date:</label>
-                  <input type="date" id="endDate" formControlName="endDate">
-                </div>
-              </div>
-            </form>
-            <button (click)="openAddDietModal(clientId)" class="AddNewButton">
-              <i class="fa-solid fa-plus"></i> Add New
-            </button>
-          </div>
-          
-          <p class="DietsFound">
-            <i class="fa-solid fa-circle-info"></i>
-            Found {{filteredDiets.length}} diets.
-          </p>
-          
-          <!-- Table of Diets -->
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 40px; margin-right: 80px;">Date</th>
-                <th class="thHeaders">Diet Name</th>
-                <th style="width: 65px; margin-right: 65px;"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let diet of pagedItems">
-                <td>
-                  <h2>{{ diet.date }}</h2>
-                </td>
-                <td>
-                  {{ diet.name }}
-                </td>
-                <td>
-                  <button (click)="openEditDietModal(diet.id)" class="EditButton">
-                    <i class="fa-solid fa-pen-to-square"></i> Edit
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          
-          <div class="pagination-container">
-            <app-pagination 
-              [totalItems]="filteredDiets.length"
-              [pageSize]="pageSize"
-              [currentPage]="currentPage"
-              (pageChanged)="onPageChanged($event)">
-            </app-pagination>
-          </div>
-          
-        </div>
-      </div>
-    </div>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mealType of mealTypes">
+          <td>{{ mealType }}</td>
+          <td *ngFor="let day of diet.DietDays">
+            <!-- Find the meal for each day and meal type -->
+            <div *ngIf="day.DietMeals.find(m => m.MealType === mealType) as meal">
+              {{ meal.Meal }}
+            </div>
+            <ng-template #notAvailable>
+              N/A
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-
-  
+  <ng-template #loading>
+    <p>Loading diet plan...</p>
+  </ng-template>
+</div>

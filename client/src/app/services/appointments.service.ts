@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { MetricsToAdd } from '../models/metrics/metrics-to-add';
 import { MetricsToEdit } from '../models/metrics/metrics-to-edit';
 import { catchError, Observable } from 'rxjs';
-import { Diet } from '../models/diet';
+import { Diet } from '../models/diets/diet';
 
 @Injectable({
   providedIn: 'root'

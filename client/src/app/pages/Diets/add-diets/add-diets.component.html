@@ -1,47 +1,24 @@
-<html lang="el">
-<app-nav-bar></app-nav-bar>
-
-<!-- {{diet[0].dateCreated}} -->
-<table>
-    <tr>
-      <th>Name</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-    </tr>
-    <!-- @for (period of mealPeriods; track $index) {
-        <tr>
-            <th>{{period}}</th>
-            
-        </tr>
-    } -->
-    <tr>
-        <th>ΠΡΩΙΝΟ</th>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Ander</td>
-        <td>Germany</td>
-    </tr>
-    <tr>
-        <th>ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ 2</th>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-    </tr>
-    <tr>
-        <th>ΜΕΣΗΜΕΡΙΑΝΟ</th>
-        <td>Ernst Handel</td>
-        <td>Roland Mendel</td>
-        <td>Austria</td>
-    </tr>
-    <tr>
-        <th>ΒΡΑΔΙΝΟ</th>
-        <td>Helen Bennett</td>
-        <td>UK</td>
-    </tr>
-    
-  </table>
-  </html>
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="form-container">
+      <h1 class="title">Add New Diet</h1>
+      <form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Diet Name</label>
+          <input formControlName="Name" placeholder="Enter diet name"/>
+        </div>
+        <div formArrayName="DietDays">
+          <div *ngFor="let day of dietDays.controls; let i = index" [formGroupName]="i" class="day-group">
+            <h3>{{ day.get('DayName')?.value }}</h3>
+            <div formArrayName="DietMeals">
+              <div *ngFor="let meal of day.controls.DietMeals.controls; let j = index" [formGroupName]="j" class="meal-group">
+                <label>{{ meal.get('MealType')?.value }}</label>
+                <input formControlName="Meal" placeholder="Enter meal details"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="primary-button">Add Diet</button>
+      </form>
+    </div>
+  </div>

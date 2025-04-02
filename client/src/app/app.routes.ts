@@ -20,7 +20,7 @@ import { ViewMetricsComponent } from './pages/Metrics-Management/view-metrics/vi
 
 import { ViewClientDetailsComponent } from './pages/client-management/view-client/view-client.component';
 import { DeleteClientComponent } from './pages/client-management/delete-client/delete-client.component';
-import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
+import { AddDietComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 import { SelectComponent } from './pages/Reports/select/select.component';
 import { ViewReportsComponent } from './pages/Reports/view/view.component';
@@ -53,7 +53,8 @@ export const routes: Routes = [
    {
       path: "clients",
       runGuardsAndResolvers: "always",
-    // NIKITAS to uncomment //canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
+    // NIKITAS to uncomment //
+    canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
       children: [
          { path: "", component: ClientSearchComponent }, // url path is additive to the parent path (for this case, it is clients)
          { path: ":clientId", component: ManageClientComponent },
