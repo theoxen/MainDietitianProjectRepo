@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DietService } from '../../../services/diet.service';
 import { CommonModule } from '@angular/common';
@@ -14,6 +14,9 @@ import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
   imports: [CommonModule, ReactiveFormsModule, NavBarComponent]
 })
 export class EditDietsComponent implements OnInit {
+getDietMeals(_t21: AbstractControl<any,any>) {
+throw new Error('Method not implemented.');
+}
   dietForm!: FormGroup;
   dietId: string = '';
   private fb = inject(FormBuilder);

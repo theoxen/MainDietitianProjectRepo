@@ -6,27 +6,28 @@
       <thead>
         <tr>
           <th>Meal Type</th>
-          <th *ngFor="let day of days">{{ day }}</th>
+          <!-- Iterate over the day objects from the fetched diet -->
+          <th *ngFor="let day of diet.dietDays">{{ day.dayName }}</th>
         </tr>
       </thead>
       <tbody>
+        <!-- For each meal type, create a row -->
         <tr *ngFor="let mealType of mealTypes">
           <td>{{ mealType }}</td>
-          <div *ngFor="let mealType of mealTypes">
-            <td>
-              <div *ngIf="getMealForDay(days, mealType) as meal; else notAvailable">
-                {{ meal.Meal }}
-              </div>
-              <ng-template #notAvailable>
-                N/A
-              </ng-template>
-            </td>
-          </div>
+          <!-- For each day, display the corresponding meal based on MealType -->
+          <td *ngFor="let day of diet.dietDays">
+            <div *ngIf="getMealForDay(day, mealType) as meal; else notAvailable">
+              {{ meal.meal }}
+            </div>
+            <ng-template #notAvailable>
+              N/A
+            </ng-template>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
   <ng-template #loading>
-    <p>Loading diet plan...</p>
+    <p>12345</p>
   </ng-template>
 </div>

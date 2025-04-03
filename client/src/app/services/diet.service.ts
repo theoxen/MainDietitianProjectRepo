@@ -16,9 +16,23 @@ export class DietService {
 
 
 
-  fetchDietsForUser(userId: string): Observable<Diet[]> {
-    const url = `${this.baseUrl}diets/client/${userId}`;
-    return this.http.get<Diet[]>(url);
+  // fetchDietsForUser(userId: string): Observable<Diet[]> {
+  //   const url = `${this.baseUrl}diets/client/${userId}`;
+  //   return this.http.get<Diet[]>(url);
+  // }
+
+
+  fetchDietsForUser(clientId: string) {
+    // Replace with an HTTP call or dummy data as needed. For example:
+    return of([
+      {
+        // Adjust the property names to match your model.
+        dietDays: [
+          { dayName: 'Monday', DietMeals: [{ MealType: 'ΠΡΩΙΝΟ', meal: 'Oatmeal' }, { MealType: 'ΜΕΣΗΜΕΡΙΑΝΟ', meal: 'Salad' }] },
+          { dayName: 'Tuesday', DietMeals: [{ MealType: 'ΠΡΩΙΝΟ', meal: 'Eggs' }, { MealType: 'ΜΕΣΗΜΕΡΙΑΝΟ', meal: 'Chicken' }] }
+        ]
+      }
+    ]);
   }
   
 

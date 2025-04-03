@@ -1,46 +1,48 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DietService } from '../../../services/diet.service';
 import { Diet } from '../../../models/diets/diet';
-import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
-import { CommonModule } from '@angular/common';
+import { NavBarComponent } from '../../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-view-diets',
   standalone: true,
-  imports: [NavBarComponent,CommonModule],
+  imports: [CommonModule, NavBarComponent],
   templateUrl: './view-diets.component.html',
   styleUrls: ['./view-diets.component.css']
- 
 })
 export class ViewDietsComponent implements OnInit {
   diet: Diet | null = null;
   clientId: string = '';
-  // For table display: assume each Day has a name and a list of Meals with a type and text.
-  days: string[] = [];
+  // Define the meal types to display in the table rows.
   mealTypes: string[] = ['ΠΡΩΙΝΟ', 'ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ', 'ΜΕΣΗΜΕΡΙΑΝΟ'];
 
   private dietService = inject(DietService);
   private route = inject(ActivatedRoute);
 
-  getMealForDay(day: any, mealType: string) {
-    return day.DietMeals.find((m: any) => m.MealType === mealType);
-  }
-
-
   ngOnInit(): void {
+    // Get the clientId from the route parameters.
     this.clientId = this.route.snapshot.paramMap.get('clientId') ?? '';
+
     if (this.clientId) {
+      // Assume fetchDietsForUser returns an observable of Diet[]
       this.dietService.fetchDietsForUser(this.clientId).subscribe({
-        next: (diets) => {
-          // Assume the first diet is the active one for this client
+        next: (diets: Diet[]) => {
+          // Use the first diet in the list.
           this.diet = diets[0];
-          if (this.diet && this.diet.dietDays?.length) {
-            this.days = this.diet.dietDays.map(day => day.dayName);
-          }
+          console.log("Diet loaded:", this.diet);
         },
         error: (error) => console.error('Error fetching diets:', error)
       });
+    } else {
+      console.error("No clientId provided in the route.");
     }
+  }
+
+  // For a given day object, return the meal that matches the specified meal type.
+  getMealForDay(day: any, mealType: string) {
+    if (!day.DietMeals) return null;
+    return day.DietMeals.find((m: any) => m.MealType === mealType);
   }
 }
