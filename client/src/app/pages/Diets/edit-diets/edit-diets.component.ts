@@ -45,9 +45,9 @@ throw new Error('Method not implemented.');
             this.fb.group({
               DayName: [day.dayName, Validators.required],
               DietMeals: this.fb.array(
-                day.dietMeals.map(meal =>
+                day.DietMeals.map(meal =>
                   this.fb.group({
-                    MealType: [meal.mealType],
+                    MealType: [meal.MealType],
                     Meal: [meal.meal, Validators.required]
                   })
                 )

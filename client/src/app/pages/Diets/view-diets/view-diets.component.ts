@@ -33,7 +33,7 @@ export class ViewDietsComponent implements OnInit {
           this.diet = diets[0];
           console.log("Diet loaded:", this.diet);
         },
-        error: (error) => console.error('Error fetching diets:', error)
+        error: (error: any) => console.error('Error fetching diets:', error)
       });
     } else {
       console.error("No clientId provided in the route.");

@@ -4,8 +4,8 @@ import { Diet } from '../models/diets/diet';
 import { environment } from '../environments/environment';
 import { DietToAdd } from '../models/diets/diets-to-add';
 import { DietToEdit } from '../models/diets/diets-to-edit';
-import { catchError } from 'rxjs';
-import { Observable } from 'rxjs';
+import { catchError, of, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,18 +22,17 @@ export class DietService {
   // }
 
 
-  fetchDietsForUser(clientId: string) {
-    // Replace with an HTTP call or dummy data as needed. For example:
-    return of([
-      {
-        // Adjust the property names to match your model.
-        dietDays: [
-          { dayName: 'Monday', DietMeals: [{ MealType: 'ΠΡΩΙΝΟ', meal: 'Oatmeal' }, { MealType: 'ΜΕΣΗΜΕΡΙΑΝΟ', meal: 'Salad' }] },
-          { dayName: 'Tuesday', DietMeals: [{ MealType: 'ΠΡΩΙΝΟ', meal: 'Eggs' }, { MealType: 'ΜΕΣΗΜΕΡΙΑΝΟ', meal: 'Chicken' }] }
-        ]
-      }
-    ]);
-  }
+
+  
+ // fetchDietsForUser(clientId: string):Observable<Diet[]> 
+
+
+   fetchDietsForUser(clientId: string) {
+     const url = this.baseUrl + 'diets/search';
+     let params = new HttpParams().set('userId', clientId);
+     return this.http.get<Diet[]>(url, { params });
+ 
+   }
   
 
   // Fetch a particular diet by its ID
