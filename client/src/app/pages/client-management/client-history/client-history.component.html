@@ -1,3 +1,5 @@
+<div class="page">
+ 
 <div class="client-history">
   <div class="title">Client History</div>
 
@@ -18,15 +20,19 @@
 
 </div>
 
-  <div class="note-container">
-    
-    <div class="primary-hover-box">
-      <div class="title">Client Note</div>
-      <p>{{ clientNote?.noteText }}</p>
-
+<div class="note-container">
+  <div class="primary-hover-box">
+    <div class="title">Client Note</div>
+    <div *ngIf="clientNote && clientNote.noteText; else noNote">
+      <p>{{ clientNote.noteText }}</p>
     </div>
   </div>
-  
+</div>
+
+  <ng-template #noNote>
+    <p>No Note available for this client.</p>
+  </ng-template>
+
   <div class="metrics-container">
     
     <div class="primary-hover-box">
@@ -67,4 +73,5 @@
   <ng-template #noMetrics>
     <p>No metrics available for this client.</p>
   </ng-template>
+</div>
 </div>

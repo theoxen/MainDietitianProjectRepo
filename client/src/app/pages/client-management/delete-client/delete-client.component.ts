@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class DeleteClientComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private clientManagementService: ClientManagementService
+    private clientManagementService: ClientManagementService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -35,12 +37,16 @@ export class DeleteClientComponent implements OnInit {
   }
 
   deleteClient(): void {
-    if (!this.clientId) return;
+  if (!this.clientId){ 
+    this.toastr.error('Client ID not found', 'Error');
+    return;
+  }
 
     console.log('Deleting client:', this.clientId);
 
     this.clientManagementService.deleteClient(this.clientId).subscribe({
       next: () => {
+        this.toastr.success('Client deleted successfully', 'Success');
         this.successMessage = 'Client deleted successfully';
         this.errorMessage = null;
         // Optionally, navigate to another page after deletion
