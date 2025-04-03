@@ -25,7 +25,7 @@ export class DeleteClientComponent implements OnInit {
     private router: Router,
     private clientManagementService: ClientManagementService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -37,10 +37,10 @@ export class DeleteClientComponent implements OnInit {
   }
 
   deleteClient(): void {
-  if (!this.clientId){ 
-    this.toastr.error('Client ID not found', 'Error');
-    return;
-  }
+    if (!this.clientId) {
+      this.toastr.error('Client ID not found', 'Error');
+      return;
+    }
 
     console.log('Deleting client:', this.clientId);
 

@@ -1,77 +1,77 @@
 <div class="page">
- 
-<div class="client-history">
-  <div class="title">Client History</div>
 
-  <div class="note-container">
-    <div class="primary-hover-box">
-  <h2>Client Details</h2>
-  <p><strong>Name:</strong> {{ client?.fullName }}</p>
-  <p><strong>Email:</strong> {{ client?.email }}</p>
-  <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
-  <p><strong>ID:</strong> {{ clientId }}</p>
-  <p><strong>dateOfBirth:</strong> {{ client?.dateOfBirth }}</p>
-  <p><strong>Gender:</strong> {{ client?.gender }}</p>
-  <div class="detail-item">
-      <p><strong>Age: </strong>
-      <span class="detail-value">{{ calculateClientAge(client) }}</span>
-  </div>
-</div>
+  <div class="client-history">
+    <div class="title">Client History</div>
 
-</div>
+    <div class="note-container">
+      <div class="primary-hover-box">
+        <h2>Client Details</h2>
+        <p><strong>Name:</strong> {{ client?.fullName }}</p>
+        <p><strong>Email:</strong> {{ client?.email }}</p>
+        <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
+        <p><strong>ID:</strong> {{ clientId }}</p>
+        <p><strong>dateOfBirth:</strong> {{ client?.dateOfBirth }}</p>
+        <p><strong>Gender:</strong> {{ client?.gender }}</p>
+        <div class="detail-item">
+          <p><strong>Age: </strong>
+            <span class="detail-value">{{ calculateClientAge(client) }}</span>
+        </div>
+      </div>
 
-<div class="note-container">
-  <div class="primary-hover-box">
-    <div class="title">Client Note</div>
-    <div *ngIf="clientNote && clientNote.noteText; else noNote">
-      <p>{{ clientNote.noteText }}</p>
     </div>
-  </div>
-</div>
 
-  <ng-template #noNote>
-    <p>No Note available for this client.</p>
-  </ng-template>
-
-  <div class="metrics-container">
-    
-    <div class="primary-hover-box">
-      <div class="title">Dates Visited & Metrics</div>
-      
-      <!-- Added table-container div for scrollable table -->
-      <div class="table-container">
-        <table *ngIf="clientMetrics && clientMetrics.length > 0; else noMetrics">
-          <thead>
-            <tr>
-              <th style="width: 40px; margin-right: 80px;">Date Visited</th>
-              <th class="thHeaders">Body Weight</th>
-              <th class="thHeaders">Fat Mass</th>
-              <th class="thHeaders">Muscle Mass</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let metric of clientMetrics">
-              <td>
-                <h2>{{ metric.dateCreated | date:'dd/MM/yyyy' }}</h2>
-              </td>
-              <td>
-                {{ metric.bodyweight }} kg
-              </td>
-              <td>
-                {{ metric.fatMass }} %
-              </td>
-              <td>
-                {{ metric.muscleMass }} kg
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="note-container">
+      <div class="primary-hover-box">
+        <div class="title">Client Note</div>
+        <div *ngIf="clientNote && clientNote.noteText; else noNote">
+          <p>{{ clientNote.noteText }}</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <ng-template #noMetrics>
-    <p>No metrics available for this client.</p>
-  </ng-template>
-</div>
+    <ng-template #noNote>
+      <p>No Note available for this client.</p>
+    </ng-template>
+
+    <div class="metrics-container">
+
+      <div class="primary-hover-box">
+        <div class="title">Dates Visited & Metrics</div>
+
+        <!-- Added table-container div for scrollable table -->
+        <div class="table-container">
+          <table *ngIf="clientMetrics && clientMetrics.length > 0; else noMetrics">
+            <thead>
+              <tr>
+                <th style="width: 40px; margin-right: 80px;">Date Visited</th>
+                <th class="thHeaders">Body Weight</th>
+                <th class="thHeaders">Fat Mass</th>
+                <th class="thHeaders">Muscle Mass</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let metric of clientMetrics">
+                <td>
+                  <h2>{{ metric.dateCreated | date:'dd/MM/yyyy' }}</h2>
+                </td>
+                <td>
+                  {{ metric.bodyweight }} kg
+                </td>
+                <td>
+                  {{ metric.fatMass }} %
+                </td>
+                <td>
+                  {{ metric.muscleMass }} kg
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noMetrics>
+      <p>No metrics available for this client.</p>
+    </ng-template>
+  </div>
 </div>
