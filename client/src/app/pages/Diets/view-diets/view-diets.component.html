@@ -1,3 +1,22 @@
 <div class="page">
- 
-</div>
+    <app-nav-bar></app-nav-bar>
+    <div class="table-container">
+      <h2 class="title">View Diets</h2>
+      <table class="diet-table">
+        <thead>
+          <tr>
+            <th>Diet Name</th>
+            <th>Template</th>
+            <th>Days</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let diet of transformedDiets">
+            <td>{{ diet.name }}</td>
+            <td>{{ diet.isTemplate ? 'Yes' : 'No' }}</td>
+            <td>{{ diet.data ? diet.data.length : 0 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -21,6 +21,9 @@ import { DietToAdd } from '../../../models/diets/diets-to-add';
   styleUrls: ['./add-diets.component.css']
 })
 export class AddDietsComponent implements OnInit {
+cancel() {
+throw new Error('Method not implemented.');
+}
   
 
   isConfirmationWindowVisible = false;

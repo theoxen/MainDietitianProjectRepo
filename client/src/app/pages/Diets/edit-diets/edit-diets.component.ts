@@ -23,6 +23,9 @@ import { DietToEdit } from '../../../models/diets/diets-to-edit';
 
 
 export class EditDietsComponent implements OnInit {
+cancel() {
+throw new Error('Method not implemented.');
+}
 
   
   isConfirmationWindowVisible = false;

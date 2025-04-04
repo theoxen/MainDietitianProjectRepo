@@ -54,7 +54,7 @@ export const routes: Routes = [
       path: "clients",
       runGuardsAndResolvers: "always",
 
-    canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
+    //canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
       children: [
          { path: "", component: ClientSearchComponent }, // url path is additive to the parent path (for this case, it is clients)
          { path: ":clientId", component: ManageClientComponent },
