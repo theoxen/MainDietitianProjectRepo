@@ -13,8 +13,8 @@ export class ReportsService {
   constructor(private http: HttpClient) { }//den exo idea giati
 
   // Fetch New Users Report
-  fetchNewUsersReport(datestart: string, dateend: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}reports/users/${datestart}/${dateend}`);
+  fetchNewUsersReport(datestart: string, dateend: string): Observable<ReportData> {
+    return this.http.get<ReportData>(`${this.baseUrl}reports/users/${datestart}/${dateend}`);
   }
 
   // Fetch Age Group Report
@@ -28,7 +28,7 @@ export class ReportsService {
   }
 
   // Fetch Diet Type Report
-  fetchDietTypeReport(dietTypeId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}reports/userstype/${dietTypeId}`);
+  fetchDietTypeReport(dietTypeId: string): Observable<ReportData> {
+    return this.http.get<ReportData>(`${this.baseUrl}reports/userstype/${dietTypeId}`);
   }
 }

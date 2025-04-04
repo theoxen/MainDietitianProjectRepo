@@ -238,3 +238,234 @@ p {
     text-align: center;
     margin-top: 20px;
 }
+
+/* Diet Type Report Header */
+.report-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.report-header h4 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: #FFB453; /* Use the existing primary color */
+}
+
+.report-header p {
+    font-size: 1rem;
+    color: #555; /* Subtle text color */
+}
+
+/* Statistics Section */
+.statistics-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #ffffff; /* White background for contrast */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.statistics-section h5 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333; /* Darker text for headings */
+}
+
+.statistics-section p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Diet Type Users Table */
+.diet-type-users-table {
+    margin-top: 20px;
+}
+
+.diet-type-users-table h6 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333; /* Darker text for headings */
+}
+
+.diet-type-users-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.diet-type-users-table th,
+.diet-type-users-table td {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light border for table cells */
+    text-align: left;
+}
+
+.diet-type-users-table th {
+    background-color: #f5f5f5; /* Light gray background for headers */
+    font-weight: bold;
+}
+
+.diet-type-users-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+/* Metrics and Appointments Lists */
+.metrics-list, .appointments-list {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metrics-list ul, .appointments-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.metrics-list li, .appointments-list li {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* No Data Message */
+.no-data-message {
+    font-size: 1rem;
+    color: #666; /* Subtle text color */
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/* Report Header */
+.report-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.report-header h4 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: #FFB453;
+}
+
+.report-header p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Statistics Section */
+.statistics-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.statistics-section h5 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.statistics-section p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Appointments Table */
+.appointments-table {
+    margin-top: 20px;
+}
+
+.appointments-table h6 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.appointments-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.appointments-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.appointments-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+/* Print-specific styles */
+@media print {
+    /* Hide unnecessary elements */
+    body {
+        background-color: white !important; /* Ensure a white background */
+        margin: 0; /* Remove any margins */
+    }
+
+    app-nav-bar, /* Hide navigation bar */
+    .center-button, /* Hide buttons like "Print Report" */
+    footer, /* Hide footer */
+    header { /* Hide any header elements */
+        display: none !important;
+    }
+
+    /* Remove browser-specific print headers and footers */
+    @page {
+        margin: 0; /* Remove default margins */
+    }
+
+    /* Ensure the report content takes the full width */
+    .page {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .report-view {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Adjust table styles for printing */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .primary-hover-box {
+        border-top: 0px solid #FFB453;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
+    }
+}
