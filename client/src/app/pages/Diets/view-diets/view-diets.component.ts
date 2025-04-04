@@ -26,6 +26,10 @@ import { ClientProfile } from '../../../models/client-management/client-profile'
 
 export class ViewDietsComponent implements OnInit {
 
+/////////////////
+  dietDates = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
+////////////////////
   isConfirmationWindowVisible = false;
   clientName!:string;
   clientId!: string;
@@ -226,7 +230,7 @@ fetchDietsForUser(clientId: string): void {
 
 
 
-    openAddMetricsModal(clientsId: string): void{
+    openAddDietsModal(clientsId: string): void{
       const dialogRef = this.dialog.open(AddDietsComponent, {
         width: '150%',
         height: 'auto',

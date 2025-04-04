@@ -95,7 +95,7 @@ throw new Error('Method not implemented.');
       userId: this.addclientDietsForm.controls['userId'].value!,
     }
 
-    // Call service to add the metrics
+    // Call service to add the diet
     this.dietService.addDiet(DietsToAdd).subscribe({
       next: (diets: Diet) => {
         console.log("Diet added.");
