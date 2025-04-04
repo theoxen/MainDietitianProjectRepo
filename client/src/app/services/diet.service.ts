@@ -31,15 +31,19 @@ export class DietService {
      const url = this.baseUrl + 'diets/search';
      let params = new HttpParams().set('userId', clientId);
      return this.http.get<Diet[]>(url, { params });
- 
    }
   
 
   // Fetch a particular diet by its ID
   fetchDietById(dietId: string): Observable<Diet> {
     const url = `${this.baseUrl}diets/${dietId}`;
-    console.log('Fetching diets from:', url);             // TO BE REMOVE - USED FOR DEBUGGING (NIKITAS)
     return this.http.get<Diet>(url);
+  }
+
+  // Fetch all diets
+  fetchAllDiets(): Observable<Diet[]> {
+    const url = this.baseUrl + 'diets';
+    return this.http.get<Diet[]>(url);
   }
 
   // Add a new diet

@@ -1,24 +1,4 @@
 <div class="page">
     <app-nav-bar></app-nav-bar>
-    <div class="form-container">
-      <h1 class="title">Edit Diet</h1>
-      <form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label>Diet Name</label>
-          <input formControlName="Name" placeholder="Enter diet name" />
-        </div>
-        <!-- <div formArrayName="DietDays">
-          <div *ngFor="let day of dietDays.controls; let i = index" [formGroupName]="i" class="day-group">
-            <h3>{{ day.get('DayName')?.value }}</h3>
-            <div formArrayName="DietMeals">
-              <div *ngFor="let meal of getDietMeals(day).controls; let j = index" [formGroupName]="j" class="meal-group">
-                <label>{{ meal.get('MealType')?.value }}</label>
-                <input formControlName="Meal" placeholder="Enter meal details"/>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <button type="submit" class="primary-button">Update Diet</button>
-      </form>
-    </div>
+   
   </div>
