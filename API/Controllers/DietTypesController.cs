@@ -15,7 +15,7 @@ namespace API.Controllers
             this.dietTypesService = dietTypesService;
         }
 
-        // [Authorize(Roles = "admin")] 
+        // [Authorize(Roles = "admin")] I think this shouldnt be here because we are calling this endpoint even when an admin is NOT logged in
         [HttpGet(Endpoints.DietTypes.GetAllDietTypes)]
         public async Task<IActionResult> GetAllDietTypes()
         {
