@@ -92,6 +92,13 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [HttpGet(Endpoints.Users.GetAllClientsWithId)]
+        public async Task<IActionResult> GetAllClientsWithId()
+        {
+            var result = await _userService.GetAllClientsWithIdAsync();
+            return MapToHttpResponse(result);
+        }
+
 
     }
 }

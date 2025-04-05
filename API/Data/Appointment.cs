@@ -4,7 +4,7 @@ namespace API.Data
     {
         public Guid Id { get; set; } = new Guid();
         public DateTime AppointmentDate { get; set; }
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateCreated { get; set; } = DateTime.Now;
         public Guid UserId { get; set; }
         public User? User { get; set; } // Navigation property
         

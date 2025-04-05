@@ -1,25 +1,33 @@
-.appointmentsContainer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
+/* Keep the original design but fix responsiveness for larger screens */
+.appointmentsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.primary-hover-box{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-    padding: 20px;
-    transition: all 0.3s ease;
+
+.primary-hover-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%; 
+  max-width: 1200px; 
+  padding: 20px;
+  transition: all 0.3s ease;
 }
+
 .calendar{
-    width: 500px;
+    width: 100%;
 
 }
+
+.clientsContainer{
+    height: 350px;
+}
+
 .divisionLine{
-    height: 30vw;
+    height: 32vw;
     width: 2px;
-    margin-right: 5%;
+    margin-right: 2vw;
     border: 1px solid rgba(0, 0, 0, 0.114);
 }
 .infoBox{
@@ -70,7 +78,7 @@
 .step1{
     margin-top: 20px;
 }
-.step1 ,.step2{
+.step1 ,.step2, .step3{
     width: 100%;
     display: flex;
     align-items: center;
@@ -82,12 +90,12 @@
     margin: 0;
 }
 .lineBetweenSteps{
-    height: 50px;
+    height: 40px;
     width:1px;
     background-color: black;
     margin: 10px 0 10px 20px;
 }
-.fa-calendar, .fa-clock{
+.fa-calendar, .fa-clock, .fa-user{
     height: 40px;
     width: 40px;
     font-size: 20px;
@@ -101,70 +109,515 @@
 }
 
 .logo{
-    width: 175px;
-    height:175px;
-    margin: 0 30px 30px 30px;
+    width: 150px;
+    height:150px;
+    margin: 20px 30px 30px 30px;
 }
 
+.cancelButton{ 
+    height: 45px;
+    width: 180px;
+    background-color: #ff7a7a;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+.cancelButton:hover{
+    background-color: #ff3f3f;/* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
 
-/* Improved responsive styles */
+.submitButton{ 
+    height: 45px;
+    width: 180px;
+    background-color: #ff7a7a;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+.cancelButton:hover{
+    background-color: #ff3f3f;/* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+/* Client Selection Styles */
+.client-selection-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px -15px 20px 20px;
+    
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  .selection-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 330px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 5px;
+  }
+  
+  .client-card {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .client-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0;
+  }
+  
+  .client-card.selected {
+    background-color: #eaf4ff;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  .client-avatar {
+    font-size: 36px;
+    color: #999;
+    margin-right: 15px;
+  }
+  
+  .client-info {
+    flex: 1;
+  }
+  
+  .client-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .client-phonenumber {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .selection-indicator {
+    font-size: 22px;
+    color: #FFB453;
+  }
+  
+  /* Button Styles */
+  .appointment-actions {
+    margin-top: 15px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+
+  
+  .cancel-btn {
+    background-color: #f1f1f1;
+    color: #666;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #e1e1e1;
+  }
+  
+  .submit-btn {
+    height: 45px;
+    width: 210px;
+    background-color: #FFB453;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+    background-color: #ccc;
+    color: #888;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn.active {
+    
+    background-color: #FFB453;
+    color: white;
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .submit-btn.active:hover {
+    background-color: #F0A843;
+
+  }
+
+  .submit-btnOnModal {
+    height: 45px;
+    width: 210px;
+    background-color: #FFB453;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 20px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+  }
+  .submit-btnOnModal:hover {
+    background-color: #F0A843;
+
+  }
+  
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+  }
+  
+  .confirmation-modal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 25px;
+    width: 450px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+  }
+  
+  .confirmation-modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    font-size: 22px;
+  }
+  
+  .appointment-details {
+    margin-bottom: 25px;
+  }
+  
+  .detail-row {
+    display: flex;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .detail-label {
+    flex: 1;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .detail-value {
+    flex: 2;
+    color: #333;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancel-btn, .confirm-btn {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: 120px;
+  }
+  
+  .confirm-btn {
+    background-color: #FFB453;
+    color: white;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #F0A843;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideIn {
+    from { 
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Make scrollbar pretty */
+  .clients-list::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .clients-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .clients-list::-webkit-scrollbar-thumb {
+    background: #FFB45380;
+    border-radius: 4px;
+  }
+  
+  .clients-list::-webkit-scrollbar-thumb:hover {
+    background: #FFB453;
+  }
+
+  /* Search Bar Styles */
+.search-container {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    color: #999;
+    font-size: 14px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 12px 15px 12px 35px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #FFB453;
+    box-shadow: 0 2px 8px rgba(255,180,83,0.2);
+  }
+  
+  .clear-search {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .clear-search:hover {
+    background-color: #f1f1f1;
+    color: #666;
+  }
+  
+  /* No Results Styling */
+  .no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    color: #888;
+  }
+  
+  .no-results i {
+    font-size: 40px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+  }
+  
+  .no-results p {
+    font-size: 16px;
+    text-align: center;
+  }
+
+
+/* Enhanced media queries for large screens */
+@media (min-width: 2000px) {
+  /* For very large screens */
+  .primary-hover-box {
+      width: 1000px; /* Fixed width instead of percentage */
+  }
+  
+  .divisionLine {
+      height: 640px; /* Fixed height instead of vw units */
+  }
+}
+
+/* Special fix for extra large screens (2500px+) */
+@media (min-width: 2500px) {
+  .primary-hover-box {
+      width: 1000px; /* Keep width fixed */
+  }
+  
+  .divisionLine {
+      height: 640px; /* Keep height fixed */
+  }
+  
+  /* Ensure proportional scaling of internal elements */
+  .infoBox {
+      width: 45%;
+      height: 550px; /* Keep fixed height */
+      min-height: 550px; /* Ensure minimum height */
+  }
+  
+  .ManageAnAppointment {
+      font-size: 18px; /* Fixed font size instead of vw units */
+  }
+  
+  /* Fix calendar sizing */
+  :host ::ng-deep .calendar {
+      max-width: 600px; /* Limit calendar width */
+  }
+  
+  /* Fix client list sizing */
+  .client-selection-container {
+      max-width: 600px;
+  }
+  
+  /* Fix logo scaling */
+  .logo {
+      width: 150px;
+      height: 150px;
+  }
+}
+
+/* Keep your existing media queries */
 @media (max-width: 1400px) {
-    .primary-hover-box {
-        width: 50%;
-    }
-    
-    .calendar{
-        width: 105%;
-        
-        
-    }
-    
-    
-    .divisionLine {
-        display: none; /* Hide the division line on smaller screens */
-    }
-    
-    .infoBox {
-        display: none; /* Hide the info box below 900px as requested */
-    }
+  .primary-hover-box {
+      width: 70%;
+  }
+  
+  :host ::ng-deep .calendar .calendar-weekdays, :host ::ng-deep .calendar .calendar-day {
+    font-size: 2vw;
+}
+
+  .calendar {
+      width: 105%;
+  }
+  
+  .divisionLine {
+      display: none;
+  }
+  
+  .infoBox {
+      display: none;
+  }
 }
 
 @media (max-width: 1200px) {
-    .primary-hover-box {
-        width: 70%;
-    }
-    
-    .calendar {
-        width: 105%;
-    }
-    
-    .infoBox {
-        width: 400px;
-        height: 420px;
-    }
+  .primary-hover-box {
+      width: 70%;
+  }
+  
+  .calendar {
+      width: 105%;
+  }
+  
+  .infoBox {
+      width: 400px;
+      height: 420px;
+  }
 }
+
 @media (max-width: 800px) {
-    .appointmentsContainer {
-        min-height: calc(100vh - 66.22px); /* Replace [header-height] with your header's height */
-        display: flex;
-        align-items: center;
-    }
+  .appointmentsContainer {
+      min-height: calc(100vh - 66.22px);
+      display: flex;
+      align-items: center;
+  }
 
+  .primary-hover-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+  }
+  
+  :host ::ng-deep .calendar .calendar-weekdays, :host ::ng-deep .calendar .calendar-day {
+      font-size: 4vw;
+  }
+  
+  .infoBox {
+      width: 400px;
+      height: 420px;
+  }
+}
 
-    .primary-hover-box {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-    
-    :host ::ng-deep .calendar .calendar-weekdays, :host ::ng-deep .calendar .calendar-day {
-        font-size: 4vw;
-      }
-    
-    .infoBox {
-        width: 400px;
-        height: 420px;
-    }
+/* Fix for modal on extra large screens */
+@media (min-width: 2500px) {
+  .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+  }
+  
+  .confirmation-modal {
+      width: 450px; /* Fixed width instead of percentage */
+  }
 }
