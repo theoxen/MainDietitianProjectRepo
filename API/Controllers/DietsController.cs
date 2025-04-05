@@ -16,7 +16,7 @@ namespace API.Controllers
             _logger = logger;                                  //for debugging use only - can be removed
         }
 
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
        [HttpPost(Endpoints.Diets.Create)]
         public async Task<IActionResult> CreateDiet(CreateDietDto createDietDto)
         {
@@ -39,7 +39,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut(Endpoints.Diets.Update)]
 
         public async Task<IActionResult> UpdateDiet(UpdateDietDto updateDietDto)
@@ -77,7 +77,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        //Remove // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Diets.Delete)]
         public async Task<IActionResult> DeleteDiet(Guid id)
         {
