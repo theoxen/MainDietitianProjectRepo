@@ -41,7 +41,7 @@ import { AdviceToView } from "../models/advice/advice-to-view";
   
     // Get all advice
     getAllAdvice(): Observable<AdviceToView[]> {
-      const url = `${this.baseUrl}advice`;
+      const url = `${this.baseUrl}advice/view`;
       return this.http.get<AdviceToView[]>(url);
     }
   

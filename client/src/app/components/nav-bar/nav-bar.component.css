@@ -53,6 +53,42 @@ nav .fa-xmark {
     display: none;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Hide the dropdown content by default */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0;         /* Aligns the dropdown with the left edge of the parent */
+    top: 100%;
+    background-color: transparent;
+    min-width: 100px;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Style for each dropdown item */
+  .dropdown-content li {
+    list-style: none;
+  }
+  
+  /* Style for links inside the dropdown */
+  .dropdown-content li a {
+    display: block;
+    padding: 0px 5px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Show the dropdown content on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
 @media (max-width: 1100px) {
     .nav-links ul li {
         display: block;

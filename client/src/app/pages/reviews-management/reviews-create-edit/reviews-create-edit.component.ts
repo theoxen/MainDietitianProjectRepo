@@ -9,6 +9,7 @@ import { Reviews } from '../../../models/reviews/reviews';
 import { ReviewsToAdd } from '../../../models/reviews/reviews-to-add';
 import { CommonModule } from '@angular/common';
 import { ReviewsToUpdate } from '../../../models/reviews/reviews-to-edit';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -47,17 +48,18 @@ export class ReviewsCreateEditComponent implements OnInit {
       Validators.pattern(ValidationPatterns.anonymous),
       Validators.required
     ]),
-  })
-
+  });
 
   displayErrorOnControlTouched = true;
   displayErrorOnControlDirty = true;
 
   reviewsService = inject(ReviewsService);
+  private toastr = inject(ToastrService); // Inject ToastrService
 
-constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {}
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {}
 
   reviewTextErrorMessages = new Map<string, string>([
+    // Add error messages if needed
   ]);
 
   starsErrorMessages = new Map<string, string>([
@@ -67,17 +69,17 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder, private rout
   ]);
 
   isAnonymousErrorMessages = new Map<string, string>([
+    // Add error messages if needed
   ]);
 
-  
   ngOnInit(): void {
     this.reviewForm = this.fb.group({
       Stars: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
       'Review Text': [''],
       Anonymous: [false]
     });
-    // Get the user ID from the URL
-    this.clientId = this.route.snapshot.paramMap.get('clientId')!;  // Gets the user ID from the URL (In the app.routes.ts file, the path is defined as "clients/:clientId/note")
+    // Get the user ID from the URL if needed.
+    this.clientId = this.route.snapshot.paramMap.get('clientId')!; 
     this.route.paramMap.subscribe(params => {
       const reviewId = params.get('reviewId');
       this.reviewId = reviewId !== null ? reviewId : undefined;
@@ -88,7 +90,6 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder, private rout
     });
   }
 
-
   loadReviewDetails(reviewId: string): void {
     this.reviewsService.getReview(reviewId).subscribe({
       next: (review: Reviews) => {
@@ -97,8 +98,9 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder, private rout
         this.reviewForm.controls['Anonymous'].setValue(review.isAnonymous);
       },
       error: (error: any) => {
-        console.error("Error loading review details.",error);
+        console.error("Error loading review details.", error);
         this.errorMessage = "Error loading review details. Please try again later.";
+        this.toastr.error("Error loading review details. Please try again later.");
       }
     });
   }
@@ -108,48 +110,51 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder, private rout
   }
 
   onSubmit(): void {
-    
     if (this.reviewForm.invalid) {
-      this.reviewForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
+      this.reviewForm.markAllAsTouched();
       return;
     }
-      if (this.isEditMode) {
-        const reviewsToUpdate: ReviewsToUpdate = {
-          Id: this.reviewId!,
-          stars: Number(this.reviewForm.controls['Stars'].value!),
-          reviewText: this.reviewForm.controls['Review Text'].value!,
-          isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!)
-        };
+    if (this.isEditMode) {
+      const reviewsToUpdate: ReviewsToUpdate = {
+        Id: this.reviewId!,
+        stars: Number(this.reviewForm.controls['Stars'].value!),
+        reviewText: this.reviewForm.controls['Review Text'].value!,
+        isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!)
+      };
 
-        this.reviewsService.updateReview(reviewsToUpdate).subscribe({
-          next: (reviews : Reviews) => {
-            console.log("Review updated successfully.");
-            this.reviewId = reviews.id;
-            this.router.navigate(['/']);
-          },
-          error: (error: any) => {
-            console.error("Error updating review.", error);
-            this.errorMessage = "Error updating review. Please try again later.";
-          }
-        });
-      } else {
-        const reviewsToAdd: ReviewsToAdd = {
-          stars: Number(this.reviewForm.controls['Stars'].value!),
-          reviewText: this.reviewForm.controls['Review Text'].value!,
-          isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!)
-        };
+      this.reviewsService.updateReview(reviewsToUpdate).subscribe({
+        next: (review: Reviews) => {
+          console.log("Review updated successfully.");
+          this.toastr.success("Review updated successfully.");
+          this.reviewId = review.id;
+          this.router.navigate(['/']);
+        },
+        error: (error: any) => {
+          console.error("Error updating review.", error);
+          this.errorMessage = "Error updating review. Please try again later.";
+          this.toastr.error("Error updating review. Please try again later.");
+        }
+      });
+    } else {
+      const reviewsToAdd: ReviewsToAdd = {
+        stars: Number(this.reviewForm.controls['Stars'].value!),
+        reviewText: this.reviewForm.controls['Review Text'].value!,
+        isAnonymous: Boolean(this.reviewForm.controls['Anonymous'].value!)
+      };
 
-        this.reviewsService.createReview(reviewsToAdd).subscribe({
-          next: () => {
-            console.log("Review added successfully.");
-            this.router.navigate(['/']);
-          },
-          error: (error: any) => {
-            console.error("Error adding review.", error);
-            this.errorMessage = "Error adding review. Please try again later.";
-          }
-        });
-      }
+      this.reviewsService.createReview(reviewsToAdd).subscribe({
+        next: () => {
+          console.log("Review added successfully.");
+          this.toastr.success("Review added successfully.");
+          this.router.navigate(['/']);
+        },
+        error: (error: any) => {
+          console.error("Error adding review.", error);
+          this.errorMessage = "Error adding review. Please try again later.";
+          this.toastr.error("Error adding review. Please try again later.");
+        }
+      });
+    }
   }
 
   openConfirmationWindow() {
@@ -166,14 +171,15 @@ constructor(private route: ActivatedRoute, private fb: FormBuilder, private rout
       this.reviewsService.deleteReview(this.reviewId).subscribe({
         next: () => {
           console.log("Review deleted successfully.");
+          this.toastr.success("Review deleted successfully.");
           this.router.navigate(['/']);
         },
         error: (error: any) => {
           console.error("Error deleting review.", error);
           this.errorMessage = "Error deleting review. Please try again later.";
+          this.toastr.error("Error deleting review. Please try again later.");
         }
       });
-    
-  }
+    }
   }
 }
