@@ -248,7 +248,33 @@
   .cancel-btn:hover {
     background-color: #e1e1e1;
   }
-  
+
+  .addNewClient-form{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      gap: 30px; 
+
+  }
+
+
+
+  .newClient{
+    height: 45px;
+    width: 210px;
+    margin-left: 10px;
+    background-color: #FFB453;
+    border-radius: 15px;
+    border: none; /* Remove border color property */
+    color: white;
+    font-size: 18px; 
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+  }
+
   .submit-btn {
     height: 45px;
     width: 210px;
@@ -355,6 +381,7 @@
   .modal-actions {
     display: flex;
     justify-content: space-between;
+    gap: 30px; 
   }
   
   .cancel-btn, .confirm-btn {
@@ -450,7 +477,7 @@
   
   .clear-search {
     position: absolute;
-    right: 12px;
+    right: 150px;
     background: none;
     border: none;
     color: #999;
@@ -546,6 +573,9 @@
 
 /* Keep your existing media queries */
 @media (max-width: 1400px) {
+  .clear-search {
+    right: 175px;
+  }
   .primary-hover-box {
       width: 70%;
   }
@@ -568,6 +598,9 @@
 }
 
 @media (max-width: 1200px) {
+  .clear-search {
+    right: 170px;
+  }
   .primary-hover-box {
       width: 70%;
   }
@@ -583,6 +616,9 @@
 }
 
 @media (max-width: 800px) {
+  .clear-search {
+    right: 170px;
+  }
   .appointmentsContainer {
       min-height: calc(100vh - 66.22px);
       display: flex;
@@ -607,6 +643,29 @@
   }
 }
 
+@media (max-width: 600px) {
+  .clear-search {
+    right: 160px;
+  }
+}
+
+@media (max-width: 500px) {
+  .clear-search {
+    right: 150px;
+  }
+}
+
+@media (max-width: 400px) {
+  .clear-search {
+    right: 135px;
+  }
+}
+
+@media (max-width: 300px) {
+  .clear-search {
+    right: 120px;
+  }
+}
 /* Fix for modal on extra large screens */
 @media (min-width: 2500px) {
   .modal-overlay {

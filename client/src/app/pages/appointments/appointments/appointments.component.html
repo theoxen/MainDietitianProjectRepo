@@ -57,6 +57,10 @@
                                             <i class="fa-solid fa-times"></i>
                                         </button>
                                     }
+                                    <button class="newClient" (click)="openNewCLientModal()">
+                                        <i class="fa-solid fa-plus"></i>
+                                        New Client
+                                    </button>
                                 </div>
                             </div>
                             <div class="clientsContainer">
@@ -127,6 +131,40 @@
                                     <button class="cancelButton" (click)="closeConfirmationModal()">Cancel</button>
                                     <button class="submit-btnOnModal" (click)="confirmAppointment()">Confirm</button>
                                 </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (showAddClient) {
+                        <div class="modal-overlay">
+                            <div class="confirmation-modal">
+                                <h2>New Client Details</h2>
+                                <form class="addNewClient-form" [formGroup]="addNewCLientForm" (ngSubmit)="addNewClient()">
+                                    <app-primary-input-field [label]="'Full Name'" [placeholder]="'fullName'"
+                                        [control]="addNewCLientForm.controls['fullName']" [errorMessages]="fullNameErrorMessages"
+                                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%; ">
+                                    </app-primary-input-field>
+                                    
+                                    <app-primary-input-field [label]="'Phone Number'" [placeholder]="'phoneNumber'"
+                                        [control]="addNewCLientForm.controls['phoneNumber']" [errorMessages]="phoneNumberErrorMessages"
+                                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                                    </app-primary-input-field>
+    
+                                    <app-primary-input-field [label]="'Date Of Birth'" placeholder="Select your birth date" 
+                                    [type]="'date'" [control]="addNewCLientForm.controls.dateOfBirth" [errorMessages]="dateOfBirthErrorMessages"
+                                    [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                                    [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                                    </app-primary-input-field>
+
+                                    <div class="modal-actions">
+                                        <button class="cancelButton" (click)="closeAddClientModal()">Cancel</button>
+                                        <button type="submit" class="submit-btnOnModal">Add Client</button>
+                                    </div>
+                                    
+                                </form>
+                                
                             </div>
                         </div>
                     }

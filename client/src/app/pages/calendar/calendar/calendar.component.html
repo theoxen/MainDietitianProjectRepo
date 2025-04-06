@@ -125,6 +125,7 @@
                 <div class="modal-body">
                   <div class="appointment-details">
                     <p><strong>Client:</strong> {{ selectedClientName }}</p>
+                    <p><strong>Phone:</strong> {{ selectedClientPhone }}</p>
                     <p><strong>Date:</strong> {{ selectedAppointment.appointmentDate | date:'EEEE, MMMM d, y' }}</p>
                     <p><strong>Time:</strong> {{ selectedAppointment.appointmentDate | date:'h:mm a' }}</p>
                     <p><strong>Created:</strong> {{ selectedAppointment.dateCreated | date:'MMM d, y h:mm a' }}</p>

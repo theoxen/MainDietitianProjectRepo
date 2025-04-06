@@ -8,8 +8,15 @@ import { CommonModule } from '@angular/common';
 import { AppointmentsService } from '../../../services/appointments.service';
 import { ClientManagementService } from '../../../services/client-management.service';
 import { ClientProfile } from '../../../models/client-management/client-profile';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { PrimaryInputFieldComponent } from '../../../components/primary-input-field/primary-input-field.component';
+import { ValidationPatterns } from '../../../validation/validation-patterns';
+import { ValidationMessages } from '../../../validation/validation-messages';
+import { RegisterData } from '../../../models/register.data';
+import { AccountService } from '../../../services/account.service';
+import { HttpResponseError } from '../../../models/http-error';
+import { dateBeforeTodayValidator } from '../../../validation/pastDateValidator';
 
 interface CalendarDate {
   date: number;
@@ -23,7 +30,7 @@ interface theAppointment {
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [NavBarComponent, CalendarComponent, CommonModule, FormsModule],
+  imports: [NavBarComponent, CalendarComponent, CommonModule, FormsModule, PrimaryInputFieldComponent, ReactiveFormsModule],
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.css']
 })
@@ -44,14 +51,21 @@ export class AppointmentsComponent {
   selectedClientId: string | null = null;
   selectedClientName: string = '';
   showConfirmationModal: boolean = false;
+  showAddClient: boolean = false;
   searchQuery: string = '';
   filteredClients!: ClientProfile[];
+  displayErrorOnControlTouched = true;
+  displayErrorOnControlDirty = true;
 
   appointmentsService = inject(AppointmentsService);
   clientManagementService = inject(ClientManagementService);
   private toastr = inject(ToastrService);
+  private accountService = inject(AccountService);
   
   @ViewChild(CalendarComponent) calendarComponent!: CalendarComponent;
+  phoneNumberExists!: boolean;
+
+  
 
  
   constructor(private route: ActivatedRoute, private renderer: Renderer2) {}
@@ -70,27 +84,111 @@ export class AppointmentsComponent {
     // console.log(this.filteredClients);
   }
 
-  loadClients() {
-    this.clientManagementService.getAllClientsWithId().subscribe({
-      next: (clients: ClientProfile[]) => {
-        // Store all clients
-        this.clients = clients;
-        
-        // Filter out admin users
-        this.filteredClients = this.clients.filter(client => 
-          client.fullName !== 'admin'
-        );
 
-        this.clients = this.filteredClients;
-        // Initialize filtered clients with all non-admin clients
+  addNewCLientForm = new FormGroup({
+    "fullName": new FormControl("", [
+      Validators.pattern(ValidationPatterns.fullName),
+      Validators.required,
+    ]),
 
+    "phoneNumber": new FormControl("", [
+      Validators.pattern(ValidationPatterns.phoneNumber),
+      Validators.required
+    ]),
 
-      },
-      error: (error) => {
-        console.error("Error loading clients:", error);
+    "dateOfBirth": new FormControl("", [
+          Validators.required,
+          dateBeforeTodayValidator() // Function that takes an AbstractControl as an argument and returns either null if the control is valid or an object containing validation errors if the control is invalid.
+        ])
+  })
+
+    fullNameErrorMessages = new Map<string, string>([
+      ["required", ValidationMessages.required],
+      ["pattern", ValidationMessages.fullName]
+    ])
+  
+    phoneNumberErrorMessages = new Map<string, string>([
+      ["required", ValidationMessages.required],
+      ["pattern", ValidationMessages.phoneNumber]
+    ])
+
+    dateOfBirthErrorMessages = new Map<string, string>([
+      ["required", ValidationMessages.required],
+      ["dateBeforeToday", ValidationMessages.dateOfBirth]
+    ])
+
+    loadClients() {
+      this.clientManagementService.getAllClientsWithId().subscribe({
+        next: (clients: ClientProfile[]) => {
+          if (Array.isArray(clients)) {
+            // Store all clients
+            this.clients = clients;
+            
+            // Filter out admin users
+            this.filteredClients = this.clients.filter(client => 
+              client.fullName !== 'admin'
+            );
+    
+            this.clients = this.filteredClients;
+            console.log("Clients loaded successfully:", this.clients.length);
+          } else {
+            console.error("Unexpected response format for clients:", clients);
+            this.toastr.error("Error loading client data. Please refresh the page.");
+          }
+        },
+        error: (error) => {
+          console.error("Error loading clients:", error);
+          this.toastr.error("Failed to load clients. Please try again later.");
+        }
+      });
+    }
+
+    addNewClient() {
+      if (this.addNewCLientForm.valid) {
+        // Create a more complete registration object
+        const registerData: RegisterData = {
+          dateOfBirth:  this.addNewCLientForm.controls.dateOfBirth.value ?? "", // Default date
+          dietTypeId: "f069cacc-3efa-4237-8bd1-44f68e1c1f12", 
+          gender: "Male",
+          height: 170,
+          // Add a random password if one is required
+          password: "Client9!",
+          phoneNumber: this.addNewCLientForm.controls.phoneNumber.value ?? "",
+          fullName: this.addNewCLientForm.controls.fullName.value ?? "",
+          // Create an email if one is required
+          email: `client${Math.floor(Math.random() * 10000)}@example.com`
+          
+        }
+    
+        console.log("Sending registration data:", registerData);
+    
+        this.accountService.register(registerData).subscribe({
+          next: (user) => {
+            console.log("Registration successful:", user);
+            this.toastr.success("Registration of client was successful");
+            this.closeAddClientModal();
+            this.loadClients();
+          },
+          error: (error) => {
+            console.error("Registration error:", error);
+            
+            // More detailed error handling
+            if (error.errors && Array.isArray(error.errors)) {
+              let errorMessage = "Registration failed: ";
+              error.errors.forEach((err: { message: string; }) => {
+                errorMessage += err.message + " ";
+              });
+              this.toastr.error(errorMessage);
+            } else {
+              this.toastr.error("Registration failed. Please check the console for details.");
+            }
+          }
+        });
+      } else {
+        this.addNewCLientForm.markAllAsTouched();
       }
-    });
-  }
+    }
+  
 
   filterClients() {
     if (!this.searchQuery.trim()) {
@@ -107,6 +205,17 @@ export class AppointmentsComponent {
   clearSearch() {
     this.searchQuery = '';
     this.filteredClients = [...this.clients];
+  }
+
+  openNewCLientModal(){
+      this.showAddClient = true;
+  }
+
+  closeAddClientModal() {
+    this.showAddClient = false;
+    this.addNewCLientForm.reset();
+    // Reset any custom error states
+    this.phoneNumberExists = false;
   }
 
   addDate(appointment: AnAppointment) {
