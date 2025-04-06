@@ -1,5 +1,6 @@
 using System.Text;
 using API.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,6 +14,7 @@ namespace API.Controllers
             _dataBackupAndRestoreService = dataBackupAndRestoreService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.BackupAndRestore.CreateDataBackup)]
         public async Task<IActionResult> BackupDatabase()
         {
@@ -32,8 +34,8 @@ namespace API.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.BackupAndRestore.RestoreData)]
-
         public async Task<IActionResult> RestoreDatabase([FromForm] IFormFile backupFile)
         {
             try

@@ -1,139 +1,91 @@
 <div class="page">
     <app-nav-bar></app-nav-bar>
+    <!-- /////////////////////////////////////Age Users///////////////////////////////////////////// -->
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>New Users Reports</h3>
             <p>Generate reports from users who have recently signed in to monitor statistics.</p>
             <form [formGroup]="ReportForm1" (ngSubmit)="ReportForm1Submit()">
                 <div class="form-group">
-                    <app-primary-input-field
-                        [label]="'From'"
-                        [placeholder]="'From'"
-                        [control]="ReportForm1.controls.field1"
-                        [errorMessages]="fieldsErrorMessages"
+                    <app-primary-input-field [label]="'From'" [placeholder]="'From'" [type]="'date'"
+                        [control]="ReportForm1.controls.field1" [errorMessages]="fieldsErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                        style="width: 100%;">
-                    </app-primary-input-field>        
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                    </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field
-                        [label]="'To'"
-                        [placeholder]="'To'"
-                        [control]="ReportForm1.controls.field2"
-                        [errorMessages]="fieldsErrorMessages"
+                    <app-primary-input-field [label]="'To'" [placeholder]="'To'" [type]="'date'"
+                        [control]="ReportForm1.controls.field2" [errorMessages]="fieldsErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                        style="width: 100%;">
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <button class="primary-button">Create Report</button>
             </form>
         </div>
     </div>
+    <!-- /////////////////////////////////////////New Users///////////////////////////////////////// -->
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Age Reports</h3>
             <p>Generate reports from users within a specified age range to gain targeted insights.</p>
             <form [formGroup]="ReportForm2" (ngSubmit)="ReportForm2Submit()">
                 <div class="form-group">
-                    <app-primary-input-field
-                        [label]="'From'"
-                        [placeholder]="'From'"
-                        [control]="ReportForm2.controls.field1"
-                        [errorMessages]="fieldsErrorMessages"
+                    <app-primary-input-field [label]="'From'" [placeholder]="'From'"
+                        [control]="ReportForm2.controls.field1" [errorMessages]="fieldsErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                        style="width: 100%;">
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field
-                        [label]="'To'"
-                        [placeholder]="'To'"
-                        [control]="ReportForm2.controls.field2"
-                        [errorMessages]="fieldsErrorMessages"
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                        style="width: 100%;">
+                    <app-primary-input-field [label]="'To'" [placeholder]="'To'" [control]="ReportForm2.controls.field2"
+                        [errorMessages]="fieldsErrorMessages" [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <button class="primary-button">Create Report</button>
             </form>
         </div>
     </div>
+    <!-- /////////////////////////////////////////Appointment///////////////////////////////////////// -->
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Appointment Reports</h3>
             <p>Get a detailed overview of how many appointments have been made</p>
             <form [formGroup]="ReportForm3" (ngSubmit)="ReportForm3Submit()">
                 <div class="form-group">
-                    <app-primary-input-field
-                        [label]="'From'"
-                        [placeholder]="'From'"
-                        [control]="ReportForm3.controls.field1"
-                        [errorMessages]="fieldsErrorMessages"
+                    <app-primary-input-field [label]="'From'" [placeholder]="'From'" [type]="'date'"
+                        [control]="ReportForm3.controls.field1" [errorMessages]="fieldsErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                        style="width: 100%;">
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field
-                        [label]="'To'"
-                        [placeholder]="'To'"
-                        [control]="ReportForm3.controls.field2"
-                        [errorMessages]="fieldsErrorMessages"
+                    <app-primary-input-field [label]="'To'" [placeholder]="'To'" [type]="'date'"
+                        [control]="ReportForm3.controls.field2" [errorMessages]="fieldsErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                        style="width: 100%;">
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <button class="primary-button">Create Report</button>
             </form>
         </div>
     </div>
+    <!-- /////////////////////////////////////////Time Reports///////////////////////////////////////// -->
     <div class="center-container">
-        <div class="primary-hover-box">
-            <h3>Time Reports</h3>
-            <p>Find out which time slot is most frequently chosen for appointments</p>
-            <form [formGroup]="ReportForm4" (ngSubmit)="ReportForm4Submit()">
-                <div class="form-group">
-                    <app-primary-input-field
-                    [label]="'From'"
-                    [placeholder]="'From'"
-                    [control]="ReportForm4.controls.field2"
-                    [errorMessages]="fieldsErrorMessages"
-                    [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                    [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                    style="width: 100%;">
-                </app-primary-input-field>
-                </div>
-                <div class="form-group">
-                    <app-primary-input-field
-                    [label]="'From'"
-                    [placeholder]="'From'"
-                    [control]="ReportForm4.controls.field2"
-                    [errorMessages]="fieldsErrorMessages"
-                    [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                    [showErrorOnControlDirty]="displayErrorOnControlDirty"
-                    style="width: 100%;">
-                </app-primary-input-field>
-                </div>
-                <button class="primary-button">Create Report</button>
-            </form>
-        </div>
-    </div>
-    <!-- <div class="center-container">
         <div class="primary-hover-box">
             <h3>Diet Type Reports</h3>
             <p>Generate detailed reports based on users' selected diet types to analyze preferences and trends.</p>
-            <form (ngSubmit)="ReportForm5Submit()">
-                <input type="text" placeholder="Enter" class="primary-input-field">
-                <button class="primary-button" >Create Report</button>
+            <form [formGroup]="ReportForm4" (ngSubmit)="ReportForm4Submit()">
+                <div class="form-group">
+                    <app-primary-dropdown-input [placeholder]="'Select Diet Type'"
+                        [control]="ReportForm4.controls.field1" [dropdownItems]="dietTypeDropdownOptions"
+                        [errorMessages]="fieldsErrorMessages" [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                    </app-primary-dropdown-input>
+                </div>
+                <button class="primary-button">Create Report</button>
             </form>
         </div>
-    </div> -->
+    </div>
 </div>
-
-

@@ -11,6 +11,7 @@
                             <div class="circleBeforeSteps"></div>
                             <h1 class="Step1Text" [ngStyle]="{'display': step1Display}">Step 1</h1>
                             <h1 class="Step2Text" [ngStyle]="{'display': step2Display}">Step 2</h1>
+                            <h1 class="Step2Text" [ngStyle]="{'display': step3Display}">Step 3</h1>
                         </div>
                         <div class="step1">
                             <i class="fa-regular fa-calendar" [ngStyle]="{'background-color': dateColor}"></i>
@@ -21,18 +22,116 @@
                             <i class="fa-solid fa-clock" [ngStyle]="{'background-color': timeColor}"></i>
                             <p class="selectTime">Time</p>
                         </div>
+                        <div class="lineBetweenSteps"></div>
+                        <div class="step3">
+                            <i class="fa-solid fa-user" [ngStyle]="{'background-color': userColor}"></i>
+                            <p class="selectTime">Choose A Client</p>
+                        </div>
                     </div>
-                    
                 </div>
-                
             </div>
             
             <div class="divisionLine"></div>
             
             <div class="calendar">
-                 <app-calendar class="calendarInside" (dateClicked)="onCalendarDateClicked($event)" (appointmentSelected)="handleAppointment($event)"></app-calendar>
+                <app-calendar class="calendarInside" (dateClicked)="onCalendarDateClicked($event)" (dateSelected)="addDate($event)" [ngStyle]="{'display': calendarDisplay}"></app-calendar>
+                <div class="chooseClient">
+                    <!-- Client selection section -->
+                    @if (datesSelected) {
+                        <div class="client-selection-container">
+                            <h2 class="selection-title">Select a Client</h2>
+            
+                            <!-- Search Bar -->
+                            <div class="search-container">
+                                <div class="search-input-wrapper">
+                                    <i class="fa-solid fa-search search-icon"></i>
+                                    <input 
+                                        type="text" 
+                                        class="search-input" 
+                                        placeholder="Search clients by name..." 
+                                        [(ngModel)]="searchQuery"
+                                        (input)="filterClients()"
+                                    >
+                                    @if (searchQuery) {
+                                        <button class="clear-search" (click)="clearSearch()">
+                                            <i class="fa-solid fa-times"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="clientsContainer">
+                                <div class="clients-list">
+                                    @if (filteredClients.length === 0) {
+                                        <div class="no-results">
+                                            <i class="fa-solid fa-user-slash"></i>
+                                            <p>No clients found matching "{{ searchQuery }}"</p>
+                                        </div>
+                                    } @else {
+                                        
+                                        @for (client of filteredClients; track client.id) {
+                                            <div class="client-card" 
+                                                [class.selected]="selectedClientId === client.id"
+                                                (click)="selectClient(client)">
+                                                <!-- Client card content -->
+                                                <div class="client-avatar">
+                                                    <i class="fa-solid fa-user-circle"></i>
+                                                </div>
+                                                <div class="client-info">
+                                                    <div class="client-name">{{ client.fullName }}</div>
+                                                    <div class="client-phonenumber">{{ client.phoneNumber }}</div>
+                                                </div>
+                                                <div class="selection-indicator">
+                                                    @if (selectedClientId === client.id) {
+                                                        <i class="fa-solid fa-check-circle"></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="appointment-actions">
+                                <button class="cancelButton" (click)="cancelSelection()">Cancel</button>
+                                <button class="submit-btn" 
+                                        [disabled]="!selectedClientId" 
+                                        [class.active]="selectedClientId"
+                                        (click)="openConfirmationModal()">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    }
+                
+                    <!-- Confirmation Modal -->
+                    @if (showConfirmationModal) {
+                        <div class="modal-overlay">
+                            <div class="confirmation-modal">
+                                <h2>Confirm Appointment</h2>
+                                <div class="appointment-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Date:</span>
+                                        <span class="detail-value">{{ appointmentHolder.date | date:'fullDate' }}</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Time:</span>
+                                        <span class="detail-value">{{ appointmentHolder.time }}</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Client:</span>
+                                        <span class="detail-value">{{ selectedClientName }}</span>
+                                    </div>
+                                </div>
+                                <div class="modal-actions">
+                                    <button class="cancelButton" (click)="closeConfirmationModal()">Cancel</button>
+                                    <button class="submit-btnOnModal" (click)="confirmAppointment()">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
-           
         </div>
     </div>
-</div>    
+</div>

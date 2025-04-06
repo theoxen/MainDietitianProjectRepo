@@ -1,0 +1,108 @@
+/* Add these styles to client-history.component.css */
+.metrics-container {
+    margin: 20px 0;
+        /*center the container*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.note-container {
+    margin: 20px 0;
+        /*center the container*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header {
+    /*center the container*/
+    align-items: center;  
+}
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    width: 130px;
+    text-align: center;
+  }
+  
+  td {
+    width: 120px;
+    text-align: right;
+  }
+  
+  td h2 {
+    font-size: 16px;
+    width: 100px;
+    text-align: left;
+    margin: 0;
+    font-weight: normal;
+  }
+  
+  .thHeaders {
+    width: 130px;
+    text-align: right;
+  }
+
+  .title {
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scrollable table with correct scrollbar placement */
+.table-container {
+    max-height: 300px;
+    overflow-y: auto; 
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; 
+    border-radius: 10px;
+}
+
+/* Ensure table headers remain fixed */
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+}
+
+/* Ensure correct scrollbar position */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}

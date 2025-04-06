@@ -1,83 +1,136 @@
-<div class="page">
+<div class="register-page">
     <app-nav-bar></app-nav-bar>
-    <div class="register-container">
-        <div class="primary-hover-box">
-            <div class="split-hover-box">
-                <div class="title-subtitle-box">
-                    <h1 class="title" style="margin: 0px; margin-bottom: 10px;">Sign Up</h1>
-                    <p class="sub-title">Rafaella Panagiotou - Clinical
-                        Dietitian & Nutritionist</p>
-                </div>
-                <div class="client-credentials" style="flex: 4;">
-                    <h3 style="margin: 0px; text-align: center;">CLIENT CREDENTIALS</h3>
-                    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
-
-                        <app-primary-input-field [label]="'Full Name'" [placeholder]="'Full Name'"
-                            [control]="registerForm.controls.fullName" [errorMessages]="fullNameErrorMessages"
-                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                        </app-primary-input-field>
-
-                        <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
-                            <app-primary-input-field [label]="'Phone Number'" [placeholder]="'Phone Number'"
-                                [control]="registerForm.controls.phoneNumber" [errorMessages]="phoneNumberErrorMessages"
-                                [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                                [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                            </app-primary-input-field>
-                            <app-error [errorMessage]="phoneNumberExistsError" style="text-align: center;"></app-error>
-                        </div>
-
-                        <app-primary-input-field [label]="'Password'" placeholder="Password" [type]="'password'"
-                            [control]="registerForm.controls.password" [errorMessages]="passwordErrorMessages"
-                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                        </app-primary-input-field>
-
-                        <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
-                            <app-primary-input-field [label]="'Email'" placeholder="Email"
-                                [control]="registerForm.controls.email" [errorMessages]="emailErrorMessages"
-                                [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                                [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                            </app-primary-input-field>
-                            <app-error [errorMessage]="emailExistsError" style="text-align: center;"></app-error>
-                        </div>
-
-                        <app-primary-input-field [label]="'Date Of Birth'" placeholder="Date Of Birth" [type]="'date'"
-                            [control]="registerForm.controls.dateOfBirth" [errorMessages]="dateOfBirthErrorMessages"
-                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                        </app-primary-input-field>
-
-                        <app-primary-input-field [label]="'Height(cm)'" placeholder="Height(cm)"
-                            [control]="registerForm.controls.height" [errorMessages]="heightErrorMessages"
-                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                        </app-primary-input-field>
-
-                        <app-primary-dropdown-input [placeholder]="'Select Diet Type'"
-                            [control]="registerForm.controls.dietType" [dropdownItems]="dietTypeDropdownOptions"
-                            [errorMessages]="dietTypeErrorMessages"
-                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                        </app-primary-dropdown-input>
-
-
-                        <app-primary-dropdown-input [placeholder]="'Select Gender'"
-                            [control]="registerForm.controls.gender" [dropdownItems]="genderDropdownOptions"
-                            [errorMessages]="genderErrorMessages"
-                            [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                            [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
-                        </app-primary-dropdown-input>
-
-
-
-
-                        <button type="submit" class="primary-button">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
     
-</div>
+    <div class="register-container">
+      <div class="primary-hover-box register-card">
+        <!-- Header section -->
+        <div class="register-header">
+          <h1 class="title">Register Client</h1>
+          <p class="sub-title">Enter Client's Details To Register Them</p>
+        </div>
+        
+        <!-- Main form section -->
+        <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
+          <div class="form-section">
+            <h3 class="section-title">Client's Information</h3>
+            
+            <div class="form-row">
+              <!-- Full Name -->
+              <div class="form-group">
+                <app-primary-input-field 
+                  [label]="'Full Name'" 
+                  [placeholder]="'Enter your full name'"
+                  [control]="registerForm.controls.fullName" 
+                  [errorMessages]="fullNameErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-input-field>
+              </div>
+              
+              <!-- Email -->
+              <div class="form-group">
+                <app-primary-input-field 
+                  [label]="'Email'" 
+                  placeholder="Enter your email address"
+                  [control]="registerForm.controls.email" 
+                  [errorMessages]="emailErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-input-field>
+                <app-error [errorMessage]="emailExistsError" class="error-message"></app-error>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <!-- Phone Number -->
+              <div class="form-group">
+                <app-primary-input-field 
+                  [label]="'Phone Number'" 
+                  [placeholder]="'Enter your phone number'"
+                  [control]="registerForm.controls.phoneNumber" 
+                  [errorMessages]="phoneNumberErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-input-field>
+                <app-error [errorMessage]="phoneNumberExistsError" class="error-message"></app-error>
+              </div>
+              
+              <!-- Password -->
+              <div class="form-group">
+                <app-primary-input-field 
+                  [label]="'Password'" 
+                  placeholder="Create a strong password" 
+                  [type]="'password'"
+                  [control]="registerForm.controls.password" 
+                  [errorMessages]="passwordErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-input-field>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <h3 class="section-title">Client's Physical Profile</h3>
+            
+            <div class="form-row">
+              <!-- Date of Birth -->
+              <div class="form-group">
+                <app-primary-input-field 
+                  [label]="'Date Of Birth'" 
+                  placeholder="Select your birth date" 
+                  [type]="'date'"
+                  [control]="registerForm.controls.dateOfBirth" 
+                  [errorMessages]="dateOfBirthErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-input-field>
+              </div>
+              
+              <!-- Gender -->
+              <div class="form-group">
+                <app-primary-dropdown-input 
+                  [placeholder]="'Select Gender'"
+                  [control]="registerForm.controls.gender" 
+                  [dropdownItems]="genderDropdownOptions"
+                  [errorMessages]="genderErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-dropdown-input>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <!-- Height -->
+              <div class="form-group">
+                <app-primary-input-field 
+                  [label]="'Height (cm)'" 
+                  placeholder="Enter your height"
+                  [control]="registerForm.controls.height" 
+                  [errorMessages]="heightErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-input-field>
+              </div>
+              
+              <!-- Diet Type -->
+              <div class="form-group">
+                <app-primary-dropdown-input 
+                  [placeholder]="'Select Diet Type'"
+                  [control]="registerForm.controls.dietType" 
+                  [dropdownItems]="dietTypeDropdownOptions"
+                  [errorMessages]="dietTypeErrorMessages"
+                  [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                  [showErrorOnControlDirty]="displayErrorOnControlDirty">
+                </app-primary-dropdown-input>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="primary-button">Create Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
