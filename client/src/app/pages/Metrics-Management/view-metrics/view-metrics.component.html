@@ -13,9 +13,8 @@
           <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Metrics of {{clientName}}</h1>
         </div>
       
-      <div class="FoundMetricsAndAddNew">
-        
-          
+      <div class="StartEndDate">
+
                    <form [formGroup]="dateSearchForm" class="date-search">
                       <div class="form-floating" style="width: 100%;">
                         <div class="StartDate">
@@ -29,15 +28,13 @@
 
                     </div>
                   </form> 
-          
-      
-          
 
-        <button (click)="openAddMetricsModal(clientId)" class="AddNewButton"><i class="fa-solid fa-plus"></i>Add New</button>
-        
       </div>
 
-      <p class="MetricsFound"><i class="fa-solid fa-circle-info"></i> Found {{filteredMetrics.length}} metrics. </p>
+      <div class="metricsFoundAndAddNew">
+        <p class="MetricsFound"><i class="fa-solid fa-circle-info"></i> Found {{filteredMetrics.length}} metrics. </p>
+        <button (click)="openAddMetricsModal(clientId)" class="AddNewButton"><i class="fa-solid fa-plus"></i>Add New</button>
+      </div>
       
         <!-- Table of Metrics Using Paged Items -->
         <table>
@@ -53,22 +50,22 @@
           <tbody>
             @for (metric of pagedItems; track metric.date) {
               <tr>
-                <td>
-                  <h2>{{ metric.date }}</h2>
+                <td data-label="Date">
+                    <h2>{{ metric.date }}</h2>
                 </td>
-                <td>
-                  {{ metric.data[0].value }} {{ metric.data[0].unit }}
+                <td data-label="Body Weight">
+                    {{ metric.data[0].value }} {{ metric.data[0].unit }}
                 </td>
-                <td>
-                  {{ metric.data[1].value }} {{ metric.data[1].unit }}
+                <td data-label="Fat Mass">
+                    {{ metric.data[1].value }} {{ metric.data[1].unit }}
                 </td>
-                <td>
-                  {{ metric.data[2].value }} {{ metric.data[2].unit }}
+                <td data-label="Muscle Mass">
+                    {{ metric.data[2].value }} {{ metric.data[2].unit }}
                 </td>
-                <td>
-                  <button (click)="openEditMetricsModal(metric.id)" class="EditButton">
-                    <i class="fa-solid fa-pen-to-square"></i> Edit
-                  </button>
+                <td data-label="Actions">
+                    <button (click)="openEditMetricsModal(metric.id)" class="EditButton">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </button>
                 </td>
               </tr>
             }
