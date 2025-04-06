@@ -202,32 +202,22 @@ export class EditDietsComponent implements OnInit {
         
         const mealsArray = dayFormGroup.get('meals') as FormArray;
         
-        // First, clear existing meal values
-        for (let i = 0; i < mealsArray.length; i++) {
-          const mealFormGroup = mealsArray.at(i) as FormGroup;
-          mealFormGroup.patchValue({
-            id: '',
-            meal: ''
-          });
-        }
+        // Use the SAME order as when the form was created
+        const mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Dinner', 'Afternoon Snack'];
         
         // Then populate with data from the diet
         if (dietMeals && dietMeals.length > 0) {
-          const mealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Morning Snack', 'Afternoon Snack'];
-          
           mealTypes.forEach((mealType, typeIndex) => {
             const dietMeal = dietMeals.find(m => 
-              m.mealType === mealType 
-            //  || m.Type === mealType
-            );
+              m.mealType === mealType );
             
             if (dietMeal && typeIndex < mealsArray.length) {
               const mealFormGroup = mealsArray.at(typeIndex) as FormGroup;
               mealFormGroup.patchValue({
                 id: dietMeal.id,
-                meal: dietMeal.meal || dietMeal.meal
+                meal: dietMeal.meal 
               });
-              console.log(`Set meal ${mealType} value:`, dietMeal.meal || dietMeal.meal);
+              console.log(`Set meal ${mealType} value:`, dietMeal.meal );
             }
           });
         }

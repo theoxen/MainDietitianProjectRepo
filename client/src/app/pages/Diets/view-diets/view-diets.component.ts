@@ -379,6 +379,10 @@ fetchDietsForUser(clientId: string): void {
     
     const typedDiet = this.selectedDiet as any;
     
+    if (typedDiet.dateCreated && !typedDiet.date) {
+      typedDiet.date = this.formatDate(typedDiet.dateCreated);
+    }
+
     // Handle case where we have dietDays instead of Days
     if (typedDiet.dietDays && (!typedDiet.Days || typedDiet.Days.length === 0)) {
       console.log('Found dietDays - normalizing structure');

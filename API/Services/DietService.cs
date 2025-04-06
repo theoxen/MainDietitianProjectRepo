@@ -145,6 +145,7 @@ namespace API.Services
 
             diet.Name = updateDietDto.Name;
             diet.IsTemplate = updateDietDto.IsTemplate;
+            diet.DateCreated = DateTime.UtcNow;
             diet.DietDays = updateDietDto.Days.Select(d => new DietDay
             {
                 DayName = d.DayName,
