@@ -1,47 +1,29 @@
-<html lang="el">
-<app-nav-bar></app-nav-bar>
-
-<!-- {{diet[0].dateCreated}} -->
-<table>
-    <tr>
-      <th>Name</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-    </tr>
-    <!-- @for (period of mealPeriods; track $index) {
+<div class="page">
+  <app-nav-bar></app-nav-bar>
+  <div class="form-container">
+    <h2 class="title">Add Diet</h2>
+    <form [formGroup]="addclientDietsForm" (ngSubmit)="addDiets()">
+      <table class="diet-form-table">
         <tr>
-            <th>{{period}}</th>
-            
+          <td><label for="dietName">Diet Name</label></td>
+          <td>
+            <input id="dietName" type="text" formControlName="name" placeholder="Enter diet name" />
+          </td>
         </tr>
-    } -->
-    <tr>
-        <th>ΠΡΩΙΝΟ</th>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-    </tr>
-    <tr>
-        <th>ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ</th>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-    </tr>
-    <tr>
-        <th>ΜΕΣΗΜΕΡΙΑΝΟ</th>
-        <td>Ernst Handel</td>
-        <td>Roland Mendel</td>
-        <td>Austria</td>
-    </tr>
-    <tr>
-        <th>ΒΡΑΔΙΝΟ</th>
-        <td>Helen Bennett</td>
-        <td>UK</td>
-    </tr>
-    
-  </table>
-  </html>
+        <tr>
+          <td><label for="isTemplate">Template</label></td>
+          <td>
+            <input id="isTemplate" type="checkbox" formControlName="isTemplate" /> Yes
+          </td>
+        </tr>
+        <!-- You can add rows here for dynamic Diet Days if needed -->
+        <tr>
+          <td colspan="2" class="button-row">
+            <button type="submit" class="primary-button">Add Diet</button>
+            <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

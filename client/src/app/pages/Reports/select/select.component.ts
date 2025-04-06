@@ -1,20 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { PrimaryInputFieldComponent } from "../../../components/primary-input-field/primary-input-field.component";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DropdownItem } from '../../../components/primary-dropdown-input/dropdown-item';
+import { DietTypesService } from '../../../services/diet-types.service';
+import { PrimaryDropdownInputComponent } from '../../../components/primary-dropdown-input/primary-dropdown-input.component';
 
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule],
+  imports: [NavBarComponent, PrimaryInputFieldComponent, ReactiveFormsModule, PrimaryDropdownInputComponent],
   templateUrl: './select.component.html',
   styleUrl: './select.component.css'
 })
-export class SelectComponent {
+export class SelectComponent implements OnInit{
   displayErrorOnControlDirty = true;
   displayErrorOnControlTouched = true;
 
+  private dietTypeService = inject(DietTypesService);
+
+  dietTypeDropdownOptions: DropdownItem<string, string>[] = [];
+
+  ngOnInit(): void {
+    this.dietTypeService.loadDietTypes().subscribe({
+      next: (dietTypes) => {
+        this.dietTypeDropdownOptions = dietTypes.map(dietType => {
+          return {
+            value: dietType.id,
+            displayedValue: dietType.name
+          }
+        })
+      }
+    });
+
+  }
 
   constructor(private router: Router) { }
   
@@ -35,7 +55,6 @@ export class SelectComponent {
 
   ReportForm4 = new FormGroup({
     "field1": new FormControl("", [Validators.required]),
-    "field2": new FormControl("", [Validators.required]),
   });
 
   fieldsErrorMessages = new Map<string, string>([
@@ -97,12 +116,6 @@ export class SelectComponent {
       console.log('ReportForm4 is invalid.');
     }
   }
-
-  // ReportForm5Submit() {
-  //   console.log('Generating Age Report...');
-  //   this.router.navigate(['/reports/view']);
-  // }
-
 
 }
 

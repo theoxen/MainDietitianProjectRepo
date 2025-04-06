@@ -1,14 +1,19 @@
 <div class="page">
     <app-nav-bar></app-nav-bar>
-    <div class="search-container">
-        <div class="search-bar">
-            <input class="primary-input-field form-control" type="text" placeholder="Search recipe name" [(ngModel)]="searchTerm" (input)="filterRecipes()">
-            <!-- the search is not working HELP!!! -->
+    <div class="main-container">
+
+
+        <h1 class="title">Recipes</h1>
+        <div class="search-container">
+            <div class="search-bar">
+                <input class="primary-input-field form-control" type="text" placeholder="Search recipe name"
+                    [(ngModel)]="searchTerm" (input)="filterRecipes()">
+                <!-- the search is not working HELP!!! -->
+            </div>
         </div>
-    </div>
 
         <!-- @if () {} -->
-         <!-- i need to check for admin -->
+        <!-- i need to check for admin -->
         <div class="cards-container">
             <a [routerLink]="['/recipes/add']" class="primary-hover-box">
                 <div class="card-body">
@@ -18,13 +23,15 @@
         </div>
 
         @for (recipe of recipes; track $index) {
-            <div class="cards-container">
-                <a [routerLink]="['/recipes', recipe.id]" class="primary-hover-box">
-                    <div class="card-body">
-                        <h5 class="card-title">{{recipe.name}}</h5>
-                        <p class="card-text">Protein: {{recipe.protein}}g, Carbs: {{recipe.carbs}}g, Fats: {{recipe.fat}}g, Calories: {{recipe.calories}}kcal/100g</p>
-                    </div>
-                </a>
-            </div>
+        <div class="cards-container">
+            <a [routerLink]="['/recipes', recipe.id]" class="primary-hover-box">
+                <div class="card-body">
+                    <h5 class="card-title">{{recipe.name}}</h5>
+                    <p class="card-text">Protein: {{recipe.protein}}g, Carbs: {{recipe.carbs}}g, Fats: {{recipe.fat}}g,
+                        Calories: {{recipe.calories}}kcal/100g</p>
+                </div>
+            </a>
+        </div>
         }
+    </div>
 </div>

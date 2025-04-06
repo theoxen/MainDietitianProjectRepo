@@ -11,6 +11,7 @@ import { AdviceToUpdate } from "../../../models/advice/advice-to-edit";
 import { AdviceService } from "../../../services/advice.service";
 import { ValidationMessages } from "../../../validation/validation-messages";
 import { ValidationPatterns } from "../../../validation/validation-patterns";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-advice-create-edit',
@@ -24,17 +25,21 @@ import { ValidationPatterns } from "../../../validation/validation-patterns";
     adviceId?: string;
     errorMessage = "";
     isConfirmationWindowVisible = false;
+
+     // Inject ToastrService
+  private toastr = inject(ToastrService);
   
-    adviceForm = new FormGroup({
-      Title: new FormControl("", [
-        Validators.required,
-        Validators.pattern(ValidationPatterns.title)
-      ]),
-      AdviceText: new FormControl("", [
-        Validators.required,
-        Validators.pattern(ValidationPatterns.adviceText)
-      ])
-    });
+  adviceForm = new FormGroup({
+    Title: new FormControl("", [
+      Validators.required,
+      Validators.pattern(ValidationPatterns.title)
+    ]),
+    AdviceText: new FormControl("", [
+      Validators.required,
+      Validators.pattern(ValidationPatterns.adviceText)
+    ])
+  });
+  
   
     adviceService = inject(AdviceService);
   
@@ -43,17 +48,17 @@ import { ValidationPatterns } from "../../../validation/validation-patterns";
     titleErrorMessages = new Map<string, string>([
       ["required", ValidationMessages.required]
     ]);
-  
+    
     adviceTextErrorMessages = new Map<string, string>([
       ["required", ValidationMessages.required]
     ]);
-  
+    
     ngOnInit(): void {
       this.adviceForm = this.fb.group({
         Title: ['', [Validators.required]],
         AdviceText: ['', [Validators.required]]
       });
-  
+    
       this.route.paramMap.subscribe(params => {
         const adviceId = params.get('adviceId');
         this.adviceId = adviceId !== null ? adviceId : undefined;
@@ -63,7 +68,7 @@ import { ValidationPatterns } from "../../../validation/validation-patterns";
         }
       });
     }
-  
+    
     loadAdviceDetails(adviceId: string): void {
       this.adviceService.getAdvice(adviceId).subscribe({
         next: (advice: Advice) => {
@@ -73,72 +78,79 @@ import { ValidationPatterns } from "../../../validation/validation-patterns";
         error: (error) => {
           console.error("Error loading advice details.", error);
           this.errorMessage = "Error loading advice details. Please try again later.";
+          this.toastr.error("Error loading advice details. Please try again later.");
         }
       });
     }
-  
+    
     onSubmit(): void {
       if (this.adviceForm.invalid) {
         this.adviceForm.markAllAsTouched();
         return;
       }
-  
+    
       if (this.isEditMode) {
-        const AdviceToUpdate: AdviceToUpdate = {
+        const adviceToUpdate: AdviceToUpdate = {
           id: this.adviceId!,
           title: this.adviceForm.controls['Title'].value!,
           adviceText: this.adviceForm.controls['AdviceText'].value!
         };
-  
-        this.adviceService.updateAdvice(AdviceToUpdate).subscribe({
+    
+        this.adviceService.updateAdvice(adviceToUpdate).subscribe({
           next: (advice: Advice) => {
             console.log("Advice updated successfully.");
+            this.toastr.success("Advice updated successfully.");
             this.router.navigate(['/']);
           },
           error: (error) => {
             console.error("Error updating advice.", error);
             this.errorMessage = "Error updating advice. Please try again later.";
+            this.toastr.error("Error updating advice. Please try again later.");
           }
         });
-  
+    
       } else {
-        const AdviceToAdd: AdviceToAdd = {
+        const adviceToAdd: AdviceToAdd = {
           title: this.adviceForm.controls['Title'].value!,
           adviceText: this.adviceForm.controls['AdviceText'].value!
         };
-  
-        this.adviceService.createAdvice(AdviceToAdd).subscribe({
+    
+        this.adviceService.createAdvice(adviceToAdd).subscribe({
           next: () => {
             console.log("Advice added successfully.");
+            this.toastr.success("Advice added successfully.");
             this.router.navigate(['/']);
           },
           error: (error) => {
             console.error("Error adding advice.", error);
             this.errorMessage = "Error adding advice. Please try again later.";
+            this.toastr.error("Error adding advice. Please try again later.");
           }
         });
       }
     }
-  
+    
     openConfirmationWindow() {
       this.isConfirmationWindowVisible = true;
     }
-  
+    
     cancelDelete(): void {
       this.isConfirmationWindowVisible = false;
     }
-  
+    
     onDelete(): void {
       if (this.adviceId) {
         this.isConfirmationWindowVisible = false;
         this.adviceService.deleteAdvice(this.adviceId).subscribe({
           next: () => {
             console.log("Advice deleted successfully.");
+            this.toastr.success("Advice deleted successfully.");
             this.router.navigate(['/']);
           },
           error: (error) => {
             console.error("Error deleting advice.", error);
             this.errorMessage = "Error deleting advice. Please try again later.";
+            this.toastr.error("Error deleting advice. Please try again later.");
           }
         });
       }

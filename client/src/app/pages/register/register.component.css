@@ -1,90 +1,126 @@
+.register-page {
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(rgba(167, 91, 5, 0.384), rgba(160, 88, 6, 0.384));
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  overflow-x: hidden;
+}
+
 .register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  padding-top: 0;
 }
 
-.title-subtitle-box {
-    border-right: 1px solid #C8C8C8;
-    flex: 5;
+.register-card {
+  margin: 20px 0;
 }
 
-.split-hover-box {
-    display: flex;
-    padding-top: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-    height: 550px;
-}
-
-.client-credentials {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    max-height: 550px;
-    /* Adjust based on your needs */
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 10px;
-    /* To prevent content from touching the scrollbar */
-    min-width: 200px;
+.register-header {
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .register-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
-    padding-left: 13%;
-    padding-right: 13%;
+  width: 100%;
 }
 
-@media (max-width: 900px) {
-    .split-hover-box {
-        flex-direction: column;
-        align-items: center;
-        padding: 0;
-        height: fit-content;
-    }
+.form-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(167, 91, 5, 0.15);
+}
 
-    .primary-hover-box {
-        padding: 0;
-    }
+.form-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 
-    .title-subtitle-box {
-        border-right: none;
-        height: min-content;
-        flex: 1;
-    }
+.section-title {
+  font-weight: 500;
+  font-size: 24px;
+  color: #FFB453;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 8px;
+}
 
-    .client-credentials {
-        width: 90%;
-        overflow-x: hidden;
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #FFB453;
+  border-radius: 3px;
+}
 
-    }
+.form-row {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 25px;
+}
 
-    .title {
-        text-align: center;
-    }
+.form-row:last-child {
+  margin-bottom: 0;
+}
 
-    .sub-title {
-        text-align: center;
-    }
+.form-group {
+  flex: 1;
+  min-width: 0;
+}
 
-    .client-credentials {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-        padding-right: 10px;
-        max-height: none;
-        max-width: 500px;
-        padding-bottom: 30px;
-    }
-    .title {
-        padding-top: 30px;
-    }
+.error-message {
+  margin-top: 5px;
+  margin-bottom: 0;
+  color: red;
+  font-style: italic;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 35px;
+  gap: 15px;
+}
+
+.login-text {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .register-container {
+    padding: 20px 10px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .form-row {
+    gap: 15px;
+  }
 }

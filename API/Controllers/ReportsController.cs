@@ -20,7 +20,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetUsersReport(DateOnly datestart, DateOnly dateend)
         {
             var result = await _reportService.GetUsersReport(datestart, dateend);
-            return Ok(result); //MapToHttpResponse(result);
+            return MapToHttpResponse(result);
         }
 
 
@@ -30,7 +30,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetAgeGroupReport(int agestart, int ageend)
         {
             var result = await _reportService.GetAgeGroupReport(agestart, ageend);
-            return Ok(result);
+            return MapToHttpResponse(result);
         }   
 
 
@@ -44,7 +44,7 @@ namespace API.Controllers
         {
            
             var result = await _reportService.GetAppointmentReport(datestart, dateend);
-            return Ok(result); //MapToHttpResponse(result);
+            return MapToHttpResponse(result);
         }
 
 
@@ -55,7 +55,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetUsertypeReport(Guid dietTypeId)
         {
             var result = await _reportService.GetUsertypeReport(dietTypeId);
-            return Ok(result); //MapToHttpResponse(result);
+            return MapToHttpResponse(result);
         }
 
     }
