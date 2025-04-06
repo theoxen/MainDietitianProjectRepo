@@ -121,15 +121,12 @@ this.successMessage = '';
 const DietsToAdd: DietToAdd = {
   name: this.addclientDietsForm.controls['name'].value!,
   isTemplate: this.addclientDietsForm.controls['isTemplate'].value!,
-  userDiets: [{ userId: this.clientId! }], // Changed to match expected format
-
- 
-
-  dietDays: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
-    dayName: day.name, // Keep this conversion from name to dayName
-    dietMeals: day.meals.map((meal: any) => ({
+  userDiets: [{ userId: this.clientId! }],
+  days: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
+    dayName: day.name,
+    meals: day.meals.map((meal: any) => ({
       meal: meal.meal,
-      mealType: meal.mealType,
+      type: meal.mealType
     }))
   })),
 };

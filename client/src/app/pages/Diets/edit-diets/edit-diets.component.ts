@@ -249,13 +249,12 @@ export class EditDietsComponent implements OnInit {
       id: this.dietId!,
       name: this.clientDiets.controls['name'].value!,
       isTemplate: this.clientDiets.controls['isTemplate'].value!,
-      dietDays: this.clientDiets.controls['dietDays'].value!.map((day: any) => ({
+      days: this.clientDiets.controls['dietDays'].value!.map((day: any) => ({
         id: day.id,
         dayName: day.name,
-        dietMeals: day.meals.map((meal: any) => ({
-          id: meal.id,
+        meals: day.meals.map((meal: any) => ({
           meal: meal.meal,
-          mealType: meal.mealType,
+          type: meal.mealType
         }))
       }))
     };
