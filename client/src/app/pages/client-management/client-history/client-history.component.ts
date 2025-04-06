@@ -10,7 +10,6 @@ import { MetricsService } from '../../../services/metrics.service';
 import { Metrics } from '../../../models/metrics/metrics';
 import { CommonModule } from '@angular/common';
 import { DietService } from '../../../services/diet.service';
-import { Diet } from '../../../models/diet';
 import { PaginationComponent } from "../../pagination/pagination.component";
 
 

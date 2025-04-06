@@ -25,7 +25,6 @@ import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 import { SelectComponent } from './pages/Reports/select/select.component';
 import { ViewReportsComponent } from './pages/Reports/view/view.component';
 import { AdviceCreateEditComponent } from './pages/advice-management/advice-create-edit/advice-create-edit.component';
-import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
 import { AppointmentsComponent } from './pages/appointments/appointments/appointments.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
@@ -66,7 +65,6 @@ export const routes: Routes = [
          { path: ":clientId/history", component: ClientHistoryComponent },
          { path: ":clientId/note", component: NoteManagementComponent },
          { path: ":clientId/metrics", component: ViewMetricsComponent },
-         { path: ":clientId/diets", component: ViewDietsComponent },
          // { path: ":clientId/view-diets", component: ViewDietsComponent },
          // { path: ":clientId/edit-diets", component: EditDietsComponent }, 
       ]
@@ -115,15 +113,6 @@ export const routes: Routes = [
        { path: "view", component: ViewReportsComponent },
     ]
    },
-
-
-
-   {
-      path: 'diets',
-      runGuardsAndResolvers: "always",
-      canActivate: [authGuard],
-      component: ViewDietsComponent,
-    },
    
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
    { path: "appointments", component: AppointmentsComponent}, 
