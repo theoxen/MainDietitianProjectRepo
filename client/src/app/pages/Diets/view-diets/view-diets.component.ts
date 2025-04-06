@@ -278,18 +278,22 @@ fetchDietsForUser(clientId: string): void {
 
 
   openEditDietsModal(dietId: string): void {
+    // Close the diet details modal if open
+    this.closeDetails();
+    
+    // Open the edit modal
     const dialogRef = this.dialog.open(EditDietsComponent, {
-      width: '150%',
+      width: '90%',
       height: 'auto',
-      maxWidth: '1000px',
-      maxHeight: '100vh',
+      maxWidth: '1200px',
+      maxHeight: '90vh',
       data: { dietId }
     });
+    
     dialogRef.afterClosed().subscribe(result => {
-      // Refresh the metrics after the modal is closed
-      if (this.clientId) {
+      // Refresh the diets if result is true (successful edit)
+      if (result === true && this.clientId) {
         this.fetchDietsForUser(this.clientId);
-        
       }
     });
   }
