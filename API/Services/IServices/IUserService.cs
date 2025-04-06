@@ -19,4 +19,5 @@ public interface IUserService
     public Task<Result<Guid>> GetUserIdByPhoneNumberAsync(string phoneNumber);
     public Task<Result<UserProfileDto>> GetUserByIdAsync(Guid userId);
     public Task<Result<IEnumerable<UserProfileDto>>> GetAllClientsAsync();
+    public Task<Result<IEnumerable<UserProfileDtoWithId>>> GetAllClientsWithIdAsync();
 }

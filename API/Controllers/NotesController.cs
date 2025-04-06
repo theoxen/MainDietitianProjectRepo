@@ -1,5 +1,6 @@
 using API.Models.Notes;
 using API.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,6 +13,7 @@ namespace API.Controllers
             _noteService = noteService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.Notes.Create)]
         public async Task<IActionResult> CreateNoteAsync(CreateNoteDto createNoteDto)
         {
@@ -19,6 +21,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Notes.Delete)] // url example: http://localhost:5207/api/notes/69de298f-9b71-4bda-2121-08dd57fdddcd
         public async Task<IActionResult> DeleteNoteAsync(Guid noteId)
         {
@@ -26,6 +29,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Notes.GetNote)] // url example: http://localhost:5207/api/notes/69de298f-9b71-4bda-2121-08dd57fdddcd
         public async Task<IActionResult> GetNoteAsync(Guid noteId)
         {
@@ -33,6 +37,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Users.GetNoteByUserId)] // /users/{userId}/note
         public async Task<IActionResult> GetNoteByUserIdAsync(Guid userId)
         {
@@ -40,6 +45,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut(Endpoints.Notes.UpdateNote)] // UPDATE IS HTTP PUT!
         public async Task<IActionResult> UpdateNoteAsync(UpdateNoteDto updateNoteDto)
         {

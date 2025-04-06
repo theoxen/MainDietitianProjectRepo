@@ -34,6 +34,8 @@ import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { clientGuard } from './guards/client.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
+import { AdviceListComponent } from './pages/advice-management/advice-list/advice-list.component';
+import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
 
 
 
@@ -87,9 +89,9 @@ export const routes: Routes = [
       path: "reviews",
       runGuardsAndResolvers: "always",
       children: [
-         { path: "", component: ReviewsCreateEditComponent },
+         { path: "", component: ReviewsCreateEditComponent, canActivate: [authGuard] }, 
          { path: ":reviewId/edit", component: ReviewsCreateEditComponent, canActivate: [authGuard, clientGuard] },
-         { path: ":clientId", component: ReviewsCreateEditComponent },
+         { path: ":clientId", component: ReviewsCreateEditComponent, canActivate: [authGuard, clientGuard] }, 
       ]
    },
      
@@ -98,8 +100,9 @@ export const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [authGuard],
     children: [
-       { path: "", component: AdviceCreateEditComponent},
+       { path: "", component: AdviceCreateEditComponent, canActivate: [adminGuard]},
        { path: ":adviceId/edit", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
+       { path: "view", component: AdviceListComponent, canActivate: [authGuard]},
     ]
    },
   
@@ -123,12 +126,14 @@ export const routes: Routes = [
     },
    
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
-   { path: "appointments", component: AppointmentsComponent, canActivate: [authGuard, adminGuard] },
+   { path: "appointments", component: AppointmentsComponent}, 
+   // , canActivate: [authGuard, adminGuard] 
 
 
    { path: "about-us", component: AboutUsComponent },
    
    { path: "uploads", component: UploadsComponent, canActivate: [authGuard] },
+   { path: "uploads/articles", component: DisplayArticlesComponent, canActivate: [authGuard] },
 
    { path: "", redirectTo: "/", pathMatch: "prefix" },
 ];
