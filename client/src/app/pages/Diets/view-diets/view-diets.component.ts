@@ -26,10 +26,9 @@ import { ClientProfile } from '../../../models/client-management/client-profile'
 
 export class ViewDietsComponent implements OnInit {
 
-/////////////////
-  dietDates = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
-////////////////////
+  showDietDetailsModal = false;
+  selectedDiet: any = null;
+
   isConfirmationWindowVisible = false;
   clientName!:string;
   clientId!: string;
@@ -37,7 +36,8 @@ export class ViewDietsComponent implements OnInit {
 
   diets!: Diet[];
   transformedDiets: { id: any; date: any ; name: any; isTemplate: any }[] = [];
-  filteredDiets: { id: any; name: any; isTemplate: any }[] = [];
+
+  filteredDiets: { id: any; name: any; isTemplate: any ; date:any }[] = [];
   searchControl = new FormControl('');
 
     showErrorOnControlTouched!: boolean;
@@ -51,7 +51,9 @@ export class ViewDietsComponent implements OnInit {
     currentPage = 1;
     items = [/* array of data */];
 
-    pagedItems:{ id: any; name: any; isTemplate: any }[] = [];
+/////////////////////////////////////////////////////TO CHANGE
+
+    pagedItems:{ id: any; name: any; isTemplate: any ; date:any }[] = [];
     dateSearchForm = new FormGroup({
       startDate: new FormControl(''),
       endDate: new FormControl('')
@@ -127,33 +129,65 @@ setupLiveDateSearch(): void {
 }
 
 
-fetchDietsForUser(clientId: string): void {
-     this.clientManagementService.getClientDetails(clientId).subscribe({
-          next: (fetchedClientDetails:ClientProfile) =>{
-            this.clientName = fetchedClientDetails.fullName;
 
-          }
-          
-        })
-        this.dietService.fetchDietsForUser(clientId).subscribe({
-          next: (fetchedDiets) => {
-            this.diets = fetchedDiets;
-            this.transformDiets();
-            if (this.searchControl.value) {
-              this.filteredDiets = this.filterDiets(this.searchControl.value);
-            } else {
-              this.filteredDiets = this.transformedDiets;
-            }
-            this.totalItems = this.filteredDiets.length;
-            this.loadPage(this.currentPage);
-          },
-          error: (error: any) => {
-            console.error("Error fetching diet:", error);
-            this.loadPage(this.currentPage);
-            this.filteredDiets = this.pagedItems = [];
-          }
-    });
-  }
+
+fetchDietsForUser(clientId: string): void {
+  this.clientManagementService.getClientDetails(clientId).subscribe({
+    next: (fetchedClientDetails: ClientProfile) => {
+      this.clientName = fetchedClientDetails.fullName;
+    }
+  });
+  
+  this.dietService.fetchDietsForUser(clientId).subscribe({
+    next: (response: any) => {
+      console.log('API Response:', response);
+      
+      // Handle different response formats
+      let fetchedDiets;
+      if (response && response.data) {
+        // If the API returns {data: [...]}
+        fetchedDiets = response.data;
+      } else if (Array.isArray(response)) {
+        // If the API returns an array directly
+        fetchedDiets = response;
+      } else if (response) {
+        // If the API returns a single object
+        fetchedDiets = [response];
+      } else {
+        fetchedDiets = [];
+      }
+      
+      this.diets = fetchedDiets;
+      
+      if (this.diets && this.diets.length > 0) {
+        this.transformDiets();
+        if (this.searchControl.value) {
+          this.filteredDiets = this.filterDiets(this.searchControl.value);
+        } else {
+          this.filteredDiets = this.transformedDiets;
+        }
+        this.totalItems = this.filteredDiets.length;
+        this.loadPage(this.currentPage);
+      } else {
+        console.log("No diets found for this user");
+        this.transformedDiets = [];
+        this.filteredDiets = [];
+        this.pagedItems = [];
+        this.totalItems = 0;
+      }
+    },
+    error: (error: any) => {
+      console.error("Error fetching diets:", error);
+      this.transformedDiets = [];
+      this.filteredDiets = [];
+      this.pagedItems = [];
+      this.totalItems = 0;
+    }
+  });
+}
+
+
+
 
   formatDate(dateInput: string | Date): string {
     const dateObj = new Date(dateInput);
@@ -164,28 +198,34 @@ fetchDietsForUser(clientId: string): void {
   }
 
 
-  transformDiets(): void {
-    if (!this.diets || this.diets.length === 0) {
-        console.error("Diets data is empty or undefined.");
-        this.transformedDiets = [];
-        return;
-    }
 
+
+transformDiets(): void {
+  if (!this.diets || !Array.isArray(this.diets) || this.diets.length === 0) {
+    console.log("Diets data is empty or not an array:", this.diets);
+    this.transformedDiets = [];
+    return;
+  }
+
+  try {
     this.transformedDiets = this.diets.map(diet => ({
-        id: diet.id,
-        date: this.formatDate(diet.dateCreated),  // "24/03/2025" format
-        name: diet.name,
-        isTemplate: diet.isTemplate,
-        data: [
-            { title: 'Name', value: diet.name },
-            { title: 'Is Template', value: diet.isTemplate ? 'Yes' : 'No' },
-            { title: 'Diet Days', value: diet.dietDays.length.toString() },
-            { title: 'User Diets', value: diet.userDiets.length.toString() },
-            { title: 'Diet Meals', value: diet.dietDays.reduce((acc, day) => acc + day.dietMeals.length, 0).toString() },
-        ]
+      id: diet.id || '',
+      date: this.formatDate(diet.dateCreated || new Date()),
+      name: diet.name || 'Unnamed Diet',
+      isTemplate: diet.isTemplate || false,
+      data: [
+        { title: 'Name', value: diet.name || 'Unnamed Diet' },
+        { title: 'Is Template', value: diet.isTemplate ? 'Yes' : 'No' }
+      ],
+      // Store the full diet object for displaying details
+      fullDiet: diet
     }));
+  } catch (error) {
+    console.error("Error transforming diets:", error, this.diets);
+    this.transformedDiets = [];
+  }
 }
-
+/////////////////////////////////////////////
 
 
   filterDiets(searchTerm: string) {
@@ -208,6 +248,9 @@ fetchDietsForUser(clientId: string): void {
     // If you want the diets in reverse order, reverse them once here.
     const reversedDiets = [...this.filteredDiets].reverse();
     this.pagedItems = reversedDiets.slice(start, start + this.pageSize);
+  
+  ///////// TO CHANGE
+  
   }
 
 
@@ -247,6 +290,15 @@ fetchDietsForUser(clientId: string): void {
     }
 
 
+
+    showDietDetails(diet: any): void {
+      this.selectedDiet = diet;
+      event?.stopPropagation(); // Prevent triggering parent click events
+    }
+    
+    closeDetails(): void {
+      this.selectedDiet = null;
+    }
 
 
 

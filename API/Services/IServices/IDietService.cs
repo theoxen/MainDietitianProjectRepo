@@ -13,5 +13,7 @@ namespace API.Services.IServices
         Task<Result<List<DietDto>>> GetAllDietsAsync();
         Task<Result<Empty>> DeleteDietAsync(Guid id);
 
+        public Task<Result<List<DietDto>>> SearchDietsAsync(Guid userId, DateTime? date);
+
     }
 }

@@ -1,167 +1,122 @@
-<!-- <div class="page">
-    <app-nav-bar></app-nav-bar>
-    <div class="table-container">
-      <h2 class="title">View Diets</h2>
-      <table class="diet-table">
-        <thead>
-          <tr>
-            <th>Meal Type / Diet Name</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-          </tr>
-          <tr>
-            <th>Diet Name</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-          </tr>
-          <tr>
-            <th>Diet Name</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-          </tr>
-          <tr>
-            <th>Diet Name</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-          </tr>
-          <tr>
-            <th>Diet Name</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-          </tr>
-
-
-
-
-
-
-        </thead>
-        <tbody>
-          <tr *ngFor="let diet of transformedDiets">
-            <td>{{ diet.name }}</td>
-            <td>{{ diet.isTemplate ? 'Yes' : 'No' }}</td>
-            <td>{{ diet.data ? diet.data.length : 0 }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div> -->
-
-
-
-  <head>
-    <!-- Other head content -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  </head>
-  <div class="page">
-    <app-nav-bar></app-nav-bar>
-    
-    
-    <div class="diet-container">
-      <div class="primary-hover-box">
-        <div class="hover-box">
-          <div class="title-box">
-            <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Diet of {{clientName}}</h1>
-          </div>
-        
-        <div class="FoundMetricsAndAddNew">
-          
-            
-                     <form [formGroup]="dateSearchForm" class="date-search">
-                        <div class="form-floating" style="width: 100%;">
-                          <div class="StartDate">
-                            <label for="startDate">Start Date:</label>
-                            <input type="date" id="startDate" formControlName="startDate">
-                          </div>
-                          <div class="EndDate">
-                            <label for="endDate">End Date:</label>
-                            <input type="date" id="endDate" formControlName="endDate">
-                          </div>
+<head>
+  <!-- Other head content -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<div class="page">
+  <app-nav-bar></app-nav-bar>
   
-                      </div>
-                    </form> 
-            
-        
-            
   
-          <button (click)="openAddDietsModal(clientId)" class="AddNewButton"><i class="fa-solid fa-plus"></i>Add New</button>
-          
+  <div class="diets-container">
+    <div class="primary-hover-box">
+      <div class="hover-box">
+        <div class="title-box">
+          <h1 class="title" style="margin: 0px; margin-bottom: 20px;">Diets of {{clientName}}</h1>
         </div>
-  
-        <p class="DietFound"><i class="fa-solid fa-circle-info"></i> Found {{filteredDiets.length}} metrics. </p>
+      
+      <div class="FoundDeitsAndAddNew">
         
-          <!-- Table of Diet Using Paged Items -->
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 40px; margin-right: 80px;">Date</th>
-                <th class="thHeaders">1</th>
-                <th class="thHeaders">2</th>
-                <th class="thHeaders">3</th>
-                
-                <th style="width: 65px;margin-right: 65px;"></th>
+          
+                   <form [formGroup]="dateSearchForm" class="date-search">
+                      <div class="form-floating" style="width: 100%;">
+                        <div class="StartDate">
+                          <label for="startDate">Start Date:</label>
+                          <input type="date" id="startDate" formControlName="startDate">
+                        </div>
+                        <div class="EndDate">
+                          <label for="endDate">End Date:</label>
+                          <input type="date" id="endDate" formControlName="endDate">
+                        </div>
+
+                    </div>
+                  </form> 
+          
+      
+          
+
+        <button (click)="openAddDietsModal(clientId)" class="AddNewButton"><i class="fa-solid fa-plus"></i>Add New</button>
+        
+      </div>
+
+      <p class="DietsFound"><i class="fa-solid fa-circle-info"></i> Found {{filteredDiets.length}} diets. </p>
+      
+        <!-- Table of Diets Using Paged Items -->
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 40px; margin-right: 80px;">Date</th>
+              <th class="thHeaders">Name</th>
+              <th class="thHeaders">Template</th>
+              <th style="width: 65px;margin-right: 65px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (diet of pagedItems; track diet.id) {
+              <tr (click)="showDietDetails(diet)" class="clickable-row">
+                <td>
+                  <h2>{{ diet.date }}</h2>
+                </td>
+                <td>
+                  {{ diet.name }}
+                </td>
+                <td>
+                  {{ diet.isTemplate ? 'Yes' : 'No' }}
+                </td>
+                <td>
+                  <button (click)="openEditDietsModal(diet.id)" class="EditButton">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                  </button>
+                </td>
               </tr>
-            </thead>
-
-
-            <tbody>
-
-
-
-
-                <tr *ngFor="let diet of pagedItems">
-                    <td>
-                    <h2>{{ diet.name }}</h2>
-                    </td>
-                    <td>
-                    {{ diet.isTemplate ? 'Yes' : 'No' }}
-                    </td>
-                    <td>
-                    {{ diet.data ? diet.data.length : 0 }}
-                    </td>
-                </tr>
-            </tbody>
-
-
-          </table>
-  
-          
-        <div class="pagination-container">
-          <app-pagination 
-            [totalItems]="filteredDiets.length"
-            [pageSize]="pageSize"
-            [currentPage]="currentPage"
-            (pageChanged)="onPageChanged($event)">
-          </app-pagination>
+            }
+          </tbody>
+        </table>
+        
+        <!-- Diet details modal -->
+        <div class="diet-details-modal" *ngIf="selectedDiet">
+          <div class="modal-content">
+            <span class="close" (click)="closeDetails()">&times;</span>
+            <h2>Diet Details: {{selectedDiet.name}}</h2>
+            <p><strong>Date:</strong> {{selectedDiet.date}}</p>
+            <p><strong>Type:</strong> {{selectedDiet.isTemplate ? 'Template' : 'Regular Diet'}}</p>
+            
+            @for (day of selectedDiet.fullDiet.dietDays; track day.id) {
+              <div class="diet-day">
+                <h3>{{day.dayName}}</h3>
+                <table class="meals-table">
+                  <thead>
+                    <tr>
+                      <th>Meal Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (meal of day.dietMeals; track meal.id) {
+                      <tr>
+                        <td>{{meal.mealType}}</td>
+                        <td>{{meal.meal}}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
         </div>
-          
-  
-        </div>
+
+
+        
+      <div class="pagination-container">
+        <app-pagination 
+          [totalItems]="filteredDiets.length"
+          [pageSize]="pageSize"
+          [currentPage]="currentPage"
+          (pageChanged)="onPageChanged($event)">
+        </app-pagination>
+      </div>
+        
+
       </div>
     </div>
   </div>
+</div>

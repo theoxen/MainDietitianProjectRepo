@@ -1,30 +1,66 @@
-.table-container {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  margin: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.clickable-row {
+  cursor: pointer;
 }
-.diet-table {
+
+.clickable-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Modal styles */
+.diet-details-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
   width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px;
-  text-align: center;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.diet-table th,
-.diet-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
-.diet-table th {
-  background-color: #f4a261;
-  color: #fff;
-}
-.title {
-  text-align: center;
-  margin-bottom: 20px;
+
+.close {
+  color: #aaa;
+  float: right;
   font-size: 28px;
   font-weight: bold;
-  color: #333;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: black;
+}
+
+.diet-day {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.meals-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.meals-table th,
+.meals-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.meals-table th {
+  background-color: #f4f4f4;
 }

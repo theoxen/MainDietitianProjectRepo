@@ -326,6 +326,41 @@ namespace API.Services
         }
 
 
+
+
+                public async Task<Result<List<DietDto>>> SearchDietsAsync(Guid userId, DateTime? date)
+        {
+            var diets = await _dietRepository.SearchDietsAsync(userId, date);
+            if (diets == null || !diets.Any())
+            {
+                return Result<List<DietDto>>.NotFound();
+            }
+
+            var dietsDtoList = diets.Select(m => new DietDto
+            {
+                Id = m.Id,
+                Name = m.Name,
+                IsTemplate = m.IsTemplate,
+                DateCreated = m.DateCreated,
+                UserDiets = m.UserDiets.Select(userdiet => new UserDietDto
+                {
+                    UserId = userdiet.UserId
+                }).ToList(),
+                Days = m.DietDays.Select(d => new DayDto
+                {
+                    DayName = d.DayName,
+                    Meals = d.DietMeals.Select(meal => new MealDto
+                    {
+                        Meal = meal.Meal,
+                        Type = meal.MealType
+                    }).ToList()
+                }).ToList()
+            }).ToList();
+
+            return Result<List<DietDto>>.Ok(dietsDtoList);
+        }
+
+
         
     }
 }
