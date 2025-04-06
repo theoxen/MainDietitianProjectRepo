@@ -273,22 +273,22 @@ transformDiets(): void {
 
 
 
-    openAddDietsModal(clientsId: string): void{
-      const dialogRef = this.dialog.open(AddDietsComponent, {
-        width: '150%',
-        height: 'auto',
-        maxWidth: '1000px',
-        maxHeight: '100vh',
-        data: { clientId:clientsId }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        // Refresh the metrics after the modal is closed
-        if (this.clientId) {  
-          this.fetchDietsForUser(this.clientId);
-        }
-      });
-    }
-
+  openAddDietsModal(clientsId: string): void {
+    const dialogRef = this.dialog.open(AddDietsComponent, {
+      width: '90%', // Wider to accommodate the form
+      height: 'auto',
+      maxWidth: '1200px',
+      maxHeight: '90vh',
+      data: { clientId: clientsId }
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      // Refresh the diets if result is true (successful addition)
+      if (result === true && this.clientId) {  
+        this.fetchDietsForUser(this.clientId);
+      }
+    });
+  }
 
 
     showDietDetails(diet: any): void {

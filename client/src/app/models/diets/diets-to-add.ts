@@ -2,7 +2,9 @@ export interface DietToAdd {
     name: string;
     isTemplate: boolean;
     userId: string;
+    userDiets: UserDietToAdd[];
     dietDays: DietDayToAdd[];
+
 }
 
 export interface DietDayToAdd {
@@ -13,4 +15,8 @@ export interface DietDayToAdd {
 export interface DietMealToAdd {
     mealType: string;
     meal: string;
+}
+
+export interface UserDietToAdd {
+    userId: string;
 }

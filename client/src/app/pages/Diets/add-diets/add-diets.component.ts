@@ -16,22 +16,28 @@ import { DietToAdd } from '../../../models/diets/diets-to-add';
 @Component({
   selector: 'add-diets',
   standalone: true,
-  imports: [ReactiveFormsModule, PrimaryInputFieldComponent, NavBarComponent],
+  imports: [ReactiveFormsModule, PrimaryInputFieldComponent, CommonModule, NavBarComponent],
   templateUrl: './add-diets.component.html',
   styleUrls: ['./add-diets.component.css']
 })
+
+
+
 export class AddDietsComponent implements OnInit {
-cancel() {
-throw new Error('Method not implemented.');
-}
+  cancel() {
+    this.dialogRef.close(); // Just close the dialog without returning any result
+  }
+
+
   
 
-  isConfirmationWindowVisible = false;
-    clientId?: string;
-    dietid: string = "";
-    errorMessage: string = "";
-    diet!: Diet[];
-    clientName!: string;
+isConfirmationWindowVisible = false;
+  clientId?: string;
+  dietid: string = "";
+  errorMessage: string = "";
+  successMessage: string = "";
+  diet!: Diet[];
+  clientName!: string;
 
 
   displayErrorOnControlDirty = true;
@@ -46,72 +52,113 @@ throw new Error('Method not implemented.');
     private dialogRef: MatDialogRef<AddDietsComponent>) {}
 
 
-  ngOnInit(): void {
-    // Get the user ID from the data 
-    this.clientId = this.data.clientId;
-    
-    this.clientManagementService.getClientDetails(this.clientId).subscribe({
-              next: (fetchedClientDetails:ClientProfile) =>{
-                this.clientName = fetchedClientDetails.fullName;
-              },
-              error: (err) => {
-                console.error('Error fetching client details:', err);
-                this.clientName = 'Unknown Client'; // Fallback value in case of an error
-              }
-            })
+    ngOnInit(): void {
+      // Get the user ID from the data 
+      this.clientId = this.data.clientId;
+      
+      this.clientManagementService.getClientDetails(this.clientId).subscribe({
+        next: (fetchedClientDetails: ClientProfile) => {
+          this.clientName = fetchedClientDetails.fullName;
+        },
+        error: (err) => {
+          console.error('Error fetching client details:', err);
+          this.clientName = 'Unknown Client'; // Fallback value in case of an error
+          this.errorMessage = "Failed to load client details";
+        }
+      });
+  
+      // Initialize the form with default diet days
+      this.initializeDietDaysForm();
+    }
 
+
+    addclientDietsForm = new FormGroup({
+      "name": new FormControl("", [Validators.required]),
+      "isTemplate": new FormControl(false),
+      "dietDays": new FormArray([])
+    });
+  
+    initializeDietDaysForm() {
+      const daysArray = this.addclientDietsForm.get('dietDays') as FormArray;
+
+
+// Add 7 days (for example)
+const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    
+dayNames.forEach(dayName => {
+  daysArray.push(new FormGroup({
+    name: new FormControl(dayName),
+    meals: new FormArray([
+      this.createMealFormGroup('Breakfast'),
+      this.createMealFormGroup('Lunch'),
+      this.createMealFormGroup('Dinner'),
+      this.createMealFormGroup('Snack')
+    ])
+  }));
+});
+}
+
+createMealFormGroup(mealType: string) {
+return new FormGroup({
+  meal: new FormControl(''),
+  mealType: new FormControl(mealType)
+});
+}
+
+addDiets() {
+  
+  if (this.addclientDietsForm.invalid) {
+    this.addclientDietsForm.markAllAsTouched();
+    return;
   }
 
+// Reset messages
+this.errorMessage = '';
+this.successMessage = '';
 
- addclientDietsForm = new FormGroup({
-    "name": new FormControl("", [Validators.required]),
-    "isTemplate": new FormControl(false),
-    "dietDays": new FormArray([]),
-    "userId": new FormControl(this.clientId, [Validators.required]),
-  })
+const DietsToAdd: DietToAdd = {
+  name: this.addclientDietsForm.controls['name'].value!,
+  isTemplate: this.addclientDietsForm.controls['isTemplate'].value!,
+  userDiets: [{ userId: this.clientId! }], // Changed to match expected format
+  dietDays: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
+    dayName: day.name, // Keep this conversion from name to dayName
+    dietMeals: day.meals.map((meal: any) => ({
+      meal: meal.meal,
+      mealType: meal.mealType,
+    }))
+  })),
+  userId: this.clientId!,
+};
+
+// Call service to add the diet
+this.dietService.addDiet(DietsToAdd).subscribe({
+  next: (diets: Diet) => {
+    console.log("Diet added successfully.");
+    this.dietid = diets.id;
+    this.successMessage = "Diet added successfully!";
+    
+    // Close the dialog after a brief delay so the user sees the success message
+    setTimeout(() => {
+      this.dialogRef.close(true); // Return true to indicate successful addition
+    }, 1500);
+  },
+  error: (error: any) => {
+    this.errorMessage = "Error adding diet. Please try again.";
+    console.error("Error adding diet:", error);
+  }
+});
+}
+
+
+
+
 
   openConfirmationWindow() {
     this.isConfirmationWindowVisible = true;
   }
 
 
-  addDiets() {
-    if (this.addclientDietsForm.invalid) {
-      this.addclientDietsForm.markAllAsTouched();
-      return;
-    }
-    const DietsToAdd: DietToAdd = { // Assigning the values of the controls to the object to be sent to the service
-      name: this.addclientDietsForm.controls['name'].value!,
-      isTemplate: this.addclientDietsForm.controls['isTemplate'].value!,
-      dietDays: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
-        id: day.id,
-        dayName: day.name,
-        dietMeals: day.meals.map((meal: any) => ({
-          id: meal.id,
-          meal: meal.meal,
-          mealType: meal.mealType,
-        }))
-      })),
-      userId: this.addclientDietsForm.controls['userId'].value!,
-    }
 
-    // Call service to add the diet
-    this.dietService.addDiet(DietsToAdd).subscribe({
-      next: (diets: Diet) => {
-        console.log("Diet added.");
-        this.dietid = diets.id;
-        // this.addclientMetricsForm.reset();  // Clear the form after adding metrics
-        this.dialogRef.close(); // Close the modal after successful addition
-
-        
-      },
-      error: (error:any) => {
-        //this.errorMessage = "Error adding metrics. Please try again later.";
-        console.error("Error adding diet."); // Log error to the console
-      }
-    })
-
-  }
 
   userIdErrorMessages = new Map<string, string>([
     ["required", "User ID is required."],
@@ -130,6 +177,14 @@ isTemplateErrorMessages = new Map<string, string>([
 
 dietDaysErrorMessages = new Map<string, string>([
   ["required", "Diet Days is required."]])
+
+  getDayMealControl(dayIndex: number, mealIndex: number): FormControl {
+    const days = this.addclientDietsForm.get('dietDays') as FormArray;
+    const day = days.at(dayIndex) as FormGroup;
+    const meals = day.get('meals') as FormArray;
+    return meals.at(mealIndex).get('meal') as FormControl;
+  }
+
 
 
 }
