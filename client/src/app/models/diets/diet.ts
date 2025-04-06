@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from '../user'; // Adjust the import path as necessary
 
 export interface Diet {
     id: string;

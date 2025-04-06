@@ -55,7 +55,8 @@ export const routes: Routes = [
    {
       path: "clients",
       runGuardsAndResolvers: "always",
-      canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
+
+    canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
       children: [
          { path: "", component: ClientSearchComponent }, // url path is additive to the parent path (for this case, it is clients)
          { path: ":clientId", component: ManageClientComponent },
@@ -65,9 +66,9 @@ export const routes: Routes = [
          { path: ":clientId/history", component: ClientHistoryComponent },
          { path: ":clientId/note", component: NoteManagementComponent },
          { path: ":clientId/metrics", component: ViewMetricsComponent },
-         { path: ":clientId/add-diets", component: AddDietsComponent },
-         { path: ":clientId/view-diets", component: ViewDietsComponent },
-         { path: ":clientId/edit-diets", component: EditDietsComponent }, 
+         { path: ":clientId/diets", component: ViewDietsComponent },
+         // { path: ":clientId/view-diets", component: ViewDietsComponent },
+         // { path: ":clientId/edit-diets", component: EditDietsComponent }, 
       ]
    },
      
@@ -114,6 +115,15 @@ export const routes: Routes = [
        { path: "view", component: ViewReportsComponent },
     ]
    },
+
+
+
+   {
+      path: 'diets',
+      runGuardsAndResolvers: "always",
+      canActivate: [authGuard],
+      component: ViewDietsComponent,
+    },
    
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
    { path: "appointments", component: AppointmentsComponent}, 

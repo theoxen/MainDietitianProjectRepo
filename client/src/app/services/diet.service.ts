@@ -1,11 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Metrics } from '../models/metrics/metrics';
+import { Diet } from '../models/diets/diet';
 import { environment } from '../environments/environment';
-import { MetricsToAdd } from '../models/metrics/metrics-to-add';
-import { MetricsToEdit } from '../models/metrics/metrics-to-edit';
-import { catchError, Observable } from 'rxjs';
-import { Diet } from '../models/diet';
+import { DietToAdd } from '../models/diets/diets-to-add';
+import { DietToEdit } from '../models/diets/diets-to-edit';
+import { catchError, of, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,47 +12,65 @@ import { Diet } from '../models/diet';
 export class DietService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  fetchDietForUser(dietId: string): Observable<Diet[]> {
+
+
+  // fetchDietsForUser(userId: string): Observable<Diet[]> {
+  //   const url = `${this.baseUrl}diets/client/${userId}`;
+  //   return this.http.get<Diet[]>(url);
+  // }
+
+
+
+  
+ // fetchDietsForUser(clientId: string):Observable<Diet[]> 
+
+
+   fetchDietsForUser(clientId: string) {
+     const url = this.baseUrl + 'diets/search';
+     let params = new HttpParams().set('userId', clientId);
+     return this.http.get<Diet[]>(url, { params });
+   }
+  
+
+  // Fetch a particular diet by its ID
+  fetchDietById(dietId: string): Observable<Diet> {
     const url = `${this.baseUrl}diets/${dietId}`;
+    return this.http.get<Diet>(url);
+  }
+
+  // Fetch all diets
+  fetchAllDiets(): Observable<Diet[]> {
+    const url = this.baseUrl + 'diets';
     return this.http.get<Diet[]>(url);
   }
 
-  fetchUserDietsWithUserId(userId: string) {
-    const url = this.baseUrl + `diets/client/${userId}`;
-    let params = new HttpParams().set('userId', userId);
-    return this.http.get<string[]>(url, { params });
+  // Add a new diet
+  addDiet(diet: DietToAdd): Observable<Diet> {
+    const url = this.baseUrl + 'diets';
+    return this.http.post<Diet>(url, diet);
   }
 
-  fetchAllDiet(clientId: string) {
-    const url = this.baseUrl + 'metrics/search';
-    let params = new HttpParams().set('userId', clientId);
-    return this.http.get<Metrics[]>(url, { params });
-
+  // Edit an existing diet
+  editDiet(dietToEdit: DietToEdit): Observable<Diet> {
+    const url = this.baseUrl + 'diets';
+    return this.http.put<Diet>(url, dietToEdit);
   }
 
-  addMetrics(metrics: MetricsToAdd) {
-    const url = this.baseUrl + 'metrics';
-    return this.http.post<Metrics>(url, metrics); // Post request to add a new metric
+  // Delete a diet by its ID
+  deleteDiet(dietId: string): Observable<any> {
+    const url = this.baseUrl + `diets/${dietId}`;
+    return this.http.delete(url);
   }
 
-  editMetrics(metricsToEdit: MetricsToEdit) {
-    const url = this.baseUrl + `metrics`;
-    return this.http.put<Metrics>(url, metricsToEdit); // Put request to edit an existing metric
-  }
-
-  deleteMetrics(metricsId: string) {
-    const url = this.baseUrl + `metrics/${metricsId}`;
-    return this.http.delete<Metrics>(url); // Delete request to remove a metric
-  }
-
-  searchMetrics(userId: string, date?: Date) {
-    const url = this.baseUrl + 'metrics/search';
+  // Search diets based on a userId and an optional date
+  searchDiets(userId: string, date?: Date): Observable<Diet[]> {
+    const url = this.baseUrl + 'diets/search';
     let params = new HttpParams().set('userId', userId);
     if (date) {
       params = params.set('date', date.toISOString());
     }
-    return this.http.get<Metrics[]>(url, { params }); // Get request to search metrics
+    return this.http.get<Diet[]>(url, { params });
   }
 }

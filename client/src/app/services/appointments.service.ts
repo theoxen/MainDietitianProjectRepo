@@ -5,7 +5,8 @@ import { environment } from '../environments/environment';
 import { MetricsToAdd } from '../models/metrics/metrics-to-add';
 import { MetricsToEdit } from '../models/metrics/metrics-to-edit';
 import { catchError, Observable } from 'rxjs';
-import { Diet } from '../models/diet';
+
+import { Diet } from '../models/diets/diet';
 import { AppointmentToAdd } from '../models/appointments/appointment-to-add';
 import { AppointmentToEdit } from '../models/appointments/appointments-to-edit';
 import { AnAppointment } from '../pages/calendar/calendar/calendar.component';

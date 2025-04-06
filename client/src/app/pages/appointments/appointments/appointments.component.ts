@@ -1,5 +1,7 @@
 import { Component, Inject, inject, Renderer2, ViewChild } from '@angular/core';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+import { DietService } from '../../../services/diet.service';
+import { Diet } from '../../../models/diets/diet';
 import { ActivatedRoute } from '@angular/router';
 import { AnAppointment, CalendarComponent } from '../../calendar/calendar/calendar.component';
 import { CommonModule } from '@angular/common';

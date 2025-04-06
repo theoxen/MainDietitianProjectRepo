@@ -1,94 +1,253 @@
-import { Component, Inject, inject, Renderer2 } from '@angular/core';
-import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DietService } from '../../../services/diet.service';
-import { Diet } from '../../../models/diet';
-import { ActivatedRoute } from '@angular/router';
+import { Diet } from '../../../models/diets/diet';
+import { NavBarComponent } from '../../../components/nav-bar/nav-bar.component';
+import { ReactiveFormErrorComponent } from "../../../components/reactive-form-error/reactive-form-error.component";
+import { PaginationComponent } from '../../pagination/pagination.component';
+import { EditDietsComponent } from '../edit-diets/edit-diets.component';
+import { AddDietsComponent } from '../add-diets/add-diets.component';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ClientManagementService } from '../../../services/client-management.service';
+import { MatDialog } from '@angular/material/dialog';
+import { combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
+import { ClientProfile } from '../../../models/client-management/client-profile';
 
 @Component({
-  selector: 'app-view-diets',
+  selector: 'view-diets',
   standalone: true,
-  imports: [NavBarComponent],
+  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent],
   templateUrl: './view-diets.component.html',
-  styleUrl: './view-diets.component.css'
+  styleUrls: ['./view-diets.component.css']
 })
-export class ViewDietsComponent {
-  mealPeriods = ["ΠΡΩΙΝΟ","ΕΝΔΙΑΜΕΣΟ Ή ΑΠΟΓΕΥΜΑΤΙΝΟ Ή ΠΡΟ ΥΠΝΟΥ","ΜΕΣΗΜΕΡΙΑΝΟ","ΒΡΑΔΙΝΟ"];
-  dietId!: string;
-  clientId: any;
-  diet!: Diet[];
-  dietDays!:[];
-  isTemplate!: boolean;
+
+
+
+export class ViewDietsComponent implements OnInit {
+
+/////////////////
+  dietDates = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
+////////////////////
+  isConfirmationWindowVisible = false;
+  clientName!:string;
+  clientId!: string;
+  errorMessage: string = "";
+
+  diets!: Diet[];
+  transformedDiets: { id: any; date: any ; name: any; isTemplate: any }[] = [];
+  filteredDiets: { id: any; name: any; isTemplate: any }[] = [];
+  searchControl = new FormControl('');
+
+    showErrorOnControlTouched!: boolean;
+    errorMessages!: Map<string,string>;
+    showErrorOnControlDirty!: boolean;
+    type: any;
+    placeholder: any;
+    control!: FormControl<any>;
+    totalItems = 100;   // For example, total items available
+    pageSize = 10;
+    currentPage = 1;
+    items = [/* array of data */];
+
+    pagedItems:{ id: any; name: any; isTemplate: any }[] = [];
+    dateSearchForm = new FormGroup({
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
+    });
+
+
   dietService = inject(DietService);
-  theDiet: any;
-  dateCreated: any;
+  clientManagementService = inject(ClientManagementService);
 
-  
-
-  constructor(private route: ActivatedRoute, private renderer: Renderer2) {}
-  
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
   ngOnInit(): void {
-    // Hide the footer when initializing this component.
-    this.clientId = this.route.snapshot.paramMap.get('clientId');
-    console.log("This is my client id:", this.clientId);
-  
-    
-    this.fetchDietIdWithUserId();
-    
+    this.loadPage(this.currentPage);
 
-    console.log("this is the diet[0]",);
-    // Hide the footer element.
-    const footer = document.querySelector('footer');
-    if (footer) {
-      this.renderer.setStyle(footer, 'display', 'none');
-    }
-  
+    this.clientId = this.route.snapshot.paramMap.get('clientId')!;
+    if (this.clientId) {
+      this.fetchDietsForUser(this.clientId);
+    }   
+    
+    this.setupLiveDateSearch()
+
   }
 
-  fetchDietIdWithUserId() {// fetch the user's diet id.
-    this.dietService.fetchUserDietsWithUserId(this.clientId).subscribe({
-      next: (UserDietObject) => {
-        console.log('Fetched diets response:', UserDietObject);
-        this.dietId = (UserDietObject as any).data;
-        console.log("Extracted dietId:", this.dietId);
+
+
+  // Helper method to parse a date string in "dd/mm/yyyy" format to a Date object.
+  parseDate(dateStr: string): Date {
+    const [day, month, year] = dateStr.split('/').map(part => parseInt(part, 10));
+    return new Date(year, month - 1, day);
+  }
+
+
+// Helper to parse an ISO date string (YYYY-MM-DD) into a local Date.
+parseISOToLocal(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+// Updated filtering method using the new date format.
+filterDietsByDateRange(startDate: string, endDate: string) {
+  if (!startDate || !endDate) {
+    return this.transformedDiets;
+  }
+
+    // Parse the input dates in local time
+    const start = this.parseISOToLocal(startDate);
+    const end = this.parseISOToLocal(endDate);
   
-        // fetch the detailed diet using the dietId.
-        this.fetchDietsWithDietId();
-      },
-      error: (error: any) => {
-        console.error("Error fetching diet id:", error);
-      }
+    return this.transformedDiets.filter(diet => {
+      // Convert the metric's "dd/mm/yyyy" string to a Date object.
+      const dietDate = this.parseDate(diet.date);
+      return dietDate >= start && dietDate <= end;
+    });
+
+}
+
+
+// Live update subscription to the date inputs remains the same.
+setupLiveDateSearch(): void {
+  combineLatest([
+    this.dateSearchForm.get('startDate')!.valueChanges,
+    this.dateSearchForm.get('endDate')!.valueChanges
+  ])
+    .pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    )
+    .subscribe(([startDate, endDate]) => {
+      this.filteredDiets = this.filterDietsByDateRange(startDate ?? '', endDate ?? '');
+      this.totalItems = this.filteredDiets.length; // update total items
+      this.currentPage = 1; // reset to first page
+      this.loadPage(this.currentPage);
+    });
+}
+
+
+fetchDietsForUser(clientId: string): void {
+     this.clientManagementService.getClientDetails(clientId).subscribe({
+          next: (fetchedClientDetails:ClientProfile) =>{
+            this.clientName = fetchedClientDetails.fullName;
+
+          }
+          
+        })
+        this.dietService.fetchDietsForUser(clientId).subscribe({
+          next: (fetchedDiets) => {
+            this.diets = fetchedDiets;
+            this.transformDiets();
+            if (this.searchControl.value) {
+              this.filteredDiets = this.filterDiets(this.searchControl.value);
+            } else {
+              this.filteredDiets = this.transformedDiets;
+            }
+            this.totalItems = this.filteredDiets.length;
+            this.loadPage(this.currentPage);
+          },
+          error: (error: any) => {
+            console.error("Error fetching diet:", error);
+            this.loadPage(this.currentPage);
+            this.filteredDiets = this.pagedItems = [];
+          }
     });
   }
 
-  fetchDietsWithDietId(): void {
-   
-      this.dietService.fetchDietForUser(this.dietId).subscribe({
-        next: (diet) => {
-          this.diet = (diet as any).data; 
-          this.theDiet = this.diet as any;
-          console.log(this.diet);
-          console.log(this.theDiet.id);
+  formatDate(dateInput: string | Date): string {
+    const dateObj = new Date(dateInput);
+    const day = dateObj.getDate().toString().padStart(2, '0');
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const year = dateObj.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
 
-          this.dateCreated = this.theDiet.dateCreated;
-          this.isTemplate = this.theDiet.isTemplate;
-          this.dietDays = this.theDiet.days;
 
-          
-        },
-        error: (error) => {
-          console.error("Error fetching detailed diet:", error);
-        }
-      });
+  transformDiets(): void {
+    if (!this.diets || this.diets.length === 0) {
+        console.error("Diets data is empty or undefined.");
+        this.transformedDiets = [];
+        return;
+    }
+
+    this.transformedDiets = this.diets.map(diet => ({
+        id: diet.id,
+        date: this.formatDate(diet.dateCreated),  // "24/03/2025" format
+        name: diet.name,
+        isTemplate: diet.isTemplate,
+        data: [
+            { title: 'Name', value: diet.name },
+            { title: 'Is Template', value: diet.isTemplate ? 'Yes' : 'No' },
+            { title: 'Diet Days', value: diet.dietDays.length.toString() },
+            { title: 'User Diets', value: diet.userDiets.length.toString() },
+            { title: 'Diet Meals', value: diet.dietDays.reduce((acc, day) => acc + day.dietMeals.length, 0).toString() },
+        ]
+    }));
 }
 
 
 
-
-  ngOnDestroy(): void {
-    // Restore the footer when leaving this component.
-    const footer = document.querySelector('footer');
-    if (footer) {
-      this.renderer.removeStyle(footer, 'display');
+  filterDiets(searchTerm: string) {
+    if (!searchTerm) {
+      return this.transformedDiets;
     }
+    return this.transformedDiets.filter(diet =>
+      diet.date.includes(searchTerm)
+    );
   }
+
+  onPageChanged(newPage: number) {
+    this.currentPage = newPage;
+    this.loadPage(newPage);
+  }
+
+
+  loadPage(page: number) {
+    const start = (page - 1) * this.pageSize;
+    // If you want the diets in reverse order, reverse them once here.
+    const reversedDiets = [...this.filteredDiets].reverse();
+    this.pagedItems = reversedDiets.slice(start, start + this.pageSize);
+  }
+
+
+  openEditDietsModal(dietId: string): void {
+    const dialogRef = this.dialog.open(EditDietsComponent, {
+      width: '150%',
+      height: 'auto',
+      maxWidth: '1000px',
+      maxHeight: '100vh',
+      data: { dietId }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // Refresh the metrics after the modal is closed
+      if (this.clientId) {
+        this.fetchDietsForUser(this.clientId);
+        
+      }
+    });
+  }
+
+
+
+    openAddDietsModal(clientsId: string): void{
+      const dialogRef = this.dialog.open(AddDietsComponent, {
+        width: '150%',
+        height: 'auto',
+        maxWidth: '1000px',
+        maxHeight: '100vh',
+        data: { clientId:clientsId }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        // Refresh the metrics after the modal is closed
+        if (this.clientId) {  
+          this.fetchDietsForUser(this.clientId);
+        }
+      });
+    }
+
+
+
+
+
 }
