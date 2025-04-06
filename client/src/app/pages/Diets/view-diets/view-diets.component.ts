@@ -17,7 +17,7 @@ import { ClientProfile } from '../../../models/client-management/client-profile'
 @Component({
   selector: 'view-diets',
   standalone: true,
-  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent],
+  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent , CommonModule],
   templateUrl: './view-diets.component.html',
   styleUrls: ['./view-diets.component.css']
 })
@@ -200,31 +200,32 @@ fetchDietsForUser(clientId: string): void {
 
 
 
-transformDiets(): void {
-  if (!this.diets || !Array.isArray(this.diets) || this.diets.length === 0) {
-    console.log("Diets data is empty or not an array:", this.diets);
-    this.transformedDiets = [];
-    return;
+  transformDiets(): void {
+    if (!this.diets || !Array.isArray(this.diets) || this.diets.length === 0) {
+      console.log("Diets data is empty or not an array:", this.diets);
+      this.transformedDiets = [];
+      return;
+    }
+  
+    try {
+      this.transformedDiets = this.diets.map(diet => ({
+        id: diet.id || '',
+        date: this.formatDate(diet.dateCreated || new Date()),
+        name: diet.name || 'Unnamed Diet',
+        isTemplate: diet.isTemplate || false,
+        data: [
+          { title: 'Name', value: diet.name || 'Unnamed Diet' },
+          { title: 'Is Template', value: diet.isTemplate ? 'Yes' : 'No' }
+        ],
+        // Store the full diet object with all details
+        fullDiet: diet
+      }));
+      console.log("Transformed diets:", this.transformedDiets);
+    } catch (error) {
+      console.error("Error transforming diets:", error, this.diets);
+      this.transformedDiets = [];
+    }
   }
-
-  try {
-    this.transformedDiets = this.diets.map(diet => ({
-      id: diet.id || '',
-      date: this.formatDate(diet.dateCreated || new Date()),
-      name: diet.name || 'Unnamed Diet',
-      isTemplate: diet.isTemplate || false,
-      data: [
-        { title: 'Name', value: diet.name || 'Unnamed Diet' },
-        { title: 'Is Template', value: diet.isTemplate ? 'Yes' : 'No' }
-      ],
-      // Store the full diet object for displaying details
-      fullDiet: diet
-    }));
-  } catch (error) {
-    console.error("Error transforming diets:", error, this.diets);
-    this.transformedDiets = [];
-  }
-}
 /////////////////////////////////////////////
 
 
@@ -291,14 +292,111 @@ transformDiets(): void {
   }
 
 
-    showDietDetails(diet: any): void {
-      this.selectedDiet = diet;
-      event?.stopPropagation(); // Prevent triggering parent click events
-    }
+  showDietDetails(diet: any): void {
+    this.dietService.fetchDietById(diet.id).subscribe({
+      next: (fetchedDiet) => {
+        // Store the full diet with all its details
+        this.selectedDiet = {
+          ...diet,
+          fullDiet: fetchedDiet
+        };
+        console.log('Selected diet with details:', this.selectedDiet);
+      },
+      error: (error) => {
+        console.error('Error fetching diet details:', error);
+      }
+    });
+  }
     
     closeDetails(): void {
       this.selectedDiet = null;
     }
+
+
+
+showDeleteConfirmation = false;
+dietToDeleteId: string | null = null;
+deleteSuccessMessage: string | null = null;
+
+
+
+openDeleteConfirmation(dietId: string, event?: Event): void {
+  if (event) {
+    event.stopPropagation(); // Prevent row click event from firing only if event is provided
+  }
+  this.dietToDeleteId = dietId;
+  this.showDeleteConfirmation = true;
+}
+
+
+
+cancelDelete(): void {
+  this.showDeleteConfirmation = false;
+  this.dietToDeleteId = null;
+  this.deleteSuccessMessage = null;
+}
+
+confirmDelete(): void {
+  if (this.dietToDeleteId) {
+    this.dietService.deleteDiet(this.dietToDeleteId).subscribe({
+      next: () => {
+        // Close both popup windows immediately
+        this.selectedDiet = null; // Close the details modal if open
+        this.showDeleteConfirmation = false; // Close the confirmation dialog
+        
+        this.deleteSuccessMessage = "Diet deleted successfully!";
+        
+        // Remove the deleted diet from the arrays
+        this.diets = this.diets.filter(diet => diet.id !== this.dietToDeleteId);
+        this.transformDiets(); // Refresh the transformed diets
+        this.filteredDiets = this.transformedDiets;
+        this.totalItems = this.filteredDiets.length;
+        this.loadPage(this.currentPage);
+        
+        // Clear the deletion-related variables after a delay
+        setTimeout(() => {
+          this.dietToDeleteId = null;
+          this.deleteSuccessMessage = null;
+        }, 1500);
+      },
+      error: (error) => {
+        console.error("Error deleting diet:", error);
+        // Close the confirmation dialog on error too
+        this.showDeleteConfirmation = false;
+      }
+    });
+  }
+}
+
+
+
+getMealContent(meals: any[], mealType: string): string {
+  if (!meals || !Array.isArray(meals)) {
+    return '';
+  }
+  
+  // First try exact match
+  const meal = meals.find(m => m.mealType === mealType);
+  
+  // If not found for specific snack types, try generic 'Snack'
+  if (!meal) {
+    if ((mealType === 'Morning Snack' || mealType === 'Afternoon Snack') && 
+        meals.some(m => m.mealType === 'Snack')) {
+      return meals.find(m => m.mealType === 'Snack')?.meal || '';
+    }
+  }
+  
+  return meal ? meal.meal : '';
+}
+
+
+
+
+
+
+
+
+
 
 
 
