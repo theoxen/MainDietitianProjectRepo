@@ -17,7 +17,7 @@ namespace API.Controllers
         }
 
 
-        // TODO: REMOVE THE COMMENTS FROM THIS[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.Users.RegisterUser)]
         public async Task<IActionResult> RegisterUserAsync(RegisterClientDto registerClientDto)
         {
@@ -25,6 +25,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [AllowAnonymous]
         [HttpPost(Endpoints.Users.LoginUser)]
         public async Task<IActionResult> LoginUserAsync(LoginUserDto loginUserDto)
         {
@@ -32,6 +33,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [AllowAnonymous]
         [HttpPost(Endpoints.Users.SendOtp)]
         public async Task<IActionResult> SendOtp(SendOtpDto sendOtpDto)
         {
@@ -39,7 +41,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
-
+        [AllowAnonymous]
         [HttpPost(Endpoints.Users.VerifyOtp)]
         public async Task<IActionResult> VerifyOtp(OtpVerificationDto otpVerificationDto)
         {
@@ -47,6 +49,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [AllowAnonymous]
         [HttpPost(Endpoints.Users.ChangePassword)]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
         {
@@ -54,14 +57,15 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Users.ViewProfile)]
-
         public async Task<IActionResult> ViewProfile(Guid id)
         {
             var response = await _userService.ViewClientProfileAsync(id);
             return MapToHttpResponse(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Users.DeleteUser)]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
@@ -69,7 +73,7 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut(Endpoints.Users.UpdateProfile)]
         public async Task<IActionResult> UpdateProfile(UserProfileUpdateDto userProfileUpdateDto)
         {
@@ -77,7 +81,7 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
-    
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Users.GetUserIdByPhoneNumber)]
         public async Task<IActionResult> GetUserIdByPhoneNumber(string phoneNumber)
         {
@@ -85,10 +89,18 @@ namespace API.Controllers
             return MapToHttpResponse(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Users.GetAllClients)]
         public async Task<IActionResult> GetAllClients()
         {
             var result = await _userService.GetAllClientsAsync();
+            return MapToHttpResponse(result);
+        }
+
+        [HttpGet(Endpoints.Users.GetAllClientsWithId)]
+        public async Task<IActionResult> GetAllClientsWithId()
+        {
+            var result = await _userService.GetAllClientsWithIdAsync();
             return MapToHttpResponse(result);
         }
 

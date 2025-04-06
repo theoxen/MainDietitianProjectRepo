@@ -62,9 +62,14 @@
 
 .EndDate{
     display: flex;
-    justify-content: space-between;
     width: 100%;
     height: auto;
+}
+
+.metricsFoundAndAddNew{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 
@@ -150,13 +155,14 @@ tr{
 .search-bar app-primary-input-field {
     width: 100%;
 }
-.FoundMetricsAndAddNew{
+.StartEndDate{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     
 }
 .AddNewButton{
+    white-space: nowrap; /* Prevents text from wrapping */
     height: 45px;
     width: 150px;
     background-color: #FFB453;
@@ -271,56 +277,178 @@ a:hover {
     gap: 8px;
 }
 
-@media (max-width: 900px) {
-    table{
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        width: 100%;
-    }
-    tr {
-        display: flex; /* Use flexbox for the row */
-        justify-content: space-between; /* Distribute space equally between columns */
-        align-items: right; /* Align items vertically in the center */
-        gap: 10px; /* Add spacing between the columns */
-        width: 100%; /* Ensure the row takes the full width */
-    }
+@media(max-width: 1400px){
     
-
-      
-    .hover-box {
-        flex-direction: column;
+    .StartEndDate{
+        display:block;
+        justify-content: space-between;
         align-items: center;
-        padding-bottom: 20px;
-        height: fit-content;
+        
+    }
+}
+@media (max-width: 900px) {
+    /* Adjust the metrics container for smaller screens */
+    .metrics-container {
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center items horizontally */
+        width: 100%; /* Ensure the container takes full width */
+        margin-bottom: 20px; /* Add spacing at the bottom */
     }
 
+    /* Primary hover box adjustments */
     .primary-hover-box {
-        padding: 0;
+        padding: 0; /* Remove padding for compactness */
+        width: 100%; /* Ensure it spans the full width */
     }
 
+    /* Hover box adjustments */
+    .hover-box {
+        flex-direction: column; /* Stack content vertically */
+        align-items: center; /* Center items horizontally */
+        padding: 20px; /* Add consistent padding */
+        width: 100%; /* Ensure it spans the full width */
+    }
+
+    /* Title box adjustments */
     .title-box {
-        border-right: none;
-        height: min-content;
-        flex: 1;
+        border-right: none; /* Remove any unnecessary borders */
+        height: auto; /* Allow dynamic height */
+        text-align: center; /* Center the title text */
+        width: 100%; /* Ensure it spans the full width */
     }
 
-    .client-credentials {
-        width: 90%;
-        overflow-x: hidden;
-
+    /* Start and end date adjustments */
+    .StartEndDate {
+        display: flex;
+        flex-direction: column; /* Stack date inputs vertically */
+        align-items: center; /* Center items horizontally */
+        width: 100%; /* Ensure it spans the full width */
+        gap: 15px; /* Add spacing between elements */
     }
 
-    .title {
-        text-align: center;
+    /* Form-floating adjustments */
+    .form-floating {
+        display: flex;
+        flex-direction: column; /* Stack date inputs vertically */
+        align-items: center; /* Center items horizontally */
+        width: 100%; /* Ensure it spans the full width */
+        gap: 10px; /* Add spacing between elements */
     }
 
-    .sub-title {
-        text-align: center;
+    /* Date input adjustments */
+    .StartDate, .EndDate {
+        display: flex;
+        flex-direction: row; /* Stack label and input vertically */
+        align-items: center; /* Center items horizontally */
+        width: 100%; /* Ensure it spans the full width */
+        gap: 5px; /* Reduce spacing between label and input */
     }
 
-    
-    .title {
-        padding-top: 30px;
+    .StartDate > label, .EndDate > label {
+        font-size: 14px; /* Reduce font size for labels */
+        text-align: left; /* Align text to the left */
+        width: 100%; /* Ensure it spans the full width */
+    }
+
+    .StartDate > input, .EndDate > input {
+        width: 100%; /* Make inputs full-width */
+        height: 40px; /* Reduce height for compactness */
+        font-size: 14px; /* Reduce font size for inputs */
+        padding: 5px; /* Reduce padding for compactness */
+    }
+
+    /* Metrics found and add new button adjustments */
+    .metricsFoundAndAddNew {
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center items horizontally */
+        width: 100%; /* Ensure it spans the full width */
+        gap: 10px; /* Add spacing between elements */
+    }
+
+    .MetricsFound {
+        font-size: 14px; /* Reduce font size */
+        text-align: center; /* Center the text */
+        width: 100%; /* Ensure it spans the full width */
+    }
+
+    .AddNewButton {
+        width: 100%; /* Make button full-width */
+        height: 40px; /* Reduce height for compactness */
+        font-size: 16px; /* Reduce font size for text */
+        padding: 5px; /* Reduce padding for compactness */
+    }
+
+    /* Table adjustments */
+    table {
+        display: block; /* Change display to block for stacking */
+        width: 100%; /* Ensure it spans the full width */
+        overflow-x: auto; /* Enable horizontal scrolling if needed */
+    }
+
+    thead {
+        display: none; /* Hide the table header for smaller screens */
+    }
+
+    tbody, tr, td {
+        display: block; /* Stack rows and cells vertically */
+        width: 100%; /* Ensure it spans the full width */
+    }
+
+    tr {
+        margin-bottom: 10px; /* Add spacing between rows */
+        border: 1px solid #ddd; /* Add a border for better separation */
+        border-radius: 8px;
+        padding: 10px; /* Add padding for better readability */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for card-like appearance */
+    }
+
+    td {
+        text-align: left; /* Align text to the left for readability */
+        padding: 10px; /* Add padding for better readability */
+        border-bottom: 1px solid #eee; /* Add a border between cells */
+        font-size: 14px; /* Reduce font size for better readability */
+    }
+
+    td:last-child {
+        border-bottom: none; /* Remove border from the last cell */
+    }
+
+    td::before {
+        content: attr(data-label); /* Use data attributes to label each cell */
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px; /* Add spacing between label and value */
+        color: #555;
+    }
+
+    /* Pagination adjustments */
+    .pagination-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow pagination buttons to wrap */
+        justify-content: center; /* Center the pagination buttons */
+        gap: 10px; /* Add spacing between buttons */
+    }
+
+    .pagination-container button {
+        padding: 8px 15px; /* Adjust padding for compactness */
+        font-size: 14px; /* Reduce font size for better readability */
+        border-radius: 8px; /* Rounded corners for better aesthetics */
+        border: none; /* Remove borders for cleaner look */
+        background-color: #fff; /* Background color */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        transition: background-color 0.3s ease; /* Smooth hover effect */
+    }
+
+    .pagination-container button:hover {
+        background-color: #FFB453; /* Hover background color */
+        color: white; /* Hover text color */
+    }
+
+    .pagination-container button.active {
+        background-color: #FFB453; /* Active background color */
+        color: white; /* Active text color */
+        font-weight: bold; /* Bold font weight for emphasis */
     }
 }

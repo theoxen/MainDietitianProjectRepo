@@ -34,6 +34,7 @@ import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { clientGuard } from './guards/client.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
+import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
 
 
 
@@ -113,12 +114,14 @@ export const routes: Routes = [
    },
    
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
-   { path: "appointments", component: AppointmentsComponent, canActivate: [authGuard, adminGuard] },
+   { path: "appointments", component: AppointmentsComponent}, 
+   // , canActivate: [authGuard, adminGuard] 
 
 
    { path: "about-us", component: AboutUsComponent },
    
    { path: "uploads", component: UploadsComponent, canActivate: [authGuard] },
+   { path: "uploads/articles", component: DisplayArticlesComponent, canActivate: [authGuard] },
 
    { path: "", redirectTo: "/", pathMatch: "prefix" },
 ];

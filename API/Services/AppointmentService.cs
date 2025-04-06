@@ -29,11 +29,12 @@ namespace API.Services
 
             var appointment = new Appointment
             {
-                AppointmentDate = MakeAnAppointmentDto.AppointmentDate,   
+                AppointmentDate = MakeAnAppointmentDto.AppointmentDate.ToLocalTime(),   
                 User = user
             };
 
             _appointmentRepository.MakeAnAppointment(appointment);
+
 
             if(await _appointmentRepository.Commit())
             {
@@ -106,17 +107,17 @@ namespace API.Services
 
         public async Task<Result<AppointmentDto>> ViewAppointmetsAsync(Guid AppointmentsId)
         {
-            // Retrieve the metrics entry from the database using the provided metrics ID
+            // Retrieve the appointments entry from the database using the provided metrics ID
             var appointments = await _appointmentRepository.GetAppointmentAsync(AppointmentsId);
             
-            // Check if the metrics entry was found
+            // Check if the appointments entry was found
             if (appointments == null)
             {
                 // If not found, return a NotFound result
                 return Result<AppointmentDto>.NotFound();
             }
 
-            // Return the metrics data in a MetricsDto object
+            // Return the appointments data in a MetricsDto object
             return Result<AppointmentDto>.Ok(new AppointmentDto
             {
                 Id = appointments.Id,

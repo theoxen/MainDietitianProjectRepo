@@ -13,6 +13,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideHttpClient(withInterceptors([httpErrorInterceptor, authInterceptor])), provideAnimationsAsync(),
-    provideToastr({ positionClass: 'toast-bottom-right' })
+    provideToastr({ positionClass: 'toast-bottom-right',
+      preventDuplicates: true
+     })
   ]
 };
