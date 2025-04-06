@@ -129,4 +129,14 @@ public static class Endpoints
         public const string GetAll = Base; 
         public const string Search = Base + "/search/{searchTerm}";
     }
+
+    public static class Templates
+    {
+        private const string Base = BaseUrl + "templates";
+        public const string Create = Base;
+        public const string Update = Base;
+        public const string Delete = Base;
+        public const string GetById = Base + "/{id}";
+        public const string GetAll = Base;
+    }
 }
