@@ -1,3 +1,136 @@
+
+
+
+.modal-action-buttons .DownloadButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-action-buttons .DownloadButton:hover {
+  background-color: #45a049;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+
+
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th, .horizontal-diet-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.horizontal-diet-table th {
+  background-color: #f2f2f2;
+}
+
+.meal-type {
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+
+
+
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th,
+.horizontal-diet-table td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.horizontal-diet-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #555;
+  height: 40px;
+}
+
+.meal-type-header {
+  width: 120px;
+}
+
+.meal-type {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-align: left;
+  color: #555;
+}
+
+.horizontal-diet-table td {
+  min-height: 60px;
+  vertical-align: top;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+
+
+.primary-hover-box {
+  width: 90%;
+  min-height: 500px;
+  height: auto !important; /* Override any fixed height */
+  padding: 30px;
+  padding-bottom: 50px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hover-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Ensure the container properly expands to fit content */
+.diets-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 80vh;
+  padding: 20px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .primary-hover-box {
+    width: 95%;
+    padding: 20px;
+    margin-bottom: 50px;
+  }
+}
+
+
+
+
 /* Delete button styling */
 .DeleteButton {
   margin-left: 8px;

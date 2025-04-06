@@ -90,9 +90,11 @@ dayNames.forEach(dayName => {
     name: new FormControl(dayName),
     meals: new FormArray([
       this.createMealFormGroup('Breakfast'),
+      this.createMealFormGroup('Morning Snack'),
       this.createMealFormGroup('Lunch'),
+      this.createMealFormGroup('Evening Snack'),
       this.createMealFormGroup('Dinner'),
-      this.createMealFormGroup('Snack')
+
     ])
   }));
 });
@@ -120,6 +122,9 @@ const DietsToAdd: DietToAdd = {
   name: this.addclientDietsForm.controls['name'].value!,
   isTemplate: this.addclientDietsForm.controls['isTemplate'].value!,
   userDiets: [{ userId: this.clientId! }], // Changed to match expected format
+
+ 
+
   dietDays: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
     dayName: day.name, // Keep this conversion from name to dayName
     dietMeals: day.meals.map((meal: any) => ({
@@ -127,7 +132,6 @@ const DietsToAdd: DietToAdd = {
       mealType: meal.mealType,
     }))
   })),
-  userId: this.clientId!,
 };
 
 // Call service to add the diet

@@ -14,6 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'view-diets',
   standalone: true,
@@ -26,6 +30,11 @@ import { ClientProfile } from '../../../models/client-management/client-profile'
 
 export class ViewDietsComponent implements OnInit {
 
+  isEditMode = false;
+  editDietForm: FormGroup = new FormGroup({});
+  successMessage: string | null = null;
+  
+  
   showDietDetailsModal = false;
   selectedDiet: any = null;
 
@@ -189,6 +198,9 @@ fetchDietsForUser(clientId: string): void {
 
 
 
+
+
+
   formatDate(dateInput: string | Date): string {
     const dateObj = new Date(dateInput);
     const day = dateObj.getDate().toString().padStart(2, '0');
@@ -199,32 +211,42 @@ fetchDietsForUser(clientId: string): void {
 
 
 
-
   transformDiets(): void {
-    if (!this.diets || !Array.isArray(this.diets) || this.diets.length === 0) {
-      console.log("Diets data is empty or not an array:", this.diets);
+    if (!this.diets || !Array.isArray(this.diets)) {
+      console.warn('No diets data to transform');
       this.transformedDiets = [];
       return;
     }
   
-    try {
-      this.transformedDiets = this.diets.map(diet => ({
-        id: diet.id || '',
-        date: this.formatDate(diet.dateCreated || new Date()),
-        name: diet.name || 'Unnamed Diet',
-        isTemplate: diet.isTemplate || false,
-        data: [
-          { title: 'Name', value: diet.name || 'Unnamed Diet' },
-          { title: 'Is Template', value: diet.isTemplate ? 'Yes' : 'No' }
-        ],
-        // Store the full diet object with all details
-        fullDiet: diet
-      }));
-      console.log("Transformed diets:", this.transformedDiets);
-    } catch (error) {
-      console.error("Error transforming diets:", error, this.diets);
-      this.transformedDiets = [];
-    }
+    console.log('Transforming diets:', this.diets);
+    
+    this.transformedDiets = this.diets.map(diet => {
+      // Add days info into a property that matches the HTML template expectations
+      const typedDiet = diet as any; // Use type assertion to avoid TypeScript errors
+      
+      if (typedDiet.dietDays && !typedDiet.Days) {
+        typedDiet.Days = typedDiet.dietDays.map((day: any) => {
+          // Also normalize the meal structure
+          if (day.dietMeals && !day.Meals) {
+            day.Meals = day.dietMeals.map((meal: any) => ({
+              Type: meal.mealType,
+              Meal: meal.meal
+            }));
+          }
+          return day;
+        });
+      }
+      
+      return {
+        id: typedDiet.id,
+        date: this.formatDate(typedDiet.dateCreated),
+        name: typedDiet.name,
+        isTemplate: typedDiet.isTemplate,
+        fullDiet: typedDiet // Store the complete diet object with normalized structure
+      };
+    });
+    
+    console.log('Transformed diets:', this.transformedDiets);
   }
 /////////////////////////////////////////////
 
@@ -292,20 +314,120 @@ fetchDietsForUser(clientId: string): void {
   }
 
 
-  showDietDetails(diet: any): void {
-    this.dietService.fetchDietById(diet.id).subscribe({
-      next: (fetchedDiet) => {
-        // Store the full diet with all its details
-        this.selectedDiet = {
-          ...diet,
-          fullDiet: fetchedDiet
-        };
-        console.log('Selected diet with details:', this.selectedDiet);
-      },
-      error: (error) => {
-        console.error('Error fetching diet details:', error);
+  showDietDetails(diet: any) {
+    console.log('Original diet object:', diet);
+    
+    // Determine what object to use as the selected diet
+    if (diet.fullDiet) {
+      this.selectedDiet = diet.fullDiet;
+    } else if (diet.diet) {
+      this.selectedDiet = diet.diet;
+    } else {
+      this.selectedDiet = diet;
+    }
+    
+    // Check various possible structures for the diet data
+    const typedDiet = this.selectedDiet as any;
+    
+    // Ensure we have a valid ID regardless of property name case (id vs Id)
+    const dietId = typedDiet.id || typedDiet.Id;
+    
+    // If we don't have any data in days arrays, fetch the full diet from the API
+    if ((!typedDiet.Days || typedDiet.Days.length === 0) && 
+        (!typedDiet.days || typedDiet.days.length === 0) && 
+        (!typedDiet.dietDays || typedDiet.dietDays.length === 0)) {
+      
+      console.log(`No diet days found in the data. Fetching detailed diet data with ID: ${dietId}...`);
+      
+      if (dietId) {
+        // Fetch full diet details from the API
+        this.dietService.fetchDietById(dietId).subscribe({
+          next: (response: any) => {
+            // Update the selected diet with the fetched data
+            if (response && response.data) {
+              this.selectedDiet = response.data;
+            } else if (response) {
+              this.selectedDiet = response;
+            }
+            
+            // Process the newly fetched data
+            this.processSelectedDiet();
+          },
+          error: (error: any) => {
+            console.error('Error fetching detailed diet data:', error);
+          }
+        });
+        
+        return; // Exit early, we'll process the diet after the API call
       }
-    });
+    }
+    
+    // Process the diet data that we already have
+    this.processSelectedDiet();
+  }
+  
+  // New method to process the selected diet after it's been fetched or selected
+  processSelectedDiet() {
+    if (!this.selectedDiet) {
+      console.error('No selected diet to process');
+      return;
+    }
+    
+    const typedDiet = this.selectedDiet as any;
+    
+    // Handle case where we have dietDays instead of Days
+    if (typedDiet.dietDays && (!typedDiet.Days || typedDiet.Days.length === 0)) {
+      console.log('Found dietDays - normalizing structure');
+      typedDiet.Days = typedDiet.dietDays.map((day: any) => {
+        const normalizedDay = { ...day };
+        console.log('Day structure:', normalizedDay);
+        
+        // Initialize empty meals array if needed
+        if (!normalizedDay.Meals && !normalizedDay.dietMeals) {
+          normalizedDay.Meals = [];
+        } else if (normalizedDay.dietMeals && !normalizedDay.Meals) {
+          normalizedDay.Meals = normalizedDay.dietMeals.map((meal: any) => ({
+            Type: meal.mealType, 
+            Meal: meal.meal
+          }));
+        }
+        
+        return normalizedDay;
+      });
+    }
+    
+    // Look for diet days in other possible locations in the object
+    if ((!typedDiet.Days || typedDiet.Days.length === 0) && typedDiet.days && typedDiet.days.length > 0) {
+      console.log('Found diet days in lowercase "days" property');
+      typedDiet.Days = typedDiet.days;
+    }
+    
+    console.log('Selected diet after processing:', this.selectedDiet);
+    
+    // Log the days array for debugging
+    const days = typedDiet.Days || [];
+    console.log('Diet days:', days);
+    
+    if (days && days.length > 0) {
+      const firstDay = days[0];
+      console.log('First day:', firstDay);
+      console.log('First day meals:', firstDay.Meals || firstDay.dietMeals || []);
+      
+      // Print out all meals for debugging
+      days.forEach((day: any, index: number) => {
+        console.log(`Day ${index + 1} (${day.dayName || 'Unknown'}):`);
+        const meals = day.Meals || day.dietMeals || [];
+        if (meals.length > 0) {
+          meals.forEach((meal: any) => {
+            console.log(`- ${meal.Type || meal.mealType || 'Unknown meal'}: ${meal.Meal || meal.meal || '[empty]'}`);
+          });
+        } else {
+          console.log('- No meals found for this day');
+        }
+      });
+    } else {
+      console.log('No days found or days array is empty');
+    }
   }
     
     closeDetails(): void {
@@ -369,6 +491,42 @@ confirmDelete(): void {
 }
 
 
+getDayMeal(dayIndex: number, mealType: string): string {
+  // Check if diet exists
+  if (!this.selectedDiet) {
+    return '';
+  }
+
+  // Handle all possible property names for days
+  const days = this.selectedDiet.Days || this.selectedDiet.days || this.selectedDiet.dietDays;
+  if (!days || !Array.isArray(days)) {
+    return '';
+  }
+
+  // Make sure the day exists at the index
+  const day = days[dayIndex];
+  if (!day) {
+    return '';
+  }
+
+  // Get meals from any possible property name
+  const meals = day.Meals || day.meals || day.dietMeals;
+  if (!meals || !Array.isArray(meals)) {
+    return '';
+  }
+
+  // Find the meal - handle different property naming conventions
+  const meal = meals.find(m => 
+    (m.type === mealType) || (m.Type === mealType) || (m.mealType === mealType)
+  );
+
+  // Return meal content if found
+  if (meal) {
+    return meal.meal || meal.Meal || '';
+  }
+  
+  return '';
+}
 
 getMealContent(meals: any[], mealType: string): string {
   if (!meals || !Array.isArray(meals)) {
@@ -376,22 +534,46 @@ getMealContent(meals: any[], mealType: string): string {
   }
   
   // First try exact match
-  const meal = meals.find(m => m.mealType === mealType);
+  const meal = meals.find(m => m.Type === mealType);
   
-  // If not found for specific snack types, try generic 'Snack'
-  if (!meal) {
-    if ((mealType === 'Morning Snack' || mealType === 'Afternoon Snack') && 
-        meals.some(m => m.mealType === 'Snack')) {
-      return meals.find(m => m.mealType === 'Snack')?.meal || '';
-    }
+  // If found, return the meal content
+  if (meal) {
+    return meal.Meal;
   }
   
-  return meal ? meal.meal : '';
+  // For Morning Snack or Afternoon Snack, try generic 'Snack' if not found
+  if ((mealType === 'Morning Snack' || mealType === 'Afternoon Snack') && 
+      meals.some(m => m.Type === 'Snack')) {
+    return meals.find(m => m.Type === 'Snack')?.Meal || '';
+  }
+  
+  return '';
 }
 
 
 
-
+downloadDietPdf(): void {
+  if (!this.selectedDiet) return;
+  
+  console.log('Downloading diet as PDF:', this.selectedDiet);
+  
+  const dietTable = document.querySelector('.horizontal-diet-table') as HTMLElement;
+  if (!dietTable) {
+    console.error('Could not find diet table element');
+    alert('Error generating PDF: Table not found');
+    return;
+  }
+  
+  html2canvas(dietTable).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('l', 'mm', 'a4');
+    pdf.addImage(imgData, 'PNG', 10, 10, 280, 150);
+    pdf.save(`diet-${this.selectedDiet.name}.pdf`);
+  }).catch(error => {
+    console.error('Error generating PDF:', error);
+    alert('Error generating PDF');
+  });
+}
 
 
 

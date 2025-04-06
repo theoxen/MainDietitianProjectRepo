@@ -1,7 +1,6 @@
 export interface DietToAdd {
     name: string;
     isTemplate: boolean;
-    userId: string;
     userDiets: UserDietToAdd[];
     dietDays: DietDayToAdd[];
 
