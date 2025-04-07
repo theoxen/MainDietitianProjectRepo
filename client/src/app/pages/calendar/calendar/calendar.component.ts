@@ -213,7 +213,10 @@ calendarAndFetchingInitialization()
   {
     this.toastr.error("Time travel isn't available yet!")
   }
-
+  displayCantBookOnWeekends()
+  {
+    this.toastr.error("We Are closed on weekends :)")
+  }
   isBooked(selectedDate: Date, time: string): boolean {
     // Parse the time string to get hours and minutes in 24-hour format
     let selectedHour = 0;

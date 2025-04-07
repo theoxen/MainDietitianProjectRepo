@@ -15,10 +15,6 @@
   transition: all 0.3s ease;
 }
 
-.calendar{
-    width: 100%;
-
-}
 
 .clientsContainer{
     height: 350px;
@@ -154,8 +150,8 @@
 .client-selection-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding: 20px -15px 20px 20px;
+    width: 95%;
+    padding:0 20px 0 9px;
     
     animation: fadeIn 0.3s ease-in;
   }
@@ -554,9 +550,10 @@
       font-size: 18px; /* Fixed font size instead of vw units */
   }
   
-  /* Fix calendar sizing */
+
   :host ::ng-deep .calendar {
       max-width: 600px; /* Limit calendar width */
+      min-width: 500px
   }
   
   /* Fix client list sizing */
@@ -587,7 +584,7 @@
   .calendar {
       width: 105%;
   }
-  
+
   .divisionLine {
       display: none;
   }

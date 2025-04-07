@@ -17,6 +17,8 @@ import { RegisterData } from '../../../models/register.data';
 import { AccountService } from '../../../services/account.service';
 import { HttpResponseError } from '../../../models/http-error';
 import { dateBeforeTodayValidator } from '../../../validation/pastDateValidator';
+import { PrimaryDropdownInputComponent } from "../../../components/primary-dropdown-input/primary-dropdown-input.component";
+import { DropdownItem } from '../../../components/primary-dropdown-input/dropdown-item';
 
 interface CalendarDate {
   date: number;
@@ -30,7 +32,7 @@ interface theAppointment {
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [NavBarComponent, CalendarComponent, CommonModule, FormsModule, PrimaryInputFieldComponent, ReactiveFormsModule],
+  imports: [NavBarComponent, CalendarComponent, CommonModule, FormsModule, PrimaryInputFieldComponent, ReactiveFormsModule, PrimaryDropdownInputComponent],
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.css']
 })
@@ -65,6 +67,10 @@ export class AppointmentsComponent {
   @ViewChild(CalendarComponent) calendarComponent!: CalendarComponent;
   phoneNumberExists!: boolean;
 
+  genderDropdownOptions: DropdownItem<string, string>[] = [
+      { value: "Male", displayedValue: "Male" },
+      { value: "Female", displayedValue: "Female" }
+    ];
   
 
  
@@ -99,7 +105,16 @@ export class AppointmentsComponent {
     "dateOfBirth": new FormControl("", [
           Validators.required,
           dateBeforeTodayValidator() // Function that takes an AbstractControl as an argument and returns either null if the control is valid or an object containing validation errors if the control is invalid.
-        ])
+        ]),
+        
+    "email": new FormControl("", [
+      Validators.pattern(ValidationPatterns.email),
+      Validators.required
+    ]),
+    "gender": new FormControl("", [
+      Validators.pattern(ValidationPatterns.gender),
+      Validators.required
+    ]),
   })
 
     fullNameErrorMessages = new Map<string, string>([
@@ -116,6 +131,15 @@ export class AppointmentsComponent {
       ["required", ValidationMessages.required],
       ["dateBeforeToday", ValidationMessages.dateOfBirth]
     ])
+
+  emailErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.email]
+  ])
+  genderErrorMessages = new Map<string, string>([
+    ["required", ValidationMessages.required],
+    ["pattern", ValidationMessages.gender]
+  ])
 
     loadClients() {
       this.clientManagementService.getAllClientsWithId().subscribe({
@@ -150,7 +174,7 @@ export class AppointmentsComponent {
           dateOfBirth:  this.addNewCLientForm.controls.dateOfBirth.value ?? "", // Default date
           dietTypeId: "f069cacc-3efa-4237-8bd1-44f68e1c1f12", 
           gender: "Male",
-          height: 170,
+          height: 1,
           // Add a random password if one is required
           password: "Client9!",
           phoneNumber: this.addNewCLientForm.controls.phoneNumber.value ?? "",
