@@ -23,6 +23,9 @@ namespace API.Repositories
             DateTime endDateTime = dateend.ToDateTime(TimeOnly.MaxValue);
 
             return await _dataContext.Users
+                .Include(u => u.Metrics) // Include Metrics
+                .Include(u => u.Appointments) // Include Appointments
+                .Include(u => u.UserDiets) // Include UserDiets
                 .Where(x => x.DateCreated >= startDateTime && x.DateCreated <= endDateTime)
                 .ToListAsync();
         }
@@ -34,6 +37,9 @@ namespace API.Repositories
             DateTime today = DateTime.Today;
 
             return await _dataContext.Users
+                .Include(u => u.Metrics) // Include Metrics
+                .Include(u => u.Appointments) // Include Appointments
+                .Include(u => u.UserDiets) // Include UserDiets
                 .Where(x => 
                     (today.Year - x.DateOfBirth.Year - (today.DayOfYear < x.DateOfBirth.DayOfYear ? 1 : 0)) >= agestart &&
                     (today.Year - x.DateOfBirth.Year - (today.DayOfYear < x.DateOfBirth.DayOfYear ? 1 : 0)) <= ageend)
@@ -58,6 +64,9 @@ namespace API.Repositories
         public async Task<List<User>> GetUsertypeReport(Guid dietType)
         {
             return await _dataContext.Users
+                .Include(u => u.Metrics) // Include Metrics
+                .Include(u => u.Appointments) // Include Appointments
+                .Include(u => u.UserDiets) // Include UserDiets
                 .Where(x => x.DietTypeId == dietType)
                 .ToListAsync();
         }

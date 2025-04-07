@@ -19,6 +19,7 @@ public static class Endpoints
         public const string UpdateProfile = Base;
         public const string GetUserIdByPhoneNumber = Base + "/{phoneNumber}/get-user-id";
         public const string GetAllClients = Base + "/all-clients";
+        public const string GetAllClientsWithId = Base + "/all-clients-withid";
 
         public const string GetNoteByUserId = Base + "/{userId}/note"; 
         
@@ -39,7 +40,7 @@ public static class Endpoints
         public const string Delete = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
         public const string GetAdvice = Base + "/{adviceId}"; // the {adviceId} must be the same name as the parameter in the controller method
         public const string UpdateAdvice = Base + "/{adviceId}";
-        public const string GetAll = Base;
+        public const string GetAll = Base + "/view";
         public const string Search = Base + "/search";
     }
 
@@ -95,7 +96,7 @@ public static class Endpoints
         public const string View = Base + "/{appointmentId}"; 
         public const string ViewAll = Base; 
         
-        public const string Edit = Base + "/{appointmentId}"; // FOR LATER
+        public const string Edit = Base; 
         public const string Search = Base + "/search"; 
         public const string Cancel = Base + "/{appointmentId}"; 
     }

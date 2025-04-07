@@ -9,11 +9,14 @@ import { Note } from '../../../models/notes/note';
 import { MetricsService } from '../../../services/metrics.service';
 import { Metrics } from '../../../models/metrics/metrics';
 import { CommonModule } from '@angular/common';
+import { DietService } from '../../../services/diet.service';
+import { PaginationComponent } from "../../pagination/pagination.component";
+
 
 @Component({
   selector: 'app-client-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PaginationComponent],
   templateUrl: './client-history.component.html',
   styleUrl: './client-history.component.css'
 })
@@ -21,12 +24,15 @@ export class ClientHistoryComponent implements OnInit {
   clientManagementService = inject(ClientManagementService);
   noteService = inject(NoteService);
   metricsService = inject(MetricsService);
+  dietService = inject(DietService);
 
   clientId: string | null = null;
   client: ClientProfile | null = null;
   clientNote: Note | null = null;
   clientMetrics: Metrics[] | null = null;
-
+  dietId: string | null = null; 
+  
+ 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -54,42 +60,35 @@ export class ClientHistoryComponent implements OnInit {
       // Fetch client metrics
       this.metricsService.fetchMetricsForUser(this.clientId).subscribe({
         next: (metrics) => {
-          this.clientMetrics = metrics; // Store the metrics
+          this.clientMetrics = metrics;
         },
         error: (error) => {
           console.error("Error fetching client metrics:", error);
         }
       });
+
+      
     }
-    
   }
 
+  
+
+ 
   calculateClientAge(client: ClientProfile | null): number {
-      if (!client || !client.dateOfBirth) {
-        return 0; // Handle missing data
-      }
-      
-      const dob = new Date(client.dateOfBirth);
-      const today = new Date();
-      let age = today.getFullYear() - dob.getFullYear();
-      const monthDiff = today.getMonth() - dob.getMonth();
-      
-      // Adjust if birthday hasn't occurred yet this year
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-        age--;
-      }
-      
-      return age;
+    if (!client || !client.dateOfBirth) {
+      return 0; // Handle missing data
     }
-
-  // navigateTo(route: string) {
-  //   if (this.clientId) {
-  //     const updatedRoute = route.replace(':clientId', this.clientId);
-  //     this.router.navigate([updatedRoute]);
-  //   }
-  // }
-
+    
+    const dob = new Date(client.dateOfBirth);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    
+    // Adjust if birthday hasn't occurred yet this year
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    
+    return age;
+  }
 }
-
-
-

@@ -1,5 +1,6 @@
 using API.Models.Articles;
 using API.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,6 +14,7 @@ namespace API.Controllers
             _articleService = articleService;
         }
 
+        [Authorize(Roles = "admin, client")]
         [HttpGet(Endpoints.Articles.GetById)]
         public async Task<IActionResult> GetArticleByIdAsync(Guid id)
         {
@@ -20,6 +22,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.Articles.Create)]
         public async Task<IActionResult> CreateArticleByIdAsync(CreateArticleDto createArticleDto)
         {
@@ -27,6 +30,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut(Endpoints.Articles.Update)]
         public async Task<IActionResult> UpdateArticleByIdAsync(UpdateArticleDto updateArticleDto)
         {
@@ -34,6 +38,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Articles.Delete)]
         public async Task<IActionResult> DeleteArticleByIdAsync(Guid id)
         {
@@ -41,6 +46,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin, client")]
         [HttpGet(Endpoints.Articles.GetAll)]
         public async Task<IActionResult> GetAllArticlesAsync()
         {
@@ -48,6 +54,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin, client")]
         [HttpGet(Endpoints.Articles.Search)]
         public async Task<IActionResult> SearchArticlesAsync(string searchTerm)
         {

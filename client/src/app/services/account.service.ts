@@ -6,11 +6,14 @@ import { environment } from '../environments/environment';
 import { LoginData } from '../models/login-data';
 import { RegisterData } from '../models/register.data';
 import { HttpResponseError } from '../models/http-error';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
+
+  private router = inject(Router);
   private baseUrl = environment.apiUrl;
   private currentUserSubject: BehaviorSubject<User | null>;
 
@@ -18,23 +21,6 @@ export class AccountService {
 
   public userRole = signal<string | null>(null);
   
-  // constructor(private http: HttpClient) {
-
-  //   var user: User | null = null
-
-  //   const userInLocalStorage = localStorage.getItem("user");
-
-  //   if (userInLocalStorage) {
-  //     user = JSON.parse(userInLocalStorage);
-  //     this.userRole.set(user!.roles[0] || null);
-  //   }
-
-
-  //   this.currentUserSubject = new BehaviorSubject<User | null>(user);
-  //   this.currentUser$ = this.currentUserSubject.asObservable();
-
-  // }
-
   constructor(private http: HttpClient) {
     var user: User | null = null;
 
@@ -89,8 +75,7 @@ export class AccountService {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     this.userRole.set(null);
-    // // Force refresh for the navbar
-    // window.location.reload();
+    this.router.navigate(['/']);
   }
 
   register(userToRegister: RegisterData) {

@@ -15,6 +15,7 @@ import { PrimaryDropdownInputComponent } from "../../components/primary-dropdown
 import { DropdownItem } from '../../components/primary-dropdown-input/dropdown-item';
 import { NavBarComponent } from "../../components/nav-bar/nav-bar.component";
 import { PageFooterComponent } from "../../components/page-footer/page-footer.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
 
   private accountService = inject(AccountService);
   private dietTypeService = inject(DietTypesService);
+  private toastr = inject(ToastrService);
 
   private phoneNumberExists = false;
   public emailExists = false;
@@ -37,8 +39,8 @@ export class RegisterComponent implements OnInit {
 
   dietTypeDropdownOptions: DropdownItem<string, string>[] = [];
   genderDropdownOptions: DropdownItem<string, string>[] = [
-    {value: "Male", displayedValue: "Male"}, 
-    {value: "Female", displayedValue: "Female"}
+    { value: "Male", displayedValue: "Male" },
+    { value: "Female", displayedValue: "Female" }
   ];
 
   ngOnInit(): void {
@@ -146,10 +148,6 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.registerForm.valid) {
-      
-      if (!this.registerForm.dirty) {
-        return;
-      }
 
       const registerData: RegisterData = {
         dateOfBirth: this.registerForm.controls.dateOfBirth.value ?? "",
@@ -164,17 +162,17 @@ export class RegisterComponent implements OnInit {
 
       this.accountService.register(registerData).subscribe({
         next: (user) => {
-          console.log(user);
+          this.toastr.success("Registration of client was successful");
         },
         error: (error: HttpResponseError) => {
           this.emailExists = false;
-          this.phoneNumberExists = false;   
+          this.phoneNumberExists = false;
           for (const httpError of error.errors) {
-            if (httpError.message == "Email already exists" ) {
-                this.emailExists = true;
+            if (httpError.message == "Email already exists") {
+              this.emailExists = true;
             }
             if (httpError.message == "Phone number already exists") {
-                this.phoneNumberExists = true;
+              this.phoneNumberExists = true;
             }
           }
           this.registerForm.markAsPristine();

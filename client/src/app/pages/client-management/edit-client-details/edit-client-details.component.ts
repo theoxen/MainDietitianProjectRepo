@@ -12,6 +12,8 @@ import { DropdownItem } from '../../../components/primary-dropdown-input/dropdow
 import { PrimaryDropdownInputComponent } from "../../../components/primary-dropdown-input/primary-dropdown-input.component";
 import { combineLatest } from 'rxjs';
 import { ClientProfileUpdate } from '../../../models/client-management/client-update';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-edit-client-details',
@@ -78,8 +80,10 @@ export class EditClientDetailsComponent {
   dietTypeErrorMessages = new Map<string, string>([
     ["required", ValidationMessages.required]
   ]);
+  emailExists: boolean | undefined;
+  phoneNumberExists: boolean | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -146,9 +150,23 @@ export class EditClientDetailsComponent {
       this.clientManagementService.updateClient(clientProfileUpdate).subscribe({
         next: (response) => {
           console.log('Client updated successfully:', response);
+          this.toastr.success('Client updated successfully', 'Success');
+          this.router.navigate([`/clients/${this.clientId}`]);
         },
         error: (error) => {
           console.error('Error updating client:', error);
+          this.emailExists = false;
+          this.phoneNumberExists = false;   
+          for (const httpError of error.errors) {
+            if (httpError.message == "Email already exists" ) {
+                this.emailExists = true;
+                this.toastr.error('Email already exists', 'Error');
+              }
+            if (httpError.message == "Phone number already exists") {
+                this.phoneNumberExists = true;
+                this.toastr.error('Phone number already exists', 'Error');
+            }
+          }
         }
       });
     } else {

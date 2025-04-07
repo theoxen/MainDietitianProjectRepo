@@ -48,6 +48,11 @@ export class ClientManagementService {
     return this.http.get<ClientProfile[]>(url);
   }
 
+  getAllClientsWithId(): Observable<ClientProfile[]> {
+    const url = this.baseUrl + 'users/all-clients-withid';
+    return this.http.get<ClientProfile[]>(url);
+  }
+
   fetchNoteForUser(clientId: string) {
       const url = this.baseUrl + `users/${clientId}/note`;
       return this.http.get<Note>(url); // Get request on URL, and return type Note (from models/notes/note.ts the interface should contain the same properties as the response)
