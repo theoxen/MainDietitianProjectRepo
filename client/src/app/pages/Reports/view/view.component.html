@@ -51,6 +51,9 @@
                     }
                 }
 
+
+                <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////User Report -->
+
                 <!-- Age Group Report -->
                 @if (isAgeReport) {
                     <div class="report-header">
@@ -118,14 +121,14 @@
                                             <thead>
                                                 <tr>
                                                     <th>Date</th>
-                                                    <th>Description</th>
+                                                    <th>Date Created:</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @for (appointment of user.appointments; track appointment.id) {
                                                     <tr>
-                                                        <td>{{ appointment.date | date:'short' }}</td>
-                                                        <td>{{ appointment.description }}</td>
+                                                        <td>{{ appointment.appointmentDate | date:'short' }}</td>
+                                                        <td>{{ appointment.dateCreated | date:'dd/MM/yyyy HH:mm'}}</td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -140,10 +143,12 @@
                         <p>No users found in this age range</p>
                     }
                 }
+
+                <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////Diet Type Report -->
                 @if (isDietTypeReport) {
                     <div class="report-header">
                         <h4>Diet Type Report</h4>
-                        <p class="report-range">Diet Type ID: {{ reportData?.field1 }}</p>
+                        <!-- <p class="report-range">Diet Type: {{ reportData?.field1 }}</p> -->
                     </div>
                 
                     <!-- Statistics Section -->
@@ -199,8 +204,8 @@
                                                     <ul>
                                                         @for (appointment of user.appointments; track appointment.id) {
                                                             <li>
-                                                                <strong>Date:</strong> {{ appointment.date | date:'short' }},
-                                                                <strong>Description:</strong> {{ appointment.description }}
+                                                                <strong>Date:</strong> {{ appointment.appointmentDate | date:'short' }},
+                                                                <strong>Date Created:</strong> {{ appointment.dateCreated | date:'dd/MM/yyyy HH:mm'}}
                                                             </li>
                                                         }
                                                     </ul>
@@ -217,51 +222,60 @@
                         <p>No users found for this diet type.</p>
                     }
                 }
+
+
+
+                <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////Appointment Report -->
                 @if (isAppointmentReport) {
                     <div class="report-header">
-                        <h4>Appointment Report</h4>
-                        <p class="report-range">Date Range: {{ reportData?.field1 }} - {{ reportData?.field2 }}</p>
+                        <h4>Appointments Report</h4>
+                        <p class="report-range">Date Range: {{ reportData?.field1 | date:'dd/MM/yyyy'}} - {{ reportData?.field2 | date:'dd/MM/yyyy' }}</p>
                     </div>
-                
-                    <!-- Statistics Section -->
                     <div class="statistics-section">
                         <h5>Statistics</h5>
                         <p><strong>Total Appointments:</strong> {{ totalAppointments }}</p>
-                        <!-- <p><strong>Busiest Day:</strong> {{ busiestDay }}</p>
-                        <p><strong>Busiest Hour:</strong> {{ busiestHour }}</p> -->
+                        <p><strong>Busiest Day:</strong> {{ busiestDay }}</p>
+                        <p><strong>Busiest Time:</strong> {{ busiestTime }}</p>
+
+                        <!-- Daily Breakdown -->
+                        <div class="daily-breakdown">
+                            <h6>Daily Appointment Distribution</h6>
+                            <ul>
+                                @for (entry of dailyAppointments | keyvalue; track entry.key) {
+                                    <li>
+                                        <strong>{{ entry.key }}:</strong> {{ entry.value }} appointments
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    
                     </div>
-                
-                    <!-- Appointment Details Table -->
-                    @if (data && data.length > 0) {
+                    @if (appointment && appointment.length > 0) {
                         <div class="appointments-table">
-                            <h6>Detailed Appointment List</h6>
+                            <h6>All Appointments</h6>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Description</th>
-                                        <th>User</th>
-                                        <th>Diet Type</th>
+                                        <th>Appointment Time</th>
+                                        <th>Date Created</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- @for (appointment of data; track appointment.id) {
+                                    @for (appointment of appointment; track appointment.id) {
                                         <tr>
-                                            <td>{{ appointment.date | date:'shortDate' }}</td>
-                                            <td>{{ appointment.date | date:'shortTime' }}</td>
-                                            <td>{{ appointment.description }}</td>
-                                            <td>{{ appointment.userFullName }}</td>
-                                            <td>{{ appointment.dietType }}</td>
+                                            <td>{{ appointment.appointmentDate | date:'HH:mm' }}</td>
+                                            <td>{{ appointment.dateCreated | date:'dd/MM/yyyy HH:mm' }}</td>
                                         </tr>
-                                    } -->
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     } @else {
                         <p>No appointments found in this date range.</p>
                     }
+
                 }
+                
 
                 <!-- Export Button -->
                 <div class="center-button">

@@ -10,7 +10,7 @@ namespace API.Services.IServices
 
         public Task<Result<List<ReportsViewDto>>> GetAgeGroupReport(int agestart, int ageend);
 
-        public Task<Result<List<Appointment>>> GetAppointmentReport(DateOnly datestart, DateOnly dateend);
+        public Task<Result<List<AppointmentDto>>> GetAppointmentReport(DateOnly datestart, DateOnly dateend);
 
         public Task<Result<List<ReportsViewDto>>> GetUsertypeReport(Guid dietTypeId);
     }
