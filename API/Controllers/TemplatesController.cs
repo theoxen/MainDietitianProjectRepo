@@ -19,5 +19,33 @@ namespace API.Controllers
             var result = await _templateService.CreateTemplateAsync(createTemplateDto);
             return MapToHttpResponse(result);
         }
+
+        [HttpPut(Endpoints.Templates.Update)]
+        public async Task<IActionResult> UpdateTemplateAsync(UpdateTemplateDto updateTemplateDto)
+        {
+            var result = await _templateService.UpdateTemplateAsync(updateTemplateDto);
+            return MapToHttpResponse(result);
+        }
+
+        [HttpGet(Endpoints.Templates.GetById)]
+        public async Task<IActionResult> GetTemplateByIdAsync(Guid id)
+        {
+            var result = await _templateService.GetTemplateByIdAsync(id);
+            return MapToHttpResponse(result);
+        }
+
+        [HttpGet(Endpoints.Templates.GetAll)]
+        public async Task<IActionResult> GetAllTemplatesAsync()
+        {
+            var result = await _templateService.GetAllTemplatesBriefAsync();
+            return MapToHttpResponse(result);
+        }
+
+        [HttpDelete(Endpoints.Templates.Delete)]
+        public async Task<IActionResult> DeleteTemplateAsync(Guid id)
+        {
+            var result = await _templateService.DeleteTemplateAsync(id);
+            return MapToHttpResponse(result);
+        }
     }
 }
