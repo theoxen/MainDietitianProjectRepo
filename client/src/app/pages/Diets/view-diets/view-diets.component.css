@@ -1,0 +1,547 @@
+
+
+
+.modal-action-buttons .DownloadButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-action-buttons .DownloadButton:hover {
+  background-color: #45a049;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+
+
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th, .horizontal-diet-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.horizontal-diet-table th {
+  background-color: #f2f2f2;
+}
+
+.meal-type {
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+
+
+
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th,
+.horizontal-diet-table td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.horizontal-diet-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #555;
+  height: 40px;
+}
+
+.meal-type-header {
+  width: 120px;
+}
+
+.meal-type {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-align: left;
+  color: #555;
+}
+
+.horizontal-diet-table td {
+  min-height: 60px;
+  vertical-align: top;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+
+
+.primary-hover-box {
+  width: 90%;
+  min-height: 500px;
+  height: auto !important; /* Override any fixed height */
+  padding: 30px;
+  padding-bottom: 50px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hover-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Ensure the container properly expands to fit content */
+.diets-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 80vh;
+  padding: 20px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .primary-hover-box {
+    width: 95%;
+    padding: 20px;
+    margin-bottom: 50px;
+  }
+}
+
+
+
+
+/* Delete button styling */
+.DeleteButton {
+  margin-left: 8px;
+  background-color: #f7614d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.DeleteButton:hover {
+  background-color: #e63e28;
+}
+
+/* Confirmation modal styling */
+.confirmation-modal {
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-content {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+}
+
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.success-message {
+  color: #28a745;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* Add horizontal diet table styles */
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th,
+.horizontal-diet-table td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.horizontal-diet-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #555;
+  height: 40px;
+}
+
+.meal-type-header {
+  width: 120px;
+}
+
+.meal-type {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-align: left;
+  color: #555;
+}
+
+/* Update modal styles to fit the large table */
+.diet-details-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  overflow-y: auto;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: black;
+}
+
+/* Enhanced styles for clickable rows */
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.clickable-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Enhance button hover effects */
+.EditButton {
+  margin-right: 10px;
+  background-color: #FFB453;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.EditButton:hover {
+  background-color: #FFA726;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.DeleteButton:hover {
+  background-color: #e63e28;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Improve modal styling for better content display */
+.diet-details-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 20px auto;
+  padding: 25px;
+  border-radius: 8px;
+  width: 95%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Style the table cells to better display content */
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th,
+.horizontal-diet-table td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.horizontal-diet-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #555;
+}
+
+.meal-type-header {
+  width: 150px;
+}
+
+.meal-type {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Style the table cells to better display content */
+.horizontal-diet-table td {
+  padding: 12px;
+  font-size: 14px;
+  min-height: 60px;
+  vertical-align: top;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* New styles for centering and improved spacing */
+.diets-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* Table styles with improved spacing */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-top: 20px;
+}
+
+thead tr {
+  background-color: #f8f9fa;
+}
+
+th {
+  padding: 12px 20px;
+  text-align: left;
+  font-weight: 600;
+}
+
+/* Adjust spacing between columns */
+td {
+  padding: 15px 20px;
+  background-color: white;
+}
+
+/* Make date smaller */
+td h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* Style the add button and info text */
+.FoundDeitsAndAddNew {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.DietsFound {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.AddNewButton {
+  background-color: #FFB453;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.AddNewButton i {
+  margin-right: 5px;
+}
+
+/* Date search form styling */
+.date-search {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.date-search {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.form-floating {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 50px;
+}
+
+.StartDate, .EndDate {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.StartDate > label, .EndDate > label {
+  width: 90px;
+  height: 24px;
+}
+
+.StartDate > input, .EndDate > input {
+  height: 45px;
+  width: 160px;
+  border-radius: 15px;
+  border: none;
+  color: black;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.StartDate > input:hover, .EndDate > input:hover {
+  color: #FFB453;
+}
+
+/* Ensure the date inputs and buttons are properly aligned */
+.FoundDeitsAndAddNew {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fa-solid {
+  color: #FFA726;
+}
+
+/* Make date smaller */
+td h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+}
+
+
+/* Add styling for the modal action buttons */
+.modal-action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.modal-action-buttons .EditButton,
+.modal-action-buttons .DeleteButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-action-buttons .EditButton {
+  background-color: #FFB453;
+  color: white;
+  border: none;
+}
+
+.modal-action-buttons .DeleteButton {
+  background-color: #f7614d;
+  color: white;
+  border: none;
+}
+
+.modal-action-buttons .EditButton:hover {
+  background-color: #FFA726;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-action-buttons .DeleteButton:hover {
+  background-color: #e63e28;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-action-buttons i {
+  margin-right: 8px;
+}

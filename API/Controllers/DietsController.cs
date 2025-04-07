@@ -16,7 +16,7 @@ namespace API.Controllers
             _logger = logger;                                  //for debugging use only - can be removed
         }
 
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
        [HttpPost(Endpoints.Diets.Create)]
         public async Task<IActionResult> CreateDiet(CreateDietDto createDietDto)
         {
@@ -60,7 +60,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetAllDiets()
         {
             var result = await _dietService.GetAllDietsAsync();
-            return Ok(result);
+            return MapToHttpResponse(result);
         }
 
         [HttpGet(Endpoints.Diets.GetDietByClientId)]
@@ -84,5 +84,14 @@ namespace API.Controllers
             var result = await _dietService.DeleteDietAsync(id);
             return Ok(result);
         }
+
+
+        [HttpGet(Endpoints.Diets.SearchDiets)] // url example: http://localhost:5207/api/metrics/search?userId=131c296e-75cd-476b-ad9b-a430d986c736&date=2021-09-01&date=2021-09-30
+        public async Task<IActionResult> SearchDietsAsync([FromQuery] Guid userId, [FromQuery] DateTime? date)
+        {
+            var result = await _dietService.SearchDietsAsync(userId, date);
+            return Ok(result);
+        }
+
     }
 }
