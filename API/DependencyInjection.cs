@@ -74,6 +74,9 @@ public static class DependencyInjection
         services.AddScoped<IAdviceService, AdviceService>();
         services.AddScoped<IAdviceRepository, AdviceRepository>();
 
+        services.AddScoped<ITemplateService, TemplateService>();
+        services.AddScoped<ITemplateRepository, TemplateRepository>();
+
         services.AddTransient<IMessagingService, MessagingService>();
 
         services.AddScoped<IDataBackupAndRestoreService, DataBackupAndRestoreService>(sp => 
