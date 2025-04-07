@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { ReportData } from '../models/Reports/ReportsData';
+import { Appointment } from '../models/Reports/Appointments';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class ReportsService {
   }
 
   // Fetch Appointment Report
-  fetchAppointmentReport(datestart: string, dateend: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}reports/appointment/${datestart}/${dateend}`);
+  fetchAppointmentReport(datestart: string, dateend: string): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.baseUrl}reports/appointment/${datestart}/${dateend}`);
   }
 
   // Fetch Diet Type Report

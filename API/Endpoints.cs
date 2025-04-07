@@ -111,6 +111,8 @@ public static class Endpoints
         public const string Delete = Base + "/{id}";
         public const string GetDietByClientId = Base + "/{clientId}/theclient";
         public const string GetDietIdByClientId = Base + "/client/{userId}";
+        public const string SearchDiets = Base + "/search";
+
     }
 
     public static class BackupAndRestore
@@ -128,5 +130,15 @@ public static class Endpoints
         public const string GetById = Base + "/{id}";
         public const string GetAll = Base; 
         public const string Search = Base + "/search/{searchTerm}";
+    }
+
+    public static class Templates
+    {
+        private const string Base = BaseUrl + "templates";
+        public const string Create = Base;
+        public const string Update = Base;
+        public const string Delete = Base + "/{id}";
+        public const string GetById = Base + "/{id}";
+        public const string GetAll = Base;
     }
 }

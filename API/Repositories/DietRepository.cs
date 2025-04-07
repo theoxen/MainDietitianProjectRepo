@@ -83,5 +83,28 @@ namespace API.Repositories
                 .Select(d => d.DietId)
                 .FirstOrDefaultAsync();
         }
+
+public async Task<List<Diet>> SearchDietsAsync(Guid userId, DateTime? date)
+        {
+            var query = _dataContext.Diets.AsQueryable();
+
+            if (userId != Guid.Empty)
+            {
+                query = query.Where(m => m.UserDiets.Any(ud => ud.UserId == userId));
+            }
+
+            if (date.HasValue && date.Value != DateTime.MinValue)
+            {
+                query = query.Where(m => m.DateCreated.Date == date.Value.Date);
+            }
+
+            return await query.ToListAsync();
+        }
+
+
+
+
+
+
     }
 }

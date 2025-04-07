@@ -18,7 +18,7 @@ export interface Metrics {
 
 export interface Appointment {
     id: string;
-    date: Date;
-    description: string;
+    dateCreated: Date;
+    appointmentDate: string;
     userId: string;
 }

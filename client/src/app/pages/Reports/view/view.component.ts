@@ -2,13 +2,14 @@ import { Component, Renderer2 } from '@angular/core';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { ActivatedRoute } from '@angular/router';
 import { ReportsService } from '../../../services/reports.service';
-import { DatePipe, NgFor } from '@angular/common';
+import { DatePipe, KeyValuePipe, NgFor } from '@angular/common';
 import { Metrics, ReportData } from '../../../models/Reports/ReportsData';
+import { Appointment } from '../../../models/Reports/Appointments';
 
 @Component({
   selector: 'app-view',
   standalone: true,
-  imports: [NavBarComponent, DatePipe, NgFor],
+  imports: [NavBarComponent, DatePipe, NgFor, KeyValuePipe],
   templateUrl: './view.component.html',
   styleUrl: './view.component.css'
 })
@@ -18,10 +19,12 @@ export class ViewReportsComponent {
   reportContent: string = '';
   data: ReportData[] = []; // Initialize data as an empty array
 
+  appointment: Appointment[] = []; // Initialize appointment as an empty array
+
 
   totalUsers: number = 0;
   totalAppointments: number = 0;
-  averageWeight: number = 0;
+  averageWeight:  number = 0;
   averageFatMass: number = 0;
   averageMuscleMass: number = 0;
 
@@ -29,6 +32,8 @@ export class ViewReportsComponent {
   isAgeReport: boolean = false;
   isAppointmentReport: boolean = false;
   isDietTypeReport: boolean = false;
+  type?: string;
+ 
 
   constructor(private reportsService: ReportsService, private route: ActivatedRoute, private renderer: Renderer2) { }
 
@@ -101,12 +106,18 @@ export class ViewReportsComponent {
     });
   }
 
+
+
+
   ///////////////////////////////////////Apointments //////////////////////////////////////////
   // Exo doulia 
   fetchAppointmentReport(datestart: string, dateend: string): void {
     this.reportsService.fetchAppointmentReport(datestart, dateend).subscribe({
       next: (data) => {
-        this.reportContent = `Appointment Report: From ${datestart} to ${dateend}`;
+        console.log('Appointment Report Data:', data);
+        this.appointment = Array.isArray(data) ? data : [data];
+        this.calculateAppointmentCount(this.appointment);
+        
       },
       error: (error) => {
         console.error('Error fetching Appointment Report:', error);
@@ -114,6 +125,60 @@ export class ViewReportsComponent {
       }
     });
   }
+
+
+  busiestDay: string = '';
+  busiestHour: number = 0;
+  dailyAppointments: { [key: string]: number } = {};
+  busiestTime: string = '';
+  timeSlots: { [key: string]: number } = {};
+  
+  calculateAppointmentCount(appointments: Appointment[]): void {
+    this.totalAppointments = appointments.length;
+    
+    // Initialize counters
+    const dayCounts: { [key: string]: number } = {};
+    const timeSlotCounts: { [key: string]: number } = {};
+    
+    // Count appointments by day and time
+    appointments.forEach(appointment => {
+        const appointmentDate = new Date(appointment.appointmentDate);
+        const day = appointmentDate.toLocaleDateString('en-GB', { weekday: 'long' });
+        const hour = appointmentDate.getHours();
+        const minute = appointmentDate.getMinutes();
+        const timeKey = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        
+        // Increment counters
+        dayCounts[day] = (dayCounts[day] || 0) + 1;
+        timeSlotCounts[timeKey] = (timeSlotCounts[timeKey] || 0) + 1;
+    });
+    
+    // Find busiest day
+    this.busiestDay = Object.entries(dayCounts)
+        .reduce((a, b) => a[1] > b[1] ? a : b)[0];
+    
+    // Find busiest time slot
+    const busiestTimeSlot = Object.entries(timeSlotCounts)
+        .reduce((a, b) => a[1] > b[1] ? a : b)[0];
+    
+    this.busiestTime = busiestTimeSlot;
+    
+    // Store counts for display
+    this.dailyAppointments = dayCounts;
+    this.timeSlots = timeSlotCounts;
+    
+    console.log('Daily appointment counts:', this.dailyAppointments);
+    console.log('Busiest day:', this.busiestDay);
+    console.log('Busiest hour:', this.busiestHour);
+}
+
+  
+
+
+
+
+
+
 
   /////////////////////////////////////////Diet Type/////////////////////////////////////////
   // html gia to reports selected diet type
@@ -130,6 +195,13 @@ export class ViewReportsComponent {
       }
     });
   }
+
+
+
+
+
+
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////
   calculateStatistics(): void {
@@ -153,41 +225,10 @@ export class ViewReportsComponent {
       });
     });
 
-    this.averageWeight = metricsCount > 0 ? totalWeight / metricsCount : 0;
-    this.averageFatMass = metricsCount > 0 ? totalFatMass / metricsCount : 0;
-    this.averageMuscleMass = metricsCount > 0 ? totalMuscleMass / metricsCount : 0;
+    this.averageWeight = metricsCount > 0 ? parseFloat((totalWeight / metricsCount).toFixed(2)) : 0;
+    this.averageFatMass = metricsCount > 0 ? parseFloat((totalFatMass / metricsCount).toFixed(2)) : 0;
+    this.averageMuscleMass = metricsCount > 0 ? parseFloat((totalMuscleMass / metricsCount).toFixed(2)) : 0;
   }
-
-  //   calculateAppointmentStatistics(): void {
-  //     this.totalAppointments = this.data.length;
-
-  //     const dayCounts: { [key: string]: number } = {};
-  //     const hourCounts: { [key: string]: number } = {};
-
-  //     this.data.forEach(appointment => {
-  //         const appointmentDate = new Date(appointment.date);
-  //         const day = appointmentDate.toLocaleDateString('en-US', { weekday: 'long' }); // Get day name
-  //         const hour = appointmentDate.getHours(); // Get hour (0-23)
-
-  //         // Count appointments by day
-  //         dayCounts[day] = (dayCounts[day] || 0) + 1;
-
-  //         // Count appointments by hour
-  //         hourCounts[hour] = (hourCounts[hour] || 0) + 1;
-  //     });
-
-  //     // Find the busiest day
-  //     this.busiestDay = Object.keys(dayCounts).reduce((a, b) =>
-  //         dayCounts[a] > dayCounts[b] ? a : b
-  //     );
-
-  //     // Find the busiest hour
-  //     this.busiestHour = Object.keys(hourCounts).reduce((a, b) =>
-  //         hourCounts[a] > hourCounts[b] ? a : b
-  //     );
-  // }
-
-
 
   generatePDF(): void {
     // Implement PDF generation logic here

@@ -18,14 +18,15 @@
 
             }
             @else if(role() == "client") {
-                <li class="dropdown">
-                    <a routerLink="/uploads" class="dropbtn">UPLOADS</a>
-                    <ul class="dropdown-content">
-                      <li><a routerLink="/recipes">Recipes</a></li>
-                      <li><a routerLink="advice/view">Advice</a></li>
-                      <li><a routerLink="/uploads/articles">Articles</a></li>
-                    </ul>
-                  </li>
+                <li><a routerLink="/uploads" class="dropbtn">UPLOADS</a></li>
+                
+                    
+                    
+                      <li><a routerLink="/recipes">RECIPES</a></li>
+                      <li><a routerLink="advice/view">ADVICE</a></li>
+                      <li><a routerLink="/uploads/articles">ARTICLES</a></li>
+                    
+                  
                 <li><a href="#">MY DIET</a></li>
                 <li><a routerLink="/about-us">ABOUT US</a></li>
                 <li><a (click)="logout()">SIGN OUT</a></li>

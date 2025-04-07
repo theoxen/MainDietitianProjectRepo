@@ -69,7 +69,8 @@ export class CalendarComponent implements OnInit {
   ];
   bookedAppointments: Appointment[] = [];
   clients!:ClientProfile[];
-  clientMap: Map<string, string> = new Map();
+  clientMap: Map<string, {name: string, phone: string}> = new Map();
+  selectedClientPhone: string = '';
   clientName: String = "";
   selectedAppointment: Appointment | null = null;
   showEditModal: boolean = false;
@@ -90,11 +91,14 @@ export class CalendarComponent implements OnInit {
     this.calendarAndFetchingInitialization();
     this.clientManagementService.getAllClientsWithId().subscribe({
       next: (clients: ClientProfile[]) => {
-        // Create a mapping of clientId to fullName
-        this.clientMap = new Map<string, string>();
+        // Create a mapping of clientId to fullName and phone
+        this.clientMap = new Map<string, {name: string, phone: string}>();
         clients.forEach(client => {
           if (client.fullName !== 'admin') {
-            this.clientMap.set(client.id, client.fullName);
+            this.clientMap.set(client.id, {
+              name: client.fullName,
+              phone: client.phoneNumber || 'No phone provided' // Handle case where phone might be missing
+            });
           }
         });
       },
@@ -209,7 +213,10 @@ calendarAndFetchingInitialization()
   {
     this.toastr.error("Time travel isn't available yet!")
   }
-
+  displayCantBookOnWeekends()
+  {
+    this.toastr.error("We Are closed on weekends :)")
+  }
   isBooked(selectedDate: Date, time: string): boolean {
     // Parse the time string to get hours and minutes in 24-hour format
     let selectedHour = 0;
@@ -249,7 +256,7 @@ calendarAndFetchingInitialization()
         if (appDate.getHours() === selectedHour && appDate.getMinutes() === selectedMinute) {
           
           if (this.clientMap.has(bookedAppointment.userId)) {
-            this.clientName = " - " + this.clientMap.get(bookedAppointment.userId) as string;
+            this.clientName = " - " + this.clientMap.get(bookedAppointment.userId)?.name as string;
           }
           
           return true; // Found a match, this slot is booked
@@ -473,6 +480,7 @@ calendarAndFetchingInitialization()
     this.calendarOpacity = "1";
     this.selectedDate = null;
     this.selectedTime = null;
+    this.clientName = "";
     this.calendarDays.forEach(d => d.isSelected = false);
     
   }
@@ -560,10 +568,14 @@ calendarAndFetchingInitialization()
       this.showRescheduleForm = false;
       
       // Get client name for the appointment
+      // Get client name and phone for the appointment
       if (this.clientMap.has(appointmentToEdit.userId)) {
-        this.selectedClientName = this.clientMap.get(appointmentToEdit.userId) as string;
+        const clientData = this.clientMap.get(appointmentToEdit.userId);
+        this.selectedClientName = clientData?.name as string;
+        this.selectedClientPhone = clientData?.phone as string;
       } else {
         this.selectedClientName = "Unknown Client";
+        this.selectedClientPhone = "Unknown Phone";
       }
     }
   }

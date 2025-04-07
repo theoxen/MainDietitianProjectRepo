@@ -35,10 +35,14 @@ export class DietService {
   
 
   // Fetch a particular diet by its ID
-  fetchDietById(dietId: string): Observable<Diet> {
+  fetchDietById(dietId: string): Observable<any> {
     const url = `${this.baseUrl}diets/${dietId}`;
-    return this.http.get<Diet>(url);
+    return this.http.get<any>(url);
   }
+
+  // getDietById(id: string): Observable<any> {
+  //   return this.http.get<any>(`${this.apiUrl}/${id}`);
+  // }
 
   // Fetch all diets
   fetchAllDiets(): Observable<Diet[]> {
@@ -73,4 +77,7 @@ export class DietService {
     }
     return this.http.get<Diet[]>(url, { params });
   }
+
+
+  
 }
