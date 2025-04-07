@@ -55,14 +55,21 @@ namespace API.Services
 
 
         //TODO: i need to make the DTO for the report
-        public async Task<Result<List<Appointment>>> GetAppointmentReport(DateOnly datestart, DateOnly dateend)
+        public async Task<Result<List<AppointmentDto>>> GetAppointmentReport(DateOnly datestart, DateOnly dateend)
         {
             var result = await _reportRepository.GetAppointmentReport(datestart, dateend);
             if (result == null)
             {
-                return Result<List<Appointment>>.NotFound();
+                return Result<List<AppointmentDto>>.NotFound();
             }
-            return Result<List<Appointment>>.Ok(result);
+            var appointmentViews = result.Select(result => new AppointmentDto
+            {
+                Id = result.Id,
+                AppointmentDate = result.AppointmentDate,
+                DateCreated = result.DateCreated,
+                UserId = result.UserId
+            }).ToList() ?? new List<AppointmentDto>();
+            return Result<List<AppointmentDto>>.Ok(appointmentViews);
         }
 
         public async Task<Result<List<ReportsViewDto>>> GetUsersReport(DateOnly datestart, DateOnly dateend)
