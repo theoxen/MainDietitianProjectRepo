@@ -1,219 +1,284 @@
 <div class="nutrition-calendar-container">
   <!-- Calendar Header with Navigation -->
-  <div class="calendarHeaderBlockStatement" [ngStyle]="{'display': calendarDisplay}" [@fadeIn]>
+  <div
+    class="calendarHeaderBlockStatement"
+    [ngStyle]="{ display: calendarDisplay }"
+    [@fadeIn]
+  >
     <div class="calendar-header">
-      <button (click)="changeMonth(-1)" class="nav-button">
-        &lt;
-      </button>
-      <h2 (click)="toggleMonthYearPicker()">{{ currentMonth | date:'MMMM yyyy' }}</h2>
-      <button (click)="changeMonth(1)" class="nav-button">
-        &gt;
-      </button>
+      <button (click)="changeMonth(-1)" class="nav-button">&lt;</button>
+      <h2 (click)="toggleMonthYearPicker()">
+        {{ currentMonth | date : "MMMM yyyy" }}
+      </h2>
+      <button (click)="changeMonth(1)" class="nav-button">&gt;</button>
     </div>
   </div>
 
   <!-- Month/Year Picker Overlay -->
   @if (showMonthYearPicker) {
-    <div class="month-year-picker" [@fadeIn]>
-      <div class="picker-header">
-        <h3>Select Month & Year</h3>
-        <button class="close-picker" (click)="toggleMonthYearPicker()">×</button>
-      </div>
-      <div class="year-selector">
-        <button (click)="changeYear(-1)" class="year-nav">&lt;</button>
-        <span>{{ currentMonth | date:'yyyy' }}</span>
-        <button (click)="changeYear(1)" class="year-nav">&gt;</button>
-      </div>
-      <div class="month-grid">
-        @for (month of months; track month.value) {
-          <div 
-            class="month-item" 
-            [ngClass]="{'selected': currentMonth.getMonth() === month.value}"
-            (click)="selectMonth(month.value)"
-          >
-            {{ month.name }}
-          </div>
-        }
-      </div>
-      <button class="picker-close-btn" (click)="toggleMonthYearPicker()">Close</button>
+  <div class="month-year-picker" [@fadeIn]>
+    <div class="picker-header">
+      <h3>Select Month & Year</h3>
+      <button class="close-picker" (click)="toggleMonthYearPicker()">×</button>
     </div>
+    <div class="year-selector">
+      <button (click)="changeYear(-1)" class="year-nav">&lt;</button>
+      <span>{{ currentMonth | date : "yyyy" }}</span>
+      <button (click)="changeYear(1)" class="year-nav">&gt;</button>
+    </div>
+    <div class="month-grid">
+      @for (month of months; track month.value) {
+      <div
+        class="month-item"
+        [ngClass]="{ selected: currentMonth.getMonth() === month.value }"
+        (click)="selectMonth(month.value)"
+      >
+        {{ month.name }}
+      </div>
+      }
+    </div>
+    <button class="picker-close-btn" (click)="toggleMonthYearPicker()">
+      Close
+    </button>
+  </div>
   }
 
-  
-    <!-- Calendar Grid -->
-    <div class="calendar-grid" [ngStyle]="{'display': calendarDisplay}" [@fadeIn]>
-      <div class="calendar-weekdays">
-        <div>Mo</div>
-        <div>Tu</div>
-        <div>We</div>
-        <div>Th</div>
-        <div>Fr</div>
-        <div>Sa</div>
-        <div>Su</div>
-      </div>
-      <div class="calendar-days">
-        @for (day of calendarDays; track day.date) {
-            <div
-            [ngClass]="{
+  <!-- Calendar Grid -->
+  <div class="calendar-grid" [ngStyle]="{ display: calendarDisplay }" [@fadeIn]>
+    <div class="calendar-weekdays">
+      <div>Mo</div>
+      <div>Tu</div>
+      <div>We</div>
+      <div>Th</div>
+      <div>Fr</div>
+      <div>Sa</div>
+      <div>Su</div>
+    </div>
+    <div class="calendar-days">
+      @for (day of calendarDays; track day.date) {
+      <div
+        [ngClass]="{
               'calendar-day': true,
               'current-month': day.isCurrentMonth,
               'selected': day.isSelected,
               'weekend': day.isWeekend,
             }"
-            [ngStyle]="{'background-color': day.booked ? getColor(day.booked) : '', 'border': isToday(day.date,day.isCurrentMonth) ? getBorderColor(): ''}"
-
-            (click)="isPastDate(day.date) ? (day.booked > 0 ? viewDate(day): displayCantBookInThePastError()) : selectDate(day)" 
-            [attr.disabled]="isPastDate(day.date) ? true : null"
-          >
-            {{ day.date }}
-          </div>
+        [ngStyle]="{
+          'background-color': day.booked ? getColor(day.booked) : '',
+          border: isToday(day.date, day.isCurrentMonth) ? getBorderColor() : ''
+        }"
+        (click)="
+          day.isCurrentMonth
+            ? isPastDate(day.date)
+              ? day.booked > 0
+                ? viewDate(day)
+                : day.isWeekend
+                ? displayCantBookOnWeekends()
+                : displayCantBookInThePastError()
+              : day.isWeekend
+              ? displayCantBookOnWeekends()
+              : selectDate(day)
+            : null
+        "
+        [attr.disabled]="isPastDate(day.date) ? true : null"
+      >
+        {{ day.date }}
+        @if (day.booked > 0) {
+        <div class="amountOfAppointments">
+          {{ day.booked }}
+        </div>
         }
       </div>
-      <div class="goToToday">
-        @if (!isCurrentMonthToday()) {
-              <button class="today-button" (click)="goToToday()">Today</button>
-        }
-      </div>
-    </div>
-    
-    <!-- Time Selection Overlay -->
-    @if (selectedDate) {
-
-        <div class="time-selection-container" [@fadeIn]>
-          <div class="time-selection-header">
-            <h3>{{ selectedDate | date:'fullDate' }}</h3>
-          </div>
-          <div class="time-slots">
-            @for (time of availableTimes; track time) {
-                <div 
-                class="time-slot"
-                [ngClass]="{'selected': selectedTime === time}"
-              
-                [ngStyle]="{'background-color': isBooked(selectedDate,time) ? 'lightgray' : ''}"
-              
-              
-                [attr.disabled]="isBooked(selectedDate,time) ? true: null"
-                (click)="isBooked(selectedDate,time) ? editBookedDetails(selectedDate,time) : (isPastDate(selectedDate.getDate()) ? displayCantBookInThePastError(): selectTime(time))"                >
-                {{ time + clientName}}
-                </div>
-            }
-          </div>
-          <div class="submitButtonContainer">
-            <button (click)="resetSelection()" class="closeButton" >Cancel</button>
-            <button  (click)="makeAppointment()" class="SubmitButton" [ngStyle]="{'pointer-events': pointerEvent, 'opacity': opacity}">Next</button>
-          </div>
-          
-        </div>
-
-    }
-
-
-
-    
-
-    <!-- Edit Appointment Modal -->
-      @if (showEditModal) {
-        <div class="modal-overlay">
-          <div class="modal-container">
-            <div class="modal-header">
-              <h2 [ngStyle]="{'display': EditAppointmentTextDisplay}">Edit Appointment</h2>
-              <h2 [ngStyle]="{'display': ViewAppointmentTextDisplay}">View Appointment</h2>
-              <button class="close-button" (click)="showEditModal = false">×</button>
-            </div>
-            
-          @if (selectedAppointment) {
-                <div class="modal-body">
-                  <div class="appointment-details">
-                    <p><strong>Client:</strong> {{ selectedClientName }}</p>
-                    <p><strong>Date:</strong> {{ selectedAppointment.appointmentDate | date:'EEEE, MMMM d, y' }}</p>
-                    <p><strong>Time:</strong> {{ selectedAppointment.appointmentDate | date:'h:mm a' }}</p>
-                    <p><strong>Created:</strong> {{ selectedAppointment.dateCreated | date:'MMM d, y h:mm a' }}</p>
-                  </div>
-                  
-                  @if (!showRescheduleForm) {
-                    <div class="action-buttons" >
-                      <button class="cancel-appointment" (click)="cancelAppointment()" [ngStyle]="{'display': RescheduleButtonsDisplay}" [disabled]="selectedAppointment && isPastDate(selectedAppointment.appointmentDate)">
-                        Cancel Appointment
-                      </button>
-                      <button class="reschedule-appointment" 
-                              (click)="openRescheduleForm()" 
-                              [ngStyle]="{'display': RescheduleButtonsDisplay}"
-                              [disabled]="selectedAppointment && isPastDate(selectedAppointment.appointmentDate)">
-                        Reschedule
-                      </button>
-                  </div>
-                  }
-                  
-                  
-                  <!-- Reschedule form - moved outside the button -->
-                   @if (showRescheduleForm) {
-                      <div class="reschedule-form">
-                        <h3>Reschedule Appointment</h3>
-
-                        <div class="form-group">
-                          <label for="rescheduleDate">New Date:</label>
-                          <input 
-                            type="date" 
-                            id="rescheduleDate"
-                            [min]="getTodayString()"
-                            [(ngModel)]="rescheduleDate"
-                            required
-                          >
-                        </div>
-                        
-                        <div class="form-group">
-                          <label for="rescheduleTime">New Time:</label>
-                          <select 
-                            id="rescheduleTime" 
-                            [(ngModel)]="rescheduleTime"
-                            required
-                          >
-                            <option value="">Select a time</option>
-                            @for (time of availableTimes; track time) {
-                              <option>{{ time }}</option>
-                            }
-                          </select>
-                        </div>
-                        
-                        <div class="button-group">
-                          <button type="button" class="cancel-btn" (click)="cancelReschedule()">
-                            Cancel
-                          </button>
-                          <button 
-                            type="button" 
-                            class="submit-btn" 
-                            [disabled]="!rescheduleDate || !rescheduleTime" 
-                            (click)="submitReschedule()"
-                          >
-                            Confirm Reschedule
-                          </button>
-                        </div>
-                      </div>
-                   }
-                  
-                </div>
-            }
-            
-          </div>
-        </div>
       }
+    </div>
+    <div class="goToToday">
+      @if (!isCurrentMonthToday()) {
+      <button class="today-button" (click)="goToToday()">Today</button>
+      }
+    </div>
+  </div>
 
+  <!-- Time Selection Overlay -->
+  @if (selectedDate) {
 
-<!-- Cancel Confirmation Modal -->
-@if (showCancelModal) {
+  <div class="time-selection-container" [@fadeIn]>
+    <div class="time-selection-header">
+      <h3>{{ selectedDate | date : "fullDate" }}</h3>
+    </div>
+    <div class="time-slots">
+      @for (time of availableTimes; track time) {
+      <div
+        class="time-slot"
+        [ngClass]="{ selected: selectedTime === time }"
+        [ngStyle]="{
+          'background-color': isBooked(selectedDate, time) ? 'lightgray' : ''
+        }"
+        [attr.disabled]="isBooked(selectedDate, time) ? true : null"
+        (click)="
+          isBooked(selectedDate, time)
+            ? editBookedDetails(selectedDate, time)
+            : isPastDate(selectedDate.getDate())
+            ? displayCantBookInThePastError()
+            : selectTime(time)
+        "
+      >
+        {{ time + clientName }}
+      </div>
+      }
+    </div>
+    <div class="submitButtonContainer">
+      <button (click)="resetSelection()" class="closeButton">Cancel</button>
+      <button
+        (click)="makeAppointment()"
+        class="SubmitButton"
+        [ngStyle]="{ 'pointer-events': pointerEvent, opacity: opacity }"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  }
+
+  <!-- Edit Appointment Modal -->
+  @if (showEditModal) {
+  <div class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 [ngStyle]="{ display: EditAppointmentTextDisplay }">
+          Edit Appointment
+        </h2>
+        <h2 [ngStyle]="{ display: ViewAppointmentTextDisplay }">
+          View Appointment
+        </h2>
+        <button class="close-button" (click)="showEditModal = false">×</button>
+      </div>
+
+      @if (selectedAppointment) {
+      <div class="modal-body">
+        <div class="appointment-details">
+          <p><strong>Client:</strong> {{ selectedClientName }}</p>
+          <p><strong>Phone:</strong> {{ selectedClientPhone }}</p>
+          <p>
+            <strong>Date:</strong>
+            {{ selectedAppointment.appointmentDate | date : "EEEE, MMMM d, y" }}
+          </p>
+          <p>
+            <strong>Time:</strong>
+            {{ selectedAppointment.appointmentDate | date : "h:mm a" }}
+          </p>
+          <p>
+            <strong>Created:</strong>
+            {{ selectedAppointment.dateCreated | date : "MMM d, y h:mm a" }}
+          </p>
+        </div>
+
+        @if (!showRescheduleForm) {
+        <div class="action-buttons">
+          <button
+            class="cancel-appointment"
+            (click)="cancelAppointment()"
+            [ngStyle]="{ display: RescheduleButtonsDisplay }"
+            [disabled]="
+              selectedAppointment &&
+              isPastDate(selectedAppointment.appointmentDate)
+            "
+          >
+            Cancel Appointment
+          </button>
+          <button
+            class="reschedule-appointment"
+            (click)="openRescheduleForm()"
+            [ngStyle]="{ display: RescheduleButtonsDisplay }"
+            [disabled]="
+              selectedAppointment &&
+              isPastDate(selectedAppointment.appointmentDate)
+            "
+          >
+            Reschedule
+          </button>
+        </div>
+        }
+
+        <!-- Reschedule form - moved outside the button -->
+        @if (showRescheduleForm) {
+        <div class="reschedule-form">
+          <h3>Reschedule Appointment</h3>
+
+          <div class="form-group">
+            <label for="rescheduleDate">New Date:</label>
+            <input
+              type="date"
+              id="rescheduleDate"
+              [min]="getTodayString()"
+              [(ngModel)]="rescheduleDate"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="rescheduleTime">New Time:</label>
+            <select id="rescheduleTime" [(ngModel)]="rescheduleTime" required>
+              <option value="">Select a time</option>
+              @for (time of availableTimes; track time) {
+              <option>{{ time }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="cancel-btn"
+              (click)="cancelReschedule()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="submit-btn"
+              [disabled]="!rescheduleDate || !rescheduleTime"
+              (click)="submitReschedule()"
+            >
+              Confirm Reschedule
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Cancel Confirmation Modal -->
+  @if (showCancelModal) {
   <div class="cancel-modal-backdrop">
     <div class="cancel-modal-container">
       <div class="cancel-modal-header">
         <h2>Confirm Cancellation</h2>
-        <button class="cancel-modal-close" (click)="closeCancelModal()">&times;</button>
+        <button class="cancel-modal-close" (click)="closeCancelModal()">
+          &times;
+        </button>
       </div>
       <div class="cancel-modal-body">
         <p>Are you sure you want to cancel this appointment?</p>
       </div>
       <div class="cancel-modal-footer">
-        <button class="cancel-modal-btn cancel-modal-btn-keep" (click)="closeCancelModal()">No, Keep it</button>
-        <button class="cancel-modal-btn cancel-modal-btn-cancel" (click)="confirmCancellation()">Yes, Cancel Appointment</button>
+        <button
+          class="cancel-modal-btn cancel-modal-btn-keep"
+          (click)="closeCancelModal()"
+        >
+          No, Keep it
+        </button>
+        <button
+          class="cancel-modal-btn cancel-modal-btn-cancel"
+          (click)="confirmCancellation()"
+        >
+          Yes, Cancel Appointment
+        </button>
       </div>
     </div>
   </div>
-}
+  }
+</div>

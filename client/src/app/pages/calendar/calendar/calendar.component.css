@@ -38,7 +38,8 @@
   
   .calendar-grid {
     padding: 10px;
-    
+    position: relative;
+    padding-bottom: 50px; /* Add extra padding at the bottom to accommodate the button */
   }
   
   .calendar-weekdays {
@@ -60,11 +61,14 @@
   }
   
   .calendar-day {
+    display: flex;
+    justify-content: center;
     padding: 15px;
     font-size: 1.2vw;
     cursor: pointer;
     border-radius: 4px;
     transition:  0.3s;
+    position: relative;
   }
     
   .calendar-day:hover{
@@ -85,6 +89,20 @@
     color: white;
   }
 
+  .amountOfAppointments {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 12.5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
  
   .closeButton{ 
     height: 45px;
@@ -111,9 +129,10 @@
   .time-selection-container {
     background-color: white;
     border-radius: 8px; 
-    width: 100%;
+    width: 95%;
     margin: 0;
     padding: 0;
+    padding-left: 17px;
     transition: all 0.3s ease;
   }
   
@@ -322,11 +341,15 @@
 }
 
 .goToToday {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 0 -50px 0;
-  height: 40px;
+  padding: 10px 0;
 }
 
 .today-button {
