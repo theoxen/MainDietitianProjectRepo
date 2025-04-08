@@ -288,9 +288,26 @@ export class EditDietsComponent implements OnInit {
           this.dialogRef.close(true); // Return true to indicate successful update
         }, 1500);
       },
-      error: (error: any) => {
-        this.errorMessage = "Error updating diet. Please try again.";
+      error: (error) => {
         console.error("Error updating diet:", error);
+        
+        // Check if this is a specific error about diet already existing
+        if (error?.error?.errors && Array.isArray(error.error.errors)) {
+          const dietExistsError = error.error.errors.find(
+            (err: any) => err.identifier === 'DietAlreadyExists'
+          );
+          
+          if (dietExistsError) {
+            this.errorMessage = "Diet with this name already exists. Change diet name";
+          } else {
+            this.errorMessage = "Failed to update diet. Please try again.";
+          }
+        } else {
+          this.errorMessage = "An error occurred. Please try again.";
+        }
+        
+        // Clear any success message
+        this.successMessage = "";
       }
     });
   }

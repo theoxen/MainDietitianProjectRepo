@@ -113,7 +113,7 @@ addDiets() {
     return;
   }
 
-  // Reset messages
+  // Reset messages at the beginning
   this.errorMessage = '';
   this.successMessage = '';
 
@@ -137,25 +137,34 @@ addDiets() {
       this.dietid = diet.id;
       this.successMessage = "Diet added successfully!";
       
-      // Close the dialog after a brief delay so the user sees the success message
+      // Close the dialog after a brief delay
       setTimeout(() => {
         this.dialogRef.close(true);
       }, 1500);
     },
-    error: (error) => {
+    error: (error: any) => {
       console.error("Error adding diet:", error);
       
-      // Check if this is a specific error about diet already existing
-      if (error?.error?.errors?.some((err: any) => err.identifier === 'DietAlreadyExists')) {
-        this.errorMessage = "A diet with the same name already exists. Please choose a different name.";
+      // Check for the specific diet already exists error
+      if (error?.error?.errors && Array.isArray(error.error.errors)) {
+        const dietExistsError = error.error.errors.find(
+          (err: any) => err.identifier === 'DietAlreadyExists'
+        );
+        
+        if (dietExistsError) {
+          this.errorMessage = "Diet with this name already exists. Change diet name";
+        } else {
+          this.errorMessage = "Failed to add diet. Please try again.";
+        }
       } else {
-        this.errorMessage = "An error occurred while adding the diet. Please try again.";
+        this.errorMessage = "An error occurred. Please try again.";
       }
+      
+      // Make sure the success message is cleared when there's an error
+      this.successMessage = "";
     }
   });
 }
-
-
 
   openConfirmationWindow() {
     this.isConfirmationWindowVisible = true;
