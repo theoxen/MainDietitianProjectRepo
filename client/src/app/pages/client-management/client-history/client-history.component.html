@@ -1,31 +1,29 @@
 <div class="page">
-
   <div class="client-history">
-    <div class="title">Client History</div>
+    <div class="maintitle">Client History</div>
 
-    <div class="note-container">
+    <div class="details-container">
       <div class="primary-hover-box">
-        <h2>Client Details</h2>
+        <div class="title">Client Details</div>
         <p><strong>Name:</strong> {{ client?.fullName }}</p>
-        <p><strong>Email:</strong> {{ client?.email }}</p>
         <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
-        <p><strong>ID:</strong> {{ clientId }}</p>
-        <p><strong>dateOfBirth:</strong> {{ client?.dateOfBirth }}</p>
-        <p><strong>Gender:</strong> {{ client?.gender }}</p>
+        <p><strong>Email:</strong> {{ client?.email }}</p>
         <div class="detail-item">
           <p><strong>Age: </strong>
             <span class="detail-value">{{ calculateClientAge(client) }}</span>
         </div>
+        <p><strong>Gender:</strong> {{ client?.gender }}</p>
       </div>
-
     </div>
 
     <div class="note-container">
       <div class="primary-hover-box">
         <div class="title">Client Note</div>
+        <div class="table-container">
         <div *ngIf="clientNote && clientNote.noteText; else noNote">
-          <p>{{ clientNote.noteText }}</p>
+          <p class="note-text">{{ clientNote.noteText }}</p>
         </div>
+      </div>
       </div>
     </div>
 
@@ -34,10 +32,8 @@
     </ng-template>
 
     <div class="metrics-container">
-
       <div class="primary-hover-box">
         <div class="title">Dates Visited & Metrics</div>
-
         <!-- Added table-container div for scrollable table -->
         <div class="table-container">
           <table *ngIf="clientMetrics && clientMetrics.length > 0; else noMetrics">
@@ -73,5 +69,127 @@
     <ng-template #noMetrics>
       <p>No metrics available for this client.</p>
     </ng-template>
+
+    <!-- Diet Section -->
+<div class="diets-container">
+  <div class="primary-hover-box">
+    <div class="title">Client Diets</div>
+    <div class="table-container">
+      <table *ngIf="transformedDiets && transformedDiets.length > 0; else noDiets">
+        <thead>
+          <tr>
+            <th style="width: 120px;">Date</th>
+            <th style="width: 50%;">Name</th>
+            <th style="width: 100px;">Template</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let diet of transformedDiets" (click)="showDietDetails(diet)" class="clickable-row">
+            <td>
+              <h2>{{ diet.date }}</h2>
+            </td>
+            <td>
+              {{ diet.name }}
+            </td>
+            <td>
+              {{ diet.isTemplate ? 'Yes' : 'No' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #noDiets>
+  <p>No diets available for this client.</p>
+</ng-template>
+
+<!-- Diet Details Modal -->
+<div class="diet-details-modal" [style.display]="selectedDiet ? 'block' : 'none'">
+  <div class="modal-content">
+    <span class="close" (click)="closeDietDetails()">&times;</span>
+    <h2>Diet Details: {{selectedDiet?.name || ''}}</h2>
+    <p><strong>Date:</strong> {{selectedDiet?.date || ''}}</p>
+    <p><strong>Type:</strong> {{selectedDiet?.isTemplate ? 'Template' : 'Regular Diet'}}</p>
+    
+    <!-- Complete meal table with dynamic content -->
+    <table class="horizontal-diet-table">
+      <thead>
+        <tr>
+          <th class="meal-type-header">Meal Type</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Breakfast Row -->
+        <tr>
+          <td class="meal-type">Breakfast</td>
+          <td>{{getDayMeal(0, 'Breakfast')}}</td>
+          <td>{{getDayMeal(1, 'Breakfast')}}</td>
+          <td>{{getDayMeal(2, 'Breakfast')}}</td>
+          <td>{{getDayMeal(3, 'Breakfast')}}</td>
+          <td>{{getDayMeal(4, 'Breakfast')}}</td>
+          <td>{{getDayMeal(5, 'Breakfast')}}</td>
+          <td>{{getDayMeal(6, 'Breakfast')}}</td>
+        </tr>
+        
+        <!-- Morning Snack Row -->
+        <tr>
+          <td class="meal-type">Morning Snack</td>
+          <td>{{getDayMeal(0, 'Morning Snack')}}</td>
+          <td>{{getDayMeal(1, 'Morning Snack')}}</td>
+          <td>{{getDayMeal(2, 'Morning Snack')}}</td>
+          <td>{{getDayMeal(3, 'Morning Snack')}}</td>
+          <td>{{getDayMeal(4, 'Morning Snack')}}</td>
+          <td>{{getDayMeal(5, 'Morning Snack')}}</td>
+          <td>{{getDayMeal(6, 'Morning Snack')}}</td>
+        </tr>
+        
+        <!-- Lunch Row -->
+        <tr>
+          <td class="meal-type">Lunch</td>
+          <td>{{getDayMeal(0, 'Lunch')}}</td>
+          <td>{{getDayMeal(1, 'Lunch')}}</td>
+          <td>{{getDayMeal(2, 'Lunch')}}</td>
+          <td>{{getDayMeal(3, 'Lunch')}}</td>
+          <td>{{getDayMeal(4, 'Lunch')}}</td>
+          <td>{{getDayMeal(5, 'Lunch')}}</td>
+          <td>{{getDayMeal(6, 'Lunch')}}</td>
+        </tr>
+        
+        <!-- Afternoon Snack Row -->
+        <tr>
+          <td class="meal-type">Afternoon Snack</td>
+          <td>{{getDayMeal(0, 'Afternoon Snack')}}</td>
+          <td>{{getDayMeal(1, 'Afternoon Snack')}}</td>
+          <td>{{getDayMeal(2, 'Afternoon Snack')}}</td>
+          <td>{{getDayMeal(3, 'Afternoon Snack')}}</td>
+          <td>{{getDayMeal(4, 'Afternoon Snack')}}</td>
+          <td>{{getDayMeal(5, 'Afternoon Snack')}}</td>
+          <td>{{getDayMeal(6, 'Afternoon Snack')}}</td>
+        </tr>
+        
+        <!-- Dinner Row -->
+        <tr>
+          <td class="meal-type">Dinner</td>
+          <td>{{getDayMeal(0, 'Dinner')}}</td>
+          <td>{{getDayMeal(1, 'Dinner')}}</td>
+          <td>{{getDayMeal(2, 'Dinner')}}</td>
+          <td>{{getDayMeal(3, 'Dinner')}}</td>
+          <td>{{getDayMeal(4, 'Dinner')}}</td>
+          <td>{{getDayMeal(5, 'Dinner')}}</td>
+          <td>{{getDayMeal(6, 'Dinner')}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    
   </div>
 </div>
