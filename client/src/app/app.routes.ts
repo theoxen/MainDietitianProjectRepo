@@ -37,6 +37,8 @@ import { AdviceListComponent } from './pages/advice-management/advice-list/advic
 import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 
+import { ManageTemplates } from './pages/templates-management/templates-management/templates-management';
+
 
 
 export const routes: Routes = [
@@ -84,6 +86,17 @@ export const routes: Routes = [
          { path: ":recipeId", component: ViewComponent }
       ]
    },
+
+
+   {
+      path: "manage-templates",
+      runGuardsAndResolvers: "always",
+      children: [
+         { path: "",  component: ManageTemplates, canActivate: [authGuard] }, 
+
+      ]
+   },
+
 
 
    {
