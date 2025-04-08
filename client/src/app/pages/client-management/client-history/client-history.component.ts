@@ -16,7 +16,7 @@ import { Diet } from '../../../models/diets/diet';
 @Component({
   selector: 'app-client-history',
   standalone: true,
-  imports: [CommonModule, PaginationComponent],
+  imports: [CommonModule, PaginationComponent, NavBarComponent],
   templateUrl: './client-history.component.html',
   styleUrl: './client-history.component.css'
 })
