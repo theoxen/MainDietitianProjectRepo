@@ -165,6 +165,17 @@ fetchDietsForUser(clientId: string): void {
       } else {
         fetchedDiets = [];
       }
+
+
+            // Filter out diets where userDiets contains a userId of all zeros (empty GUID)
+            fetchedDiets = fetchedDiets.filter((diet: { userDiets: any[]; }) => {
+              // Skip diets with no userDiets array
+              if (!diet.userDiets || !Array.isArray(diet.userDiets)) return false;
+              
+              // Keep only diets where no userDiet has an empty userID (all zeros)
+              return !diet.userDiets.some(userDiet => 
+                userDiet.dietId === '00000000-0000-0000-0000-000000000000' );
+            });
       
       this.diets = fetchedDiets;
       

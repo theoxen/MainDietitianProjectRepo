@@ -89,11 +89,11 @@ dayNames.forEach(dayName => {
   daysArray.push(new FormGroup({
     name: new FormControl(dayName),
     meals: new FormArray([
-      this.createMealFormGroup('Breakfast'),
-      this.createMealFormGroup('Morning Snack'),
-      this.createMealFormGroup('Lunch'),
-      this.createMealFormGroup('Evening Snack'),
-      this.createMealFormGroup('Dinner'),
+      this.createMealFormGroup('Breakfast'),      // Index 0
+      this.createMealFormGroup('Lunch'),          // Index 1
+      this.createMealFormGroup('Dinner'),         // Index 2
+      this.createMealFormGroup('Morning Snack'),  // Index 3
+      this.createMealFormGroup('Afternoon Snack') // Index 4
 
     ])
   }));
@@ -108,49 +108,52 @@ return new FormGroup({
 }
 
 addDiets() {
-  
   if (this.addclientDietsForm.invalid) {
     this.addclientDietsForm.markAllAsTouched();
     return;
   }
 
-// Reset messages
-this.errorMessage = '';
-this.successMessage = '';
+  // Reset messages
+  this.errorMessage = '';
+  this.successMessage = '';
 
-const DietsToAdd: DietToAdd = {
-  name: this.addclientDietsForm.controls['name'].value!,
-  isTemplate: this.addclientDietsForm.controls['isTemplate'].value!,
-  userDiets: [{ userId: this.clientId! }],
-  days: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
-    dayName: day.name,
-    meals: day.meals.map((meal: any) => ({
-      meal: meal.meal,
-      type: meal.mealType
+  const DietsToAdd: DietToAdd = {
+    name: this.addclientDietsForm.controls['name'].value!,
+    isTemplate: this.addclientDietsForm.controls['isTemplate'].value!,
+    userDiets: [{ userId: this.clientId! }],
+    days: this.addclientDietsForm.controls['dietDays'].value!.map((day: any) => ({
+      dayName: day.name,
+      meals: day.meals.map((meal: any) => ({
+        meal: meal.meal,
+        type: meal.mealType
+      }))
     }))
-  })),
-};
+  };
 
-// Call service to add the diet
-this.dietService.addDiet(DietsToAdd).subscribe({
-  next: (diets: Diet) => {
-    console.log("Diet added successfully.");
-    this.dietid = diets.id;
-    this.successMessage = "Diet added successfully!";
-    
-    // Close the dialog after a brief delay so the user sees the success message
-    setTimeout(() => {
-      this.dialogRef.close(true); // Return true to indicate successful addition
-    }, 1500);
-  },
-  error: (error: any) => {
-    this.errorMessage = "Error adding diet. Please try again.";
-    console.error("Error adding diet:", error);
-  }
-});
+  // Call service to add the diet
+  this.dietService.addDiet(DietsToAdd).subscribe({
+    next: (diet: Diet) => {
+      console.log("Diet added successfully.");
+      this.dietid = diet.id;
+      this.successMessage = "Diet added successfully!";
+      
+      // Close the dialog after a brief delay so the user sees the success message
+      setTimeout(() => {
+        this.dialogRef.close(true);
+      }, 1500);
+    },
+    error: (error) => {
+      console.error("Error adding diet:", error);
+      
+      // Check if this is a specific error about diet already existing
+      if (error?.error?.errors?.some((err: any) => err.identifier === 'DietAlreadyExists')) {
+        this.errorMessage = "A diet with the same name already exists. Please choose a different name.";
+      } else {
+        this.errorMessage = "An error occurred while adding the diet. Please try again.";
+      }
+    }
+  });
 }
-
-
 
 
 

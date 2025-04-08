@@ -35,6 +35,7 @@ import { clientGuard } from './guards/client.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
 import { AdviceListComponent } from './pages/advice-management/advice-list/advice-list.component';
 import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
+import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 
 
 
@@ -65,6 +66,8 @@ export const routes: Routes = [
          { path: ":clientId/history", component: ClientHistoryComponent },
          { path: ":clientId/note", component: NoteManagementComponent },
          { path: ":clientId/metrics", component: ViewMetricsComponent },
+         { path: ":clientId/diets", component: ViewDietsComponent }
+
          // { path: ":clientId/view-diets", component: ViewDietsComponent },
          // { path: ":clientId/edit-diets", component: EditDietsComponent }, 
       ]
