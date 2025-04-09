@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DietService } from '../../../services/diet.service';
+import { TemplatesService } from '../../../services/templates.service';
 import { Router } from '@angular/router';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { CommonModule } from '@angular/common';
@@ -16,7 +17,7 @@ import { DietToAdd } from '../../../models/diets/diets-to-add';
 @Component({
   selector: 'add-diets',
   standalone: true,
-  imports: [ReactiveFormsModule, PrimaryInputFieldComponent, CommonModule, NavBarComponent],
+  imports: [ReactiveFormsModule, FormsModule ,PrimaryInputFieldComponent, CommonModule, NavBarComponent],
   templateUrl: './add-diets.component.html',
   styleUrls: ['./add-diets.component.css']
 })
@@ -28,7 +29,10 @@ export class AddDietsComponent implements OnInit {
     this.dialogRef.close(); // Just close the dialog without returning any result
   }
 
-
+  showTemplateSelector = false;
+  availableTemplates: any[] = [];
+  filteredTemplates: any[] = [];
+  templateSearchTerm = '';
   
 
 isConfirmationWindowVisible = false;
@@ -46,7 +50,7 @@ isConfirmationWindowVisible = false;
   
   dietService = inject(DietService);
   clientManagementService = inject(ClientManagementService);
-
+  templatesService = inject(TemplatesService);
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { clientId: string },
     private dialogRef: MatDialogRef<AddDietsComponent>) {}
@@ -69,6 +73,8 @@ isConfirmationWindowVisible = false;
   
       // Initialize the form with default diet days
       this.initializeDietDaysForm();
+
+      this.fetchAvailableTemplates();
     }
 
 
@@ -198,6 +204,127 @@ dietDaysErrorMessages = new Map<string, string>([
     return meals.at(mealIndex).get('meal') as FormControl;
   }
 
+    // Method to fetch available templates
+    fetchAvailableTemplates(): void {
+      this.templatesService.fetchTemplates().subscribe({
+        next: (diets: any) => {
+          // Filter to get only template diets
+          this.availableTemplates = diets
+            .filter((diet: any) => diet.isTemplate === true)
+            .map((diet: any) => ({
+              id: diet.id,
+              name: diet.name,
+              date: this.formatDate(diet.dateCreated || diet.date),
+              fullData: diet
+            }));
+          
+          this.filteredTemplates = [...this.availableTemplates];
+        },
+        error: (err) => {
+          console.error('Error fetching templates:', err);
+          this.errorMessage = "Failed to load templates";
+        }
+      });
+    }
+    
+    // Format date for displaying in template list
+    formatDate(date: string | Date): string {
+      if (!date) return '';
+      const d = new Date(date);
+      return d.toLocaleDateString();
+    }
+    
+    // Show template selection UI
+    showTemplateSelection(): void {
+      this.showTemplateSelector = true;
+      this.filteredTemplates = [...this.availableTemplates];
+    }
+    
+    // Cancel template selection
+    cancelTemplateSelection(): void {
+      this.showTemplateSelector = false;
+      this.templateSearchTerm = '';
+    }
+    
+    // Filter templates based on search term
+    filterTemplates(): void {
+      if (!this.templateSearchTerm.trim()) {
+        this.filteredTemplates = [...this.availableTemplates];
+        return;
+      }
+      
+      const term = this.templateSearchTerm.toLowerCase().trim();
+      this.filteredTemplates = this.availableTemplates.filter(template => 
+        template.name.toLowerCase().includes(term)
+      );
+    }
+    
+    // Select and apply a template to the diet form
+selectTemplate(template: any): void {
+  const templateData = template.fullData;
+  
+  // Set the basic form fields
+  this.addclientDietsForm.get('name')?.setValue(templateData.name + ' (Copy)');
+  
+  // Get the days array from the form
+  const daysArray = this.addclientDietsForm.get('dietDays') as FormArray;
+  
+  // Get the days from the template
+  const templateDays = templateData.Days || templateData.days || templateData.dietDays || [];
+  
+  // Populate each day's meals from the template
+  if (templateDays.length > 0) {
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    
+    dayNames.forEach((dayName, dayIndex) => {
+      // Find the corresponding day in the template
+      const templateDay = templateDays.find((d: any) => {
+        const name = d.dayName || d.DayName;
+        return name === dayName;
+      });
+      
+      if (templateDay && dayIndex < daysArray.length) {
+        const dayFormGroup = daysArray.at(dayIndex) as FormGroup;
+        const mealsArray = dayFormGroup.get('meals') as FormArray;
+        
+        const mealTypeMap: Record<string, number> = {
+          'Breakfast': 0,
+          'Lunch': 1,
+          'Dinner': 2,
+          'Morning Snack': 3,
+          'Afternoon Snack': 4
+        };
+        
+        // Get meals from the template day
+        const templateMeals = templateDay.Meals || templateDay.meals || templateDay.dietMeals || [];
+        
+        // For each meal type, find and set the value if it exists
+        templateMeals.forEach((meal: any) => {
+          const mealType = meal.Type || meal.type || meal.mealType || '';
+          const mealContent = meal.Meal || meal.meal || '';
+          
+          // Check if the meal type exists in our mapping before using it
+          if (mealType in mealTypeMap) {
+            const formIndex = mealTypeMap[mealType as keyof typeof mealTypeMap];
+            if (formIndex !== undefined && formIndex < mealsArray.length) {
+              const mealControl = mealsArray.at(formIndex).get('meal') as FormControl;
+              mealControl.setValue(mealContent);
+            }
+          }
+        });
+      }
+    });
+  }
+  
+  // Close template selector and show success message
+  this.showTemplateSelector = false;
+  this.successMessage = "Template applied successfully!";
+  
+  // Clear success message after delay
+  setTimeout(() => {
+    this.successMessage = "";
+  }, 3000);
+}
 
 
 }

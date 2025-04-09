@@ -1,0 +1,246 @@
+.page {
+    min-height: 100vh;
+    width: 100%;
+    padding-bottom: 60px;
+  }
+
+  .primary-hover-box {
+    width: 90%;
+    min-height: 500px;
+    height: auto !important;
+    padding: 30px;
+    padding-bottom: 50px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .hover-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .diets-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: 80vh;
+    padding: 20px 0;
+  }
+
+  .content-area {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .templates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .AddNewButton {
+    background-color: #FFB453;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .AddNewButton:hover {
+    background-color: #FFA726;
+  }
+  
+  .TemplatesFound {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .date-search input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 250px;
+  }
+  
+  .horizontal-template-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .horizontal-template-table th,
+  .horizontal-template-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .horizontal-template-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+  
+  .meal-type-header {
+    width: 120px;
+  }
+  
+  .meal-type {
+    font-weight: bold;
+    background-color: #f8f9fa;
+  }
+  
+  .clickable-row {
+    cursor: pointer;
+  }
+  
+  .clickable-row:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .EditButton, 
+  .DeleteButton, 
+  .DownloadButton {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .EditButton {
+    background-color: #FFA726;
+  }
+  
+  .DeleteButton {
+    background-color: #f44336;
+  }
+  
+  .DownloadButton {
+    background-color: #4CAF50;
+  }
+  
+  .EditButton:hover {
+    background-color: #FB8C00;
+  }
+  
+  .DeleteButton:hover {
+    background-color: #D32F2F;
+  }
+  
+  .DownloadButton:hover {
+    background-color: #388E3C;
+  }
+  
+  .template-details-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 25px;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .modal-action-buttons {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .confirmation-modal {
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .confirmation-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+  }
+  
+  .confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .primary-button, 
+  .primary-button-danger {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .primary-button {
+    background-color: #3f51b5;
+  }
+  
+  .primary-button-danger {
+    background-color: #f44336;
+  }
+  
+  .success-message {
+    color: #28a745;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  
+  .pagination-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }

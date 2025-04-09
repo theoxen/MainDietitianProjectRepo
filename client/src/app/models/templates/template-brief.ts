@@ -1,4 +1,4 @@
-export interface Template {
+export interface TemplateBrief {
   id: string;
   name: string;
   isTemplate: boolean;

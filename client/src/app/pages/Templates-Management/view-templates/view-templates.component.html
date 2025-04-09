@@ -1,0 +1,168 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    
+    <div class="diets-container">
+      <div class="primary-hover-box">
+        <div class="hover-box">
+          <div class="title-box">
+            <h1 class="title" style="margin: 0px; margin-bottom: 20px; text-align: center;">Templates Management</h1>
+          </div>
+  
+          <div class="FoundDeitsAndAddNew">
+            <div class="date-search">
+              <input type="text" placeholder="Search by name or date" [formControl]="searchControl" />
+            </div>
+            <button (click)="openAddTemplateModal()" class="AddNewButton">
+              <i class="fa-solid fa-plus"></i>Add New
+            </button>
+          </div>
+  
+          <p class="DietsFound" [hidden]="filteredTemplates.length === 0">
+            <i class="fa-solid fa-circle-info"></i> Found {{filteredTemplates.length}} templates.
+          </p>
+          
+          <!-- Table of Templates Using Fixed Rows -->
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 120px;">Date</th>
+                <th style="width: 50%;">Name</th>
+                <th style="width: 100px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let template of pagedItems" (click)="showTemplateDetails(template)" class="clickable-row">
+                <td><h2>{{ template?.date }}</h2></td>
+                <td>{{ template?.name }}</td>
+                <td>
+                  <button (click)="openEditTemplateModal(template?.id); $event.stopPropagation();" class="EditButton">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                  </button>
+                  <button (click)="openDeleteConfirmation(template?.id, $event)" class="DeleteButton">
+                    <i class="fa-solid fa-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <app-pagination 
+        [totalItems]="filteredTemplates.length" 
+        [pageSize]="pageSize" 
+        [currentPage]="currentPage" 
+        (pageChanged)="loadPage($event)">
+      </app-pagination>
+    </div>
+    
+    <!-- Template details modal -->
+    <div class="template-details-modal" [hidden]="!selectedTemplate">
+      <div class="modal-content">
+        <span class="close" (click)="closeDetails()">&times;</span>
+        <h2>Template Details: {{selectedTemplate?.name}}</h2>
+        <p><strong>Date:</strong> {{selectedTemplate?.date}}</p>
+        
+        <!-- Template details table -->
+        <table class="horizontal-template-table">
+          <thead>
+            <tr>
+              <th class="meal-type-header">Meal Type</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Breakfast Row -->
+            <tr>
+              <td class="meal-type">Breakfast</td>
+              <td>{{getDayMeal(0, 'Breakfast')}}</td>
+              <td>{{getDayMeal(1, 'Breakfast')}}</td>
+              <td>{{getDayMeal(2, 'Breakfast')}}</td>
+              <td>{{getDayMeal(3, 'Breakfast')}}</td>
+              <td>{{getDayMeal(4, 'Breakfast')}}</td>
+              <td>{{getDayMeal(5, 'Breakfast')}}</td>
+              <td>{{getDayMeal(6, 'Breakfast')}}</td>
+            </tr>
+            
+            <!-- Morning Snack Row -->
+            <tr>
+              <td class="meal-type">Morning Snack</td>
+              <td>{{getDayMeal(0, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(1, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(2, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(3, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(4, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(5, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(6, 'Morning Snack')}}</td>
+            </tr>
+            
+            <!-- Lunch Row -->
+            <tr>
+              <td class="meal-type">Lunch</td>
+              <td>{{getDayMeal(0, 'Lunch')}}</td>
+              <td>{{getDayMeal(1, 'Lunch')}}</td>
+              <td>{{getDayMeal(2, 'Lunch')}}</td>
+              <td>{{getDayMeal(3, 'Lunch')}}</td>
+              <td>{{getDayMeal(4, 'Lunch')}}</td>
+              <td>{{getDayMeal(5, 'Lunch')}}</td>
+              <td>{{getDayMeal(6, 'Lunch')}}</td>
+            </tr>
+            
+            <!-- Afternoon Snack Row -->
+            <tr>
+              <td class="meal-type">Afternoon Snack</td>
+              <td>{{getDayMeal(0, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(1, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(2, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(3, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(4, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(5, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(6, 'Afternoon Snack')}}</td>
+            </tr>
+            
+            <!-- Dinner Row -->
+            <tr>
+              <td class="meal-type">Dinner</td>
+              <td>{{getDayMeal(0, 'Dinner')}}</td>
+              <td>{{getDayMeal(1, 'Dinner')}}</td>
+              <td>{{getDayMeal(2, 'Dinner')}}</td>
+              <td>{{getDayMeal(3, 'Dinner')}}</td>
+              <td>{{getDayMeal(4, 'Dinner')}}</td>
+              <td>{{getDayMeal(5, 'Dinner')}}</td>
+              <td>{{getDayMeal(6, 'Dinner')}}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="modal-action-buttons">
+          <button (click)="openEditTemplateModal(selectedTemplate?.id)" class="EditButton">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+          <button (click)="openDeleteConfirmation(selectedTemplate?.id)" class="DeleteButton">
+            <i class="fa-solid fa-trash"></i> Delete
+          </button>
+          <button (click)="downloadTemplatePdf()" class="DownloadButton">
+            <i class="fa-solid fa-download"></i> Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="confirmation-modal" [hidden]="!showDeleteConfirmation">
+      <div class="confirmation-content">
+        <p>Are you sure you want to delete this template?</p>
+        <div class="confirmation-buttons">
+          <button (click)="confirmDelete()" class="primary-button-danger">Yes</button>
+          <button (click)="cancelDelete()" class="primary-button">No</button>
+        </div>
+        <div class="success-message" [hidden]="!deleteSuccessMessage">{{deleteSuccessMessage}}</div>
+      </div>
+    </div>
+  </div>

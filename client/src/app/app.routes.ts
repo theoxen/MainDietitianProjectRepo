@@ -37,6 +37,9 @@ import { AdviceListComponent } from './pages/advice-management/advice-list/advic
 import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 
+import { ViewTemplatesComponent } from './pages/Templates-Management/view-templates/view-templates.component';
+import { AddTemplatesComponent } from './pages/Templates-Management/add-templates/add-templates.component';
+import { EditTemplatesComponent } from './pages/Templates-Management/edit-templates/edit-templates.component';
 
 
 export const routes: Routes = [
@@ -117,7 +120,11 @@ export const routes: Routes = [
     ]
    },
    
+  
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
+   
+   { path: "manage-templates", component: ViewTemplatesComponent, canActivate: [authGuard, adminGuard] },
+
 
    
    { path: "appointments", component: AppointmentsComponent}, 
