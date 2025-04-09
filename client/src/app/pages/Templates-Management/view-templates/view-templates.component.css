@@ -55,7 +55,7 @@
     background-color: #FFB453;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 7px 15px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
@@ -243,4 +243,10 @@
     margin-top: 20px;
     display: flex;
     justify-content: center;
+  }
+
+  td h2 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0;
   }

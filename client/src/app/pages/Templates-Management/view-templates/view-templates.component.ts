@@ -135,21 +135,7 @@ export class ViewTemplatesComponent implements OnInit {
     this.loadPage(newPage);
   }
   
-  getDayMeal(dayIndex: number, mealType: string): string {
-    if (!this.selectedTemplate || !this.selectedTemplate.Days) return '';
-    
-    const days = this.selectedTemplate.Days || [];
-    if (!days[dayIndex]) return '';
-    
-    const meals = days[dayIndex].Meals || days[dayIndex].meals || [];
-    const meal = meals.find((m: any) => 
-      (m.Type && m.Type === mealType) || 
-      (m.mealType && m.mealType === mealType)
-    );
-    
-    return meal ? (meal.Meal || meal.meal || '') : '';
-  }
-  
+
   downloadTemplatePdf(): void {
     if (!this.selectedTemplate) return;
     const templateTable = document.querySelector('.horizontal-template-table') as HTMLElement;
@@ -236,53 +222,134 @@ export class ViewTemplatesComponent implements OnInit {
     }
   }
   
-  showTemplateDetails(template: any): void {
-    if (template.fullTemplate) {
-      this.selectedTemplate = template.fullTemplate;
-    } else {
-      this.selectedTemplate = template;
+ 
+
+  getDayMeal(dayIndex: number, mealType: string): string {
+    if (!this.selectedTemplate || !this.selectedTemplate.Days) {
+      return '';
     }
-    
-    // Process the template for display
-    this.processSelectedTemplate();
+  
+    const days = this.selectedTemplate.Days || [];
+    if (!days[dayIndex]) {
+      return '';
+    }
+  
+    const meals = days[dayIndex].Meals || days[dayIndex].meals || [];
+    const mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
+    const typeMappings: {[key: string]: string[]} = {
+      'Breakfast': ['breakfast', 'Breakfast'],
+      'Morning Snack': ['morningSnack', 'Morning Snack', 'morning snack', 'Morning snack'],
+      'Lunch': ['lunch', 'Lunch'],
+      'Afternoon Snack': ['afternoonSnack', 'Afternoon Snack', 'afternoon snack', 'Afternoon snack'],
+      'Dinner': ['dinner', 'Dinner']
+    };
+  
+    // Look for meal with matching type (case insensitive)
+    const possibleTypes = typeMappings[mealType] || [mealType];
+    const meal = meals.find((m: any) => {
+      const mealTypeValue = m.Type || m.type || m.mealType || '';
+      return possibleTypes.some(t => mealTypeValue.toLowerCase() === t.toLowerCase());
+    });
+  
+    return meal ? (meal.Meal || meal.meal || '') : '';
   }
-
-
-
+  
+  showTemplateDetails(template: any): void {
+    this.templateService.getTemplateById(template.id).subscribe({
+      next: (fullTemplate: any) => {
+        this.selectedTemplate = fullTemplate;
+        this.processSelectedTemplate();
+      },
+      error: (error) => {
+        console.error('Error fetching template details:', error);
+        // Fallback to using the basic template info
+        this.selectedTemplate = template;
+        this.processSelectedTemplate();
+      }
+    });
+  }
   
   processSelectedTemplate(): void {
     if (!this.selectedTemplate) return;
     
+    // Create a working copy of the template
     const processedTemplate = { ...this.selectedTemplate };
+    if (!this.selectedTemplate) return;
+  
     
-    // Create a consistent Days array with proper structure
-    if (processedTemplate.templateDays && !processedTemplate.Days) {
-      processedTemplate.Days = processedTemplate.templateDays.map((day: any) => {
-        const dayObj = { ...day };
-        if (day.meals && !day.Meals) {
-          dayObj.Meals = day.meals.map((meal: any) => ({
-            Type: meal.mealType,
-            Meal: meal.meal
-          }));
-        }
-        return dayObj;
-      });
-    } 
-    // If no proper days structure is found, create an empty one
-    else if (!processedTemplate.Days) {
-      processedTemplate.Days = [];
+    // Ensure the date is properly formatted
+    if (!processedTemplate.date && processedTemplate.dateCreated) {
+      processedTemplate.date = this.formatDate(processedTemplate.dateCreated);
     }
     
-    // Ensure we have 7 days in the array (one for each day of the week)
-    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    dayNames.forEach((dayName, index) => {
-      if (!processedTemplate.Days[index]) {
-        processedTemplate.Days[index] = { dayName, Meals: [] };
+    // Handle various possible data structures
+    if (!processedTemplate.Days) {
+      // Try to find days data in other properties
+      if (processedTemplate.templateDays) {
+        processedTemplate.Days = processedTemplate.templateDays;
+      } else if (processedTemplate.days) {
+        processedTemplate.Days = processedTemplate.days;
+      } else {
+        // Create empty days array if none exists
+        processedTemplate.Days = [];
       }
-    });
+    }
+
+
+
+    // Handle various possible data structures
+    if (!processedTemplate.Days) {
+      // Try to find days data in other properties
+      if (processedTemplate.templateDays) {
+        processedTemplate.Days = processedTemplate.templateDays;
+      } else if (processedTemplate.days) {
+        processedTemplate.Days = processedTemplate.days;
+      } else {
+        // Create empty days array if none exists
+        processedTemplate.Days = [];
+      }
+    }
     
+    // Ensure we have 7 days (one for each day of the week)
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    for (let i = 0; i < 7; i++) {
+      if (!processedTemplate.Days[i]) {
+        processedTemplate.Days[i] = { 
+          dayName: dayNames[i], 
+          Meals: [] 
+        };
+      }
+      
+      // Normalize meals property
+      if (!processedTemplate.Days[i].Meals && processedTemplate.Days[i].meals) {
+        processedTemplate.Days[i].Meals = processedTemplate.Days[i].meals;
+      } else if (!processedTemplate.Days[i].Meals) {
+        processedTemplate.Days[i].Meals = [];
+      }
+      
+      // Ensure all meal types exist for this day
+      const mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
+      mealTypes.forEach(mealType => {
+        // Check if this meal type already exists
+        const existingMeal = processedTemplate.Days[i].Meals.find((meal: any) => {
+          const type = meal.Type || meal.type || meal.mealType || '';
+          return type.toLowerCase() === mealType.toLowerCase();
+        });
+        
+        // If not, add an empty meal of this type
+        if (!existingMeal) {
+          processedTemplate.Days[i].Meals.push({
+            Type: mealType,
+            Meal: ''
+          });
+        }
+      });
+    }
+    
+    // Update the template with the processed version
     this.selectedTemplate = processedTemplate;
   }
+ 
   
   closeDetails(): void {
     this.selectedTemplate = null;

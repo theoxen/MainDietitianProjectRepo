@@ -34,7 +34,7 @@
           <tr>
             <th style="width: 120px;">Date</th>
             <th style="width: 50%;">Name</th>
-            <th style="width: 100px;">Template</th>
+            <!-- <th style="width: 100px;">Template</th> -->
           </tr>
         </thead>
         <tbody>
@@ -46,9 +46,9 @@
               <td>
                 {{ diet.name }}
               </td>
-              <td>
+              <!-- <td>
                 {{ diet.isTemplate ? 'Yes' : 'No' }}
-              </td>
+              </td> -->
             </tr>
           }
         </tbody>
@@ -66,7 +66,7 @@
     <span class="close" (click)="closeDetails()">&times;</span>
     <h2>Diet Details: {{selectedDiet?.name || ''}}</h2>
     <p><strong>Date:</strong> {{selectedDiet?.date || ''}}</p>
-    <p><strong>Type:</strong> {{selectedDiet?.isTemplate ? 'Template' : 'Regular Diet'}}</p>
+    <!-- <p><strong>Type:</strong> {{selectedDiet?.isTemplate ? 'Template' : 'Regular Diet'}}</p> -->
     
     <!-- Fixed structure horizontal table layout with 8 columns and 6 rows -->
     <table class="horizontal-diet-table">
