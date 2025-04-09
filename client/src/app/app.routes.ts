@@ -118,6 +118,8 @@ export const routes: Routes = [
    },
    
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
+
+   
    { path: "appointments", component: AppointmentsComponent}, 
    // , canActivate: [authGuard, adminGuard] 
 

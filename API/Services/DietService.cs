@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Controllers;
 using Microsoft.AspNetCore.Identity;
+using API.Models.Templates;
 
 
 namespace API.Services
@@ -17,27 +18,27 @@ namespace API.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IDietRepository _dietRepository;
+
+        private readonly ITemplateService _templateService;
+
         private readonly ILogger<DietService> _logger;  //for debugging use only - can be removed
 
 
-        public DietService(UserManager<User> userManager,IDietRepository dietRepository, ILogger<DietService> logger) //for debugging use only - can be removed
-        {
-            _userManager = userManager;
-            _dietRepository = dietRepository;   
-            _logger = logger;                   //for debugging use only - can be removed
-        }
+public DietService(
+    UserManager<User> userManager,
+    IDietRepository dietRepository,
+    ITemplateService templateService,
+    ILogger<DietService> logger)
+{
+    _userManager = userManager;
+    _dietRepository = dietRepository;
+    _templateService = templateService;
+    _logger = logger;
+}
 
         public async Task<Result<DietDto>> CreateDietAsync(CreateDietDto createDietDto)
         {
-          //  _logger.LogInformation("Creating diet with Name: {Name}", createDietDto.Name);  //for debugging use only - can be removed
 
-
-            // if (string.IsNullOrEmpty(createDietDto.Name))
-            // {
-            //     _logger.LogError("Diet name is null or empty"); //for debugging use only - can be removed
-
-            //     throw new ArgumentException("Diet name cannot be null or empty", nameof(createDietDto.Name));
-            // }
                         
            foreach (var userDiet in createDietDto.UserDiets)
           {
@@ -55,25 +56,74 @@ namespace API.Services
                 }
           }
 
-            ////////////////////////////////////////////
             
-            var existingDiet = await _dietRepository.GetDietByNameAsync(createDietDto.Name);
-            if (existingDiet != null)
+            // Check if a diet with the same name already exists for the user
+
+            // var existingDiet = await _dietRepository.GetDietByNameAsync(createDietDto.Name);
+            // if (existingDiet != null)
+            // {
+            //     return Result<DietDto>.BadRequest(new List<ResultError>
+            //     {
+            //         new ResultError
+            //         {
+            //             Identifier = "DietAlreadyExists",
+            //             Message = "A diet with the same name already exists"
+            //         }
+            //     });
+            // }
+
+
+
+
+if (createDietDto.IsTemplate == true)
+{
+    // Convert the DietDto to a TemplateDto
+    var createTemplateDto = new CreateTemplateDto
+    {
+        Name = createDietDto.Name,
+        Days = createDietDto.Days.Select(d => new CreateDietDayDto
+        {
+            DayName = d.DayName,
+            Meals = d.Meals.Select(m => new CreateDietMealDto
             {
-                return Result<DietDto>.BadRequest(new List<ResultError>
-                {
-                    new ResultError
-                    {
-                        Identifier = "DietAlreadyExists",
-                        Message = "A diet with the same name already exists"
-                    }
-                });
-            }
+                MealType = m.Type,
+                Meal = m.Meal
+            }).ToList()
+        }).ToList()
+    };
+    
+    // Call the template service to create the template
+    var templateResult = await _templateService.CreateTemplateAsync(createTemplateDto);
+
+}
+    
+
+
+    // Check if template creation was successful
+//     if (templateResult.IsSuccessful)
+//     {
+//       if (templateResult.Value != null)
+// {
+//         // Return the diet result with template data
+//         return Result<TemplateDto>.Ok(new TemplateDto
+//         {
+//             Id = templateResult.Value.Id,
+//             Name = templateResult.Value.Name,
+//             IsTemplate = true,
+//             DateCreated = templateResult.Value.DateCreated,
+//             Days = createTemplateDto.Days
+//         });
+//     }
+    
+//     // Return any errors from template creation
+//     return Result<DietDto>.BadRequest(templateResult.ResultErrors);
+// }
+
 
             var diet = new Diet
             {
                 Name = createDietDto.Name,
-                IsTemplate = createDietDto.IsTemplate,
+                IsTemplate = false, // Set to false since this is not a template
 
                 UserDiets = createDietDto.UserDiets.Select(ud => new UserDiet
                 {
@@ -95,20 +145,6 @@ namespace API.Services
             // Add the diet to the database
             _dietRepository.CreateDiet(diet);
 
-
-    // foreach (var userDiet in createDietDto.UserDiets)
-    // {
-    //     _dietRepository.AddUserToDiet(userDiet.UserId, diet.Id);
-    // }
-
-
-
-                // Link the diet to the user
-            // var UserId = createDietDto.UserDiets.Select(userdiet => userdiet.UserId).ToList();
-            // foreach (var id in UserId)
-            // {
-            //     _dietRepository.AddUserToDiet(id, diet.Id);
-            // }    
 
 
             if (await _dietRepository.Commit())
