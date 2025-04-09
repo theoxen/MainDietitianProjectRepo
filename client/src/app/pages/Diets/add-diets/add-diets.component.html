@@ -272,53 +272,10 @@
       </div>
       
       <div class="form-actions">
-        <button type="button" class="template-button" (click)="openTemplateSelector()">
-          <i class="fa-solid fa-file-import"></i> Use Template
-        </button>
         <button type="submit" class="primary-button">Add Diet</button>
         <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
       </div>
     </form>
-
-
-<!-- Template Selection Modal -->
-<div class="template-modal" [style.display]="showTemplateSelector ? 'block' : 'none'">
-  <div class="template-modal-content">
-    <span class="close" (click)="closeTemplateSelector()">&times;</span>
-    <h2>Select a Template</h2>
-    
-    <div class="templates-list">
-      <div *ngIf="loading" class="loading">Loading templates...</div>
-      <div *ngIf="templates.length === 0 && !loading" class="no-templates">
-        No templates available
-      </div>
-      
-      <table *ngIf="templates.length > 0">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let template of templates">
-            <td>{{ template.name }}</td>
-            <td>{{ formatDate(template.dateCreated) }}</td>
-            <td>
-              <button class="select-button" (click)="selectTemplate(template)">Select</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-
-
-
     
     <!-- Messages -->
     <div class="success-message" [hidden]="!successMessage">

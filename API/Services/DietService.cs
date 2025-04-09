@@ -29,7 +29,16 @@ namespace API.Services
 
         public async Task<Result<DietDto>> CreateDietAsync(CreateDietDto createDietDto)
         {
+          //  _logger.LogInformation("Creating diet with Name: {Name}", createDietDto.Name);  //for debugging use only - can be removed
 
+
+            // if (string.IsNullOrEmpty(createDietDto.Name))
+            // {
+            //     _logger.LogError("Diet name is null or empty"); //for debugging use only - can be removed
+
+            //     throw new ArgumentException("Diet name cannot be null or empty", nameof(createDietDto.Name));
+            // }
+                        
            foreach (var userDiet in createDietDto.UserDiets)
           {
                 var user = await _userManager.FindByIdAsync(userDiet.UserId.ToString());
@@ -61,13 +70,6 @@ namespace API.Services
                 });
             }
 
-
-            // if (createDietDto.IsTemplate)
-            // {
-            //     return await CreateTemplateAsync(createDietDto);
-            // }
-
-
             var diet = new Diet
             {
                 Name = createDietDto.Name,
@@ -94,8 +96,19 @@ namespace API.Services
             _dietRepository.CreateDiet(diet);
 
 
-    
+    // foreach (var userDiet in createDietDto.UserDiets)
+    // {
+    //     _dietRepository.AddUserToDiet(userDiet.UserId, diet.Id);
+    // }
 
+
+
+                // Link the diet to the user
+            // var UserId = createDietDto.UserDiets.Select(userdiet => userdiet.UserId).ToList();
+            // foreach (var id in UserId)
+            // {
+            //     _dietRepository.AddUserToDiet(id, diet.Id);
+            // }    
 
 
             if (await _dietRepository.Commit())
@@ -111,8 +124,6 @@ namespace API.Services
 
                 });
             }
-
-
 
             return Result<DietDto>.BadRequest(new List<ResultError>
             {
