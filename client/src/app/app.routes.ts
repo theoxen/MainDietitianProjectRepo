@@ -35,6 +35,8 @@ import { clientGuard } from './guards/client.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
 import { AdviceListComponent } from './pages/advice-management/advice-list/advice-list.component';
 import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
+import { SelectReportComponent } from './pages/Reports/select-report/select-report.component';
+import { AboutUsViewComponent } from './pages/aboutus/view/view.component';
 
 
 
@@ -109,6 +111,7 @@ export const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [authGuard, adminGuard],
     children: [
+       { path: "select", component: SelectReportComponent },     
        { path: "", component: SelectComponent },
        { path: "view", component: ViewReportsComponent },
     ]
@@ -119,10 +122,11 @@ export const routes: Routes = [
    // , canActivate: [authGuard, adminGuard] 
 
 
-   { path: "about-us", component: AboutUsComponent },
+   { path: "about-us", component: AboutUsViewComponent },
    
    { path: "uploads", component: UploadsComponent, canActivate: [authGuard] },
    { path: "uploads/articles", component: DisplayArticlesComponent, canActivate: [authGuard] },
 
    { path: "", redirectTo: "/", pathMatch: "prefix" },
+
 ];

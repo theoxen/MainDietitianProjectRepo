@@ -116,7 +116,6 @@ export class AddMetricsComponent implements OnInit {
   }
 
 
-
     bodyWeightErrorMessages = new Map<string, string>([
       ["required", ValidationMessages.required],
       ["pattern", ValidationMessages.bodyweight],

@@ -1,6 +1,6 @@
 import { Component, Renderer2 } from '@angular/core';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReportsService } from '../../../services/reports.service';
 import { DatePipe, KeyValuePipe, NgFor } from '@angular/common';
 import { Metrics, ReportData } from '../../../models/Reports/ReportsData';
@@ -35,7 +35,7 @@ export class ViewReportsComponent {
   type?: string;
  
 
-  constructor(private reportsService: ReportsService, private route: ActivatedRoute, private renderer: Renderer2) { }
+  constructor(private reportsService: ReportsService, private router: Router, private route: ActivatedRoute, private renderer: Renderer2) { }
 
   ngOnInit(): void {
 
@@ -241,8 +241,21 @@ export class ViewReportsComponent {
   isModalOpen: boolean = false; // Track whether the modal is open
 
   printReport(): void {
-    window.print(); // Opens the browser's print dialog
-  }
+    // Add current date to the report view
+    const reportView = document.querySelector('.report-view');
+    if (reportView) {
+        const currentDate = new Date().toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        reportView.setAttribute('data-print-date', currentDate);
+    }
+    window.print();
+}
+
 
   ngOnDestroy(): void {
     // Restore the footer when leaving this component.
@@ -252,6 +265,14 @@ export class ViewReportsComponent {
     }
   }
 
+  navigateBack(): void {
+    window.scrollTo(0, 0);
+    this.router.navigate(['/reports/select'], {
+      queryParams: {
+        reportType: this.reportType
+      }
+    });
+  }
 
 }
 
