@@ -26,10 +26,10 @@
         <div class="diet-info-row">
           <label for="dietName">Diet Name:</label>
           <input id="dietName" type="text" formControlName="name" placeholder="Enter diet name" class="form-control" />
-          <!-- <div class="template-checkbox">
+          <div class="template-checkbox">
             <label for="isTemplate">Template:</label>
             <input id="isTemplate" type="checkbox" formControlName="isTemplate" />
-          </div> -->
+          </div>
         </div>
         <div class="error-feedback" [hidden]="addclientDietsForm.controls['name'].valid || !addclientDietsForm.controls['name'].touched">
           Name is required
