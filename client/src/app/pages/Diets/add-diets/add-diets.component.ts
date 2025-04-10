@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl, ReactiveFormsModule, FormsModule, AbstractControl } from '@angular/forms';
 import { DietService } from '../../../services/diet.service';
 import { TemplatesService } from '../../../services/templates.service';
 import { Router } from '@angular/router';
@@ -259,74 +259,105 @@ dietDaysErrorMessages = new Map<string, string>([
       );
     }
     
-    // Select and apply a template to the diet form
-selectTemplate(template: any): void {
-  const templateData = template.fullData;
-  
-  // Set the basic form fields
-  this.addclientDietsForm.get('name')?.setValue(templateData.name + ' (Copy)');
-  
-  // Get the days array from the form
-  const daysArray = this.addclientDietsForm.get('dietDays') as FormArray;
-  
-  // Get the days from the template
-  const templateDays = templateData.Days || templateData.days || templateData.dietDays || [];
-  
-  // Populate each day's meals from the template
-  if (templateDays.length > 0) {
-    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    
-    dayNames.forEach((dayName, dayIndex) => {
-      // Find the corresponding day in the template
-      const templateDay = templateDays.find((d: any) => {
-        const name = d.dayName || d.DayName;
-        return name === dayName;
-      });
+    selectTemplate(template: any): void {
+      console.log('Selected template:', template);
       
-      if (templateDay && dayIndex < daysArray.length) {
-        const dayFormGroup = daysArray.at(dayIndex) as FormGroup;
-        const mealsArray = dayFormGroup.get('meals') as FormArray;
-        
-        const mealTypeMap: Record<string, number> = {
-          'Breakfast': 0,
-          'Lunch': 1,
-          'Dinner': 2,
-          'Morning Snack': 3,
-          'Afternoon Snack': 4
-        };
-        
-        // Get meals from the template day
-        const templateMeals = templateDay.Meals || templateDay.meals || templateDay.dietMeals || [];
-        
-        // For each meal type, find and set the value if it exists
-        templateMeals.forEach((meal: any) => {
-          const mealType = meal.Type || meal.type || meal.mealType || '';
-          const mealContent = meal.Meal || meal.meal || '';
+      // Set the diet name
+      this.addclientDietsForm.get('name')?.setValue(template.name + ' (Copy)');
+      
+      // Fetch the complete template data
+      this.dietService.fetchDietById(template.id).subscribe({
+        next: (response) => {
+          console.log('Complete template data from API:', response);
           
-          // Check if the meal type exists in our mapping before using it
-          if (mealType in mealTypeMap) {
-            const formIndex = mealTypeMap[mealType as keyof typeof mealTypeMap];
-            if (formIndex !== undefined && formIndex < mealsArray.length) {
-              const mealControl = mealsArray.at(formIndex).get('meal') as FormControl;
-              mealControl.setValue(mealContent);
+          if (response && response.data) {
+            const dietData = response.data;
+            
+            // Get days from the template data
+            const days = dietData.days || dietData.Days || [];
+            console.log('Days from template:', days);
+            
+            if (days.length > 0) {
+              // Get the days FormArray from the form
+              const daysArray = this.addclientDietsForm.get('dietDays') as FormArray;
+              
+              // Define type for meal types
+              type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Morning Snack' | 'Afternoon Snack';
+              
+              // This mapping reflects how the HTML accesses the meal controls
+              const mealTypeToIndex: Record<MealType, number> = {
+                'Breakfast': 0,
+                'Lunch': 1, 
+                'Dinner': 2,
+                'Morning Snack': 3,
+                'Afternoon Snack': 4
+              };
+              
+              // For each day in the form
+              for (let i = 0; i < daysArray.length; i++) {
+                const dayGroup = daysArray.at(i) as FormGroup;
+                const dayName = dayGroup.get('name')?.value;
+                
+                // Find the matching day in the template
+                const matchingDay = days.find((d: { dayName: any; DayName: any; name: any; Name: any; }) => 
+                  (d.dayName === dayName) || (d.DayName === dayName) || 
+                  (d.name === dayName) || (d.Name === dayName)
+                );
+                
+                if (matchingDay) {
+                  console.log(`Found matching day for ${dayName}:`, matchingDay);
+                  
+                  // Get the meals from the matching day
+                  const templateMeals = matchingDay.meals || matchingDay.Meals || [];
+                  console.log(`Meals for ${dayName}:`, templateMeals);
+                  
+                  // Get the meals FormArray for this day
+                  const mealsArray = dayGroup.get('meals') as FormArray;
+                  
+                  // Process each meal in the template
+                  templateMeals.forEach((meal: { mealType: any; MealType: any; type: any; Type: any; meal: any; Meal: any; }) => {
+                    const mealType = meal.mealType || meal.MealType || meal.type || meal.Type;
+                    const mealContent = meal.meal || meal.Meal || '';
+                    
+                    // Get the correct form control index for this meal type
+                    // Use type assertion to tell TypeScript this is a valid MealType
+                    if (mealType in mealTypeToIndex) {
+                      const formIndex = mealTypeToIndex[mealType as MealType];
+                      
+                      if (formIndex !== undefined && formIndex < mealsArray.length) {
+                        // Set the meal content in the correct form control
+                        mealsArray.at(formIndex).get('meal')?.setValue(mealContent);
+                        console.log(`Set ${dayName} ${mealType} to: ${mealContent}`);
+                      }
+                    }
+                  });
+                }
+              }
+              
+              this.successMessage = "Template applied successfully!";
+            } else {
+              this.errorMessage = "The selected template doesn't contain any days or meals";
             }
+          } else {
+            this.errorMessage = "Failed to load template data";
           }
-        });
-      }
-    });
-  }
-  
-  // Close template selector and show success message
-  this.showTemplateSelector = false;
-  this.successMessage = "Template applied successfully!";
-  
-  // Clear success message after delay
-  setTimeout(() => {
-    this.successMessage = "";
-  }, 3000);
-}
-
-
+          
+          this.showTemplateSelector = false;
+          setTimeout(() => {
+            this.successMessage = "";
+            this.errorMessage = "";
+          }, 3000);
+        },
+        error: (error) => {
+          console.error('Error fetching template data:', error);
+          this.errorMessage = "Failed to load template data";
+          this.showTemplateSelector = false;
+          setTimeout(() => {
+            this.errorMessage = "";
+          }, 3000);
+        }
+      });
+    }
 }
 
 

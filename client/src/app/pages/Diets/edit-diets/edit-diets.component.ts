@@ -354,4 +354,5 @@ export class EditDietsComponent implements OnInit {
   isTemplateErrorMessages = new Map<string, string>([
     ["required", "Is Template is required."]
   ]);
+
 }
