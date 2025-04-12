@@ -38,8 +38,12 @@ import { DisplayArticlesComponent } from './pages/uploads/articles/articles.comp
 import { MeetUsComponent } from './pages/meet-us/meet-us.component';
 import { SelectReportComponent } from './pages/Reports/select-report/select-report.component';
 import { AboutUsViewComponent } from './pages/aboutus/view/view.component';
+
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 
+import { ViewTemplatesComponent } from './pages/Templates-Management/view-templates/view-templates.component';
+import { AddTemplatesComponent } from './pages/Templates-Management/add-templates/add-templates.component';
+import { EditTemplatesComponent } from './pages/Templates-Management/edit-templates/edit-templates.component';
 
 
 export const routes: Routes = [
@@ -69,10 +73,14 @@ export const routes: Routes = [
          { path: ":clientId/history", component: ClientHistoryComponent },
          { path: ":clientId/note", component: NoteManagementComponent },
          { path: ":clientId/metrics", component: ViewMetricsComponent },
-          { path: ":clientId/diets", component: ViewDietsComponent },
+         { path: ":clientId/diets", component: ViewDietsComponent }
+
+         // { path: ":clientId/view-diets", component: ViewDietsComponent },
          // { path: ":clientId/edit-diets", component: EditDietsComponent }, 
       ]
    },
+
+   {path: "my-diets",   runGuardsAndResolvers: "always", component: ViewDietsComponent, canActivate: [authGuard, clientGuard]},
      
    {
       path: "recipes",
@@ -119,7 +127,13 @@ export const routes: Routes = [
     ]
    },
    
+  
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
+   
+   { path: "manage-templates", component: ViewTemplatesComponent, canActivate: [authGuard, adminGuard] },
+
+
+   
    { path: "appointments", component: AppointmentsComponent}, 
    // , canActivate: [authGuard, adminGuard] 
 

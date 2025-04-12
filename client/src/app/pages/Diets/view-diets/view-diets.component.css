@@ -1,24 +1,31 @@
 
-
-
-.modal-action-buttons .DownloadButton {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+/* Print settings */
+.print-logo {
+  display: none;
 }
 
-.modal-action-buttons .DownloadButton:hover {
-  background-color: #45a049;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+@media print {
+  @page {
+      size: landscape;
+      margin: 5mm; /* adjust as needed */
+  }
+
+  body {
+    zoom: 0.8; /* reduce scale as needed */
 }
+  /* Hide buttons */
+  button,
+  .primary-button,
+  .secondary-button,
+  .cancelButton,
+  .submit-btn,
+  .close {
+      display: none !important;
+  }
+
+
+}
+
 
 
 

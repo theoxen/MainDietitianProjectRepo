@@ -1,0 +1,156 @@
+.form-container {
+    background-color: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .template-header {
+    margin-bottom: 20px;
+  }
+  
+  .template-info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .template-info-row label {
+    width: 150px;
+    font-weight: bold;
+  }
+  
+  .form-control {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    flex: 1;
+    max-width: 400px;
+  }
+  
+  .error-feedback {
+    color: #dc3545;
+    margin-left: 10px;
+  }
+  
+  .template-days-section {
+    margin-bottom: 30px;
+    overflow-x: auto;
+  }
+  
+  .horizontal-template-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .horizontal-template-table th,
+  .horizontal-template-table td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .horizontal-template-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+  
+  .meal-type-header {
+    width: 120px;
+  }
+  
+  .meal-type {
+    font-weight: bold;
+    background-color: #f8f9fa;
+  }
+  
+  .compact-textarea {
+    width: 100%;
+    height: 60px;
+    padding: 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    resize: none;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .primary-button, .secondary-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .primary-button {
+    background-color: #FFB453;
+    color: white;
+  }
+  
+  .secondary-button {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .primary-button:hover {
+    background-color: #FFA726;
+  }
+  
+  .secondary-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .success-message {
+    color: #28a745;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  .template-import-section {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .import-template-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+  }
+  
+  .import-template-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .import-template-button i {
+    font-size: 16px;
+  }
