@@ -78,21 +78,7 @@ export class ViewDietsComponent implements OnInit {
   clientManagementService = inject(ClientManagementService);
 
   constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
-  // ngOnInit(): void {
-  //   this.loadPage(this.currentPage);
-
-  //   if(this.role =="Admin")
-  //   this.clientId = this.route.snapshot.paramMap.get('clientId')!;
-  //   else
-  //   this.clientId = this.getUserId();
-    
-  //   if (this.clientId) {
-  //     this.fetchDietsForUser(this.clientId);
-  //   }   
-    
-  //   this.setupLiveDateSearch()
-
-  // }
+ 
 
   ngOnInit(): void {
     // Assuming userRole might return string|null, so we default to an empty string if null.
@@ -253,6 +239,21 @@ fetchDietsForUser(clientId: string): void {
 }
 
 
+printDiet(): void {
+  // Add current date to the report view
+  const reportView = document.querySelector('.report-view');
+  if (reportView) {
+      const currentDate = new Date().toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+      });
+      reportView.setAttribute('data-print-date', currentDate);
+  }
+  window.print();
+}
 
 
 

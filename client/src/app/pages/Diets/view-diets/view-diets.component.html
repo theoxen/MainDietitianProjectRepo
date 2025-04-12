@@ -1,4 +1,9 @@
 <div class="page">
+
+  <div class="print-logo">
+    <img src="/client/public/images/DietitianLogo.png" alt="print-logo">
+</div>
+
   <app-nav-bar></app-nav-bar>
   
   <div class="diets-container">
@@ -12,7 +17,8 @@
             My Diets
           </h1>
         </div>
-      
+
+
       <div class="FoundDeitsAndAddNew">
         <form [formGroup]="dateSearchForm" class="date-search">
           <div class="form-floating" style="width: 100%;">
@@ -158,8 +164,8 @@
       <button *ngIf="role === 'admin'" (click)="openDeleteConfirmation(selectedDiet?.id)" class="DeleteButton">
         <i class="fa-solid fa-trash"></i> Delete
       </button>
-      <button (click)="downloadDietPdf()" class="DownloadButton">
-        <i class="fa-solid fa-download"></i> Download PDF
+      <button class="primary-button" (click)="printDiet()">
+        <i class="fa-solid "></i> Print Diet
       </button>
     </div>
   </div>
