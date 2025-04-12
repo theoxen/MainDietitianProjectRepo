@@ -35,10 +35,10 @@ import { clientGuard } from './guards/client.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
 import { AdviceListComponent } from './pages/advice-management/advice-list/advice-list.component';
 import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
+import { MeetUsComponent } from './pages/meet-us/meet-us.component';
 import { SelectReportComponent } from './pages/Reports/select-report/select-report.component';
 import { AboutUsViewComponent } from './pages/aboutus/view/view.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
-
 
 
 
@@ -91,9 +91,9 @@ export const routes: Routes = [
       path: "reviews",
       runGuardsAndResolvers: "always",
       children: [
-         { path: "", component: ReviewsCreateEditComponent, canActivate: [authGuard] }, 
-         { path: ":reviewId/edit", component: ReviewsCreateEditComponent, canActivate: [authGuard, clientGuard] },
-         { path: ":clientId", component: ReviewsCreateEditComponent, canActivate: [authGuard, clientGuard] }, 
+         { path: "", component: ReviewsCreateEditComponent, canActivate: [clientGuard] }, 
+         { path: ":reviewId/edit", component: ReviewsCreateEditComponent, canActivate: [clientGuard] },
+         { path: ":clientId", component: ReviewsCreateEditComponent, canActivate: [clientGuard] }, 
       ]
    },
      
@@ -124,7 +124,9 @@ export const routes: Routes = [
    // , canActivate: [authGuard, adminGuard] 
 
 
-   { path: "about-us", component: AboutUsViewComponent },
+   { path: "about-us", component: AboutUsComponent },
+   { path: "meet-us", component: MeetUsComponent },
+
    
    { path: "uploads", component: UploadsComponent, canActivate: [authGuard] },
    { path: "uploads/articles", component: DisplayArticlesComponent, canActivate: [authGuard] },

@@ -24,6 +24,7 @@ import { ToastrService } from "ngx-toastr";
     clientId: string | null = null;
     userId: string | null = null;
     totalReviews: number = 0;
+    isNotAdmin: boolean = false;
     currentSort: 'best' | 'worst' | 'newest' | 'oldest' = 'best';
     
   
@@ -37,6 +38,7 @@ import { ToastrService } from "ngx-toastr";
     ){}
   
     ngOnInit(): void {
+      this.isNotAdmin = this.accountService.userRole() === 'admin';
       this.fetchUserId();
       this.fetchAllReviews(); 
     }
@@ -104,8 +106,8 @@ import { ToastrService } from "ngx-toastr";
           this.checkUserReview();
         },
         error: (error: any) => {
-          console.error("Error fetching user ID.", error);
-          this.toastr.error("Error fetching user ID.");
+          //console.error("Error fetching user ID.", error);
+          //this.toastr.error("Error fetching user ID.");
         }
       });
     }
@@ -117,8 +119,8 @@ import { ToastrService } from "ngx-toastr";
             this.userReview = review;
           },
           error: (error: any) => {
-            console.error("Error fetching user review.", error);
-            this.toastr.error("Error fetching user review.");
+            //console.error("Error fetching user review.", error);
+            //this.toastr.error("Error fetching user review.");
           }
         });
       }

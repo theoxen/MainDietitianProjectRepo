@@ -1,5 +1,5 @@
 <div class="button-container">
-  @if(getUserToken()) {
+  @if( getUserToken() && isNotAdmin!=true ) {
     <button class="primary-button" (click)="addOrUpdateReview()">
       {{ userReview?.id ? 'Update Review' : 'Add Review' }}
     </button>

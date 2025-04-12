@@ -17,6 +17,8 @@ namespace API.Controllers
         {
             _reviewService = reviewService;
         }
+
+        [Authorize(Roles = "client")] 
         [HttpPost(Endpoints.Reviews.Create)] // POST http://localhost:5207/api/reviews
         public async Task<IActionResult> CreateReviewAsync(CreateReviewDto createReviewDto)
         {
@@ -29,6 +31,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "client")]
         [HttpPut(Endpoints.Reviews.UpdateReview)] // PUT http://localhost:5207/api/reviews/{reviewId}
         public async Task<IActionResult> UpdateReviewAsync(UpdateReviewDto updateReviewDto)
         {
@@ -41,6 +44,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "client")]
         [HttpDelete(Endpoints.Reviews.Delete)] // DELETE http://localhost:5207/api/reviews/{reviewId}
         public async Task<IActionResult> DeleteReviewAsync(Guid reviewId)
         {
@@ -54,6 +58,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        
         [HttpGet(Endpoints.Reviews.GetReview)] // GET http://localhost:5207/api/reviews/{reviewId}
         public async Task<IActionResult> GetReviewAsync(Guid reviewId)
         {
@@ -61,6 +66,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        
         [HttpGet(Endpoints.Reviews.Search)] // GET http://localhost:5207/api/reviews/search?userFullName={userFullName}
         public async Task<IActionResult> SearchReviewAsync([FromQuery] string userFullName)
         {
@@ -68,6 +74,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        
         [HttpGet(Endpoints.Reviews.GetAll)] // GET http://localhost:5207/api/reviews
         public async Task<IActionResult> GetAllReviewsAsync()
         {
@@ -75,6 +82,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        
         [HttpGet(Endpoints.Users.GetReviewByUserId)] // GET http://localhost:5207/api/users/{userId}/review
         public async Task<IActionResult> GetReviewsByUserId(Guid userId)
         {
@@ -82,6 +90,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        
         [HttpGet("api/userId")] // GET http://localhost:5207/api/reviews/userId
         public IActionResult GetUserId()
         {
