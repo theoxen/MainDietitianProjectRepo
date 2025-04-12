@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <!-- @if () {} -->
+        @if (isadmin) {
         <!-- i need to check for admin -->
         <div class="cards-container">
             <a [routerLink]="['/recipes/add']" class="primary-hover-box">
@@ -21,6 +21,7 @@
                 </div>
             </a>
         </div>
+        }
 
         @for (recipe of recipes; track $index) {
         <div class="cards-container">
