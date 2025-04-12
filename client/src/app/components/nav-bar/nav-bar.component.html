@@ -14,6 +14,7 @@
                 <li><a routerLink="/uploads">UPLOADS</a></li>
                 <!-- <li><a href="#">MY DIET</a></li> -->
                 <li><a routerLink="/about-us">ABOUT US</a></li>
+                <li><a routerLink="/meet-us">MEET US</a></li>
                 <li><a (click)="logout()">SIGN OUT</a></li>
 
             }
@@ -21,9 +22,11 @@
                 <li><a routerLink="/uploads" class="dropbtn">UPLOADS</a></li>
                 <li><a href="#">MY DIET</a></li>
                 <li><a routerLink="/about-us">ABOUT US</a></li>
+                <li><a routerLink="/meet-us">MEET US</a></li>
                 <li><a (click)="logout()">SIGN OUT</a></li>
             }@else {
                 <li><a routerLink="/about-us">ABOUT US</a></li>
+                
                 <li><a routerLink="/auth/login">SIGN IN</a></li>
             }
         </ul>

@@ -104,10 +104,10 @@ export class AdviceListComponent implements OnInit {
       adviceDate.setHours(0, 0, 0, 0);  // Normalize the time to midnight
   
       switch (this.dateFilter) {
-        case 'today':
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          return adviceDate.getTime() === today.getTime();  // Compare only the date part
+        // case 'today':
+        //   const today = new Date();
+        //   today.setHours(0, 0, 0, 0);
+        //   return adviceDate.getTime() === today.getTime();  // Compare only the date part
         case 'week': {
           const today = new Date();
           today.setHours(0, 0, 0, 0);
