@@ -44,7 +44,7 @@
     <!-- Article cards container -->
     <div class="articles-container">
       <!-- Article card for each article -->
-      @for (article of filteredArticles; track article.id) {
+      @for (article of pagedArticles; track article.id) {
         <div class="article-card">
           <div class="article-date">
             <i class="far fa-calendar-alt"></i>
@@ -89,6 +89,16 @@
       }
     </div>
   </div>
+  @if (filteredArticles.length > pageSize) {
+    <div class="pagination-container">
+      <app-pagination
+        [totalItems]="filteredArticles.length"
+        [pageSize]="pageSize"
+        [currentPage]="currentPage"
+        (pageChanged)="onPageChanged($event)">
+      </app-pagination>
+    </div>
+  }
 </div>
 
 <!-- Add/Edit Article Modal -->
