@@ -5,7 +5,12 @@
     <div class="primary-hover-box">
       <div class="hover-box">
         <div class="title-box">
-          <h1 class="title" style="margin: 0px; margin-bottom: 20px; text-align: center;">Diets of {{clientName}}</h1>
+          <h1 *ngIf="role === 'admin'" class="title" style="margin: 0; margin-bottom: 20px; text-align: center;">
+            Diets of {{clientName}}
+          </h1>
+          <h1 *ngIf="role !== 'admin'" class="title" style="margin: 0; margin-bottom: 20px; text-align: center;">
+            My Diets
+          </h1>
         </div>
       
       <div class="FoundDeitsAndAddNew">
@@ -21,7 +26,7 @@
             </div>
           </div>
         </form> 
-        <button (click)="openAddDietsModal(clientId)" class="AddNewButton">
+        <button *ngIf="role === 'admin'" (click)="openAddDietsModal(clientId)" class="AddNewButton">
           <i class="fa-solid fa-plus"></i>Add New
         </button>
       </div>
@@ -147,10 +152,10 @@
 
     <!-- Action buttons -->
     <div class="modal-action-buttons">
-      <button (click)="openEditDietsModal(selectedDiet?.id)" class="EditButton">
+      <button *ngIf="role === 'admin'" (click)="openEditDietsModal(selectedDiet?.id)" class="EditButton">
         <i class="fa-solid fa-pen-to-square"></i> Edit
       </button>
-      <button (click)="openDeleteConfirmation(selectedDiet?.id)" class="DeleteButton">
+      <button *ngIf="role === 'admin'" (click)="openDeleteConfirmation(selectedDiet?.id)" class="DeleteButton">
         <i class="fa-solid fa-trash"></i> Delete
       </button>
       <button (click)="downloadDietPdf()" class="DownloadButton">

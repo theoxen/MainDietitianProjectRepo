@@ -14,6 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 
+import { ReviewsService } from '../../../services/reviews.service';
+import { AccountService } from '../../../services/account.service';
+
+
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -30,6 +34,7 @@ import html2canvas from 'html2canvas';
 
 export class ViewDietsComponent implements OnInit {
 
+  role!: string;
   isEditMode = false;
   editDietForm: FormGroup = new FormGroup({});
   successMessage: string | null = null;
@@ -72,18 +77,59 @@ export class ViewDietsComponent implements OnInit {
   dietService = inject(DietService);
   clientManagementService = inject(ClientManagementService);
 
-  constructor(private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
-  ngOnInit(): void {
-    this.loadPage(this.currentPage);
+  constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
+  // ngOnInit(): void {
+  //   this.loadPage(this.currentPage);
 
-    this.clientId = this.route.snapshot.paramMap.get('clientId')!;
-    if (this.clientId) {
-      this.fetchDietsForUser(this.clientId);
-    }   
+  //   if(this.role =="Admin")
+  //   this.clientId = this.route.snapshot.paramMap.get('clientId')!;
+  //   else
+  //   this.clientId = this.getUserId();
     
-    this.setupLiveDateSearch()
+  //   if (this.clientId) {
+  //     this.fetchDietsForUser(this.clientId);
+  //   }   
+    
+  //   this.setupLiveDateSearch()
 
+  // }
+
+  ngOnInit(): void {
+    // Assuming userRole might return string|null, so we default to an empty string if null.
+    const role = this.accountService.userRole() ?? '';
+    this.role = role;
+    this.loadPage(this.currentPage);
+  
+    if (this.role === "admin") {
+      // Use non-null assertion if you're sure 'clientId' is present in the URL.
+      this.clientId = this.route.snapshot.paramMap.get('clientId')!;
+      this.fetchDietsForUser(this.clientId);
+    } else {
+      // Get the user id asynchronously then fetch diets
+      this.reviewsService.getLoggedInUserId().subscribe({
+        next: (userId: string) => {
+          console.log('User ID:', userId);
+          this.clientId = userId;
+          this.fetchDietsForUser(this.clientId);
+        },
+        error: (error: any) => console.error('Error getting user ID:', error)
+      });
+    }
+  
+    this.setupLiveDateSearch();
   }
+
+  
+  getUserId() {
+    this.reviewsService.getLoggedInUserId().subscribe({
+      next: (userId: string) => {
+        console.log('User ID:', userId);
+        // Use userId here
+      },
+      error: (error: any) => console.error('Error getting user ID:', error)
+    });
+  }
+
 
 
 

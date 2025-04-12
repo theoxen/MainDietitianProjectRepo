@@ -96,29 +96,6 @@ if (createDietDto.IsTemplate == true)
     var templateResult = await _templateService.CreateTemplateAsync(createTemplateDto);
 
 }
-    
-
-
-    // Check if template creation was successful
-//     if (templateResult.IsSuccessful)
-//     {
-//       if (templateResult.Value != null)
-// {
-//         // Return the diet result with template data
-//         return Result<TemplateDto>.Ok(new TemplateDto
-//         {
-//             Id = templateResult.Value.Id,
-//             Name = templateResult.Value.Name,
-//             IsTemplate = true,
-//             DateCreated = templateResult.Value.DateCreated,
-//             Days = createTemplateDto.Days
-//         });
-//     }
-    
-//     // Return any errors from template creation
-//     return Result<DietDto>.BadRequest(templateResult.ResultErrors);
-// }
-
 
             var diet = new Diet
             {

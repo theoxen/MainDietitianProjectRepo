@@ -75,6 +75,8 @@ export const routes: Routes = [
          // { path: ":clientId/edit-diets", component: EditDietsComponent }, 
       ]
    },
+
+   {path: "my-diets",   runGuardsAndResolvers: "always", component: ViewDietsComponent, canActivate: [authGuard, clientGuard]},
      
    {
       path: "recipes",
