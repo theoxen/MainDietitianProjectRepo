@@ -52,7 +52,7 @@ export const routes: Routes = [
       path: "auth",
       runGuardsAndResolvers: "always",
       children: [
-         { path: "forgot-password", component: ForgotPasswordStep1Component,  canActivate: [nonAuthGuard] },
+         { path: "forgot-password", component: ForgotPasswordStep1Component, canActivate: [nonAuthGuard] },
          { path: "login", component: LoginComponent, canActivate: [nonAuthGuard] },
          { path: "register", component: RegisterComponent, canActivate: [authGuard, adminGuard] },
          { path: "forgot-password/change-password", component: ForgotPasswordStep2Component, canActivate: [nonAuthGuard] },
@@ -63,7 +63,7 @@ export const routes: Routes = [
       path: "clients",
       runGuardsAndResolvers: "always",
 
-    canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
+      canActivate: [authGuard, adminGuard], // Guards get executed in sequence from left to right. If a guard returns false, the next guard doesnt get executed
       children: [
          { path: "", component: ClientSearchComponent }, // url path is additive to the parent path (for this case, it is clients)
          { path: ":clientId", component: ManageClientComponent },
@@ -80,70 +80,77 @@ export const routes: Routes = [
       ]
    },
 
-   {path: "my-diets",   runGuardsAndResolvers: "always", component: ViewDietsComponent, canActivate: [authGuard, clientGuard]},
-     
-   {
-      path: "recipes",
-      runGuardsAndResolvers: "always",
-      canActivate: [authGuard],
-      children: [
-         { path: "", component: RecipesComponent },
-         { path: "add", component: AddEditRecipeComponent, canActivate: [adminGuard] },
-         { path: ":recipeId/edit", component: AddEditRecipeComponent, canActivate: [adminGuard] }, //TODO change the name of the url to edit-view
-         { path: ":recipeId", component: ViewComponent }
-      ]
-   },
-
+   { path: "my-diets", runGuardsAndResolvers: "always", component: ViewDietsComponent, canActivate: [authGuard, clientGuard] },
 
    {
       path: "reviews",
       runGuardsAndResolvers: "always",
       children: [
-         { path: "", component: ReviewsCreateEditComponent, canActivate: [clientGuard] }, 
+         { path: "", component: ReviewsCreateEditComponent, canActivate: [clientGuard] },
          { path: ":reviewId/edit", component: ReviewsCreateEditComponent, canActivate: [clientGuard] },
-         { path: ":clientId", component: ReviewsCreateEditComponent, canActivate: [clientGuard] }, 
+         { path: ":clientId", component: ReviewsCreateEditComponent, canActivate: [clientGuard] },
       ]
    },
-     
+
    {
-    path: "advice", // TODO for Kirikos. Maybe put them under the Uploads url because it will be the same page as all the other uploads
-    runGuardsAndResolvers: "always",
-    canActivate: [authGuard],
-    children: [
-       { path: "", component: AdviceCreateEditComponent, canActivate: [adminGuard]},
-       { path: ":adviceId/edit", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
-       { path: "view", component: AdviceListComponent, canActivate: [authGuard]},
-    ]
+      path: "uploads",
+      runGuardsAndResolvers: "always",
+      canActivate: [authGuard],
+      children: [
+         { path: "", component: UploadsComponent },
+         { path: "articles", component: DisplayArticlesComponent},
+         {
+            path: "advice",
+            runGuardsAndResolvers: "always",
+            children: [
+               { path: "", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
+               { path: ":adviceId/edit", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
+               { path: "view", component: AdviceListComponent },
+            ]
+         },
+         {
+            path: "recipes",
+            runGuardsAndResolvers: "always",
+            children: [
+               { path: "", component: RecipesComponent },
+               { path: "add", component: AddEditRecipeComponent, canActivate: [adminGuard] },
+               { path: ":recipeId/edit", component: AddEditRecipeComponent, canActivate: [adminGuard] }, //TODO change the name of the url to edit-view
+               { path: ":recipeId", component: ViewComponent }
+            ]
+         },
+      ]
    },
-  
-   {
-    path: "reports",
-    runGuardsAndResolvers: "always",
-    canActivate: [authGuard, adminGuard],
-    children: [
-       { path: "select", component: SelectReportComponent },     
-       { path: "", component: SelectComponent },
-       { path: "view", component: ViewReportsComponent },
-    ]
-   },
+
    
-  
+
+   
+
+
+   {
+      path: "reports",
+      runGuardsAndResolvers: "always",
+      canActivate: [authGuard, adminGuard],
+      children: [
+         { path: "select", component: SelectReportComponent },
+         { path: "", component: SelectComponent },
+         { path: "view", component: ViewReportsComponent },
+      ]
+   },
+
+
    { path: "manage-data", component: ManageDataComponent, canActivate: [authGuard, adminGuard] },
-   
+
    { path: "manage-templates", component: ViewTemplatesComponent, canActivate: [authGuard, adminGuard] },
 
 
-   
-   { path: "appointments", component: AppointmentsComponent}, 
+
+   { path: "appointments", component: AppointmentsComponent },
    // , canActivate: [authGuard, adminGuard] 
 
 
    { path: "about-us", component: AboutUsComponent },
    { path: "meet-us", component: MeetUsComponent },
 
-   
-   { path: "uploads", component: UploadsComponent, canActivate: [authGuard] },
-   { path: "uploads/articles", component: DisplayArticlesComponent, canActivate: [authGuard] },
 
    { path: "", redirectTo: "/", pathMatch: "prefix" },
 

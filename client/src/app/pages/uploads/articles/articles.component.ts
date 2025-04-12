@@ -9,11 +9,12 @@ import { ReturnedArticle } from '../../../models/articles/returned-article';
 import { AddArticle } from '../../../models/articles/add-article';
 import { UpdateArticle } from '../../../models/articles/update-article';
 import { ConfirmationWindowComponent } from "../../../components/confirmation-window/confirmation-window.component";
+import { RouterLink } from '@angular/router';
   
 @Component({
   selector: 'app-display-articles',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavBarComponent, ConfirmationWindowComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavBarComponent, ConfirmationWindowComponent, RouterLink],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.css'
 })

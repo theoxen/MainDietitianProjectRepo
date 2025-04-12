@@ -25,6 +25,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin, client")]
         // View Recipes => Get
         [HttpGet(Endpoints.Recipes.View)] // GET MIGHT REQUIRE /{id} IN THE URL PATH
         public async Task<IActionResult> ViewRecipes(Guid id)
@@ -33,6 +34,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin, client")]
         [HttpGet(Endpoints.Recipes.ViewAll)]
         public async Task<IActionResult> ViewAllRecipes()
         {

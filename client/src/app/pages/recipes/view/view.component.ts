@@ -83,7 +83,7 @@ export class ViewComponent implements OnInit {
           console.log("Note deleted.");
           this.RecipeisNull = true;
           this.Recipe.controls.recipe.setValue(null);
-          this.router.navigate(['/recipes']);
+          this.router.navigate(['/uploads/recipes']);
         },
         error: (error) => {
           console.log(error);

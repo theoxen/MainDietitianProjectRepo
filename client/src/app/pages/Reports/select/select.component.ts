@@ -66,7 +66,7 @@ export class SelectComponent implements OnInit {
     this.ReportForm1.reset();
     this.ReportForm2.reset();
     this.ReportForm3.reset();
-    this.ReportForm4.reset();
+    // this.ReportForm4.reset();
   }
 
 

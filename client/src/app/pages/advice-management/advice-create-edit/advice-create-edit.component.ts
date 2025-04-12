@@ -100,7 +100,7 @@ import { ToastrService } from "ngx-toastr";
           next: (advice: Advice) => {
             console.log("Advice updated successfully.");
             this.toastr.success("Advice updated successfully.");
-            this.router.navigate(['/']);
+            this.router.navigate(['/uploads/advice/view']);
           },
           error: (error) => {
             console.error("Error updating advice.", error);
@@ -119,7 +119,7 @@ import { ToastrService } from "ngx-toastr";
           next: () => {
             console.log("Advice added successfully.");
             this.toastr.success("Advice added successfully.");
-            this.router.navigate(['/']);
+            this.router.navigate(['/uploads/advice/view']);
           },
           error: (error) => {
             console.error("Error adding advice.", error);
@@ -145,7 +145,7 @@ import { ToastrService } from "ngx-toastr";
           next: () => {
             console.log("Advice deleted successfully.");
             this.toastr.success("Advice deleted successfully.");
-            this.router.navigate(['/']);
+            this.router.navigate(['/uploads/advice/view']);
           },
           error: (error) => {
             console.error("Error deleting advice.", error);

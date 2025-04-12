@@ -1,8 +1,13 @@
 <div class="page">
     <app-nav-bar></app-nav-bar>
+    <div class="page-header">
+        <button type="button" class="primary-button back-button" routerLink="/uploads">
+          <i class="fas fa-arrow-left"></i> Back to Uploads
+        </button>
+      </div>
+
     <div class="main-container">
-
-
+        
         <h1 class="title">Recipes</h1>
         <div class="search-container">
             <div class="search-bar">
@@ -15,7 +20,7 @@
         @if (isadmin) {
         <!-- i need to check for admin -->
         <div class="cards-container">
-            <a [routerLink]="['/recipes/add']" class="primary-hover-box">
+            <a [routerLink]="['add']" class="primary-hover-box">
                 <div class="card-body">
                     <h5 class="card-title">Add Recipe</h5>
                 </div>
@@ -25,7 +30,7 @@
 
         @for (recipe of recipes; track $index) {
         <div class="cards-container">
-            <a [routerLink]="['/recipes', recipe.id]" class="primary-hover-box">
+            <a [routerLink]="[recipe.id]" class="primary-hover-box">
                 <div class="card-body">
                     <h5 class="card-title">{{recipe.name}}</h5>
                     <p class="card-text">Protein: {{recipe.protein}}g, Carbs: {{recipe.carbs}}g, Fats: {{recipe.fat}}g,

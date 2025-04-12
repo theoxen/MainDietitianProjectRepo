@@ -9,13 +9,13 @@ import { AdviceToUpdate } from "../../../models/advice/advice-to-edit";
 import { AdviceToView } from "../../../models/advice/advice-to-view";
 import { AdviceService } from "../../../services/advice.service";
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { AccountService } from "../../../services/account.service";
 
 @Component({
   selector: 'app-advice-list',
   standalone: true,
-  imports: [CommonModule, NavBarComponent, ConfirmationWindowComponent, FormsModule],
+  imports: [CommonModule, NavBarComponent, ConfirmationWindowComponent, FormsModule, RouterLink],
   templateUrl: './advice-list.component.html',
   styleUrls: ['./advice-list.component.css']
 })
@@ -165,11 +165,11 @@ export class AdviceListComponent implements OnInit {
 
   // Open modal to add new advice
   goToAddAdvice(): void {
-    this.router.navigate(['/advice']);  // Navigate to /advice
+    this.router.navigate(['/uploads/advice']);  // Navigate to /advice
   }
 
   goToEditAdvice(adviceId: string): void {
-    this.router.navigate([`/advice/${adviceId}/edit`]);  // Navigate to /advice/adviceId/edit
+    this.router.navigate([`/uploads/advice/${adviceId}/edit`]);  // Navigate to /advice/adviceId/edit
   }
 
   // Open modal to edit existing advice
