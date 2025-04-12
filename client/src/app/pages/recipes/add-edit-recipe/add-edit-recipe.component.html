@@ -5,66 +5,53 @@
             <h2 class="Recipe-title">{{ isEditMode ? 'Edit Recipe' : 'Add Recipe' }}</h2>
             <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <app-primary-input-field [label]="'Name'"
-                        [placeholder]="'Name'"
-                        [control]="recipeForm.controls.name"
-                        [errorMessages]="nameErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
+                    <app-primary-input-field [label]="'Name'" [placeholder]="'Name'"
+                        [control]="recipeForm.controls.name" [errorMessages]="nameErrorMessages"
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <textarea id="ingredients" formControlName="ingredients" class="form-control" placeholder="Ingredients"></textarea>
+                    <textarea id="ingredients" formControlName="ingredients" class="form-control formatted-textarea"
+                        placeholder="Ingredients" wrap="hard"></textarea>
                 </div>
                 <div class="form-group">
-                    <textarea id="description" formControlName="description" class="form-control" placeholder="Description"></textarea>
-            
+                    <textarea id="description" formControlName="description" class="form-control"
+                        placeholder="Description"></textarea>
+
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field [label]="'Protein (g)'"
-                        [placeholder]="'Protein (g)'"
-                        [control]="recipeForm.controls.protein" 
-                        [errorMessages]="proteinErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
+                    <app-primary-input-field [label]="'Protein (g)'" [placeholder]="'Protein (g)'"
+                        [control]="recipeForm.controls.protein" [errorMessages]="proteinErrorMessages"
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field [label]="'Carbs (g)'"
-                        [placeholder]="'Carbs (g)'"
-                        [control]="recipeForm.controls.carbs" 
-                        [errorMessages]="carbsErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
+                    <app-primary-input-field [label]="'Carbs (g)'" [placeholder]="'Carbs (g)'"
+                        [control]="recipeForm.controls.carbs" [errorMessages]="carbsErrorMessages"
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field [label]="'Fats (g)'"
-                        [placeholder]="'Fats (g)'"
-                        [control]="recipeForm.controls.fats" 
-                        [errorMessages]="fatsErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
+                    <app-primary-input-field [label]="'Fats (g)'" [placeholder]="'Fats (g)'"
+                        [control]="recipeForm.controls.fats" [errorMessages]="fatsErrorMessages"
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="form-group">
-                    <app-primary-input-field [label]="'Calories (kcal/100g)'"
-                        [placeholder]="'Calories (kcal/100g)'"
-                        [control]="recipeForm.controls.calories" 
-                        [errorMessages]="caloriesErrorMessages" 
-                        [showErrorOnControlTouched]="displayErrorOnControlTouched" 
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
-                        style="width: 100%;">
+                    <app-primary-input-field [label]="'Calories (kcal/100g)'" [placeholder]="'Calories (kcal/100g)'"
+                        [control]="recipeForm.controls.calories" [errorMessages]="caloriesErrorMessages"
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
                 <div class="button-container">
                     <button type="submit" class="primary-button" [routerLink]="['/recipes']">Cancel</button>
                     <button type="submit" class="primary-button">
-                        {{ isEditMode ? 'Update' : 'Add' }} 
+                        {{ isEditMode ? 'Update' : 'Add' }}
                         Recipe</button>
                 </div>
             </form>

@@ -3,7 +3,9 @@
     <div class="center-container">
         <div class="primary-hover-box">
             <div class="report-view">
-
+                <div class="report-logo">
+                    <img src="images/logoDietitian.png" alt="Dietitian Logo">
+                </div>
                 <!-- New Users Report -->
                 @if (isNewUsersReport) {
                     <div class="report-header">
@@ -12,13 +14,12 @@
                     </div>
 
                     <!-- Statistics Section -->
-                    <div class="statistics-section">
+                    <div class="statistics-section print-section">
                         <h5>Statistics</h5>
                         <p><strong>Total New Users:</strong> {{ totalUsers - 1}}</p> <!--patenta -->
                         <p><strong>Total Appointments:</strong> {{ totalAppointments }}</p>
-                        <p><strong>Average Weight:</strong> {{ averageWeight }} kg</p>
-                        <p><strong>Average Fat Mass:</strong> {{ averageFatMass }} %</p>
-                        <p><strong>Average Muscle Mass:</strong> {{ averageMuscleMass }} %</p>
+                        <p><strong>Male Customers</strong> {{ maleUsers }} </p>
+                        <p><strong>Female Customers </strong> {{femaleUsers}}</p>
                     </div>
 
                     <!-- New Users Table -->
@@ -64,11 +65,11 @@
                     <!-- Statistics Section -->
                     <div class="statistics-section">
                         <h5>Statistics</h5>
-                        <p><strong>Total Users:</strong> {{ totalUsers }}</p>
-                        <p><strong>Total Appointments:</strong> {{ totalAppointments }}</p>
-                        <p><strong>Average Weight:</strong> {{ averageWeight }} kg</p>
-                        <p><strong>Average Fat Mass:</strong> {{ averageFatMass }} %</p>
-                        <p><strong>Average Muscle Mass:</strong> {{ averageMuscleMass }} %</p>
+                        <p class="center"><strong>        Total Users:</strong> {{ totalUsers }}</p>
+                        <p class="center"><strong> Total Appointments:</strong> {{ totalAppointments }}</p>
+                        <p class="center"><strong>     Average Weight:</strong> {{ averageWeight }} kg</p>
+                        <p class="center"><strong>   Average Fat Mass:</strong> {{ averageFatMass }} %</p>
+                        <p class="center"><strong>Average Muscle Mass:</strong> {{ averageMuscleMass }} %</p>
                     </div>
 
                     <!-- User Details -->
@@ -115,7 +116,7 @@
 
                                 <!-- Appointments Section -->
                                 @if (user.appointments && user.appointments.length > 0) {
-                                    <div class="appointments-table">
+                                    <div class="appointments-table ">
                                         <h6>Appointments</h6>
                                         <table>
                                             <thead>
@@ -152,7 +153,7 @@
                     </div>
                 
                     <!-- Statistics Section -->
-                    <div class="statistics-section">
+                    <div class="statistics-section ">
                         <h5>Statistics</h5>
                         <p><strong>Total Users:</strong> {{ totalUsers }}</p>
                         <p><strong>Total Appointments:</strong> {{ totalAppointments }}</p>
@@ -163,63 +164,74 @@
                 
                     <!-- Diet Type Users Table -->
                     @if (data && data.length > 0) {
-                        <div class="diet-type-users-table">
-                            <h6>Users Associated with Diet Type</h6>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Full Name</th>
-                                        <th>Gender</th>
-                                        <th>Date of Birth</th>
-                                        <th>Height</th>
-                                        <th>Metrics</th>
-                                        <th>Appointments</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (user of data; track user.fullName) {
-                                        <tr>
-                                            <td>{{ user.fullName }}</td>
-                                            <td>{{ user.gender }}</td>
-                                            <td>{{ user.dateOfBirth | date:'short' }}</td>
-                                            <td>{{ user.height }} cm</td>
-                                            <td>
-                                                @if (user.metrics && user.metrics.length > 0) {
-                                                    <ul>
-                                                        @for (metric of user.metrics; track metric.id) {
-                                                            <li>
-                                                                <strong>Date:</strong> {{ metric.dateCreated | date:'short' }},
-                                                                <strong>Weight:</strong> {{ metric.bodyweight }} kg,
-                                                                <strong>Fat Mass:</strong> {{ metric.fatMass }} %,
-                                                                <strong>Muscle Mass:</strong> {{ metric.muscleMass }} %
-                                                            </li>
-                                                        }
-                                                    </ul>
-                                                } @else {
-                                                    <p>No metrics available</p>
+                        @for (user of data; track user.fullName) {
+                            <div class="user-section">
+                                <div class="user-info">
+                                    <h5>{{ user.fullName }}</h5>
+                                    <div class="info-grid">
+                                        <p><strong>Gender:</strong> {{ user.gender }}</p>
+                                        <p><strong>Height:</strong> {{ user.height }} cm</p>
+                                        <p><strong>Date of Birth:</strong> {{ user.dateOfBirth | date }}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Metrics Section -->
+                                @if (user.metrics && user.metrics.length > 0) {
+                                    <div class="metrics-table">
+                                        <h6>Measurements History</h6>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Weight (kg)</th>
+                                                    <th>Fat Mass (%)</th>
+                                                    <th>Muscle Mass (%)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (metric of user.metrics; track metric.id) {
+                                                    <tr>
+                                                        <td>{{ metric.dateCreated | date:'short' }}</td>
+                                                        <td>{{ metric.bodyweight }}</td>
+                                                        <td>{{ metric.fatMass }}</td>
+                                                        <td>{{ metric.muscleMass }}</td>
+                                                    </tr>
                                                 }
-                                            </td>
-                                            <td>
-                                                @if (user.appointments && user.appointments.length > 0) {
-                                                    <ul>
-                                                        @for (appointment of user.appointments; track appointment.id) {
-                                                            <li>
-                                                                <strong>Date:</strong> {{ appointment.appointmentDate | date:'short' }},
-                                                                <strong>Date Created:</strong> {{ appointment.dateCreated | date:'dd/MM/yyyy HH:mm'}}
-                                                            </li>
-                                                        }
-                                                    </ul>
-                                                } @else {
-                                                    <p>No appointments available</p>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                } @else {
+                                    <p>No metrics available for this user</p>
+                                }
+
+                                <!-- Appointments Section -->
+                                @if (user.appointments && user.appointments.length > 0) {
+                                    <div class="appointments-table ">
+                                        <h6>Appointments</h6>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Date Created:</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (appointment of user.appointments; track appointment.id) {
+                                                    <tr>
+                                                        <td>{{ appointment.appointmentDate | date:'short' }}</td>
+                                                        <td>{{ appointment.dateCreated | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                    </tr>
                                                 }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                } @else {
+                                    <p>No appointments available for this user</p>
+                                }
+                            </div>
+                        }
                     } @else {
-                        <p>No users found for this diet type.</p>
+                        <p>No users found in this age range</p>
                     }
                 }
 
@@ -231,7 +243,7 @@
                         <h4>Appointments Report</h4>
                         <p class="report-range">Date Range: {{ reportData?.field1 | date:'dd/MM/yyyy'}} - {{ reportData?.field2 | date:'dd/MM/yyyy' }}</p>
                     </div>
-                    <div class="statistics-section">
+                    <div class="statistics-section ">
                         <h5>Statistics</h5>
                         <p><strong>Total Appointments:</strong> {{ totalAppointments }}</p>
                         <p><strong>Busiest Day:</strong> {{ busiestDay }}</p>
@@ -251,7 +263,7 @@
                     
                     </div>
                     @if (appointment && appointment.length > 0) {
-                        <div class="appointments-table">
+                        <div class="appointments-table ">
                             <h6>All Appointments</h6>
                             <table>
                                 <thead>
@@ -280,6 +292,8 @@
                 <!-- Export Button -->
                 <div class="center-button">
                     <button class="primary-button" (click)="printReport()">Print Report</button>
+                    <button class="primary-button" (click)="navigateBack()" routerLinkActive="router-link-active" >Back</button>
+                    </div>
                 </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-
+/* Base Layout */
 .center-container {
     display: flex;
     justify-content: center; 
@@ -6,25 +6,6 @@
     height: 100%; 
 }
 
-.primary-hover-box p {
-    align-self: flex-start; /* Align <p> elements to the start (left) */
-}
-
-.Report-title{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.center-button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-/* General Page Styling */
 .page {
     font-family: Arial, sans-serif;
     color: #333;
@@ -32,7 +13,7 @@
     background-color: #f9f9f9;
 }
 
-/* Report Header */
+/* Report Header - Single Definition */
 .report-header {
     text-align: center;
     margin-bottom: 20px;
@@ -49,7 +30,7 @@
     color: #555;
 }
 
-/* Statistics Section */
+/* Statistics Section - Single Definition */
 .statistics-section {
     margin: 20px 0;
     padding: 15px;
@@ -70,72 +51,71 @@
     margin: 5px 0;
 }
 
-/* User Section */
-.user-section {
-    margin-bottom: 20px;
-    padding: 15px;
+/* Tables - Common Styles */
+.metrics-table,
+.appointments-table,
+.new-users-table,
+.diet-type-users-table {
+    margin-top: 20px;
+}
+
+.metrics-table h6,
+.appointments-table h6,
+.new-users-table h6,
+.diet-type-users-table h6 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Lists Styling */
+.metrics-list,
+.appointments-list {
+    margin: 10px 0;
+    padding: 10px;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.user-info h5 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #FFB453;
+.metrics-list ul,
+.appointments-list ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.info-grid p {
-    margin: 0;
-    font-size: 1rem;
-}
-
-/* Metrics Table */
-.metrics-table, .appointments-table {
-    margin-top: 20px;
-}
-
-.metrics-table h6, .appointments-table h6 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+.metrics-list li,
+.appointments-list li {
+    margin: 5px 0;
+    font-size: 0.9rem;
     color: #333;
 }
 
-.metrics-table table, .appointments-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.metrics-table th, .appointments-table th,
-.metrics-table td, .appointments-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.metrics-table th, .appointments-table th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-}
-
-.metrics-table tr:nth-child(even), .appointments-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* No Data Message */
-p {
-    font-size: 1rem;
-    color: #666;
-    text-align: center;
+.user-info {
+    margin: 20px 0;
+    color: #555;
 }
 
 /* Button Styling */
@@ -156,318 +136,67 @@ p {
 }
 
 .primary-button:hover {
-    background-color: #FFB453;
+    background-color: #e69b3c;
 }
 
-
-/* Report Header */
-.report-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.report-header h4 {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-    color: #FFB453; /* Existing primary color */
-}
-
-.report-header p {
-    font-size: 1rem;
-    color: #555; /* Subtle text color */
-}
-
-/* Statistics Section */
-.statistics-section {
+.button-container {
+    display: flex;
+    justify-content: center;
     margin: 20px 0;
-    padding: 15px;
-    background-color: #ffffff; /* White background for contrast */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-.statistics-section h5 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333; /* Darker text for headings */
+.primary-button {
+    margin: 0 10px;
 }
 
-.statistics-section p {
-    font-size: 1rem;
-    margin: 5px 0;
-}
-
-/* New Users Table */
-.new-users-table {
-    margin-top: 20px;
-}
-
-.new-users-table h6 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333; /* Darker text for headings */
-}
-
-.new-users-table table {
+.report-logo {
+    display: none; /* Hide in GUI */
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.new-users-table th,
-.new-users-table td {
-    padding: 10px;
-    border: 1px solid #ddd; /* Light border for table cells */
-    text-align: left;
-}
-
-.new-users-table th {
-    background-color: #f5f5f5; /* Light gray background for headers */
-    font-weight: bold;
-}
-
-.new-users-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Alternating row colors */
-}
-
-/* No Data Message */
-.no-data-message {
-    font-size: 1rem;
-    color: #666; /* Subtle text color */
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-/* Diet Type Report Header */
-.report-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.report-header h4 {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-    color: #FFB453; /* Use the existing primary color */
-}
-
-.report-header p {
-    font-size: 1rem;
-    color: #555; /* Subtle text color */
-}
-
-/* Statistics Section */
-.statistics-section {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #ffffff; /* White background for contrast */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.statistics-section h5 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333; /* Darker text for headings */
-}
-
-.statistics-section p {
-    font-size: 1rem;
-    margin: 5px 0;
-}
-
-/* Diet Type Users Table */
-.diet-type-users-table {
-    margin-top: 20px;
-}
-
-.diet-type-users-table h6 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333; /* Darker text for headings */
-}
-
-.diet-type-users-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.diet-type-users-table th,
-.diet-type-users-table td {
-    padding: 10px;
-    border: 1px solid #ddd; /* Light border for table cells */
-    text-align: left;
-}
-
-.diet-type-users-table th {
-    background-color: #f5f5f5; /* Light gray background for headers */
-    font-weight: bold;
-}
-
-.diet-type-users-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Alternating row colors */
-}
-
-/* Metrics and Appointments Lists */
-.metrics-list, .appointments-list {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.metrics-list ul, .appointments-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.metrics-list li, .appointments-list li {
-    margin: 5px 0;
-    font-size: 0.9rem;
-    color: #333;
-}
-
-/* No Data Message */
-.no-data-message {
-    font-size: 1rem;
-    color: #666; /* Subtle text color */
-    text-align: center;
-    margin-top: 20px;
+.report-logo img {
+    width: 300px; /* Adjust size as needed */
+    height: auto;
+    margin: 0 auto;
 }
 
 
-/* Report Header */
-.report-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
 
-.report-header h4 {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-    color: #FFB453;
-}
-
-.report-header p {
-    font-size: 1rem;
-    color: #555;
-}
-
-/* Statistics Section */
-.statistics-section {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.statistics-section h5 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.statistics-section p {
-    font-size: 1rem;
-    margin: 5px 0;
-}
-
-/* Appointments Table */
-.appointments-table {
-    margin-top: 20px;
-}
-
-.appointments-table h6 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.appointments-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.appointments-table th,
-.appointments-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.appointments-table th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-}
-
-.appointments-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-
-/* Print-specific styles */
+/* Print Styles */
 @media print {
-    /* Hide unnecessary elements */
     body {
-        background-color: white !important; /* Ensure a white background */
-        margin: 0; /* Remove any margins */
+        background-color: white !important;
+        margin: 0;
     }
 
-    app-nav-bar, /* Hide navigation bar */
-    .center-button, /* Hide buttons like "Print Report" */
-    footer, /* Hide footer */
-    header { /* Hide any header elements */
+    .report-logo {
+        display: block; /* Show when printing */
+    }
+
+    app-nav-bar,
+    .center-button,
+    footer,
+    header {
         display: none !important;
     }
 
-    /* Remove browser-specific print headers and footers */
     @page {
-        margin: 0; /* Remove default margins */
+        margin: 2cm;
+        size: A4;
+        marks: none;
     }
 
-    /* Ensure the report content takes the full width */
-    .page {
+    .page,
+    .report-view {
         width: 100%;
         margin: 0 auto;
         padding: 0;
     }
 
-    .report-view {
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    /* Adjust table styles for printing */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-    th {
-        background-color: #f5f5f5;
-        font-weight: bold;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-
     .primary-hover-box {
-        border-top: 0px solid #FFB453;
-        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
+        border-top: 0;
+        box-shadow: none;
     }
-
-    
 }

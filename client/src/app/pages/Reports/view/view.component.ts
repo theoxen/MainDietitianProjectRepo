@@ -1,6 +1,6 @@
 import { Component, Renderer2 } from '@angular/core';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReportsService } from '../../../services/reports.service';
 import { DatePipe, KeyValuePipe, NgFor } from '@angular/common';
 import { Metrics, ReportData } from '../../../models/Reports/ReportsData';
@@ -35,7 +35,7 @@ export class ViewReportsComponent {
   type?: string;
  
 
-  constructor(private reportsService: ReportsService, private route: ActivatedRoute, private renderer: Renderer2) { }
+  constructor(private reportsService: ReportsService, private router: Router, private route: ActivatedRoute, private renderer: Renderer2) { }
 
   ngOnInit(): void {
 
@@ -202,32 +202,45 @@ export class ViewReportsComponent {
 
 
 
-
   //////////////////////////////////////////////////////////////////////////////////////////////
+  maleUsers: number = 0;
+  femaleUsers: number = 0;
+  
   calculateStatistics(): void {
-    this.totalUsers = this.data.length;
-
-    let totalWeight = 0;
-    let totalFatMass = 0;
-    let totalMuscleMass = 0;
-    let metricsCount = 0;
-
-    this.totalAppointments = this.data.reduce((total, user) => {
-      return total + (user.appointments?.length || 0);
-    }, 0);
-
-    this.data.forEach(user => {
-      user.metrics?.forEach(metric => {
-        totalWeight += metric.bodyweight;
-        totalFatMass += metric.fatMass;
-        totalMuscleMass += metric.muscleMass;
-        metricsCount++;
+      this.totalUsers = this.data.length;
+      this.maleUsers = 0;
+      this.femaleUsers = 0;
+  
+      let totalWeight = 0;
+      let totalFatMass = 0;
+      let totalMuscleMass = 0;
+      let metricsCount = 0;
+  
+      this.totalAppointments = this.data.reduce((total, user) => {
+          return total + (user.appointments?.length || 0);
+      }, 0);
+  
+      this.data.forEach(user => {
+          // Count by gender
+          if (user.gender?.toLowerCase() === 'male') {
+              this.maleUsers++;
+          } else if (user.gender?.toLowerCase() === 'female') {
+              this.femaleUsers++;
+          }
+  
+          // Calculate metrics
+          user.metrics?.forEach(metric => {
+              totalWeight += metric.bodyweight;
+              totalFatMass += metric.fatMass;
+              totalMuscleMass += metric.muscleMass;
+              metricsCount++;
+          });
       });
-    });
-
-    this.averageWeight = metricsCount > 0 ? parseFloat((totalWeight / metricsCount).toFixed(2)) : 0;
-    this.averageFatMass = metricsCount > 0 ? parseFloat((totalFatMass / metricsCount).toFixed(2)) : 0;
-    this.averageMuscleMass = metricsCount > 0 ? parseFloat((totalMuscleMass / metricsCount).toFixed(2)) : 0;
+  
+      // Calculate averages
+      this.averageWeight = metricsCount > 0 ? parseFloat((totalWeight / metricsCount).toFixed(2)) : 0;
+      this.averageFatMass = metricsCount > 0 ? parseFloat((totalFatMass / metricsCount).toFixed(2)) : 0;
+      this.averageMuscleMass = metricsCount > 0 ? parseFloat((totalMuscleMass / metricsCount).toFixed(2)) : 0;
   }
 
   generatePDF(): void {
@@ -241,8 +254,21 @@ export class ViewReportsComponent {
   isModalOpen: boolean = false; // Track whether the modal is open
 
   printReport(): void {
-    window.print(); // Opens the browser's print dialog
-  }
+    // Add current date to the report view
+    const reportView = document.querySelector('.report-view');
+    if (reportView) {
+        const currentDate = new Date().toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        reportView.setAttribute('data-print-date', currentDate);
+    }
+    window.print();
+}
+
 
   ngOnDestroy(): void {
     // Restore the footer when leaving this component.
@@ -252,6 +278,14 @@ export class ViewReportsComponent {
     }
   }
 
+  navigateBack(): void {
+    window.scrollTo(0, 0);
+    this.router.navigate(['/reports/select'], {
+      queryParams: {
+        reportType: this.reportType
+      }
+    });
+  }
 
 }
 
