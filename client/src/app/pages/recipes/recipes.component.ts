@@ -6,6 +6,7 @@ import { RecipeView } from '../../models/recipes/RecipeView';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { ConfirmationWindowComponent } from "../../components/confirmation-window/confirmation-window.component";
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-recipes',
@@ -17,11 +18,15 @@ import { ConfirmationWindowComponent } from "../../components/confirmation-windo
 export class RecipesComponent implements OnInit {
   searchTerm: string = '';
   recipes: RecipeView[] = []; 
+
+  accountService = inject(AccountService);
   
+  isadmin = false;
 
   constructor(private recipeService: RecipesService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.isadmin = this.accountService.userRole() === 'admin';
     this.recipeService.viewAllRecipes().subscribe({
       next: (recipes) => {
         this.recipes = recipes;

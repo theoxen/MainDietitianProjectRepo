@@ -1,6 +1,7 @@
 <div class="page">
     <app-nav-bar></app-nav-bar>
     <!-- /////////////////////////////////////Age Users///////////////////////////////////////////// -->
+    @if (selectedReportType === 'ReportForm1') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>New Users Reports</h3>
@@ -20,11 +21,16 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
-                <button class="primary-button">Create Report</button>
+                <div class="button-container">
+                    <button class="primary-button">Create Report</button>
+                    <button class="primary-button" (click)="NavigateTo()" routerLinkActive="router-link-active" >Back</button>
+                </div>
             </form>
         </div>
     </div>
+    }
     <!-- /////////////////////////////////////////New Users///////////////////////////////////////// -->
+    @if (selectedReportType === 'ReportForm2') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Age Reports</h3>
@@ -43,11 +49,16 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
-                <button class="primary-button">Create Report</button>
+                <div class="button-container">
+                    <button class="primary-button">Create Report</button>
+                    <button class="primary-button" (click)="NavigateTo()" routerLinkActive="router-link-active" >Back</button>
+                </div>
             </form>
         </div>
     </div>
+    }
     <!-- /////////////////////////////////////////Appointment///////////////////////////////////////// -->
+    @if (selectedReportType === 'ReportForm3') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Appointment Reports</h3>
@@ -67,25 +78,35 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
-                <button class="primary-button">Create Report</button>
+                <div class="button-container">
+                    <button class="primary-button">Create Report</button>
+                    <button class="primary-button" (click)="NavigateTo()" routerLinkActive="router-link-active" >Back</button>
+                </div>
             </form>
         </div>
     </div>
+    }
     <!-- /////////////////////////////////////////Time Reports///////////////////////////////////////// -->
+    @if(selectedReportType === 'ReportForm4') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Diet Type Reports</h3>
             <p>Generate detailed reports based on users' selected diet types to analyze preferences and trends.</p>
             <form [formGroup]="ReportForm4" (ngSubmit)="ReportForm4Submit()">
                 <div class="form-group">
-                    <app-primary-dropdown-input [placeholder]="'Select Diet Type'"
+                    <app-primary-dropdown-input
+                        [placeholder]="'Select Diet Type'"
                         [control]="ReportForm4.controls.field1" [dropdownItems]="dietTypeDropdownOptions"
                         [errorMessages]="fieldsErrorMessages" [showErrorOnControlTouched]="displayErrorOnControlTouched"
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-dropdown-input>
                 </div>
-                <button class="primary-button">Create Report</button>
+                <div class="button-container">
+                    <button class="primary-button">Create Report</button>
+                    <button class="primary-button" (click)="NavigateTo()" routerLinkActive="router-link-active" >Back</button>
+                </div>
             </form>
         </div>
     </div>
+    }
 </div>
