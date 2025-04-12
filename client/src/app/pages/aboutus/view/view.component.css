@@ -1,0 +1,107 @@
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.company-logo {
+    width: 200px;
+    height: auto;
+}
+
+.about-content {
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.mission-statement {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+.team-section {
+    margin-top: 4rem;
+}
+
+h2 {
+    color: #444;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.team-member {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+
+.team-member h3 {
+    color: #FFB453;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.role {
+    color: #666;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.description {
+    color: #777;
+    line-height: 1.4;
+}
+.primary-hover-box {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: calc(100vh - 64px); padding: 2rem; */
+}
+@media (max-width: 768px) {
+    .about-container {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .mission-statement {
+        font-size: 1.1rem;
+    }
+}
