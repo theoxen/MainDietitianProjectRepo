@@ -94,11 +94,36 @@ export class SelectComponent implements OnInit {
     return null; // No error
   }
 
+  private numberValidator() {
+  return (control: FormControl): ValidationErrors | null => {
+    const value = control.value;
+    if (isNaN(value) || value === null || value === '') {
+      return { 'notANumber': true };
+    }
+    return null;
+  };
+}
+
   ReportForm2 = new FormGroup({
-    "field1": new FormControl("", [Validators.required]),
-    "field2": new FormControl("", [Validators.required]),
-  }, { validators: this.checkFields }
-  );
+    "field1": new FormControl("", [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+      this.numberValidator()
+    ]),
+    "field2": new FormControl("", [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+      this.numberValidator()
+    ])
+  }, { validators: this.checkFields });
+  
+  // Update your error messages
+  fieldsErrorMessages = new Map<string, string>([
+    ["required", "Field is required"],
+    ["checkFields", "Field 1 must be greater than Field 2"],
+    ["pattern", "Please enter numbers only"],
+    ["notANumber", "Please enter a valid number"]
+  ]);
 
   ReportForm3 = new FormGroup({
     "field1": new FormControl("", [Validators.required]),
@@ -111,10 +136,7 @@ export class SelectComponent implements OnInit {
     "field1": new FormControl("", [Validators.required]),
   });
 
-  fieldsErrorMessages = new Map<string, string>([
-    ["required", "Field is required"],
-    ["checkFields", "Field 1 must be greater than Field 2"]
-  ]);
+
 
   ReportForm1Submit() {
     if (this.ReportForm1.valid) {
@@ -174,7 +196,3 @@ export class SelectComponent implements OnInit {
 
 }
 
-//TODO:I need to ask advice about the styling of the forms
-//TODO:i need to but the corect restrictions
-//TODO:i need to make the 5th form and add the correct restrictions
-//TODO:I need to chech the 3rd or 4th form

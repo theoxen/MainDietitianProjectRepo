@@ -26,6 +26,11 @@
     margin-top: 20px;
 }
 
+.form-group {
+    display: inline-block;
+    margin-right: 1%;
+    margin-bottom: 1%; 
+}
 
 /* Responsive styles for mobile devices */
 @media (max-width: 768px) {
@@ -35,10 +40,5 @@
     }
 }
 
-.form-group {
-    display: inline-block;
-    margin-right: 1%;
-    margin-bottom: 1%; 
-}
 
 

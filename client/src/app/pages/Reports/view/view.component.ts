@@ -202,32 +202,45 @@ export class ViewReportsComponent {
 
 
 
-
   //////////////////////////////////////////////////////////////////////////////////////////////
+  maleUsers: number = 0;
+  femaleUsers: number = 0;
+  
   calculateStatistics(): void {
-    this.totalUsers = this.data.length;
-
-    let totalWeight = 0;
-    let totalFatMass = 0;
-    let totalMuscleMass = 0;
-    let metricsCount = 0;
-
-    this.totalAppointments = this.data.reduce((total, user) => {
-      return total + (user.appointments?.length || 0);
-    }, 0);
-
-    this.data.forEach(user => {
-      user.metrics?.forEach(metric => {
-        totalWeight += metric.bodyweight;
-        totalFatMass += metric.fatMass;
-        totalMuscleMass += metric.muscleMass;
-        metricsCount++;
+      this.totalUsers = this.data.length;
+      this.maleUsers = 0;
+      this.femaleUsers = 0;
+  
+      let totalWeight = 0;
+      let totalFatMass = 0;
+      let totalMuscleMass = 0;
+      let metricsCount = 0;
+  
+      this.totalAppointments = this.data.reduce((total, user) => {
+          return total + (user.appointments?.length || 0);
+      }, 0);
+  
+      this.data.forEach(user => {
+          // Count by gender
+          if (user.gender?.toLowerCase() === 'male') {
+              this.maleUsers++;
+          } else if (user.gender?.toLowerCase() === 'female') {
+              this.femaleUsers++;
+          }
+  
+          // Calculate metrics
+          user.metrics?.forEach(metric => {
+              totalWeight += metric.bodyweight;
+              totalFatMass += metric.fatMass;
+              totalMuscleMass += metric.muscleMass;
+              metricsCount++;
+          });
       });
-    });
-
-    this.averageWeight = metricsCount > 0 ? parseFloat((totalWeight / metricsCount).toFixed(2)) : 0;
-    this.averageFatMass = metricsCount > 0 ? parseFloat((totalFatMass / metricsCount).toFixed(2)) : 0;
-    this.averageMuscleMass = metricsCount > 0 ? parseFloat((totalMuscleMass / metricsCount).toFixed(2)) : 0;
+  
+      // Calculate averages
+      this.averageWeight = metricsCount > 0 ? parseFloat((totalWeight / metricsCount).toFixed(2)) : 0;
+      this.averageFatMass = metricsCount > 0 ? parseFloat((totalFatMass / metricsCount).toFixed(2)) : 0;
+      this.averageMuscleMass = metricsCount > 0 ? parseFloat((totalMuscleMass / metricsCount).toFixed(2)) : 0;
   }
 
   generatePDF(): void {
