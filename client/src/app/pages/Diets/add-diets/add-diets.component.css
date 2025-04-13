@@ -7,6 +7,104 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+.template-selection-container {
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+}
+
+.template-selection-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #495057;
+}
+
+.search-box {
+  margin-bottom: 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.templates-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.template-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #dee2e6;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.template-item:hover {
+  background-color: #e9ecef;
+}
+
+.template-item:last-child {
+  border-bottom: none;
+}
+
+.template-name {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.template-date {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 3px;
+}
+
+.template-actions {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.template-import-section {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.template-import-section {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.import-template-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.import-template-button:hover {
+  background-color: #5a6268;
+}
+
+.import-template-button i {
+  font-size: 16px;
+}
+
 .title {
   text-align: center;
   margin-bottom: 20px;
@@ -151,4 +249,71 @@
   text-align: center;
   background-color: #f8d7da;
   border-radius: 4px;
+}
+
+.import-template-button {
+  background-color: #f0f8ff;
+  border: 1px solid #b0c4de;
+  color: #4682b4;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.import-template-button:hover {
+  background-color: #e6f2ff;
+}
+
+.template-selection-container {
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+}
+
+.templates-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+}
+
+.template-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #dee2e6;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.template-item:hover {
+  background-color: #e9ecef;
+}
+
+.template-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.template-date {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 3px;
+}
+
+.template-actions {
+  text-align: right;
+}
+
+.no-templates {
+  padding: 15px;
+  text-align: center;
+  color: #6c757d;
 }

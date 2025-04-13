@@ -1,0 +1,88 @@
+.uploads-container {
+    display: flex;
+    justify-content: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.sub-title {
+    text-align: center;
+}
+
+.primary-hover-box {
+    width: 80%;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.card-button {
+    background-color: white;
+    border-radius: 8px;
+    border-top: 5px solid #FFB453; /* Theme accent color */
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    padding: 30px;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.card-button:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+}
+
+.card-icon {
+    background-color: rgba(255, 180, 83, 0.1); /* Light version of #FFB453 */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.card-icon i {
+    font-size: 2.5rem;
+    color: #FFB453; /* Theme accent color */
+}
+
+.card-button h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card-description {
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}

@@ -1,1 +1,35 @@
-<p>uploads works!</p>
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="uploads-container">
+        <div class="primary-hover-box">
+          <h2 class="title">Uploaded Content</h2>
+          <p class="sub-title">Select the type of content you want to see</p>
+          
+          <div class="card-container">
+            <div class="card-button" routerLink="/uploads/recipes">
+              <div class="card-icon">
+                <i class="fas fa-utensils"></i>
+              </div>
+              <h3>Recipes</h3>
+              <p class="card-description">Manage meal plans and nutritional recipes</p>
+            </div>
+            
+            <div class="card-button" routerLink="/uploads/articles">
+              <div class="card-icon">
+                <i class="fas fa-newspaper"></i>
+              </div>
+              <h3>Articles</h3>
+              <p class="card-description">Create and edit health and nutrition articles</p>
+            </div>
+            
+            <div class="card-button" routerLink="/uploads/advice/view">
+              <div class="card-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h3>Advice</h3>
+              <p class="card-description">Share dietary tips and nutritional guidance</p>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

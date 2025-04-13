@@ -1,0 +1,42 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+    <div class="container">
+        <div class="cards-container">
+            <!-- New Users Report Card -->
+            <div class="report-card" (click)="navigateToReport('ReportForm1')">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>New Users Report</h3>
+                <p>View statistics about newly registered users within a date range</p>
+            </div>
+
+            <!-- Age Group Report Card -->
+            <div class="report-card" (click)="navigateToReport('ReportForm2')">
+                <div class="card-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3>Age Group Report</h3>
+                <p>Analyze user distribution across different age groups</p>
+            </div>
+
+            <!-- Appointments Report Card -->
+            <div class="report-card" (click)="navigateToReport('ReportForm3')">
+                <div class="card-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Appointments Report</h3>
+                <p>Track appointment statistics and popular time slots</p>
+            </div>
+
+            <!-- Diet Type Report Card -->
+            <div class="report-card" (click)="navigateToReport('ReportForm4')">
+                <div class="card-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Diet Type Report</h3>
+                <p>View users grouped by their diet type preferences</p>
+            </div>
+        </div>
+    </div>
+</div>

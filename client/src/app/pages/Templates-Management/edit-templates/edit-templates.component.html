@@ -1,0 +1,283 @@
+<div class="form-container">
+    <h2 class="title">Edit Template</h2>
+    
+    <form [formGroup]="editTemplateForm" (ngSubmit)="updateTemplate()">
+      <div class="template-header">
+        <div class="template-info-row">
+          <label for="templateName">Template Name:</label>
+          <input id="templateName" type="text" formControlName="name" placeholder="Enter template name" class="form-control" />
+        </div>
+        <div class="error-feedback" [hidden]="editTemplateForm.controls['name'].valid || !editTemplateForm.controls['name'].touched">
+          Name is required
+        </div>
+      </div>
+  
+      <div class="template-days-section">
+        <!-- Horizontal table layout with days as columns -->
+        <table class="horizontal-template-table">
+          <thead>
+            <tr>
+              <th class="meal-type-header">Meal Type</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Breakfast Row -->
+            <tr>
+              <td class="meal-type">Breakfast</td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(0, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Monday breakfast"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(1, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Tuesday breakfast"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(2, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Wednesday breakfast"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(3, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Thursday breakfast"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(4, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Friday breakfast"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(5, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Saturday breakfast"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(6, 0)" 
+                  class="compact-textarea" 
+                  placeholder="Sunday breakfast"></textarea>
+              </td>
+            </tr>
+            
+            <!-- Morning Snack Row -->
+            <tr>
+              <td class="meal-type">Morning Snack</td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(0, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Monday morning snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(1, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Tuesday morning snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(2, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Wednesday morning snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(3, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Thursday morning snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(4, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Friday morning snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(5, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Saturday morning snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(6, 1)" 
+                  class="compact-textarea" 
+                  placeholder="Sunday morning snack"></textarea>
+              </td>
+            </tr>
+            
+            <!-- Lunch Row -->
+            <tr>
+              <td class="meal-type">Lunch</td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(0, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Monday lunch"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(1, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Tuesday lunch"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(2, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Wednesday lunch"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(3, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Thursday lunch"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(4, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Friday lunch"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(5, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Saturday lunch"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(6, 2)" 
+                  class="compact-textarea" 
+                  placeholder="Sunday lunch"></textarea>
+              </td>
+            </tr>
+            
+            <!-- Afternoon Snack Row -->
+            <tr>
+              <td class="meal-type">Afternoon Snack</td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(0, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Monday afternoon snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(1, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Tuesday afternoon snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(2, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Wednesday afternoon snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(3, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Thursday afternoon snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(4, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Friday afternoon snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(5, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Saturday afternoon snack"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(6, 3)" 
+                  class="compact-textarea" 
+                  placeholder="Sunday afternoon snack"></textarea>
+              </td>
+            </tr>
+            
+            <!-- Dinner Row -->
+            <tr>
+              <td class="meal-type">Dinner</td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(0, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Monday dinner"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(1, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Tuesday dinner"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(2, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Wednesday dinner"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(3, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Thursday dinner"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(4, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Friday dinner"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(5, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Saturday dinner"></textarea>
+              </td>
+              <td>
+                <textarea 
+                  [formControl]="getDayMealControl(6, 4)" 
+                  class="compact-textarea" 
+                  placeholder="Sunday dinner"></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="primary-button">Update Template</button>
+        <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+    
+    <!-- Messages -->
+    <div class="success-message" [hidden]="!successMessage">
+      {{ successMessage }}
+    </div>
+    
+    <div class="error-message" [hidden]="!errorMessage">
+      {{ errorMessage }}
+    </div>
+  </div>

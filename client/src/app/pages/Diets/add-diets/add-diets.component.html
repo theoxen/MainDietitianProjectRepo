@@ -4,6 +4,25 @@
     
     <form [formGroup]="addclientDietsForm" (ngSubmit)="addDiets()">
       <div class="diet-header">
+        <div *ngIf="showTemplateSelector" class="template-selection-container">
+          <h3>Select a Template</h3>
+          <div class="search-box">
+            <input type="text" placeholder="Search templates..." [(ngModel)]="templateSearchTerm" 
+                   (input)="filterTemplates()" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="templates-list">
+            <div *ngFor="let template of filteredTemplates" class="template-item" (click)="selectTemplate(template)">
+              <div class="template-name">{{template.name}}</div>
+              <div class="template-date">{{template.date}}</div>
+            </div>
+            <div *ngIf="filteredTemplates.length === 0" class="no-templates">
+              No templates found
+            </div>
+          </div>
+          <div class="template-actions">
+            <button type="button" class="secondary-button" (click)="cancelTemplateSelection()">Cancel</button>
+          </div>
+        </div>
         <div class="diet-info-row">
           <label for="dietName">Diet Name:</label>
           <input id="dietName" type="text" formControlName="name" placeholder="Enter diet name" class="form-control" />
@@ -16,6 +35,13 @@
           Name is required
         </div>
       </div>
+
+            <!-- Add the template import section -->
+            <div class="template-import-section">
+              <button type="button" class="import-template-button" (click)="showTemplateSelection()">
+                <i class="fa-solid fa-file-import"></i> Import from Template
+              </button>
+            </div>
   
       <div class="diet-days-section">
         <!-- Horizontal table layout with days as columns -->
@@ -179,43 +205,43 @@
               <td class="meal-type">Afternoon Snack</td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(0, 3)" 
+                  [formControl]="getDayMealControl(0, 4)" 
                   class="compact-textarea" 
                   placeholder="Monday afternoon snack"></textarea>
               </td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(1, 3)" 
+                  [formControl]="getDayMealControl(1, 4)" 
                   class="compact-textarea" 
                   placeholder="Tuesday afternoon snack"></textarea>
               </td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(2, 3)" 
+                  [formControl]="getDayMealControl(2, 4)" 
                   class="compact-textarea" 
                   placeholder="Wednesday afternoon snack"></textarea>
               </td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(3, 3)" 
+                  [formControl]="getDayMealControl(3, 4)" 
                   class="compact-textarea" 
                   placeholder="Thursday afternoon snack"></textarea>
               </td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(4, 3)" 
+                  [formControl]="getDayMealControl(4, 4)" 
                   class="compact-textarea" 
                   placeholder="Friday afternoon snack"></textarea>
               </td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(5, 3)" 
+                  [formControl]="getDayMealControl(5, 4)" 
                   class="compact-textarea" 
                   placeholder="Saturday afternoon snack"></textarea>
               </td>
               <td>
                 <textarea 
-                  [formControl]="getDayMealControl(6, 3)" 
+                  [formControl]="getDayMealControl(6, 4)" 
                   class="compact-textarea" 
                   placeholder="Sunday afternoon snack"></textarea>
               </td>

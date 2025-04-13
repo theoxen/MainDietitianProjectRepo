@@ -27,12 +27,15 @@
                 <strong>Calories:</strong>
                 <p>{{ calories }}</p>
             </div>
-
             <div class="button-container">
-                <button class="primary-button" [routerLink]="['/recipes', recipesId, 'edit']">Edit</button>
-                <button class="primary-button" style="background-color: red;" (click)="openConfirmationWindow()">Delete</button>
-            </div>
+            <button class="primary-button" [routerLink]="['/uploads/recipes']">Back</button>
+            @if(isadmin){
 
+                <button class="primary-button" [routerLink]="['/uploads/recipes', recipesId, 'edit']">Edit</button>
+                <button class="primary-button" style="background-color: red;" (click)="openConfirmationWindow()">Delete</button>
+            }            
+            </div>
+            
             <app-confirmation-window 
             [isVisible]="isConfirmationWindowVisible" 
             (confirmed)="handleDeleteConfirmation($event)">

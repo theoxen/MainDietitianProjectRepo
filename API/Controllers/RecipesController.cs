@@ -1,5 +1,6 @@
 using API.Models.Recipes;
 using API.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,6 +17,7 @@ namespace API.Controllers
         }
 
         // Uplode recipes => Post
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.Recipes.Upload)]
         public async Task<IActionResult> UploadRecipes(CreateRecipeDto createRecipeDto)
         {
@@ -23,6 +25,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin, client")]
         // View Recipes => Get
         [HttpGet(Endpoints.Recipes.View)] // GET MIGHT REQUIRE /{id} IN THE URL PATH
         public async Task<IActionResult> ViewRecipes(Guid id)
@@ -31,6 +34,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin, client")]
         [HttpGet(Endpoints.Recipes.ViewAll)]
         public async Task<IActionResult> ViewAllRecipes()
         {
@@ -39,6 +43,7 @@ namespace API.Controllers
         }
         
         // Edit Recipes => Put
+        [Authorize(Roles = "admin")]
         [HttpPut(Endpoints.Recipes.Edit)] // POST MIGHT REQUIRE /{id} IN THE URL PATH
         public async Task<IActionResult> EditRecipes(UpdateRecipeDto updateRecipeDto)
         {
@@ -56,6 +61,7 @@ namespace API.Controllers
 
 
         // Delete Recipes => Delete
+        [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Recipes.Delete)] // POST MIGHT REQUIRE /{id} IN THE URL PATH
         public async Task<IActionResult> DeleteRecipes(Guid id)
         {

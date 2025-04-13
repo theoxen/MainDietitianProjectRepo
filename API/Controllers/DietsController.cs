@@ -16,7 +16,7 @@ namespace API.Controllers
             _logger = logger;                                  //for debugging use only - can be removed
         }
 
-       // [Authorize(Roles = "admin")]
+       [Authorize(Roles = "admin")]
        [HttpPost(Endpoints.Diets.Create)]
         public async Task<IActionResult> CreateDiet(CreateDietDto createDietDto)
         {

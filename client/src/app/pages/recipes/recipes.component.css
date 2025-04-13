@@ -5,6 +5,11 @@
     margin: 20px 0;
 }
 
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -12,12 +17,22 @@
     justify-content: center;
 }
 
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    padding: 0 0px;
+}
+
 .search-bar {
     display: flex;
     align-items: center;
     position: relative;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .search-bar input {

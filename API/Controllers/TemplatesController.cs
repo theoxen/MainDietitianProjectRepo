@@ -1,5 +1,6 @@
 using API.Models.Templates;
 using API.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,6 +14,7 @@ namespace API.Controllers
             _templateService = templateService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost(Endpoints.Templates.Create)]
         public async Task<IActionResult> CreateTemplateAsync(CreateTemplateDto createTemplateDto)
         {
@@ -20,6 +22,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut(Endpoints.Templates.Update)]
         public async Task<IActionResult> UpdateTemplateAsync(UpdateTemplateDto updateTemplateDto)
         {
@@ -27,6 +30,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Templates.GetById)]
         public async Task<IActionResult> GetTemplateByIdAsync(Guid id)
         {
@@ -34,6 +38,7 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet(Endpoints.Templates.GetAll)]
         public async Task<IActionResult> GetAllTemplatesAsync()
         {
@@ -41,6 +46,8 @@ namespace API.Controllers
             return MapToHttpResponse(result);
         }
 
+
+        [Authorize(Roles = "admin")]
         [HttpDelete(Endpoints.Templates.Delete)]
         public async Task<IActionResult> DeleteTemplateAsync(Guid id)
         {

@@ -6,6 +6,7 @@ import { RecipesService } from '../../../services/recipes.service';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ConfirmationWindowComponent } from '../../../components/confirmation-window/confirmation-window.component';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'app-view',
@@ -18,12 +19,15 @@ export class ViewComponent implements OnInit {
   recipesId: string | null = null;
   isConfirmationWindowVisible = false;
   RecipeisNull = false;
+
+  isadmin = false;
     
   Recipe = new FormGroup({
     recipe: new FormControl<string | null>(null)
   });
 
   recipeService = inject(RecipesService);
+  accountService = inject(AccountService);
   name?: string;
   description?: string;
   ingredients?: string;
@@ -36,6 +40,8 @@ export class ViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipesId = this.route.snapshot.paramMap.get('recipeId');
+
+    this.isadmin = this.accountService.userRole() === 'admin';
     
     if(this.recipesId){
       this.recipeService.viewRecipe(this.recipesId).subscribe({
@@ -77,7 +83,7 @@ export class ViewComponent implements OnInit {
           console.log("Note deleted.");
           this.RecipeisNull = true;
           this.Recipe.controls.recipe.setValue(null);
-          this.router.navigate(['/recipes']);
+          this.router.navigate(['/uploads/recipes']);
         },
         error: (error) => {
           console.log(error);

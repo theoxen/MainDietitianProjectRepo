@@ -9,11 +9,13 @@ import { ReturnedArticle } from '../../../models/articles/returned-article';
 import { AddArticle } from '../../../models/articles/add-article';
 import { UpdateArticle } from '../../../models/articles/update-article';
 import { ConfirmationWindowComponent } from "../../../components/confirmation-window/confirmation-window.component";
-  
+import { RouterLink } from '@angular/router';
+import { PaginationComponent } from '../../pagination/pagination.component';
+
 @Component({
   selector: 'app-display-articles',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavBarComponent, ConfirmationWindowComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavBarComponent, ConfirmationWindowComponent, RouterLink, PaginationComponent],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.css'
 })
@@ -27,31 +29,46 @@ export class DisplayArticlesComponent implements OnInit {
   private articlesService = inject(ArticlesService);
   isConfirmationWindowVisible = false;
   private tempArticleIdToDelete = '';
-  
+
+  pagedArticles: ReturnedArticle[] = [];
+  pageSize = 9; // 9 cards per page
+  currentPage = 1;
+
   // Properties for the articles
   articles: ReturnedArticle[] = [];
   filteredArticles: ReturnedArticle[] = [];
-  
+
   // Search and filter properties
   searchTerm: string = '';
   dateFilter: string = 'all';
-  
+
   // Add/Edit Modal properties
   showArticleModal: boolean = false;
   isEditing: boolean = false;
   isSubmitting: boolean = false;
   currentArticleId: string | null = null;
-  
+
   // View Article Modal properties
   showArticleViewModal: boolean = false;
   selectedArticle: ReturnedArticle | null = null;
-  
+
   // Form for adding/editing articles
   articleForm!: FormGroup;
-  
+
   ngOnInit(): void {
     this.initializeForm();
     this.loadArticles();
+  }
+
+  loadPage(page: number): void {
+    const startIndex = (page - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize, this.filteredArticles.length);
+    this.pagedArticles = this.filteredArticles.slice(startIndex, endIndex);
+  }
+  
+  onPageChanged(newPage: number): void {
+    this.currentPage = newPage;
+    this.loadPage(newPage);
   }
 
   // Initialize the form
@@ -65,18 +82,19 @@ export class DisplayArticlesComponent implements OnInit {
 
   // Load articles from API
   loadArticles(): void {
-    this.articlesService.getArticles()
-      .subscribe({
-        next: (articles) => {
-          this.articles = articles;
-          this.filteredArticles = [...articles];
-        },
-        error: (error) => {
-          console.error('Error loading articles', error);
-          this.toastr.error('Failed to load articles. Please try again later.');
-        }
-      });
-  }
+  this.articlesService.getArticles()
+    .subscribe({
+      next: (articles) => {
+        this.articles = articles;
+        this.filteredArticles = [...articles];
+        this.loadPage(1); // Initialize with first page
+      },
+      error: (error) => {
+        console.error('Error loading articles', error);
+        this.toastr.error('Failed to load articles. Please try again later.');
+      }
+    });
+}
 
   // Search articles by title
   searchArticles(): void {
@@ -84,12 +102,12 @@ export class DisplayArticlesComponent implements OnInit {
       this.applyDateFilter(this.articles);
       return;
     }
-    
+
     const searchTermLower = this.searchTerm.toLowerCase().trim();
-    const filtered = this.articles.filter(article => 
+    const filtered = this.articles.filter(article =>
       article.title.toLowerCase().includes(searchTermLower)
     );
-    
+
     this.applyDateFilter(filtered);
   }
 
@@ -102,35 +120,37 @@ export class DisplayArticlesComponent implements OnInit {
   private applyDateFilter(articlesList: ReturnedArticle[]): void {
     if (!this.dateFilter || this.dateFilter === 'all') {
       this.filteredArticles = articlesList;
-      return;
-    }
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    const filtered = articlesList.filter(article => {
-      const articleDate = new Date(article.dateCreated);
-      articleDate.setHours(0, 0, 0, 0);
-      
-      switch (this.dateFilter) {
-        case 'today':
-          return articleDate.getTime() === today.getTime();
-        case 'week': {
-          const weekAgo = new Date(today);
-          weekAgo.setDate(weekAgo.getDate() - 7);
-          return articleDate >= weekAgo;
+    } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+  
+      const filtered = articlesList.filter(article => {
+        const articleDate = new Date(article.dateCreated);
+        articleDate.setHours(0, 0, 0, 0);
+  
+        switch (this.dateFilter) {
+          case 'today':
+            return articleDate.getTime() === today.getTime();
+          case 'week': {
+            const weekAgo = new Date(today);
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            return articleDate >= weekAgo;
+          }
+          case 'month': {
+            const monthAgo = new Date(today);
+            monthAgo.setMonth(monthAgo.getMonth() - 1);
+            return articleDate >= monthAgo;
+          }
+          default:
+            return true;
         }
-        case 'month': {
-          const monthAgo = new Date(today);
-          monthAgo.setMonth(monthAgo.getMonth() - 1);
-          return articleDate >= monthAgo;
-        }
-        default:
-          return true;
-      }
-    });
-    
+      });
+  
     this.filteredArticles = filtered;
+      
+    }
+    this.loadPage(1);
+    
   }
 
   // Open modal to add a new article
@@ -145,13 +165,13 @@ export class DisplayArticlesComponent implements OnInit {
   editArticle(article: ReturnedArticle): void {
     this.isEditing = true;
     this.currentArticleId = article.id;
-    
+
     this.articleForm.patchValue({
       title: article.title,
       description: article.description,
       link: article.link
     });
-    
+
     this.showArticleModal = true;
   }
 
@@ -163,8 +183,8 @@ export class DisplayArticlesComponent implements OnInit {
 
   // Delete an article
   deleteArticle(id: string): void {
-    
-    
+
+
   }
 
   openConfirmationWindow(articleId: string) {
@@ -178,20 +198,21 @@ export class DisplayArticlesComponent implements OnInit {
       // Call service to delete the note
       // IF WE WANTED TO MANUALLY SUBMIT THE FORM AFTER THE CONFIRMATION WINDOW WE WOULD DO this.onSubmit(); 
       this.articlesService.deleteArticle(this.tempArticleIdToDelete)
-      .subscribe({
-        next: () => {
-          this.articles = this.articles.filter(article => article.id !== this.tempArticleIdToDelete);
-          this.filteredArticles = this.filteredArticles.filter(article => article.id !== this.tempArticleIdToDelete);
-          this.tempArticleIdToDelete = ''; // Reset the temporary ID
-          this.toastr.success('Article deleted successfully');
-        },
-        error: (error) => {
-          console.error('Error deleting article', error);
-          this.toastr.error('Failed to delete article. Please try again.');
-          this.tempArticleIdToDelete = ''; // Reset the temporary ID
+        .subscribe({
+          next: () => {
+            this.articles = this.articles.filter(article => article.id !== this.tempArticleIdToDelete);
+            this.filteredArticles = this.filteredArticles.filter(article => article.id !== this.tempArticleIdToDelete);
+            this.loadPage(this.currentPage); // Reload current page after deletion
+            this.tempArticleIdToDelete = '';
+            this.toastr.success('Article deleted successfully');
+          },
+          error: (error) => {
+            console.error('Error deleting article', error);
+            this.toastr.error('Failed to delete article. Please try again.');
+            this.tempArticleIdToDelete = ''; // Reset the temporary ID
 
-        }
-      });
+          }
+        });
     }
   }
 
@@ -200,12 +221,12 @@ export class DisplayArticlesComponent implements OnInit {
     if (this.articleForm.invalid) {
       return;
     }
-    
+
     this.isSubmitting = true;
-    
+
     // Get form values
     const { title, description, link } = this.articleForm.value;
-    
+
     if (this.isEditing && this.currentArticleId) {
       // Create update article object
       const updateArticle: UpdateArticle = {
@@ -214,7 +235,7 @@ export class DisplayArticlesComponent implements OnInit {
         description,
         link
       };
-      
+
       // Update existing article
       this.articlesService.updateArticle(updateArticle)
         .subscribe({
@@ -224,7 +245,7 @@ export class DisplayArticlesComponent implements OnInit {
             if (index !== -1) {
               this.articles[index] = updatedArticle;
             }
-            
+
             this.toastr.success('Article updated successfully');
             this.searchArticles(); // Refresh filtered articles
             this.showArticleModal = false;
@@ -244,14 +265,14 @@ export class DisplayArticlesComponent implements OnInit {
         description,
         link
       };
-      
+
       // Add new article
       this.articlesService.addArticle(newArticle)
         .subscribe({
           next: (addedArticle) => {
             // Add the new article to the array
             this.articles.unshift(addedArticle);
-            
+
             this.toastr.success('Article added successfully');
             this.searchArticles(); // Refresh filtered articles
             this.showArticleModal = false;

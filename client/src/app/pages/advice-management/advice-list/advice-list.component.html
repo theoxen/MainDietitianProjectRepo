@@ -1,5 +1,11 @@
 <div class="page">
   <app-nav-bar></app-nav-bar>
+  
+  <div class="page-header">
+    <button type="button" class="primary-button back-button" routerLink="/uploads">
+      <i class="fas fa-arrow-left"></i> Back to Uploads
+    </button>
+  </div>
 
   <div class="container">
     <div class="page-header">
@@ -20,7 +26,6 @@
             <option value="all">All Dates</option>
             <option value="newest">Newest</option> 
             <option value="oldest">Oldest</option>
-            <option value="today">Today</option>
             <option value="week">This Week</option>
             <option value="month">This Month</option>
           </select>

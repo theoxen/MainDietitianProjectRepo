@@ -115,29 +115,6 @@ export class EditDietsComponent implements OnInit {
   }
 
 
-  normalizeDietData(diet: any): void {
-    // Handle different property names for diet days
-    if (!diet.dietDays && diet.Days) {
-      diet.dietDays = diet.Days;
-    } else if (!diet.dietDays && diet.days) {
-      diet.dietDays = diet.days;
-    } else if (!diet.dietDays) {
-      diet.dietDays = [];
-    }
-  
-    // Process each day and normalize meal structure
-    diet.dietDays.forEach((day: any) => {
-      if (!day.dietMeals && day.Meals) {
-        day.dietMeals = day.Meals.map((meal: any) => ({
-          id: meal.id || '',
-          mealType: meal.Type || meal.mealType,
-          meal: meal.Meal || meal.meal
-        }));
-      } else if (!day.dietMeals) {
-        day.dietMeals = [];
-      }
-    });
-  }
 
 
   initializeDietDaysForm() {
@@ -173,56 +150,106 @@ export class EditDietsComponent implements OnInit {
     });
   }
 
+  normalizeDietData(diet: any): void {
+    console.log('Normalizing diet data:', diet);
+    
+    // Handle different property names for diet days
+    if (!diet.dietDays && diet.Days) {
+      diet.dietDays = diet.Days;
+    } else if (!diet.dietDays && diet.days) {
+      diet.dietDays = diet.days;
+    } else if (!diet.dietDays) {
+      diet.dietDays = [];
+    }
+  
+    // Process each day and normalize meal structure
+    diet.dietDays.forEach((day: any) => {
+      // Handle different property names for meals
+      if (!day.dietMeals && day.Meals) {
+        day.dietMeals = day.Meals;
+      } else if (!day.meals && !day.dietMeals) {
+        day.dietMeals = [];
+      } else if (day.meals && !day.dietMeals) {
+        day.dietMeals = day.meals;
+      }
+      
+      // Ensure every day has a name property
+      day.dayName = day.dayName || day.DayName || '';
+    });
+    
+    console.log('Normalized diet data:', diet);
+  }
+  
   populateForm(diet: Diet): void {
     console.log('Populating form with diet:', diet);
     
-    // Set basic values
+    // Set basic diet properties
     this.clientDiets.patchValue({
       name: diet.name,
       isTemplate: diet.isTemplate
     });
   
-    // Get the days array from the diet
-    const dietDays = diet.dietDays || [];
+    // Get the days array from the form
     const daysArray = this.clientDiets.get('dietDays') as FormArray;
-  
-    console.log('Diet days:', dietDays);
     
-    // For each day in the diet, update the corresponding FormGroup
-    dietDays.forEach((dietDay, dayIndex) => {
-      if (dayIndex < daysArray.length) {
+    // Get the days from the diet object
+    const dietDays = diet.dietDays || [];
+    
+    // For each day of the week (0-6)
+    for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+      // Find the corresponding day in the diet data
+      const dietDay = dietDays.find((d: any) => {
+        const dayName = d.dayName || d.DayName || '';
+        // Match day based on index (0=Monday, 1=Tuesday, etc.)
+        return this.getDayNameByIndex(dayIndex) === dayName;
+      });
+      
+      if (dietDay && dayIndex < daysArray.length) {
         const dayFormGroup = daysArray.at(dayIndex) as FormGroup;
         
-        // Set the day ID
-        dayFormGroup.get('id')?.setValue(dietDay.id);
+        // Set the day ID if it exists
+        if (dietDay.id) {
+          dayFormGroup.get('id')?.setValue(dietDay.id);
+        }
         
         // Get meals for this day
-        const dietMeals = dietDay.dietMeals || [];
-        console.log(`Day ${dayIndex} meals:`, dietMeals);
-        
+        const dietMeals = dietDay.dietMeals || dietDay.dietMeals || [];
         const mealsArray = dayFormGroup.get('meals') as FormArray;
         
-        // Use the SAME order as when the form was created
-        const mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Dinner', 'Afternoon Snack'];
+        // Map the meal types to their expected positions in the form array
+        const mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
         
-        // Then populate with data from the diet
-        if (dietMeals && dietMeals.length > 0) {
-          mealTypes.forEach((mealType, typeIndex) => {
-            const dietMeal = dietMeals.find(m => 
-              m.mealType === mealType );
+        // For each meal type
+        mealTypes.forEach((mealType, mealIndex) => {
+          // Find the meal with this type
+          const meal = dietMeals.find((m: any) => 
+            (m.mealType === mealType || m.MealType === mealType || m.Type === mealType || m.type === mealType)
+          );
+          
+          if (meal && mealIndex < mealsArray.length) {
+            // Get the form group for this meal
+            const mealFormGroup = mealsArray.at(mealIndex) as FormGroup;
             
-            if (dietMeal && typeIndex < mealsArray.length) {
-              const mealFormGroup = mealsArray.at(typeIndex) as FormGroup;
-              mealFormGroup.patchValue({
-                id: dietMeal.id,
-                meal: dietMeal.meal 
-              });
-              console.log(`Set meal ${mealType} value:`, dietMeal.meal );
+            // Set the ID if it exists
+            if (meal.id) {
+              mealFormGroup.get('id')?.setValue(meal.id);
             }
-          });
-        }
+            
+            // Set the meal content - handle different property names
+            const mealContent = meal.meal || meal.meal || '';
+            mealFormGroup.get('meal')?.setValue(mealContent);
+            
+            console.log(`Set ${mealType} for ${this.getDayNameByIndex(dayIndex)}: "${mealContent}"`);
+          }
+        });
       }
-    });
+    }
+  }
+  
+  // Helper method to get day name from index
+  getDayNameByIndex(index: number): string {
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    return dayNames[index];
   }
 
   submitEditedDiets(): void {
@@ -261,9 +288,26 @@ export class EditDietsComponent implements OnInit {
           this.dialogRef.close(true); // Return true to indicate successful update
         }, 1500);
       },
-      error: (error: any) => {
-        this.errorMessage = "Error updating diet. Please try again.";
+      error: (error) => {
         console.error("Error updating diet:", error);
+        
+        // Check if this is a specific error about diet already existing
+        if (error?.error?.errors && Array.isArray(error.error.errors)) {
+          const dietExistsError = error.error.errors.find(
+            (err: any) => err.identifier === 'DietAlreadyExists'
+          );
+          
+          if (dietExistsError) {
+            this.errorMessage = "Diet with this name already exists. Change diet name";
+          } else {
+            this.errorMessage = "Failed to update diet. Please try again.";
+          }
+        } else {
+          this.errorMessage = "An error occurred. Please try again.";
+        }
+        
+        // Clear any success message
+        this.successMessage = "";
       }
     });
   }
@@ -310,4 +354,5 @@ export class EditDietsComponent implements OnInit {
   isTemplateErrorMessages = new Map<string, string>([
     ["required", "Is Template is required."]
   ]);
+
 }
