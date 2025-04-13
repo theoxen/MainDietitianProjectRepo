@@ -2,42 +2,78 @@
     <app-nav-bar></app-nav-bar>
     <div class="page-header">
         <button type="button" class="primary-button back-button" routerLink="/uploads">
-          <i class="fas fa-arrow-left"></i> Back to Uploads
+            <i class="fas fa-arrow-left"></i> Back
         </button>
-      </div>
+    </div>
 
     <div class="main-container">
-        
         <h1 class="title">Recipes</h1>
+        
+        <!-- Search Bar -->
         <div class="search-container">
             <div class="search-bar">
-                <input class="primary-input-field form-control" type="text" placeholder="Search recipe name"
-                    [(ngModel)]="searchTerm" (input)="filterRecipes()">
-                <!-- the search is not working HELP!!! -->
+                <input class="primary-input-field form-control" 
+                       type="text" 
+                       placeholder="Search recipes..."
+                       [(ngModel)]="searchTerm" 
+                       (input)="filterRecipes()">
             </div>
         </div>
 
+        <!-- Admin Add Button -->
         @if (isadmin) {
-        <!-- i need to check for admin -->
-        <div class="cards-container">
-            <a [routerLink]="['add']" class="primary-hover-box">
+        <div class="add-recipe-container">
+            <a [routerLink]="['add']" class="add-recipe-card">
                 <div class="card-body">
-                    <h5 class="card-title">Add Recipe</h5>
+                    <i class="fas fa-plus"></i>
+                    <h5>Add New Recipe</h5>
                 </div>
             </a>
         </div>
         }
 
-        @for (recipe of recipes; track $index) {
-        <div class="cards-container">
-            <a [routerLink]="[recipe.id]" class="primary-hover-box">
+        <!-- Recipe Grid -->
+        <div class="recipes-grid">
+            @for (recipe of paginatedRecipes; track $index) {
+            <a [routerLink]="[recipe.id]" class="recipe-card">
                 <div class="card-body">
                     <h5 class="card-title">{{recipe.name}}</h5>
-                    <p class="card-text">Protein: {{recipe.protein}}g, Carbs: {{recipe.carbs}}g, Fats: {{recipe.fat}}g,
-                        Calories: {{recipe.calories}}kcal/100g</p>
+                    <div class="nutrition-info">
+                        <div class="nutrition-item">
+                            <span class="label">Protein:</span>
+                            <span class="value">{{recipe.protein}}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="label">Carbs:</span>
+                            <span class="value">{{recipe.carbs}}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="label">Fats:</span>
+                            <span class="value">{{recipe.fat}}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="label">Calories:</span>
+                            <span class="value">{{recipe.calories}}kcal</span>
+                        </div>
+                    </div>
                 </div>
             </a>
+            }
         </div>
-        }
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <button class="pagination-button" 
+                    [disabled]="currentPage === 1"
+                    (click)="changePage(currentPage - 1)">
+                Previous
+            </button>
+            <span class="page-number">{{currentPage}} / {{totalPages}}</span>
+            <button class="pagination-button" 
+                    [disabled]="currentPage === totalPages"
+                    (click)="changePage(currentPage + 1)">
+                Next
+            </button>
+        </div>
     </div>
 </div>
