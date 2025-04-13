@@ -57,7 +57,7 @@
 
           <div class="article-actions">
             <div class="action-links">
-              <button class="read-more-btn" (click)="viewArticleDetails(article)">
+              <button class="read-more-btn" routerLink="/uploads/articles/{{ article.id }}">
                 <i class="fas fa-book-open"></i> Read More
               </button>
               <a [href]="article.link" target="_blank" class="article-link">
@@ -150,37 +150,6 @@
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  </div>
-}
-
-<!-- Article View Modal -->
-@if (showArticleViewModal) {
-  <div class="modal-overlay" (click)="closeViewModal($event)">
-    <div class="modal-content article-view-modal" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h2>{{ selectedArticle?.title }}</h2>
-        <button class="close-btn" (click)="closeViewModal()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="article-date-detail">
-          <i class="far fa-calendar-alt"></i>
-          <span>{{ selectedArticle?.dateCreated | date: 'longDate' }}</span>
-        </div>
-
-        <div class="article-description-full">
-          {{ selectedArticle?.description }}
-        </div>
-
-        <div class="article-actions-detail">
-          <a [href]="selectedArticle?.link" target="_blank" class="article-link-detail">
-            <i class="fas fa-external-link-alt"></i> Visit Original Article
-          </a>
-        </div>
       </div>
     </div>
   </div>

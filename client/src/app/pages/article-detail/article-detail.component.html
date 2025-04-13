@@ -1,0 +1,46 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+  
+    <div class="container">
+      <div class="article-detail-container">
+        <button class="primary-button back-button" routerLink="/uploads/articles">
+          <i class="fas fa-arrow-left"></i> Back to Articles
+        </button>
+  
+        <div *ngIf="loading" class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading article...</p>
+        </div>
+  
+        <div *ngIf="error" class="error-state">
+          <i class="fas fa-exclamation-circle"></i>
+          <h3>Failed to load article</h3>
+          <p>There was an error loading this article. Please try again later.</p>
+        </div>
+  
+        <article *ngIf="article && !loading && !error" class="article-content">
+          <header class="article-header">
+            <h3>{{ article.title }}</h3>
+            <div class="article-meta">
+              <span class="article-date">
+                <i class="far fa-calendar-alt"></i>
+                {{ article.dateCreated | date: 'longDate' }}
+              </span>
+            </div>
+          </header>
+  
+          <div class="article-body">
+            <div class="article-description">
+              {{ article.description }}
+            </div>
+          </div>
+  
+          <div class="article-actions">
+            <a [href]="article.link" target="_blank" class="article-link-detail">
+              <i class="fas fa-external-link-alt"></i> Visit Original Article
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>

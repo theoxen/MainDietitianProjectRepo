@@ -44,6 +44,7 @@ import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.componen
 import { ViewTemplatesComponent } from './pages/Templates-Management/view-templates/view-templates.component';
 import { AddTemplatesComponent } from './pages/Templates-Management/add-templates/add-templates.component';
 import { EditTemplatesComponent } from './pages/Templates-Management/edit-templates/edit-templates.component';
+import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 
 
 export const routes: Routes = [
@@ -98,7 +99,13 @@ export const routes: Routes = [
       canActivate: [authGuard],
       children: [
          { path: "", component: UploadsComponent },
-         { path: "articles", component: DisplayArticlesComponent},
+         {
+            path: "articles",
+            children: [
+               { path: "", component: DisplayArticlesComponent },
+               { path: ":id", component: ArticleDetailComponent },
+            ]
+         },
          {
             path: "advice",
             runGuardsAndResolvers: "always",
@@ -121,9 +128,9 @@ export const routes: Routes = [
       ]
    },
 
-   
 
-   
+
+
 
 
    {
