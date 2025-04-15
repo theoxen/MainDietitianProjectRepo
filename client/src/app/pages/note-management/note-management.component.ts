@@ -8,6 +8,8 @@ import { NoteToAdd } from '../../models/notes/note-to-add';
 import { Note } from '../../models/notes/note';
 import { NoteToUpdate } from '../../models/notes/note-to-edit';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-note-management',
@@ -30,7 +32,7 @@ export class NoteManagementComponent implements OnInit {
     note: new FormControl<string | null>(null)
   });
 
-  constructor(private route: ActivatedRoute) { } // Required to use route.snapshot.paramMap to get the user ID from the URL
+  constructor(private route: ActivatedRoute,  private location: Location  ) { } // Required to use route.snapshot.paramMap to get the user ID from the URL
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -114,4 +116,8 @@ export class NoteManagementComponent implements OnInit {
       });
     }
   }
+  goBack(): void {
+    this.location.back();
+  }
+  
 }

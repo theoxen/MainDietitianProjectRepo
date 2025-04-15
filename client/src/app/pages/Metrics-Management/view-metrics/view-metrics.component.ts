@@ -13,6 +13,7 @@ import { AddMetricsComponent } from '../add-metrics/add-metrics.component';
 import { ReactiveFormErrorComponent } from "../../../components/reactive-form-error/reactive-form-error.component";
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { combineLatest } from 'rxjs';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -54,7 +55,7 @@ export class ViewMetricsComponent implements OnInit {
 
 
   
-  constructor(private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private router:Router,  private location: Location ) {}
   ngOnInit(): void {
     this.loadPage(this.currentPage);
 
@@ -225,6 +226,9 @@ setupLiveDateSearch(): void {
         this.fetchMetricsForUser(this.clientId);
       }
     });
+  }
+  goBack(): void {
+    this.location.back();
   }
   
 }
