@@ -115,7 +115,7 @@
         }"
         [attr.disabled]="isBooked(selectedDate, time) ? true : null"
         (click)="
-        isPastTime(selectedDate, time) ? '':(
+        isPastTime(selectedDate, time) ? (isBooked(selectedDate, time)? editBookedDetails(selectedDate, time) :displayCantBookInThePastError()):(
           isBooked(selectedDate, time)
             ? editBookedDetails(selectedDate, time)
             : isPastDate(selectedDate.getDate())
