@@ -6,6 +6,7 @@
 
         <ul>
             @if (role() == "admin") {
+                <li><a routerLink="/appointments">MANAGE APPOINTMENTS</a></li>
                 <li><a routerLink="/auth/register">REGISTER CLIENT</a></li>
                 <li><a routerLink="/clients">MANAGE CLIENTS</a></li>
                 <li><a routerLink="/manage-data">MANAGE DATA</a></li>
