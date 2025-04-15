@@ -1,61 +1,298 @@
 .page {
-    min-height: 100vh;
-    width: 100%;
-    background-image: linear-gradient(rgba(92, 51, 4, 0.5), rgba(90, 49, 3, 0.5)), url(/images/RafaellaPanagiotouHomePage2.jpg);
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    overflow-x:hidden;
+  min-height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(92, 51, 4, 0.5), rgba(90, 49, 3, 0.5)), url(/images/RafaellaPanagiotouHomePage2.jpg);
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .text-box {
-    width: 90%;
-    color: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+  width: 90%;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .title {
-    color: white;
+  color: white;
 }
 
 .sub-title {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .text-box p {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .map-container {
-    margin: 40px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    overflow: hidden;
+  overflow: hidden;
+  background-color: #ff730009;
+}
+
+.map-container h2 {
+  padding: 15px;
+  padding-top: 40px;
+  background-color: #ff730009;
+  margin: 0;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+}
+
+/* Services Section */
+.services-section {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 15px auto 0;
+  background-color: #ff8c00; /* Orange underline */
+}
+
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.service-icon {
+  font-size: 2rem;
+  color: #ff8c00;
+  margin-bottom: 15px;
+}
+
+.service-card i {
+  font-size: 2rem;
+  color: #ff8c00;
+  margin-bottom: 15px;
+}
+
+.service-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.service-card p {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* About Section */
+.about-section {
+  padding: 80px 20px;
+  background-color: #ffffff;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-text p{
+  text-align: center;
+}
+
+.about-text h2 {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.about-text h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ff8c00;
+
+}
+
+
+
+.about-text p {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.read-more-btn {
+  padding: 12px 28px;
+  background-color: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-btn:hover {
+  background-color: #e67e00;
+}
+
+.about-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Features Section (Why Choose Me) */
+.features-section {
+  padding: 70px 20px;
+  background-color: #f2f8f2;
+  text-align: center;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.features-section h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background-color: #ff8c00;
+  margin: 15px auto 0;
+}
+
+.features-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature {
+  width: 300px;
+  padding: 20px;
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #ff8c00;
+  color: white;
+  font-size: 24px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+}
+
+.feature h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.feature p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column-reverse;
   }
-  
-  .map-container h2 {
-    padding: 15px;
-    background-color: #ff730009;
-    margin: 0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  iframe {
-    display: block;
+
+  .about-text,
+  .about-image {
     width: 100%;
   }
+
+  .services-container,
+  .features-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card,
+  .feature {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
 @media(max-width: 700px) {
-    .text-box h1 {
-        font-size: 40px;
-    }
-    .text-box p {
-        font-size: 15px;
-    }
-    .text-box h2 {
-        font-size: 20px;
-    }
+  .text-box h1 {
+    font-size: 40px;
+  }
+
+  .text-box p {
+    font-size: 15px;
+  }
+
+  .text-box h2 {
+    font-size: 20px;
+  }
 }
