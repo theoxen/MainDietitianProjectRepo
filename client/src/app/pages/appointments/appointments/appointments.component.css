@@ -1,4 +1,13 @@
-/* Keep the original design but fix responsiveness for larger screens */
+.appointments-page {
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(rgba(167, 91, 5, 0.384), rgba(160, 88, 6, 0.384));
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  overflow-x: hidden;
+}
 .appointmentsContainer {
   display: flex;
   align-items: center;
@@ -15,7 +24,9 @@
   transition: all 0.3s ease;
 }
 
-
+.calendar{
+  width: 100%;
+}
 .clientsContainer{
     height: 350px;
 }
@@ -105,9 +116,9 @@
 }
 
 .logo{
-    width: 150px;
-    height:150px;
-    margin: 20px 30px 30px 30px;
+    width: 190px;
+    height:190px;
+    margin: 0 30px 30px 30px;
 }
 
 .cancelButton{ 
@@ -551,10 +562,7 @@
   }
   
 
-  :host ::ng-deep .calendar {
-      max-width: 600px; /* Limit calendar width */
-      min-width: 500px
-  }
+
   
   /* Fix client list sizing */
   .client-selection-container {
@@ -568,7 +576,6 @@
   }
 }
 
-/* Keep your existing media queries */
 @media (max-width: 1400px) {
   .clear-search {
     right: 175px;
@@ -663,6 +670,7 @@
     right: 120px;
   }
 }
+
 /* Fix for modal on extra large screens */
 @media (min-width: 2500px) {
   .modal-overlay {
@@ -674,6 +682,6 @@
   }
   
   .confirmation-modal {
-      width: 450px; /* Fixed width instead of percentage */
+      width: 450px; 
   }
 }

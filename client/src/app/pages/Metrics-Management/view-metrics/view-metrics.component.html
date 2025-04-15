@@ -48,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (metric of pagedItems; track metric.date) {
+            @for (metric of pagedItems; track $index) {
               <tr>
                 <td data-label="Date">
                     <h2>{{ metric.date }}</h2>
