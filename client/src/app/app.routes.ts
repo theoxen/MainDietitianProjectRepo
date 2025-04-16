@@ -45,6 +45,7 @@ import { ViewTemplatesComponent } from './pages/Templates-Management/view-templa
 import { AddTemplatesComponent } from './pages/Templates-Management/add-templates/add-templates.component';
 import { EditTemplatesComponent } from './pages/Templates-Management/edit-templates/edit-templates.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
+import { ServicesComponent } from './pages/services/services.component';
 
 
 export const routes: Routes = [
@@ -156,7 +157,7 @@ export const routes: Routes = [
    { path: "appointments", component: AppointmentsComponent, canActivate: [authGuard, adminGuard] }, 
 
 
-
+   { path: "services", component: ServicesComponent },
    { path: "about-us", component: AboutUsViewComponent },
    { path: "meet-us", component: MeetUsComponent },
 
