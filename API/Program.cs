@@ -53,6 +53,6 @@ app.UseStaticFiles(); // Needed for deployment
 
 app.MapControllers();
 
-// app.MapFallbackToController("Index", "Fallback"); // TODO: UNCOMMENT THIS. Needed for deployment
+app.MapFallbackToController("Index", "Fallback");
 
 app.Run();
