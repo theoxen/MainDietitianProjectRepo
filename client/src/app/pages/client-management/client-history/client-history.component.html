@@ -71,44 +71,41 @@
       <p>No metrics available for this client.</p>
     </ng-template>
 
-    <!-- Diet Section -->
+<!-- Diet Section -->
 <div class="diets-container">
   <div class="primary-hover-box">
     <div class="title">Client Diets</div>
     <div class="table-container">
-      <table *ngIf="transformedDiets && transformedDiets.length > 0; else noDiets">
-        <thead>
-          <tr>
-            <th style="width: 120px;">Date</th>
-            <th style="width: 50%;">Name</th>
-            <th style="width: 100px;">Template</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let diet of transformedDiets" (click)="showDietDetails(diet)" class="clickable-row">
-            <td>
-              <h2>{{ diet.date }}</h2>
-            </td>
-            <td>
-              {{ diet.name }}
-            </td>
-            <td>
-              {{ diet.isTemplate ? 'Yes' : 'No' }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      
+      @if (hasValidDiets()) {
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 120px;">Date</th>
+              <th style="width: 50%;">Name</th>
+              <th style="width: 100px;">Template</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let diet of transformedDiets" (click)="showDietDetails(diet)" class="clickable-row">
+              <td>
+                <h2>{{ diet.date }}</h2>
+              </td>
+              <td>
+                {{ diet.name }}
+              </td>
+              <td>
+                {{ diet.isTemplate ? 'Yes' : 'No' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      } @else {
+        <div class="no-data-message">No diets available for this client.</div>
+      }
     </div>
   </div>
 </div>
 
-<ng-template #noDiets>
-  <div class="primary-hover-box">
-    <div class="title">Client Diets</div>
-    <p>No diets available for this client.</p>
-  </div>
-</ng-template>
 
 <!-- Diet Details Modal -->
 <div class="diet-details-modal" [style.display]="selectedDiet ? 'block' : 'none'">

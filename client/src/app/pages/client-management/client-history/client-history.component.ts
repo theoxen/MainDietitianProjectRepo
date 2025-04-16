@@ -146,6 +146,26 @@ export class ClientHistoryComponent implements OnInit {
     console.log('Transformed diets:', this.transformedDiets);
   }
 
+  hasValidDiets(): boolean {
+    // First check if there are any diets at all
+    if (!this.clientDiets || this.clientDiets.length === 0) {
+      return false;
+    }
+    
+    // Check if we have at least one diet with actual content
+    // This prevents showing empty/placeholder diets
+    const validDiet = this.clientDiets.find(diet => {
+      // Check if diet has actual data, not just empty placeholders
+      return (
+        (diet.id && diet.id !== '') || 
+        (diet.name && diet.name !== 'Unnamed Diet') ||
+        (diet.dateCreated && diet.dateCreated !== null)
+      );
+    });
+    
+    return !!validDiet;
+  }
+
 
   calculateClientAge(client: ClientProfile | null): number {
     if (!client || !client.dateOfBirth) {
