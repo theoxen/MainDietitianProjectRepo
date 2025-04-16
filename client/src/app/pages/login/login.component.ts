@@ -10,6 +10,7 @@ import { PrimaryInputFieldComponent } from "../../components/primary-input-field
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NavBarComponent } from "../../components/nav-bar/nav-bar.component";
 import { PageFooterComponent } from "../../components/page-footer/page-footer.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,8 @@ export class LoginComponent {
   private router = inject(Router);
 
   private wereCredentialsWrong = false;
+
+  private toastr = inject(ToastrService);
 
   displayErrorOnControlDirty = true;
   displayErrorOnControlTouched = true;
@@ -72,7 +75,7 @@ export class LoginComponent {
       this.accountService.login(loginData).subscribe({
         next:(user)=>{
           this.router.navigateByUrl("/");
-          console.log(user);
+          this.toastr.success("You have successfully logged in!");
         },
         error:(error)=>{
           console.log(error)
