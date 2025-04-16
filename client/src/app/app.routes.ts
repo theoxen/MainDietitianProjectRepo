@@ -38,14 +38,9 @@ import { DisplayArticlesComponent } from './pages/uploads/articles/articles.comp
 import { MeetUsComponent } from './pages/meet-us/meet-us.component';
 import { SelectReportComponent } from './pages/Reports/select-report/select-report.component';
 import { AboutUsViewComponent } from './pages/aboutus/view/view.component';
-
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
-
 import { ViewTemplatesComponent } from './pages/Templates-Management/view-templates/view-templates.component';
-import { AddTemplatesComponent } from './pages/Templates-Management/add-templates/add-templates.component';
-import { EditTemplatesComponent } from './pages/Templates-Management/edit-templates/edit-templates.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
-import { ServicesComponent } from './pages/services/services.component';
 
 
 export const routes: Routes = [
@@ -156,8 +151,6 @@ export const routes: Routes = [
 
    { path: "appointments", component: AppointmentsComponent, canActivate: [authGuard, adminGuard] }, 
 
-
-   { path: "services", component: ServicesComponent },
    { path: "about-us", component: AboutUsViewComponent },
    { path: "meet-us", component: MeetUsComponent },
 
