@@ -157,7 +157,7 @@ export const routes: Routes = [
 
 
 
-   { path: "about-us", component: AboutUsComponent },
+   { path: "about-us", component: AboutUsViewComponent },
    { path: "meet-us", component: MeetUsComponent },
 
 
