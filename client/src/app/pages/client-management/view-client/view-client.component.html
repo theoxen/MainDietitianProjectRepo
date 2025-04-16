@@ -41,7 +41,11 @@
                 </div>
             </div>
             <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/edit-details')">Edit Details</button>
-
+            <div class="page-header">
+                <button type="button" class="primary-button back-button" (click)="goBack()">
+                  <i class="fas fa-arrow-left"></i> Back
+                </button>
+              </div>
         </div>
 
     </div>

@@ -12,6 +12,8 @@ import { DropdownItem } from '../../../components/primary-dropdown-input/dropdow
 import { PrimaryDropdownInputComponent } from "../../../components/primary-dropdown-input/primary-dropdown-input.component";
 import { combineLatest } from 'rxjs';
 import { ClientProfileAllView } from '../../../models/client-management/client-view-profile';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-view-client-details',
@@ -29,7 +31,7 @@ export class ViewClientDetailsComponent implements OnInit {
   client: ClientProfileAllView | null = null;
 clientAge: ClientProfileAllView | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private location: Location) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -65,6 +67,9 @@ clientAge: ClientProfileAllView | undefined;
     return age;
   }
 
+  goBack(): void {
+    this.location.back();
+  }
   
   navigateTo(route: string) {
     if (this.clientId) {

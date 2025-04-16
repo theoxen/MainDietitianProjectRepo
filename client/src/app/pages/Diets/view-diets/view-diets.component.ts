@@ -16,6 +16,7 @@ import { ClientProfile } from '../../../models/client-management/client-profile'
 
 import { ReviewsService } from '../../../services/reviews.service';
 import { AccountService } from '../../../services/account.service';
+import { Location } from '@angular/common';
 
 
 
@@ -77,7 +78,8 @@ export class ViewDietsComponent implements OnInit {
   dietService = inject(DietService);
   clientManagementService = inject(ClientManagementService);
 
-  constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
+  constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router,   private location: Location
+  ) {}
  
 
   ngOnInit(): void {
@@ -642,6 +644,9 @@ downloadDietPdf(): void {
 }
 
 
+goBack(): void {
+  this.location.back();
+}
 
 
 
