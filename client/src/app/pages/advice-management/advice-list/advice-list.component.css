@@ -177,3 +177,24 @@
 .read-more-btn:hover {
   color: #FFA726;
 }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-top: 20px;
+  width : 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
+}
+
+.empty-state i {
+  font-size: 3rem; /* Icon size */
+  color: #FFB453; /* Icon color */
+  margin-bottom: 1rem; /* Space between the icon and text */
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: #333;
+}

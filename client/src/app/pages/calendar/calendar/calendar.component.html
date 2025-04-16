@@ -55,7 +55,7 @@
       <div>Su</div>
     </div>
     <div class="calendar-days">
-      @for (day of calendarDays; track day.date) {
+      @for (day of calendarDays; track $index) {
       <div
         [ngClass]="{
               'calendar-day': true,
@@ -71,7 +71,7 @@
           day.isCurrentMonth
             ? isPastDate(day.date)
               ? day.booked > 0
-                ? viewDate(day)
+                ? viewDate(day) 
                 : day.isWeekend
                 ? displayCantBookOnWeekends()
                 : displayCantBookInThePastError()
@@ -115,11 +115,12 @@
         }"
         [attr.disabled]="isBooked(selectedDate, time) ? true : null"
         (click)="
+        isPastTime(selectedDate, time) ? (isBooked(selectedDate, time)? editBookedDetails(selectedDate, time) :displayCantBookInThePastError()):(
           isBooked(selectedDate, time)
             ? editBookedDetails(selectedDate, time)
             : isPastDate(selectedDate.getDate())
             ? displayCantBookInThePastError()
-            : selectTime(time)
+            : selectTime(time))
         "
       >
         {{ time + clientName }}

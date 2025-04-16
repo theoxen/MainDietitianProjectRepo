@@ -37,16 +37,218 @@
     flex: 1;                     /* or a smaller fraction if you want a narrower image column, e.g. flex: 0.7 */
     display: flex;
     justify-content: center;     /* center the image horizontally in this column */
+    
+  }
+
+  .DietitianPhoto{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 53%; /* Position the image first */
+    transform: scale(2.1); /* Then scale it */
+    transform-origin: center 57%; /* Make sure this matches object-position */
+
   }
   
-  .cv-photo img {
+  .cv-photo {
     width: 100%;                 /* let the photo fill its container */
     max-width: 500px;            /* limit how large the image can get */
+    width: 200px;  /* desired width */
+    height: 200px; /* desired height */
+    overflow: hidden; /* hides anything outside the container */
+    position: relative;
     height: auto;
     border-radius: 8px;          /* optional: rounded corners */
     object-fit: cover;           /* crop any overflow if container is smaller */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* soft shadow */
   }
+
+  .ourCenterSectionContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 150px;
+  }
+  .CarouselSideText{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-right: 200px;
+  }
+  .info-text{
+    display: flex;
+    width: 60%;
+    flex-direction: column;
+    
+  }
+
+  /* Center section and carousel styles */
+.our-center-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.our-center-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.our-center-section p {
+  margin-bottom: 3rem;
+  color: #666;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carousel-container {
+  width: 600px;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  position: relative;
+  height: 400px;
+}
+
+.photo-box {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  background-size: cover;
+  background-position: center 55%;
+  position: relative;
+}
+
+.photo-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+}
+
+.photo-caption {
+  position: absolute;
+  bottom: 115px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  text-shadow: 1px 1px 2px #000, 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  padding: 0 20px;
+  color: #f39a01;
+}
+
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.carousel-btn:hover {
+  background-color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-btn.prev {
+  left: 20px;
+}
+
+.carousel-btn.next {
+  right: 20px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: #333;
+  transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel-slide {
+    height: 350px;
+  }
+  
+  .our-center-section h2 {
+    font-size: 2rem;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-slide {
+    height: 250px;
+  }
+  
+  .our-center-section h2 {
+    font-size: 1.8rem;
+  }
+  
+  .our-center-section p {
+    margin-bottom: 2rem;
+  }
+  
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+  }
+}
 
   .our-center-section {
     max-width: 1200px;      /* optional max width */
@@ -80,8 +282,8 @@
   
   /* Each photo box (placeholder) */
   .photo-box {
-    width: 150px;           /* fixed width or use a responsive approach */
-    height: 100px;
+    width: 600px;           /* fixed width or use a responsive approach */
+    height: 500px;
     border: 2px solid #f39a01; 
     border-radius: 8px;
     display: flex;          /* center content horizontally/vertically */
@@ -99,6 +301,7 @@
   }
 
 .hours-box {
+    width: 80%;
     background-color: #fff;
     border: 1px solid #f39a01; /* Subtle border to separate sections */
     padding: 20px;
@@ -106,6 +309,11 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     margin-bottom: 30px;
     font-size: 16px;
+}
+.hoursBoxContainer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .hours-item {

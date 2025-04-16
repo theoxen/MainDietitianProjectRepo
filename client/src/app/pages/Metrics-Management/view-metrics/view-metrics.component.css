@@ -5,10 +5,56 @@
     margin: 20px 0;
 }
 
+.pagination-container {
+    margin-bottom: 20px; /* Add bottom spacing to the pagination component */
+  }
+  
+  .page-header {
+    text-align: center;
+    width: 100%;
+  }
+
 .fa-solid{
     color: #FFA726; /* Slightly darker shade for hover effect */
 
 }
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFB453;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 auto;
+    width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .back-button:hover {
+    background-color: #FFA726;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .back-button .fas {
+    margin-right: 10px;
+    color: white;
+  }
+  
+  .page-header {
+    text-align: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
 
 .EditButton{
     border: none;

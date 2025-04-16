@@ -23,6 +23,11 @@ export class RecipesComponent implements OnInit {
   
   isadmin = false;
 
+  currentPage: number = 1;
+  itemsPerPage: number = 9; // Changed from 6 to 9
+  totalPages: number = 1;
+  paginatedRecipes: any[] = [];
+
   constructor(private recipeService: RecipesService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -30,6 +35,7 @@ export class RecipesComponent implements OnInit {
     this.recipeService.viewAllRecipes().subscribe({
       next: (recipes) => {
         this.recipes = recipes;
+        this.updatePagination();
       },
       error: (error) => {
         console.log(error);
@@ -37,10 +43,26 @@ export class RecipesComponent implements OnInit {
     });
   }
 
+  updatePagination() {
+    this.totalPages = Math.ceil(this.recipes.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedRecipes = this.recipes.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
   filterRecipes(): void {
     this.recipeService.searchRecipes(this.searchTerm).subscribe({
       next: (recipes) => {
         this.recipes = recipes;
+        this.currentPage = 1; // Reset to first page when filtering
+        this.updatePagination();
       },
       error: (error) => {
         console.log(error);
@@ -48,4 +70,4 @@ export class RecipesComponent implements OnInit {
     });
   }
 }
-   
+
