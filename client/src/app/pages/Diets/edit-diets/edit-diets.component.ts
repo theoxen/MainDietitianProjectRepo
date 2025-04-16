@@ -133,10 +133,10 @@ export class EditDietsComponent implements OnInit {
         name: new FormControl(dayName),
         meals: new FormArray([
           this.createMealFormGroup('Breakfast'),      // Index 0
-          this.createMealFormGroup('Lunch'),          // Index 1
-          this.createMealFormGroup('Dinner'),         // Index 2
-          this.createMealFormGroup('Morning Snack'),  // Index 3
-          this.createMealFormGroup('Afternoon Snack') // Index 4
+          this.createMealFormGroup('Morning Snack'),  // Index 1
+          this.createMealFormGroup('Lunch'),          // Index 2
+          this.createMealFormGroup('Afternoon Snack'), // Index 3
+          this.createMealFormGroup('Dinner'),          // Index 4
         ])
       }));
     });

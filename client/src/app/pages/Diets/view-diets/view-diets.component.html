@@ -1,11 +1,37 @@
 <div class="page">
 
-  <div class="print-logo">
-    <img src="/client/public/images/DietitianLogo.png" alt="print-logo">
-</div>
-
   <app-nav-bar></app-nav-bar>
   
+
+ 
+  <div class="print-container">
+
+  <div class="print-header">
+    <div class="logo-and-info">
+      <div class="contact-info">
+        <p><strong>ΡΑΦΑΕΛΛΑ ΠΑΝΑΓΙΩΤΟΥ</strong></p>
+        <p>Κλινική Διαιτολόγος - Διατροφολόγος</p>
+        <p>📍 Μαρίνου Γερολάσου 51, 4154 Λεμεσός</p>
+        <p>📞 +357 97 72 28 69</p>
+        <p>Follow Us:</p>
+        <p>
+          <span>📘 nutritionsecretscy</span><br>
+          <span>📸 nutritionsecretscy</span>
+        </p>
+      </div>
+    </div>
+  </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   <div class="diets-container">
     <div class="primary-hover-box">
       <div class="hover-box">
@@ -74,16 +100,30 @@
 <!-- Diet details modal -->
 <div class="diet-details-modal" [style.display]="selectedDiet ? 'block' : 'none'">
   <div class="modal-content">
+    <img src="/images/logoDietitian.png" alt="Nutrition Secrets Logo" alt="Nutrition Secrets Logo" class="page-logo hide-on-page">
     <span class="close" (click)="closeDetails()">&times;</span>
+    
+    <!-- This section will only show when printing -->
+    <div class="print-header">
+      <div class="logo-and-info">
+        <div class="contact-info">
+          <p><strong>ΡΑΦΑΕΛΛΑ ΠΑΝΑΓΙΩΤΟΥ</strong></p>
+          <p>Κλινική Διαιτολόγος - Διατροφολόγος</p>
+          <p>📍 Μαρίνου Γερολάσου 51, 4154 Λεμεσός</p>
+          <p>📞 +357 97 72 28 69</p>
+        </div>
+      </div>
+    </div>
+    
     <h2>Diet Details: {{selectedDiet?.name || ''}}</h2>
     <p><strong>Date:</strong> {{selectedDiet?.date || ''}}</p>
-    <!-- <p><strong>Type:</strong> {{selectedDiet?.isTemplate ? 'Template' : 'Regular Diet'}}</p> -->
+
     
     <!-- Fixed structure horizontal table layout with 8 columns and 6 rows -->
     <table class="horizontal-diet-table">
       <thead>
         <tr>
-          <th class="meal-type-header">Meal Type</th>
+          <th class="meal-type-header">{{clientName}}</th>
           <th>Monday</th>
           <th>Tuesday</th>
           <th>Wednesday</th>
@@ -165,7 +205,7 @@
         <i class="fa-solid fa-trash"></i> Delete
       </button>
       <button class="primary-button" (click)="printDiet()">
-        <i class="fa-solid "></i> Print Diet
+        <i class="fa-solid fa-print"></i> Print Diet
       </button>
     </div>
   </div>
@@ -199,6 +239,12 @@
         </div>
 
       </div>
+      <div class="page-header" style="text-align: center; margin-top: 20px; width: 100%;">
+        <button type="button" class="primary-button back-button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+      </div>
     </div>
+    
   </div>
 </div>

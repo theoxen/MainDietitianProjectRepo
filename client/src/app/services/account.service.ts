@@ -7,6 +7,7 @@ import { LoginData } from '../models/login-data';
 import { RegisterData } from '../models/register.data';
 import { HttpResponseError } from '../models/http-error';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AccountService {
   private router = inject(Router);
   private baseUrl = environment.apiUrl;
   private currentUserSubject: BehaviorSubject<User | null>;
+  private toastr = inject(ToastrService);
 
   public currentUser$: Observable<User | null>;
 
@@ -76,6 +78,7 @@ export class AccountService {
     this.currentUserSubject.next(null);
     this.userRole.set(null);
     this.router.navigate(['/']);
+    this.toastr.success("You have successfully logged out!");
   }
 
   register(userToRegister: RegisterData) {

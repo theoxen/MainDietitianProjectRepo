@@ -72,3 +72,8 @@
     <button class="close-btn" (click)="closeViewModal()">Close</button>
   </div>
 </div>
+
+<div *ngIf="filteredAdvice.length === 0" class="empty-state">
+  <i class="fas fa-newspaper"></i>
+  <h3>No advice found</h3>
+</div>

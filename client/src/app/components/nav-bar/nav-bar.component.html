@@ -1,11 +1,14 @@
 <div style="flex-grow: 1"></div>
 <nav>
     <a routerLink="/"><img src="/images/DietitianLogo.png"></a>
+    
     <div class="nav-links" #navLinks>
         <i class="fa-solid fa-xmark" (click)="hideMenu()"></i>
 
         <ul>
+            <li><a routerLink="/" class="home-link"> HOME</a></li>
             @if (role() == "admin") {
+                <li><a routerLink="/appointments">MANAGE APPOINTMENTS</a></li>
                 <li><a routerLink="/auth/register">REGISTER CLIENT</a></li>
                 <li><a routerLink="/clients">MANAGE CLIENTS</a></li>
                 <li><a routerLink="/manage-data">MANAGE DATA</a></li>
@@ -15,20 +18,20 @@
 
                 <li><a routerLink="/uploads">UPLOADS</a></li>
                 <!-- <li><a href="#">MY DIET</a></li> -->
-                <li><a routerLink="/about-us">ABOUT US</a></li>
                 <li><a routerLink="/meet-us">MEET US</a></li>
+                <li><a routerLink="/about-us">ABOUT US</a></li>
                 <li><a (click)="logout()">SIGN OUT</a></li>
 
             }
             @else if(role() == "client") {
                 <li><a routerLink="/uploads" class="dropbtn">UPLOADS</a></li>
                 <li><a routerLink="/my-diets">MY DIETS</a></li>
-                <li><a routerLink="/about-us">ABOUT US</a></li>
                 <li><a routerLink="/meet-us">MEET US</a></li>
+                <li><a routerLink="/about-us">ABOUT US</a></li>
                 <li><a (click)="logout()">SIGN OUT</a></li>
             }@else {
+                <li><a routerLink="/meet-us">MEET US</a></li>
                 <li><a routerLink="/about-us">ABOUT US</a></li>
-                
                 <li><a routerLink="/auth/login">SIGN IN</a></li>
             }
         </ul>

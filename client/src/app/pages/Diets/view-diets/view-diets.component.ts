@@ -16,16 +16,18 @@ import { ClientProfile } from '../../../models/client-management/client-profile'
 
 import { ReviewsService } from '../../../services/reviews.service';
 import { AccountService } from '../../../services/account.service';
+import { Location } from '@angular/common';
 
 
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { PageFooterComponent } from "../../../components/page-footer/page-footer.component";
 
 @Component({
   selector: 'view-diets',
   standalone: true,
-  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent , CommonModule],
+  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent, CommonModule, PageFooterComponent],
   templateUrl: './view-diets.component.html',
   styleUrls: ['./view-diets.component.css']
 })
@@ -77,7 +79,8 @@ export class ViewDietsComponent implements OnInit {
   dietService = inject(DietService);
   clientManagementService = inject(ClientManagementService);
 
-  constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router) {}
+  constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router,   private location: Location
+  ) {}
  
 
   ngOnInit(): void {
@@ -240,23 +243,42 @@ fetchDietsForUser(clientId: string): void {
 
 
 printDiet(): void {
-  // Add current date to the report view
-  const reportView = document.querySelector('.report-view');
-  if (reportView) {
-      const currentDate = new Date().toLocaleDateString('en-GB', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-      });
-      reportView.setAttribute('data-print-date', currentDate);
+  if (!this.selectedDiet) return;
+  
+  // Add current date to the print view
+  const printDate = new Date().toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  
+  // Set client name for the table header
+  const clientNameElement = document.querySelector('.meal-type-header');
+  if (clientNameElement) {
+    clientNameElement.textContent = this.clientName || 'Diet Plan';
+    clientNameElement.setAttribute('data-original-content', clientNameElement.textContent);
   }
-  window.print();
+  
+  // Set print attributes on container
+  const modalContent = document.querySelector('.modal-content');
+  if (modalContent) {
+    modalContent.setAttribute('data-print-date', printDate);
+    modalContent.setAttribute('data-diet-name', this.selectedDiet.name || 'Diet Plan');
+  }
+  
+  // Add a small delay to ensure DOM is updated before printing
+  setTimeout(() => {
+    window.print();
+    
+    // Restore original client name header after printing (if needed)
+    if (clientNameElement && clientNameElement.hasAttribute('data-original-content')) {
+      const originalContent = clientNameElement.getAttribute('data-original-content');
+      if (originalContent) {
+        clientNameElement.textContent = originalContent;
+      }
+    }
+  }, 100);
 }
-
-
-
 
 
   formatDate(dateInput: string | Date): string {
@@ -642,6 +664,9 @@ downloadDietPdf(): void {
 }
 
 
+goBack(): void {
+  this.location.back();
+}
 
 
 

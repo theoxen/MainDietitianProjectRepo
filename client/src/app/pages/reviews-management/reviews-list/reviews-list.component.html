@@ -1,39 +1,58 @@
-<div class="button-container">
-  @if( getUserToken() && isNotAdmin!=true ) {
-    <button class="primary-button" (click)="addOrUpdateReview()">
-      {{ userReview?.id ? 'Update Review' : 'Add Review' }}
-    </button>
-  }
+<section class="reviews-section">
+  <div class="reviews-header">
+    <h2 class="section-title">Client Testimonials</h2>
+    <p class="section-subtitle">See what our clients have to say about their experience</p>
+  </div>
 
-  <select class="sorting-select" (change)="sortReviews($event)">
-    <option value="best">Best Rating</option>
-    <option value="worst">Worst Rating</option>
-    <option value="newest">Newest</option>
-    <option value="oldest">Oldest</option>
-  </select>
-</div>
-
-@for (review of reviews; track review.id) {
-  <div class="review">
-    <div class="review-header">
-      <p>Client's Name: {{ review.userFullName }}</p>
-      <p>{{ review.dateCreated | date:'mediumDate' }}</p>
-    </div>
-    <div class="star-rating">
-      @for (star of [1, 2, 3, 4, 5]; track star) {
-        <span [ngClass]="{'filled': $index < review.stars}">
-          &#9733;
-        </span>
+  <div class="controls-container">
+    <div class="left-controls">
+      @if( getUserToken() && isNotAdmin!=true ) {
+        <button class="primary-button" (click)="addOrUpdateReview()">
+          <i class="fas fa-pen-to-square"></i> {{ userReview?.id ? 'Update Your Review' : 'Share Your Experience' }}
+        </button>
       }
     </div>
-    <p>{{ review.reviewText }}</p>
+    <div class="right-controls">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select" class="sorting-select" (change)="sortReviews($event)">
+        <option value="best">Best Rating</option>
+        <option value="worst">Worst Rating</option>
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+      </select>
+    </div>
   </div>
-}
 
-@if (hasMoreReviews()) {
-  <div class="button-container">
-    <button class="primary-button" (click)="loadMoreReviews()" [disabled]="loading">
-      Show More
-    </button>
+  <div class="reviews-container">
+    @for (review of reviews; track review.id) {
+      <div class="review-card">
+        <div class="review-header">
+          <div class="client-info">
+            <h3 class="client-name">{{ review.userFullName }}</h3>
+            <span class="review-date">{{ review.dateCreated | date:'mediumDate' }}</span>
+          </div>
+          <div class="star-rating">
+            @for (star of [1, 2, 3, 4, 5]; track star) {
+              <span [ngClass]="{'filled': star <= review.stars}">
+                &#9733;
+              </span>
+            }
+          </div>
+        </div>
+        <div class="review-content">
+          <p>{{ review.reviewText }}</p>
+        </div>
+      </div>
+    }
   </div>
-}
+
+  @if (hasMoreReviews()) {
+    <div class="load-more-container">
+      <button class="load-more-button" (click)="loadMoreReviews()" [disabled]="loading">
+        <span>Show More Reviews</span>
+        <i class="fas fa-chevron-down"></i>
+        <!-- <i class="fas fa-spinner fa-spin" *ngIf="loading"></i> -->
+      </button>
+    </div>
+  }
+</section>

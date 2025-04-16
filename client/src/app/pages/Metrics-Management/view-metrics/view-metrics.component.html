@@ -48,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (metric of pagedItems; track metric.date) {
+            @for (metric of pagedItems; track $index) {
               <tr>
                 <td data-label="Date">
                     <h2>{{ metric.date }}</h2>
@@ -84,6 +84,13 @@
         
 
       </div>
+
+      <div class="page-header">
+        <button type="button" class="back-button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+      </div>
     </div>
   </div>
+  
 </div>

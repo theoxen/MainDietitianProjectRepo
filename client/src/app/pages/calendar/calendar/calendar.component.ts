@@ -46,7 +46,7 @@ export class CalendarComponent implements OnInit {
   currentMonth: Date = new Date(); // Current month by default
   calendarDays: CalendarDate[] = [];
   selectedDate: Date | null = null;
-  availableTimes: string[] = ['5:00 PM','5:30 PM', '6:00 PM','6:30 PM', '7:00 PM','7:30 PM', '8:30 PM', '9:30 PM'];
+  availableTimes: string[] = ['5:00 PM','5:30 PM', '6:00 PM','6:30 PM', '7:00 PM','7:30 PM', '8:30 PM', '9:30 PM', '11:30 PM'];
   selectedTime: string | null = null;
   calendarDisplay: string = "block";
   calendarOpacity: string = "1"; 
@@ -103,7 +103,7 @@ export class CalendarComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error("Error loading clients:", error);
+        // console.error("Error loading clients:", error);
       }
     });
   }
@@ -115,12 +115,11 @@ calendarAndFetchingInitialization()
   this.appointmentsService.fetchAllAppointments().subscribe({
   next: (appointments: Appointment[]) => {
     this.bookedAppointments = appointments;
-    console.log("This is the booked appointments:",this.bookedAppointments);
 
     this.generateCalendar(); // Generate calendar after data is loaded
   },
   error: (error) => {
-    console.error("Error fetching all appointments", error);
+    // console.error("Error fetching all appointments", error);
     this.generateCalendar(); // Still generate calendar even if fetch fails
   }
 });
@@ -471,6 +470,43 @@ calendarAndFetchingInitialization()
     return dateToCheck < currentDate;
   }
 
+  isPastTime(selectedDate: Date, time: string){
+    // Parse the time string to get hours and minutes in 24-hour format
+    let selectedHour = 0;
+    let selectedMinute = 0;
+    
+    if (time) {
+      const [hourMinute, period] = time.split(' ');
+      
+      let [hour, minute] = hourMinute.split(':').map(Number);
+      
+      
+      // Convert to 24-hour format
+      if (period === 'PM' && hour < 12) {
+        hour += 12;
+      } else if (period === 'AM' && hour === 12) {
+        hour = 0;
+      }
+      
+      selectedHour = hour;
+      selectedMinute = minute || 0;
+    }
+
+    const appDate = new Date;
+    const now = new Date;
+    
+    appDate.setHours(selectedHour); 
+    appDate.setMinutes(selectedMinute);
+    appDate.setDate(selectedDate.getDate());
+
+
+    if(appDate < now) // returns true if the selected hour is before the current hour (Past Time)
+    {
+      return true;
+    }
+    return false;
+  }
+
   resetSelection() {
     const day: CalendarDate = { date: -1, isCurrentMonth: true, isSelected: false, booked:0};
     this.selectDate(day);
@@ -496,7 +532,7 @@ calendarAndFetchingInitialization()
         // Initialize filtered clients with all non-admin clients
       },
       error: (error) => {
-        console.error("Error loading clients:", error);
+        // console.error("Error loading clients:", error);
       }
     });
   }
@@ -623,7 +659,7 @@ confirmCancellation() {
       this.closeEditModal();
     },
     error: (error) => {
-      console.error('Error cancelling appointment', error);
+      // console.error('Error cancelling appointment', error);
       this.toastr.error('Failed to cancel appointment. Please try again.');
     }
   });
@@ -715,7 +751,7 @@ submitReschedule() {
 
   // Check if the new time slot is already booked
   const isTimeSlotBooked = this.isBooked(rescheduleDate, this.rescheduleTime);
-  if (isTimeSlotBooked) {
+  if (isTimeSlotBooked && !this.isPastDate(rescheduleDate)) {
     this.toastr.warning("This time slot is already booked. Please choose another time.");
     return;
   }
@@ -774,13 +810,13 @@ submitReschedule() {
               this.closeEditModal();
             },
             error: (error) => {
-              console.error('Error creating new appointment', error);
+              // console.error('Error creating new appointment', error);
               this.toastr.error("Failed to reschedule new appointment. The original appointment has been cancelled.");
             }
           });
         },
         error: (error) => {
-          console.error('Error cancelling original appointment', error);
+          // console.error('Error cancelling original appointment', error);
           this.toastr.error("Failed to reschedule appointment. Please try again");
         }
       });

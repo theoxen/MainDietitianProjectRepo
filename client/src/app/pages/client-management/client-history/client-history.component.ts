@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { DietService } from '../../../services/diet.service';
 import { PaginationComponent } from "../../pagination/pagination.component";
 import { Diet } from '../../../models/diets/diet';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-client-history',
@@ -35,7 +37,7 @@ export class ClientHistoryComponent implements OnInit {
   dietId: string | null = null;
   selectedDiet: any = null;
   
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router,   private location: Location  ) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -318,5 +320,9 @@ export class ClientHistoryComponent implements OnInit {
     // Method to close diet details
     closeDietDetails(): void {
       this.selectedDiet = null;
+    }
+
+    goBack(): void {
+      this.location.back();
     }
 }
