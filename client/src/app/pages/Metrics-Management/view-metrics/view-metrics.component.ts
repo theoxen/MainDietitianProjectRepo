@@ -139,7 +139,7 @@ setupLiveDateSearch(): void {
             this.loadPage(this.currentPage);
           },
           error: (error: any) => {
-            console.error("Error fetching metrics:", error);
+            //console.error("Error fetching metrics:", error);
             this.loadPage(this.currentPage);
             this.filteredMetrics = this.pagedItems = [];
           }
@@ -156,7 +156,7 @@ setupLiveDateSearch(): void {
 
   transformMetrics(): void {
     if (!this.metrics || this.metrics.length === 0) {
-      console.error("Metrics data is empty or undefined.");
+      //console.error("Metrics data is empty or undefined.");
       this.transformedMetrics = [];
       return;
     }

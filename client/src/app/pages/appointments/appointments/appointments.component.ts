@@ -154,14 +154,13 @@ export class AppointmentsComponent {
             );
     
             this.clients = this.filteredClients;
-            console.log("Clients loaded successfully:", this.clients.length);
           } else {
-            console.error("Unexpected response format for clients:", clients);
+            //console.error("Unexpected response format for clients:", clients);
             this.toastr.error("Error loading client data. Please refresh the page.");
           }
         },
         error: (error) => {
-          console.error("Error loading clients:", error);
+          //console.error("Error loading clients:", error);
           this.toastr.error("Failed to load clients. Please try again later.");
         }
       });
@@ -183,18 +182,15 @@ export class AppointmentsComponent {
           email: `client${Math.floor(Math.random() * 10000)}@example.com`
           
         }
-    
-        console.log("Sending registration data:", registerData);
-    
+        
         this.accountService.register(registerData).subscribe({
           next: (user) => {
-            console.log("Registration successful:", user);
             this.toastr.success("Registration of client was successful");
             this.closeAddClientModal();
             this.loadClients();
           },
           error: (error) => {
-            console.error("Registration error:", error);
+            //console.error("Registration error:", error);
             
             // More detailed error handling
             if (error.errors && Array.isArray(error.errors)) {
@@ -265,10 +261,8 @@ export class AppointmentsComponent {
 
   selectClient(client: ClientProfile) {
     // Set the selectedClientId to the clicked client's ID
-    console.log("client:", client);
     this.selectedClientId = client.id;
     this.selectedClientName = client.fullName;
-    console.log("Selected client:", client.fullName, "with ID:", client.id);
   }
   
   cancelSelection() {
@@ -354,7 +348,7 @@ export class AppointmentsComponent {
       },
       error: (error) => {
         this.toastr.error("Error adding appointment: " + (error.message || "Unknown error"));
-        console.error("Error adding appointment:", error);
+        //console.error("Error adding appointment:", error);
       }
     });
   }
@@ -413,7 +407,7 @@ export class AppointmentsComponent {
       },
       error: (error: any) => {
         this.toastr.error("Error adding appointment: " + (error.message || "Unknown error"));
-        console.error("Error adding appointment:", error);
+        //console.error("Error adding appointment:", error);
       }
     });
   }
