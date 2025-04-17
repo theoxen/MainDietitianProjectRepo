@@ -223,37 +223,37 @@ export class ViewTemplatesComponent implements OnInit {
   }
   
  
-
   getDayMeal(dayIndex: number, mealType: string): string {
     if (!this.selectedTemplate || !this.selectedTemplate.Days) {
       return '';
     }
   
-    const days = this.selectedTemplate.Days || [];
-    if (!days[dayIndex]) {
+    // Find the day with the right name based on index
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const targetDayName = dayNames[dayIndex];
+    
+    // Find the day object that matches the name we want
+    const day = this.selectedTemplate.Days.find((d: any) => 
+      (d.dayName === targetDayName || d.name === targetDayName));
+    
+    if (!day) {
       return '';
     }
-  
-    const meals = days[dayIndex].Meals || days[dayIndex].meals || [];
-    const mealTypes = ['Breakfast', 'Morning Snack', 'Lunch', 'Afternoon Snack', 'Dinner'];
-    const typeMappings: {[key: string]: string[]} = {
-      'Breakfast': ['breakfast', 'Breakfast'],
-      'Morning Snack': ['morningSnack', 'Morning Snack', 'morning snack', 'Morning snack'],
-      'Lunch': ['lunch', 'Lunch'],
-      'Afternoon Snack': ['afternoonSnack', 'Afternoon Snack', 'afternoon snack', 'Afternoon snack'],
-      'Dinner': ['dinner', 'Dinner']
-    };
-  
-    // Look for meal with matching type (case insensitive)
-    const possibleTypes = typeMappings[mealType] || [mealType];
+    
+    // Get meals for this day
+    const meals = day.Meals || day.meals || [];
+    
+    // Find the meal with matching type
     const meal = meals.find((m: any) => {
       const mealTypeValue = m.Type || m.type || m.mealType || '';
-      return possibleTypes.some(t => mealTypeValue.toLowerCase() === t.toLowerCase());
+      return mealTypeValue.toLowerCase() === mealType.toLowerCase();
     });
-  
+    
     return meal ? (meal.Meal || meal.meal || '') : '';
   }
-  
+
+
+
   showTemplateDetails(template: any): void {
     this.templateService.getTemplateById(template.id).subscribe({
       next: (fullTemplate: any) => {
@@ -311,7 +311,7 @@ export class ViewTemplatesComponent implements OnInit {
     }
     
     // Ensure we have 7 days (one for each day of the week)
-    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' , 'Saturday','Sunday' ];
     for (let i = 0; i < 7; i++) {
       if (!processedTemplate.Days[i]) {
         processedTemplate.Days[i] = { 

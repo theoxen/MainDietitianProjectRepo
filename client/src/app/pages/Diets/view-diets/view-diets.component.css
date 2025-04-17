@@ -80,7 +80,9 @@
     margin-bottom: 20px;
   }
 
-
+  .hide-on-print {
+    display: none !important;
+  }
   
   /* Style the diet table for printing */
   .horizontal-diet-table {

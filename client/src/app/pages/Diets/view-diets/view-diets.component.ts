@@ -640,28 +640,7 @@ getMealContent(meals: any[], mealType: string): string {
 
 
 
-downloadDietPdf(): void {
-  if (!this.selectedDiet) return;
-  
-  console.log('Downloading diet as PDF:', this.selectedDiet);
-  
-  const dietTable = document.querySelector('.horizontal-diet-table') as HTMLElement;
-  if (!dietTable) {
-    console.error('Could not find diet table element');
-    alert('Error generating PDF: Table not found');
-    return;
-  }
-  
-  html2canvas(dietTable).then(canvas => {
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('l', 'mm', 'a4');
-    pdf.addImage(imgData, 'PNG', 10, 10, 280, 150);
-    pdf.save(`diet-${this.selectedDiet.name}.pdf`);
-  }).catch(error => {
-    console.error('Error generating PDF:', error);
-    alert('Error generating PDF');
-  });
-}
+
 
 
 goBack(): void {
