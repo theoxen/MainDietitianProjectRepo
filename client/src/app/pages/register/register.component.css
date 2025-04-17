@@ -123,4 +123,8 @@
   .form-row {
     gap: 15px;
   }
+
+  .primary-hover-box {
+    padding: 20px;
+  }
 }

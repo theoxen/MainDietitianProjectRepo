@@ -9,6 +9,7 @@ import { ValidationMessages } from '../../../validation/validation-messages';
 import { ErrorComponent } from "../../../components/error/error.component";
 import { HttpResponseError } from '../../../models/http-error';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-password-step-2',
@@ -29,6 +30,7 @@ export class ForgotPasswordStep2Component implements OnInit {
 
   router = inject(Router);
   accountService = inject(AccountService);
+  toastr = inject(ToastrService);
 
   ngOnInit(): void {
     this.email = sessionStorage.getItem('email');
@@ -36,7 +38,7 @@ export class ForgotPasswordStep2Component implements OnInit {
 
     // TODO: UNCOMMENT THIS 
     if (!this.email || !this.otp) {
-      this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
+      this.router.navigate(['/auth/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
       this.changePasswordForm.disable(); // Disable the form if email or otp is missing
     }
 
@@ -44,7 +46,7 @@ export class ForgotPasswordStep2Component implements OnInit {
     this.timeoutId = setTimeout(() => {
       sessionStorage.removeItem('email');
       sessionStorage.removeItem('otp');
-      this.router.navigate(['users/forgot-password']); // Redirect to forgot password step 1 page after expiration
+      this.router.navigate(['/auth/forgot-password']); // Redirect to forgot password step 1 page after expiration
     }, 5 * 60 * 1000); // 5 minutes in milliseconds
   }
 
@@ -105,7 +107,8 @@ export class ForgotPasswordStep2Component implements OnInit {
           sessionStorage.removeItem('email');
           sessionStorage.removeItem('otp');
           clearTimeout(this.timeoutId);
-          this.router.navigate(['users/login']);
+          this.router.navigate(['/auth/login']);
+          this.toastr.success("Password changed successfully");
         },
         error: (error: HttpResponseError) => {
           this.emailExists = true;

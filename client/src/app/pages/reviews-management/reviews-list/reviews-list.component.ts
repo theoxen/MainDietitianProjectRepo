@@ -100,16 +100,18 @@ import { ToastrService } from "ngx-toastr";
     }
   
     fetchUserId(): void {
-      this.reviewsService.getLoggedInUserId().subscribe({
-        next: (userId: string) => {
-          this.userId = userId;
-          this.checkUserReview();
-        },
-        error: (error: any) => {
-          //console.error("Error fetching user ID.", error);
-          //this.toastr.error("Error fetching user ID.");
-        }
-      });
+      if(this.accountService.getUserToken()) {
+        this.reviewsService.getLoggedInUserId().subscribe({
+          next: (userId: string) => {
+            this.userId = userId;
+            this.checkUserReview();
+          },
+          error: (error: any) => {
+            //console.error("Error fetching user ID.", error);
+            //this.toastr.error("Error fetching user ID.");
+          }
+        });
+      }
     }
   
     checkUserReview(): void {

@@ -19,5 +19,12 @@ export class PrimaryInputFieldComponent {
   @Input() showErrorOnControlTouched: boolean = true;
   @Input() showErrorOnControlDirty: boolean = true;
   @Input() type: string = 'text';
+
+  showPassword: boolean = false;
   
+  togglePasswordVisibility(event: Event): void {
+    event.preventDefault();
+    this.showPassword = !this.showPassword;
+    console.log(this.showPassword);
+  }
 }

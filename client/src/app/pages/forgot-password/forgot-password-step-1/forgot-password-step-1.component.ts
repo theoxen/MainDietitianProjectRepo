@@ -8,6 +8,7 @@ import { AccountService } from '../../../services/account.service';
 import { ErrorComponent } from "../../../components/error/error.component";
 import { Router } from '@angular/router';
 import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-password-step-1',
@@ -20,6 +21,7 @@ export class ForgotPasswordStep1Component {
 
   accountService = inject(AccountService);
   router = inject(Router);
+  toastr = inject(ToastrService);
 
   showErrorOnControlTouched = true;
   showErrorOnControlDirty = true;
@@ -78,7 +80,7 @@ export class ForgotPasswordStep1Component {
 
       this.accountService.sendOtp(this.emailForm.controls.emailFormControl.value).subscribe({
         next: (otp) => {
-          console.log(otp);
+          this.toastr.success("OTP sent successfully. Don't forget to check your spam folder!");
         },
         error: (error: HttpResponseError) => {
           this.emailExists = true;
@@ -111,7 +113,7 @@ export class ForgotPasswordStep1Component {
           sessionStorage.setItem('otp', this.forgotPasswordForm.controls.otp.value!);
 
           // Navigate to step-2 component
-          this.router.navigate(['/users/forgot-password/change-password']);
+          this.router.navigate(['/auth/forgot-password/change-password']);
         },
         error: (error: HttpResponseError) => {
           this.emailExists = true;

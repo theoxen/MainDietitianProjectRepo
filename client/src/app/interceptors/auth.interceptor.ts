@@ -17,8 +17,12 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     return throwError(() => new Error('Token expired')); // TODO: maybe remove the throwerror?
   }
 
-  const newReq = req.clone({
-    headers: req.headers.append('Authorization', `Bearer ${authToken}`)
-  });
-  return next(newReq);
+  if (authToken) {
+    const newReq = req.clone({
+      headers: req.headers.append('Authorization', `Bearer ${authToken}`)
+    });
+    return next(newReq);
+  }
+  
+  return next(req);
 };

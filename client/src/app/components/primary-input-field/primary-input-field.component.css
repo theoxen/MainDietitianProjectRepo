@@ -20,3 +20,25 @@
     flex-direction: column;
     align-items: center;
 }
+
+.password-toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    color: #666;
+}
+
+.password-toggle-btn:hover {
+    color: #333;
+}
+
+/* Adjust padding on password fields to prevent text overlap with button */
+input[type="password"], 
+input[type="text"] {
+    padding-right: 40px;
+}

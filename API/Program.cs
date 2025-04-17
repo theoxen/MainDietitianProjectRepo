@@ -48,8 +48,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseDefaultFiles(); // Needed for deployment
-app.UseStaticFiles(); // Needed for deployment
+app.UseDefaultFiles(); // Needed for deployment (CAN COMMENT OUT IF NOT USING STATIC FILES)
+app.UseStaticFiles(); // Needed for deployment (CAN COMMENT OUT IF NOT USING STATIC FILES)
 
 app.MapControllers();
 
