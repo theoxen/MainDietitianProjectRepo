@@ -41,6 +41,8 @@ import { AboutUsViewComponent } from './pages/aboutus/view/view.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 import { ViewTemplatesComponent } from './pages/Templates-Management/view-templates/view-templates.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
+import { HelperComponent } from './pages/helper for admin/helper.component';
+import { HelperForClientsComponent } from './pages/helper-for-clients/helper-for-clients.component';
 
 
 export const routes: Routes = [
@@ -151,6 +153,9 @@ export const routes: Routes = [
 
    { path: "appointments", component: AppointmentsComponent, canActivate: [authGuard, adminGuard] }, 
 
+
+   { path: "help", component: HelperComponent, canActivate: [authGuard, adminGuard]},
+   { path: "helper", component: HelperForClientsComponent },
    { path: "about-us", component: AboutUsViewComponent },
    { path: "meet-us", component: MeetUsComponent },
 

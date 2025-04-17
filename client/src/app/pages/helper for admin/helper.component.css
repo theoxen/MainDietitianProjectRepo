@@ -1,0 +1,651 @@
+.helper-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.helper-intro {
+    color: #4a5568;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    text-align: center;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+.accordion {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background: white;
+    border: 1px solid #e2e8f0;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #e2e8f0;
+    background-color: white;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-item:first-child .accordion-header {
+    border-radius: 12px 12px 0 0;
+}
+
+.accordion-item:last-child .accordion-header {
+    border-radius: 0 0 12px 12px;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.accordion-header:hover {
+    background-color: #f7fafc;
+}
+
+.accordion-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.accordion-icon {
+    font-size: 1.5rem;
+    color: #4a5568;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f7fafc;
+    border-radius: 50%;
+}
+
+.accordion-content {
+    background-color: #ffffff;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+}
+
+.accordion-content.expanded {
+    max-height: 10000px;
+}
+
+.accordion-content > div {
+    padding: 2rem 1.5rem;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+}
+
+.accordion-content.expanded > div {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scribe-specific styles */
+.scribe-content {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.scribe-step {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.scribe-step-text {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.scribe-screenshot-container {
+    width: 100%;
+    margin: 1rem auto;
+    text-align: center;
+    overflow: visible;
+    position: relative;
+}
+
+.scribe-screenshot {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    transform-origin: center top;
+}
+
+.scribe-title {
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin: 1.5rem 0;
+    font-weight: 600;
+    text-align: left;
+    line-height: 1.3;
+}
+
+.scribe-author {
+    color: #718096;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+/* Responsive breakpoints */
+@media screen and (max-width: 1024px) {
+    .scribe-screenshot-container {
+        max-width: 90%;
+    }
+    
+    .scribe-title {
+        font-size: 1.6rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .scribe-screenshot-container {
+        max-width: 100%;
+        padding: 0;
+    }
+    
+    .scribe-screenshot {
+        border-radius: 4px;
+    }
+    
+    .scribe-step {
+        padding: 1rem;
+        margin: 1.25rem 0;
+    }
+    
+    .scribe-step-text {
+        font-size: 1rem;
+    }
+    
+    .scribe-title {
+        font-size: 1.4rem;
+        margin: 1.25rem 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .scribe-content {
+        padding: 0.75rem;
+    }
+    
+    .scribe-screenshot-container {
+        margin: 0.5rem auto;
+    }
+    
+    .scribe-screenshot {
+        width: 100% !important;
+        border-radius: 4px;
+    }
+    
+    .scribe-step {
+        padding: 0.875rem;
+        margin: 1rem 0;
+    }
+    
+    .scribe-step-text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .scribe-title {
+        font-size: 1.25rem;
+        margin: 1rem 0;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .scribe-screenshot {
+        transform: scale(0.6);
+        margin: -20% 0;  /* Further compensate for scale reduction */
+    }
+    
+    .scribe-step {
+        padding: 0.75rem;
+    }
+    
+    .scribe-step-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Stronger override for Bootstrap's img styles */
+img.scribe-screenshot,
+.scribe-screenshot-container img.scribe-screenshot {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain;
+}
+
+.scribe-screenshot:hover {
+    transform: scale(1.01);
+}
+
+.scribe-footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    color: #718096;
+    padding: 1rem;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.scribe-footer a {
+    color: #4299e1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: inline-block;
+    padding: 0.5rem 0;
+}
+
+.scribe-footer a:hover {
+    color: #2b6cb0;
+    text-decoration: none;
+}
+
+/* Icon rotation */
+.accordion-header .accordion-icon {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+.accordion-content.expanded ~ .accordion-header .accordion-icon {
+    transform: rotate(180deg);
+    background: #ebf4ff;
+    color: #4299e1;
+}
+
+/* Additional specificity for edge cases */
+body .scribe-screenshot-container img[width="560"],
+body .scribe-step img[width="560"] {
+    width: 50% !important;
+    height: auto !important;
+}
+
+/* Target the specific image with width 560 */
+img[width="560"],
+img[width="560"].scribe-screenshot,
+.scribe-screenshot-container img[width="560"],
+p.scribe-screenshot-container > img[width="560"],
+div.scribe-step img[width="560"] {
+    width: 560px !important;
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Ensure container doesn't restrict the image */
+.scribe-screenshot-container,
+p.scribe-screenshot-container,
+div.scribe-step {
+    max-width: 100% !important;
+    width: auto !important;
+    overflow: visible !important;
+    text-align: center !important;
+}
+
+/* Base styles */
+:root {
+    --scale-factor: 1;
+}
+
+/* Remove any previous overrides that didn't work */
+.scribe-screenshot-container,
+.scribe-screenshot,
+img[width="560"],
+.scribe-screenshot-container img[width="560"] {
+    width: auto;
+    max-width: none;
+    transform: none;
+}
+
+/* Force override for cloud image service */
+img[src*="cloudimg.io"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+.help-center-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.help-center-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.help-center-intro h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.help-center-intro p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #666;
+}
+
+.accordion-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-item {
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+    background: #e9ecef;
+}
+
+.accordion-header h3 {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #333;
+}
+
+.accordion-content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-content.expanded {
+    max-height: none;
+    padding: 1.5rem;
+}
+
+.step-container {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.step-title {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.step-content {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.image-container {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.attribution {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin: 1rem 0;
+}
+
+.section-header {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    color: #2c3e50;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+@media (max-width: 768px) {
+    .help-center-container {
+        padding: 1rem;
+    }
+
+    .accordion-header {
+        padding: 1rem;
+    }
+
+    .accordion-content.expanded {
+        padding: 1rem;
+    }
+
+    .step-container {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Animation for expand/collapse */
+.accordion-content {
+    transition: all 0.3s ease-out;
+}
+
+/* Active state styling */
+.accordion-header.active {
+    background: #e9ecef;
+    border-left: 4px solid #007bff;
+} 
+
+.search-container {
+    position: relative;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    padding-right: 3.5rem;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+}
+
+.search-input-wrapper input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 8px 15px rgba(52, 152, 219, 0.1);
+    transform: translateY(-1px);
+}
+
+.search-input-wrapper input::placeholder {
+    color: #95a5a6;
+}
+
+/* Search icon */
+.search-input-wrapper::after {
+    content: '🔍';
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #95a5a6;
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.search-input-wrapper input:focus + .search-input-wrapper::after {
+    color: #3498db;
+}
+
+/* Animation for when searching */
+.searching {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 6px rgba(52, 152, 219, 0.1);
+    }
+    50% {
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+    }
+    100% {
+        box-shadow: 0 4px 6px rgba(52, 152, 219, 0.1);
+    }
+}
+
+/* Small screens adjustment */
+@media (max-width: 768px) {
+    .search-container {
+        margin: 1rem auto;
+    }
+    
+    .search-input-wrapper input {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Optional: Add this if you want to show number of results */
+.search-results-count {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color:  #ffffff;
+    text-align: right;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.search-results-count.visible {
+    opacity: 1;
+}
+
+/* Smooth accordion transitions */
+.accordion-collapse {
+    transition: all 0.3s ease-in-out;
+}
+
+.accordion-button {
+    transition: all 0.3s ease-in-out;
+}
+
+.accordion-body {
+    transition: all 0.3s ease-in-out;
+    padding: 1rem;
+}
+
+/* Smooth height animation */
+.accordion-collapse:not(.show) {
+    display: block !important;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.accordion-collapse.show {
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Optional: Smooth rotation for the arrow */
+.accordion-button::after {
+    transition: transform 0.3s ease-in-out;
+}
+
+.accordion-button:not(.collapsed)::after {
+    transform: rotate(-180deg);
+}
+
+/* Optional: Smooth background color transition */
+.accordion-button:not(.collapsed) {
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Optional: Add hover effect */
+.accordion-button:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Ensure content doesn't jump */
+.accordion-item {
+    overflow: hidden;
+}
