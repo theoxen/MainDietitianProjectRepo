@@ -1,95 +1,100 @@
-
 .page {
-    margin: 0 auto;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .cv-career-section {
-    display: flex;               /* enable flex layout */
-    align-items: center;         /* vertically center items if heights differ */
-    justify-content: space-between;
-    gap: 2rem;                   /* spacing between the text and photo */
-    padding: 20px;               /* optional padding */
-    /* Optional: set a max width and center in page */
-    max-width: 1200px;           
-    margin: 0 auto;              
-  }
-  
-  .cv-text {
-    flex: 1;                     /* let the text div expand to fill available space */
-    /* (Optional) add some styling for the text area */
-    /* margin-right: 2rem;       for manual spacing if not using gap */
-  }
-  
-  .cv-text h2 {
-    font-size: 28px;
-    color: #f39a01;              /* or any accent color */
-    margin-bottom: 15px;
-  }
-  
-  .cv-text p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 1rem;
-  }
-  
-  .cv-photo {
-    flex: 1;                     /* or a smaller fraction if you want a narrower image column, e.g. flex: 0.7 */
-    display: flex;
-    justify-content: center;     /* center the image horizontally in this column */
-    
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
 
-  .DietitianPhoto{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 53%; /* Position the image first */
-    transform: scale(2.1); /* Then scale it */
-    transform-origin: center 57%; /* Make sure this matches object-position */
+.cv-text {
+  flex: 1;
+  min-width: 300px; /* Minimum width before wrapping */
+}
 
-  }
-  
-  .cv-photo {
-    width: 100%;                 /* let the photo fill its container */
-    max-width: 500px;            /* limit how large the image can get */
-    width: 200px;  /* desired width */
-    height: 200px; /* desired height */
-    overflow: hidden; /* hides anything outside the container */
-    position: relative;
-    height: auto;
-    border-radius: 8px;          /* optional: rounded corners */
-    object-fit: cover;           /* crop any overflow if container is smaller */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* soft shadow */
-  }
+.cv-text h2 {
+  font-size: 28px;
+  color: #f39a01;
+  margin-bottom: 15px;
+}
 
-  .ourCenterSectionContainer{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 150px;
-  }
-  .CarouselSideText{
-    width: 100%;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    margin-right: 200px;
-  }
-  .info-text{
-    display: flex;
-    width: 60%;
-    flex-direction: column;
-    
-  }
+.cv-text p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1rem;
+}
 
-  /* Center section and carousel styles */
+.cv-photo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 500px;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: 200px; /* Maintain minimum width */
+}
+
+.DietitianPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 53%;
+  transform: scale(2.1);
+  transform-origin: center 57%;
+}
+
+.ourCenterSectionContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 20px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.CarouselSideText {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0;
+  flex: 1;
+  min-width: 300px;
+  padding: 0 20px;
+}
+
+.info-text {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+/* Center section and carousel styles */
 .our-center-section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
   text-align: center;
+  flex: 1;
+  min-width: 300px;
 }
 
 .our-center-section h2 {
@@ -108,7 +113,8 @@
 }
 
 .carousel-container {
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
   position: relative;
   margin: 0 auto;
   overflow: hidden;
@@ -119,6 +125,7 @@
 .carousel-track {
   display: flex;
   transition: transform 0.5s ease-in-out;
+  width: 100%;
 }
 
 .carousel-slide {
@@ -152,7 +159,7 @@
 
 .photo-caption {
   position: absolute;
-  bottom: 115px;
+  bottom: 10px;
   left: 0;
   width: 100%;
   text-align: center;
@@ -161,7 +168,6 @@
   padding: 0 20px;
   color: #f39a01;
 }
-
 
 .carousel-btn {
   position: absolute;
@@ -215,130 +221,187 @@
   transform: scale(1.2);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .carousel-slide {
-    height: 350px;
+.hoursBoxContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.hours-box {
+  width: 80%;
+  max-width: 800px;
+  background-color: #fff;
+  border: 1px solid #f39a01;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.hours-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.hours-item div:nth-child(2) {
+  min-width: 150px;
+  text-align: right;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #f39a01;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: center;
+  color: #555;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .ourCenterSectionContainer {
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .CarouselSideText {
+      margin-right: 0;
+      margin-top: 0;
+      margin-bottom: 40px;
+      order: -1; /* Move text above carousel on smaller screens */
+  }
+  
+  .our-center-section {
+      width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .cv-career-section {
+      flex-direction: column; /* Stack with text on top */
+  }
+  
+  .cv-photo {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 400px;
+  }
+  
+  .cv-text {
+      width: 100%;
+      text-align: center;
   }
   
   .our-center-section h2 {
-    font-size: 2rem;
+      font-size: 2.2rem;
+  }
+  
+  /* Hide desktop version of carousel side text on mobile */
+  .CarouselSideText {
+      display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-slide {
+      height: 350px;
+  }
+  
+  .our-center-section h2 {
+      font-size: 2rem;
   }
   
   .carousel-btn {
-    width: 40px;
-    height: 40px;
+      width: 40px;
+      height: 40px;
+  }
+  
+  .hours-box {
+      width: 90%;
+  }
+  
+  .photo-caption {
+      bottom: 80px;
+      font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .cv-text h2, .our-center-section h2, h2 {
+      font-size: 24px;
+  }
+  
+  .cv-text p, .our-center-section p, p {
+      font-size: 15px;
+  }
+  
+  .carousel-slide {
+      height: 300px;
+  }
+  
+  .carousel-btn {
+      width: 35px;
+      height: 35px;
+  }
+  
+  .carousel-btn svg {
+      width: 15px;
+      height: 15px;
+  }
+  
+  .hours-box {
+      width: 100%;
+      padding: 15px;
+  }
+  
+  .hours-item div:nth-child(2) {
+      min-width: 120px;
+  }
+  
+  .photo-caption {
+      bottom: 60px;
+      font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
   .carousel-slide {
-    height: 250px;
+      height: 250px;
   }
   
-  .our-center-section h2 {
-    font-size: 1.8rem;
-  }
-  
-  .our-center-section p {
-    margin-bottom: 2rem;
+  .photo-caption {
+      bottom: 40px;
+      font-size: 1rem;
   }
   
   .carousel-btn {
-    width: 35px;
-    height: 35px;
-  }
-}
-
-  .our-center-section {
-    max-width: 1200px;      /* optional max width */
-    margin: 0 auto;         /* center horizontally */
-    text-align: center;     /* center headings & text */
-    padding: 40px 20px;     /* spacing around the section */
+      width: 30px;
+      height: 30px;
   }
   
-  /* Style the heading */
-  .our-center-section h2 {
-    font-size: 28px;
-    font-weight: 600;
-    color: #f39a01;         /* accent color if you wish */
-    margin-bottom: 15px;
+  .carousel-dots .dot {
+      width: 8px;
+      height: 8px;
   }
   
-  /* Optional style for the paragraph */
-  .our-center-section p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 30px;
+  .hours-item {
+      flex-direction: column;
+      text-align: center;
+      padding: 12px 0;
   }
   
-  /* Grid (or Flex) layout for the photo placeholders */
-  .photos-grid {
-    display: flex;          /* or "display: grid;" with a grid-template-rows/columns */
-    flex-wrap: wrap;        /* wrap items to new row if no space */
-    justify-content: center;
-    gap: 1rem;              /* space between boxes */
+  .hours-item div:nth-child(2) {
+      text-align: center;
+      margin-top: 5px;
   }
-  
-  /* Each photo box (placeholder) */
-  .photo-box {
-    width: 600px;           /* fixed width or use a responsive approach */
-    height: 500px;
-    border: 2px solid #f39a01; 
-    border-radius: 8px;
-    display: flex;          /* center content horizontally/vertically */
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    color: #333;
-    cursor: pointer;        /* optional if these are clickable */
-    transition: transform 0.2s ease;
-  }
-  
-  /* Hover effect (optional) */
-  .photo-box:hover {
-    transform: scale(1.05);
-  }
-
-.hours-box {
-    width: 80%;
-    background-color: #fff;
-    border: 1px solid #f39a01; /* Subtle border to separate sections */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    margin-bottom: 30px;
-    font-size: 16px;
-}
-.hoursBoxContainer{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.hours-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #f1f1f1; /* Subtle line between rows */
-}
-
-.hours-item div:nth-child(2) {
-    min-width: 150px;
-    text-align: right;
-}
-
-h2 {
-    font-size: 28px;
-    font-weight: 600;
-    color: #f39a01; /* Highlight headings with the accent color */
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-p {
-    font-size: 16px;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
 }
