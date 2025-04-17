@@ -57,6 +57,9 @@
 
           <p class="DietsFound"><i class="fa-solid fa-circle-info"></i> Found {{filteredDiets.length}} diets. </p>
         
+         
+          <div class="horizontal-diet-table-container">
+            <table class="horizontal-diet-table">
           <!-- Table of Diets Using Paged Items -->
           <table>
             <thead>
@@ -83,7 +86,8 @@
             </tbody>
           </table>
           
-
+            </table>
+         </div>
         
           <!-- Diet details modal -->
           <div class="diet-details-modal" [style.display]="selectedDiet ? 'block' : 'none'">
