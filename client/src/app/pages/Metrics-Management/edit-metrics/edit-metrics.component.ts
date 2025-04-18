@@ -11,6 +11,7 @@ import { CustomValidators } from '../../../validation/CustomValidators';
 import { MetricsToEdit } from '../../../models/metrics/metrics-to-edit';
 import { ConfirmationWindowComponent } from "../../../components/confirmation-window/confirmation-window.component";
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'edit-metrics',
@@ -31,7 +32,7 @@ export class EditMetricsComponent implements OnInit {
   transformedMetrics: { id: any; date: any; data: { title: string, value: number, unit: string }[] }[] = [];
   filteredMetrics: { id: any; date: any; data: { title: string, value: number, unit: string }[] }[] = [];
   searchControl = new FormControl('');
-
+ private toastr = inject(ToastrService);
   metricsService = inject(MetricsService);
   clientManagementService = inject(ClientManagementService);
 
@@ -86,8 +87,8 @@ fetchMetricsForUser(metricsId: string): void {
               this.clientName = fetchedClientDetails.fullName;
             },
             error: (error: any) => {
-              this.errorMessage = "Error fetching client details. Please try again later.";
-              console.error("Error fetching client details:", error);
+              //this.errorMessage = "Error fetching client details. Please try again later.";
+              //console.error("Error fetching client details:", error);
             }
           });
           this.populateForm(fetchedMetric);
@@ -96,8 +97,8 @@ fetchMetricsForUser(metricsId: string): void {
         this.filteredMetrics = this.transformedMetrics;
       },
       error: (error: any) => {
-        this.errorMessage = "Error fetching metrics. Please try again later.";
-        console.error("Error fetching metrics:", error);
+        //this.errorMessage = "Error fetching metrics. Please try again later.";
+        //console.error("Error fetching metrics:", error);
       }
     });
 }
@@ -125,13 +126,14 @@ fetchMetricsForUser(metricsId: string): void {
     // Call service to add the metrics
     this.metricsService.editMetrics(EditedMetricsToSubmit).subscribe({
       next: (metrics: Metrics) => {
-        console.log("Metrics Edited.");
+        this.toastr.success("Metrics Edited Successfully!");
         this.metricsId = metrics.id;
         this.dialogRef.close(); // Close the modal after successful submission
       },
       error: (error:any) => {
+        this.toastr.error("There was an Error while adding metrics. Please try again later.");
         //this.errorMessage = "Error adding metrics. Please try again later.";
-        console.error("Error adding metrics."); // Log error to the console
+        //console.error("Error adding metrics."); // Log error to the console
       }
     })
 
@@ -149,12 +151,12 @@ fetchMetricsForUser(metricsId: string): void {
       // IF WE WANTED TO MANUALLY SUBMIT THE FORM AFTER THE CONFIRMATION WINDOW WE WOULD DO this.onSubmit(); 
       this.metricsService.deleteMetrics(this.metricsId!).subscribe({
         next: () => {
-          console.log("Metrics deleted.");
+          this.toastr.success("Metrics deleted successfully!");
           this.dialogRef.close(); // Close the modal after successful deletion
         }
       });
     } else {
-      console.log('Cancelled.');
+      
     }
   }
   

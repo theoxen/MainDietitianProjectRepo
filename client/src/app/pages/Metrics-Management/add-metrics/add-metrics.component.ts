@@ -10,6 +10,7 @@ import { CustomValidators } from '../../../validation/CustomValidators';
 import { ClientManagementService } from '../../../services/client-management.service';
 import { ClientProfile } from '../../../models/client-management/client-profile';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'add-metrics', 
@@ -31,7 +32,7 @@ export class AddMetricsComponent implements OnInit {
   displayErrorOnControlDirty = true;
   displayErrorOnControlTouched = true;
 
-  
+  private toastr = inject(ToastrService);
   metricsService = inject(MetricsService);
   clientManagementService = inject(ClientManagementService);
 
@@ -48,7 +49,7 @@ export class AddMetricsComponent implements OnInit {
                 this.clientName = fetchedClientDetails.fullName;
               },
               error: (err) => {
-                console.error('Error fetching client details:', err);
+                //console.error('Error fetching client details:', err);
                 this.clientName = 'Unknown Client'; // Fallback value in case of an error
               }
             })
@@ -100,7 +101,7 @@ export class AddMetricsComponent implements OnInit {
     // Call service to add the metrics
     this.metricsService.addMetrics(MetricsToAdd).subscribe({
       next: (metrics: Metrics) => {
-        console.log("Metrics added.");
+        this.toastr.success("Metrics Added!");
         this.metricsid = metrics.id;
         // this.addclientMetricsForm.reset();  // Clear the form after adding metrics
         this.dialogRef.close(); // Close the modal after successful addition
@@ -108,8 +109,9 @@ export class AddMetricsComponent implements OnInit {
         
       },
       error: (error:any) => {
+        this.toastr.error("There was an error while adding metrics. Please try again.");
         //this.errorMessage = "Error adding metrics. Please try again later.";
-        console.error("Error adding metrics."); // Log error to the console
+        //console.error("Error adding metrics."); // Log error to the console
       }
     })
 
