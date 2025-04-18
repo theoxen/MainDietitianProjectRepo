@@ -36,7 +36,7 @@ export class ForgotPasswordStep2Component implements OnInit {
     this.email = sessionStorage.getItem('email');
     this.otp = sessionStorage.getItem('otp');
 
-    // TODO: UNCOMMENT THIS 
+
     if (!this.email || !this.otp) {
       this.router.navigate(['/auth/forgot-password']); // Redirect to forgot password step 1 page if email or otp is missing
       this.changePasswordForm.disable(); // Disable the form if email or otp is missing

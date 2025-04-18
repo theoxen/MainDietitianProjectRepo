@@ -14,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     console.log('Token expired, logging out.');
     accountService.logout();
     router.navigateByUrl('/login');
-    return throwError(() => new Error('Token expired')); // TODO: maybe remove the throwerror?
+    return throwError(() => new Error('Token expired'));
   }
 
   if (authToken) {

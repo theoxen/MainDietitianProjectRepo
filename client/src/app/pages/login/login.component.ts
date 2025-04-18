@@ -33,7 +33,7 @@ export class LoginComponent {
 
   unauthorizedErrorMessage = ValidationMessages.unauthorized;
 
-  loginForm = new FormGroup({ // TODO: Maybe remove the *IsRequired from the error messages
+  loginForm = new FormGroup({
     "phoneNumber": new FormControl("", [
       Validators.pattern(ValidationPatterns.phoneNumber),
       Validators.required

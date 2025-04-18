@@ -41,7 +41,8 @@ public class DbInitializer
             UserName = UserHelperFunctions.GenerateUniqueUserName("admin")
         };
 
-        var result = await userManager.CreateAsync(admin, "Pa$w0r!d1"); //TODO: CREATE AN ENVIRONMENT VARIABLE BEFORE PUBLISHING SO THAT IT CAN BE CHANGED.
+        var result = await userManager.CreateAsync(admin, "Pa$w0r!d1");
+        
         if(!result.Succeeded) return false;
 
         var roleResult = await userManager.AddToRoleAsync(admin, "admin");

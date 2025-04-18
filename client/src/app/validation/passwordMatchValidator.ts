@@ -1,6 +1,6 @@
 import { AbstractControl, FormGroup, ValidatorFn } from "@angular/forms";
 
-export function passwordMatchValidator(): ValidatorFn { // TODO: TEST AGAIN BECAUSE MAYBE IT DOESN'T WORK (+ WHEN I CLICK ON A FIELD AND THEN I CLICK OFF, THE ERROR MESSAGE DOESN'T DISAPPEAR)
+export function passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl) => {
         const formGroup = control as FormGroup; // Cast the control to a FormGroup
         const password = formGroup.get('password');

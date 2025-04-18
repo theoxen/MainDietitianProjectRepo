@@ -288,8 +288,3 @@ export class ViewReportsComponent {
   }
 
 }
-
-//TODO: need to fix dtos
-//take all the data from the report and show it in the view component
-//output the data in a table format
-

@@ -53,8 +53,6 @@ namespace API.Services
             return Result<List<ReportsViewDto>>.Ok(usersViews);
         }
 
-
-        //TODO: i need to make the DTO for the report
         public async Task<Result<List<AppointmentDto>>> GetAppointmentReport(DateOnly datestart, DateOnly dateend)
         {
             var result = await _reportRepository.GetAppointmentReport(datestart, dateend);

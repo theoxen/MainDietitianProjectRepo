@@ -119,7 +119,7 @@ export const routes: Routes = [
             children: [
                { path: "", component: RecipesComponent },
                { path: "add", component: AddEditRecipeComponent, canActivate: [adminGuard] },
-               { path: ":recipeId/edit", component: AddEditRecipeComponent, canActivate: [adminGuard] }, //TODO change the name of the url to edit-view
+               { path: ":recipeId/edit", component: AddEditRecipeComponent, canActivate: [adminGuard] },
                { path: ":recipeId", component: ViewComponent }
             ]
          },
