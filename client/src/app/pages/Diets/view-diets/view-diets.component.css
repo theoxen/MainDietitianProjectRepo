@@ -80,7 +80,9 @@
     margin-bottom: 20px;
   }
 
-
+  .hide-on-print {
+    display: none !important;
+  }
   
   /* Style the diet table for printing */
   .horizontal-diet-table {
@@ -115,6 +117,118 @@
 
 
 
+/* Responsive diet table and modal styling */
+.diet-details-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrolling of background */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* Responsive horizontal diet table */
+.horizontal-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
+}
+
+.horizontal-diet-table th,
+.horizontal-diet-table td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  vertical-align: top;
+  text-align: left;
+}
+
+/* Set column widths proportionally */
+.horizontal-diet-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #555;
+}
+
+.meal-type-header {
+  width: 15%;
+}
+
+.horizontal-diet-table th:not(.meal-type-header) {
+  width: 12.14%; /* (100% - 15%) / 7 days */
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 992px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+  
+  .horizontal-diet-table th,
+  .horizontal-diet-table td {
+    padding: 6px;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 98%;
+    padding: 10px;
+  }
+  
+  .horizontal-diet-table {
+    font-size: 0.85em;
+  }
+  
+  .horizontal-diet-table th,
+  .horizontal-diet-table td {
+    padding: 4px;
+  }
+  
+  .meal-type-header {
+    width: 20%;
+  }
+  
+  .horizontal-diet-table th:not(.meal-type-header) {
+    width: 11.43%; /* (100% - 20%) / 7 days */
+  }
+}
+
+/* For very small screens, enable horizontal scrolling */
+@media (max-width: 576px) {
+  .modal-content {
+    width: 100%;
+    padding: 8px;
+  }
+  
+  .horizontal-diet-table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .horizontal-diet-table {
+    min-width: 800px; /* Ensure minimum width for readability */
+  }
+}
 
 
 
