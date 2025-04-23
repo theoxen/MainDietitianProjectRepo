@@ -22,12 +22,11 @@ import { Location } from '@angular/common';
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { PageFooterComponent } from "../../../components/page-footer/page-footer.component";
 
 @Component({
   selector: 'view-diets',
   standalone: true,
-  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent, CommonModule, PageFooterComponent],
+  imports: [NavBarComponent, ReactiveFormsModule, PaginationComponent, CommonModule],
   templateUrl: './view-diets.component.html',
   styleUrls: ['./view-diets.component.css']
 })
@@ -245,40 +244,118 @@ fetchDietsForUser(clientId: string): void {
 printDiet(): void {
   if (!this.selectedDiet) return;
   
-  // Add current date to the print view
+  // Format current date for printing
   const printDate = new Date().toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
+    day: '2-digit', month: '2-digit', year: 'numeric'
   });
   
-  // Set client name for the table header
+  // Set client name and attributes for printing
   const clientNameElement = document.querySelector('.meal-type-header');
   if (clientNameElement) {
     clientNameElement.textContent = this.clientName || 'Diet Plan';
     clientNameElement.setAttribute('data-original-content', clientNameElement.textContent);
   }
   
-  // Set print attributes on container
+  // Set attributes on modal content 
   const modalContent = document.querySelector('.modal-content');
   if (modalContent) {
     modalContent.setAttribute('data-print-date', printDate);
     modalContent.setAttribute('data-diet-name', this.selectedDiet.name || 'Diet Plan');
+    // Force single page by setting max-height
+    modalContent.setAttribute('style', 'page-break-inside: avoid !important; max-height: 100vh;');
   }
   
-  // Add a small delay to ensure DOM is updated before printing
+  // Hide footer elements
+  const footers = document.querySelectorAll('app-page-footer, footer, .page-footer, .app-footer');
+  footers.forEach(footer => {
+    if (footer instanceof HTMLElement) {
+      footer.style.display = 'none';
+    }
+  });
+  
+  // Get the diet table and optimize for single page when possible
+  const dietTable = document.querySelector('.horizontal-diet-table');
+  if (dietTable && dietTable instanceof HTMLElement) {
+    // Add class for print optimization
+    dietTable.classList.add('print-optimize');
+    
+    // Calculate content density more accurately
+    const cells = dietTable.querySelectorAll('td');
+    let totalLength = 0;
+    let maxCellLength = 0;
+    let cellCount = 0;
+    
+    cells.forEach(cell => {
+      const length = cell.textContent?.length || 0;
+      totalLength += length;
+      maxCellLength = Math.max(maxCellLength, length);
+      if (length > 0) cellCount++;
+    });
+    
+    // Calculate average content per cell for better density assessment
+    const avgContentPerCell = cellCount > 0 ? totalLength / cellCount : 0;
+    
+    // Apply more aggressive scaling based on content metrics
+    if (totalLength > 3000) {
+      dietTable.style.fontSize = '8px';
+      dietTable.style.lineHeight = '0.9';
+    }else {
+      // Normal content
+      dietTable.style.fontSize = '12px';
+      dietTable.style.lineHeight = '1.4';
+    }
+
+    // Force table to fit on one page
+    dietTable.style.pageBreakInside = 'avoid';
+    
+    // Adjust cell padding based on content density
+    const tdElements = dietTable.querySelectorAll('td');
+    tdElements.forEach(td => {
+      if (td instanceof HTMLElement) {
+        td.style.padding = totalLength > 1500 ? '2px' : '4px';
+      }
+    });
+  }
+  
+  // Print with delay to ensure DOM updates
   setTimeout(() => {
     window.print();
     
-    // Restore original client name header after printing (if needed)
+    // Restore original content after printing
     if (clientNameElement && clientNameElement.hasAttribute('data-original-content')) {
-      const originalContent = clientNameElement.getAttribute('data-original-content');
-      if (originalContent) {
-        clientNameElement.textContent = originalContent;
-      }
+      clientNameElement.textContent = clientNameElement.getAttribute('data-original-content');
     }
-  }, 100);
+    
+    // Restore footers
+    footers.forEach(footer => {
+      if (footer instanceof HTMLElement) {
+        footer.style.display = '';
+      }
+    });
+    
+    // Restore table styling
+    if (dietTable && dietTable instanceof HTMLElement) {
+      dietTable.classList.remove('print-optimize');
+      dietTable.style.fontSize = '';
+      dietTable.style.lineHeight = '';
+      dietTable.style.pageBreakInside = '';
+      
+      // Restore cell padding
+      const tdElements = dietTable.querySelectorAll('td');
+      tdElements.forEach(td => {
+        if (td instanceof HTMLElement) {
+          td.style.padding = '';
+        }
+      });
+    }
+    
+    // Restore modal content
+    if (modalContent) {
+      modalContent.removeAttribute('style');
+    }
+  }, 200); // Slightly longer delay to ensure styles are fully applied
 }
+
 
 
   formatDate(dateInput: string | Date): string {
