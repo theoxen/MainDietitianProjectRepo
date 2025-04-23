@@ -162,8 +162,15 @@ export class RegisterComponent implements OnInit {
 
       this.accountService.register(registerData).subscribe({
         next: (user) => {
+          this.emailExists = false;
+          this.phoneNumberExists = false;
+          
           this.toastr.success("Registration of client was successful");
-          this.registerForm.reset();
+          
+          this.registerForm.reset({
+            dietType: '',
+            gender: ''
+          });
         },
         error: (error: HttpResponseError) => {
           this.emailExists = false;

@@ -1,6 +1,6 @@
 <div class="input-container">
     <div class="form-floating" style="width: 100%; ">
-        <input [type]="type === 'password' && !showPassword ? 'password' : 'text'" [placeholder]="placeholder" class="primary-input-field form-control"
+        <input [type]="type === 'password' ? (showPassword ? 'text' : 'password') : type" [placeholder]="placeholder" class="primary-input-field form-control"
             [formControl]="control" style="width: 100%;">
         <label>{{label}}</label>
          <!-- Toggle password visibility button -->
