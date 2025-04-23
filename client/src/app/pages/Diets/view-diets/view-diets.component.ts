@@ -96,7 +96,7 @@ export class ViewDietsComponent implements OnInit {
       // Get the user id asynchronously then fetch diets
       this.reviewsService.getLoggedInUserId().subscribe({
         next: (userId: string) => {
-          console.log('User ID:', userId);
+          // console.log('User ID:', userId);
           this.clientId = userId;
           this.fetchDietsForUser(this.clientId);
         },
@@ -111,7 +111,7 @@ export class ViewDietsComponent implements OnInit {
   getUserId() {
     this.reviewsService.getLoggedInUserId().subscribe({
       next: (userId: string) => {
-        console.log('User ID:', userId);
+        // console.log('User ID:', userId);
         // Use userId here
       },
       error: (error: any) => console.error('Error getting user ID:', error)
@@ -183,7 +183,7 @@ fetchDietsForUser(clientId: string): void {
   
   this.dietService.fetchDietsForUser(clientId).subscribe({
     next: (response: any) => {
-      console.log('API Response:', response);
+      // console.log('API Response:', response);
       
       // Handle different response formats
       let fetchedDiets;
@@ -223,7 +223,7 @@ fetchDietsForUser(clientId: string): void {
         this.totalItems = this.filteredDiets.length;
         this.loadPage(this.currentPage);
       } else {
-        console.log("No diets found for this user");
+        // console.log("No diets found for this user");
         this.transformedDiets = [];
         this.filteredDiets = [];
         this.pagedItems = [];
@@ -375,7 +375,7 @@ printDiet(): void {
       return;
     }
   
-    console.log('Transforming diets:', this.diets);
+    // console.log('Transforming diets:', this.diets);
     
     this.transformedDiets = this.diets.map(diet => {
       // Add days info into a property that matches the HTML template expectations
@@ -403,7 +403,7 @@ printDiet(): void {
       };
     });
     
-    console.log('Transformed diets:', this.transformedDiets);
+    // console.log('Transformed diets:', this.transformedDiets);
   }
 /////////////////////////////////////////////
 
@@ -476,7 +476,7 @@ printDiet(): void {
 
 
   showDietDetails(diet: any) {
-    console.log('Original diet object:', diet);
+    // console.log('Original diet object:', diet);
     
     // Determine what object to use as the selected diet
     if (diet.fullDiet) {
@@ -498,7 +498,7 @@ printDiet(): void {
         (!typedDiet.days || typedDiet.days.length === 0) && 
         (!typedDiet.dietDays || typedDiet.dietDays.length === 0)) {
       
-      console.log(`No diet days found in the data. Fetching detailed diet data with ID: ${dietId}...`);
+      // console.log(`No diet days found in the data. Fetching detailed diet data with ID: ${dietId}...`);
       
       if (dietId) {
         // Fetch full diet details from the API
@@ -542,10 +542,10 @@ printDiet(): void {
 
     // Handle case where we have dietDays instead of Days
     if (typedDiet.dietDays && (!typedDiet.Days || typedDiet.Days.length === 0)) {
-      console.log('Found dietDays - normalizing structure');
+      // console.log('Found dietDays - normalizing structure');
       typedDiet.Days = typedDiet.dietDays.map((day: any) => {
         const normalizedDay = { ...day };
-        console.log('Day structure:', normalizedDay);
+        // console.log('Day structure:', normalizedDay);
         
         // Initialize empty meals array if needed
         if (!normalizedDay.Meals && !normalizedDay.dietMeals) {
@@ -563,35 +563,35 @@ printDiet(): void {
     
     // Look for diet days in other possible locations in the object
     if ((!typedDiet.Days || typedDiet.Days.length === 0) && typedDiet.days && typedDiet.days.length > 0) {
-      console.log('Found diet days in lowercase "days" property');
+      // console.log('Found diet days in lowercase "days" property');
       typedDiet.Days = typedDiet.days;
     }
     
-    console.log('Selected diet after processing:', this.selectedDiet);
+    // console.log('Selected diet after processing:', this.selectedDiet);
     
     // Log the days array for debugging
     const days = typedDiet.Days || [];
-    console.log('Diet days:', days);
+    // console.log('Diet days:', days);
     
     if (days && days.length > 0) {
       const firstDay = days[0];
-      console.log('First day:', firstDay);
-      console.log('First day meals:', firstDay.Meals || firstDay.dietMeals || []);
+      // console.log('First day:', firstDay);
+      // console.log('First day meals:', firstDay.Meals || firstDay.dietMeals || []);
       
       // Print out all meals for debugging
       days.forEach((day: any, index: number) => {
-        console.log(`Day ${index + 1} (${day.dayName || 'Unknown'}):`);
+        // console.log(`Day ${index + 1} (${day.dayName || 'Unknown'}):`);
         const meals = day.Meals || day.dietMeals || [];
         if (meals.length > 0) {
           meals.forEach((meal: any) => {
-            console.log(`- ${meal.Type || meal.mealType || 'Unknown meal'}: ${meal.Meal || meal.meal || '[empty]'}`);
+            // console.log(`- ${meal.Type || meal.mealType || 'Unknown meal'}: ${meal.Meal || meal.meal || '[empty]'}`);
           });
         } else {
-          console.log('- No meals found for this day');
+          // console.log('- No meals found for this day');
         }
       });
     } else {
-      console.log('No days found or days array is empty');
+      // console.log('No days found or days array is empty');
     }
   }
     

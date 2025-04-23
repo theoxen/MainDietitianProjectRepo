@@ -55,7 +55,7 @@ export class ViewComponent implements OnInit {
           this.calories = recipe.calories;
         },
         error: (error) => {
-          console.log(error);
+          // console.log(error);
         }
       });
     }
@@ -71,7 +71,7 @@ export class ViewComponent implements OnInit {
     if (result) {
       this.deleteRecipeid(this.recipesId);
     } else {
-      console.log('Cancelled.');
+      // console.log('Cancelled.');
     }
   }
 
@@ -80,17 +80,17 @@ export class ViewComponent implements OnInit {
     if (recipeId) {
       this.recipeService.deleteRecipe(recipeId).subscribe({
         next: () => {
-          console.log("Note deleted.");
+          // console.log("Note deleted.");
           this.RecipeisNull = true;
           this.Recipe.controls.recipe.setValue(null);
           this.router.navigate(['/uploads/recipes']);
         },
         error: (error) => {
-          console.log(error);
+          // console.log(error);
         }
       });
     } else {
-      console.log('Delete operation cancelled.');
+      // console.log('Delete operation cancelled.');
     }
   }
 

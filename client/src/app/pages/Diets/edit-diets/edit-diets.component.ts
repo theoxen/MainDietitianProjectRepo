@@ -151,7 +151,7 @@ export class EditDietsComponent implements OnInit {
   }
 
   normalizeDietData(diet: any): void {
-    console.log('Normalizing diet data:', diet);
+    // console.log('Normalizing diet data:', diet);
     
     // Handle different property names for diet days
     if (!diet.dietDays && diet.Days) {
@@ -177,11 +177,11 @@ export class EditDietsComponent implements OnInit {
       day.dayName = day.dayName || day.DayName || '';
     });
     
-    console.log('Normalized diet data:', diet);
+    // console.log('Normalized diet data:', diet);
   }
   
   populateForm(diet: Diet): void {
-    console.log('Populating form with diet:', diet);
+    // console.log('Populating form with diet:', diet);
     
     // Set basic diet properties
     this.clientDiets.patchValue({
@@ -239,7 +239,7 @@ export class EditDietsComponent implements OnInit {
             const mealContent = meal.meal || meal.meal || '';
             mealFormGroup.get('meal')?.setValue(mealContent);
             
-            console.log(`Set ${mealType} for ${this.getDayNameByIndex(dayIndex)}: "${mealContent}"`);
+            // console.log(`Set ${mealType} for ${this.getDayNameByIndex(dayIndex)}: "${mealContent}"`);
           }
         });
       }
@@ -279,7 +279,7 @@ export class EditDietsComponent implements OnInit {
     // Call service to update the diet
     this.dietService.editDiet(EditedDietsToSubmit).subscribe({
       next: (diet: Diet) => {
-        console.log("Diet updated successfully.");
+        // console.log("Diet updated successfully.");
         this.dietId = diet.id;
         this.successMessage = "Diet updated successfully!";
         
@@ -329,7 +329,7 @@ export class EditDietsComponent implements OnInit {
       // Call service to delete the diet
       this.dietService.deleteDiet(this.dietId!).subscribe({
         next: () => {
-          console.log("Diet deleted.");
+          // console.log("Diet deleted.");
           this.dialogRef.close(true); // Close the modal after successful deletion
         },
         error: (error: any) => {
@@ -338,7 +338,7 @@ export class EditDietsComponent implements OnInit {
         }
       });
     } else {
-      console.log('Deletion cancelled.');
+      // console.log('Deletion cancelled.');
     }
   }
 

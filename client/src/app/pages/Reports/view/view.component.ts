@@ -48,8 +48,8 @@ export class ViewReportsComponent {
     this.route.queryParams.subscribe(params => {
       this.reportData = params;
       this.reportType = params['reportType']; // Extract the report type
-      console.log('Received Report Data:', this.reportData);
-      console.log('Report Type:', this.reportType);
+      // console.log('Received Report Data:', this.reportData);
+      // console.log('Report Type:', this.reportType);
 
       // Determine the report content based on the report type
       this.setReportContent();
@@ -85,7 +85,7 @@ export class ViewReportsComponent {
       next: (data) => {
         this.data = Array.isArray(data) ? data : [data];
         this.calculateStatistics(); // Calculate statistics after fetching data
-        console.log('New Users Report Data:', this.data);
+        // console.log('New Users Report Data:', this.data);
       },
       error: (error) => {
         console.error('Error fetching New Users Report:', error);
@@ -114,7 +114,7 @@ export class ViewReportsComponent {
   fetchAppointmentReport(datestart: string, dateend: string): void {
     this.reportsService.fetchAppointmentReport(datestart, dateend).subscribe({
       next: (data) => {
-        console.log('Appointment Report Data:', data);
+        // console.log('Appointment Report Data:', data);
         this.appointment = Array.isArray(data) ? data : [data];
         this.calculateAppointmentCount(this.appointment);
         
@@ -167,9 +167,9 @@ export class ViewReportsComponent {
     this.dailyAppointments = dayCounts;
     this.timeSlots = timeSlotCounts;
     
-    console.log('Daily appointment counts:', this.dailyAppointments);
-    console.log('Busiest day:', this.busiestDay);
-    console.log('Busiest hour:', this.busiestHour);
+    // console.log('Daily appointment counts:', this.dailyAppointments);
+    // console.log('Busiest day:', this.busiestDay);
+    // console.log('Busiest hour:', this.busiestHour);
 }
 
   
@@ -246,7 +246,7 @@ export class ViewReportsComponent {
   generatePDF(): void {
     // Implement PDF generation logic here
     // You can use libraries like jsPDF or html2canvas to generate a PDF from the report content
-    console.log('Generating PDF for report:', this.reportContent);
+    // console.log('Generating PDF for report:', this.reportContent);
     // Example: Use jsPDF to create a PDF document
 
   }

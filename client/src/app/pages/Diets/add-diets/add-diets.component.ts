@@ -139,7 +139,7 @@ addDiets() {
   // Call service to add the diet
   this.dietService.addDiet(DietsToAdd).subscribe({
     next: (diet: Diet) => {
-      console.log("Diet added successfully.");
+      // console.log("Diet added successfully.");
       this.dietid = diet.id;
       this.successMessage = "Diet added successfully!";
       
@@ -260,7 +260,7 @@ dietDaysErrorMessages = new Map<string, string>([
     }
     
     selectTemplate(template: any): void {
-      console.log('Selected template:', template);
+      // console.log('Selected template:', template);
       
       // Set the diet name
       this.addclientDietsForm.get('name')?.setValue(template.name + ' (Copy)');
@@ -268,14 +268,14 @@ dietDaysErrorMessages = new Map<string, string>([
       // Fetch the complete template data
       this.dietService.fetchDietById(template.id).subscribe({
         next: (response) => {
-          console.log('Complete template data from API:', response);
+          // console.log('Complete template data from API:', response);
           
           if (response && response.data) {
             const dietData = response.data;
             
             // Get days from the template data
             const days = dietData.days || dietData.Days || [];
-            console.log('Days from template:', days);
+            // console.log('Days from template:', days);
             
             if (days.length > 0) {
               // Get the days FormArray from the form
@@ -305,11 +305,11 @@ dietDaysErrorMessages = new Map<string, string>([
                 );
                 
                 if (matchingDay) {
-                  console.log(`Found matching day for ${dayName}:`, matchingDay);
+                  // console.log(`Found matching day for ${dayName}:`, matchingDay);
                   
                   // Get the meals from the matching day
                   const templateMeals = matchingDay.meals || matchingDay.Meals || [];
-                  console.log(`Meals for ${dayName}:`, templateMeals);
+                  // console.log(`Meals for ${dayName}:`, templateMeals);
                   
                   // Get the meals FormArray for this day
                   const mealsArray = dayGroup.get('meals') as FormArray;
@@ -327,7 +327,7 @@ dietDaysErrorMessages = new Map<string, string>([
                       if (formIndex !== undefined && formIndex < mealsArray.length) {
                         // Set the meal content in the correct form control
                         mealsArray.at(formIndex).get('meal')?.setValue(mealContent);
-                        console.log(`Set ${dayName} ${mealType} to: ${mealContent}`);
+                        // console.log(`Set ${dayName} ${mealType} to: ${mealContent}`);
                       }
                     }
                   });

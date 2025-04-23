@@ -50,7 +50,7 @@ export class SelectComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const reportType = params['type'];
       if (reportType) {
-        console.log('Selected Report Type:', reportType);
+        // console.log('Selected Report Type:', reportType);
         // Pre-select the appropriate form based on report type
         this.handleReportTypeSelection(reportType);
       }
@@ -60,7 +60,7 @@ export class SelectComponent implements OnInit {
 
   handleReportTypeSelection(reportType: string) {
     this.selectedReportType = reportType;
-    console.log('Selected report type:', this.selectedReportType);
+    // console.log('Selected report type:', this.selectedReportType);
 
     // Reset all forms
     this.ReportForm1.reset();
@@ -140,7 +140,7 @@ export class SelectComponent implements OnInit {
 
   ReportForm1Submit() {
     if (this.ReportForm1.valid) {
-      console.log('ReportForm1 Values:', this.ReportForm1.value);
+      // console.log('ReportForm1 Values:', this.ReportForm1.value);
       this.router.navigate(['/reports/view'], {
         queryParams: {
           ...this.ReportForm1.value,
@@ -148,13 +148,13 @@ export class SelectComponent implements OnInit {
         }
       });
     } else {
-      console.log('ReportForm1 is invalid.');
+      // console.log('ReportForm1 is invalid.');
     }
   }
 
   ReportForm2Submit() {
     if (this.ReportForm2.valid) {
-      console.log('ReportForm2 Values:', this.ReportForm2.value);
+      // console.log('ReportForm2 Values:', this.ReportForm2.value);
       this.router.navigate(['/reports/view'], {
         queryParams: {
           ...this.ReportForm2.value,
@@ -162,13 +162,13 @@ export class SelectComponent implements OnInit {
         }
       });
     } else {
-      console.log('ReportForm2 is invalid.');
+      // console.log('ReportForm2 is invalid.');
     }
   }
 
   ReportForm3Submit() {
     if (this.ReportForm3.valid) {
-      console.log('ReportForm3 Values:', this.ReportForm3.value);
+      // console.log('ReportForm3 Values:', this.ReportForm3.value);
       this.router.navigate(['/reports/view'], {
         queryParams: {
           ...this.ReportForm3.value,
@@ -176,13 +176,13 @@ export class SelectComponent implements OnInit {
         }
       });
     } else {
-      console.log('ReportForm3 is invalid.');
+      // console.log('ReportForm3 is invalid.');
     }
   }
 
   ReportForm4Submit() {
     if (this.ReportForm4.valid) {
-      console.log('ReportForm4 Values:', this.ReportForm4.value);
+      // console.log('ReportForm4 Values:', this.ReportForm4.value);
       this.router.navigate(['/reports/view'], {
         queryParams: {
           ...this.ReportForm4.value,
@@ -190,7 +190,7 @@ export class SelectComponent implements OnInit {
         }
       });
     } else {
-      console.log('ReportForm4 is invalid.');
+      // console.log('ReportForm4 is invalid.');
     }
   }
 

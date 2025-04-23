@@ -149,7 +149,7 @@ export class EditClientDetailsComponent {
     
       this.clientManagementService.updateClient(clientProfileUpdate).subscribe({
         next: (response) => {
-          console.log('Client updated successfully:', response);
+          // console.log('Client updated successfully:', response);
           this.toastr.success('Client updated successfully', 'Success');
           this.router.navigate([`/clients/${this.clientId}`]);
         },

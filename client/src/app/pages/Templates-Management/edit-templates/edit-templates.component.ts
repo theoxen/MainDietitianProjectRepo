@@ -77,7 +77,7 @@ export class EditTemplatesComponent implements OnInit {
   }
   
   populateForm(template: any): void {
-    console.log('Populating form with template:', template);
+    // console.log('Populating form with template:', template);
     
     // Set basic template properties
     this.editTemplateForm.patchValue({

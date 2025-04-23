@@ -78,7 +78,7 @@ export class LoginComponent {
           this.toastr.success("You have successfully logged in!");
         },
         error:(error)=>{
-          console.log(error)
+          // console.log(error)
           this.wereCredentialsWrong=true;
           this.loginForm.markAsPristine();
         }

@@ -91,7 +91,7 @@ export class ForgotPasswordStep1Component {
           });
 
           this.emailForm.controls.emailFormControl.markAsPristine();
-          console.log(error);
+          // console.log(error);
         }
       })
     }

@@ -42,7 +42,7 @@ export class DeleteClientComponent implements OnInit {
       return;
     }
 
-    console.log('Deleting client:', this.clientId);
+    // console.log('Deleting client:', this.clientId);
 
     this.clientManagementService.deleteClient(this.clientId).subscribe({
       next: () => {

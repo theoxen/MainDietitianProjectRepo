@@ -16,6 +16,6 @@ export class SelectReportComponent {
       this.router.navigate(['/reports'], { 
           queryParams: { type: reportType }
       });
-      console.log('Navigating to report:', reportType);
+      // console.log('Navigating to report:', reportType);
   }
 }

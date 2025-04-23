@@ -51,7 +51,7 @@ export class AddEditRecipeComponent implements OnInit {
           this.recipeForm.controls.calories.setValue(recipe.calories);
         },
         error: (error) => {
-          console.log(error);
+          // console.log(error);
         }
       });
     }
@@ -144,11 +144,11 @@ export class AddEditRecipeComponent implements OnInit {
 
       this.recipeService.uploadRecipe(recipes).subscribe({
         next: (recipe) => {                   //an to request exei ginei swsta, parethesi ti ena mou epistepsi
-          console.log(recipe);
+          // console.log(recipe);
           this.router.navigate(['/uploads/recipes']); 
         },
         error: (error) => {
-          console.log(error);
+          // console.log(error);
         }
       })      
     }
@@ -174,11 +174,11 @@ export class AddEditRecipeComponent implements OnInit {
 
     this.recipeService.EditRecipe(recipes).subscribe({
       next: (recipe) => {
-        console.log(recipe);
+        // console.log(recipe);
         this.router.navigate(['/uploads/recipes', recipe.id]);
       },
       error: (error) => {
-        console.log(error);
+        // console.log(error);
       }
     })
   }

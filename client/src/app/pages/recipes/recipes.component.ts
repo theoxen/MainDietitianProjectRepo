@@ -38,7 +38,7 @@ export class RecipesComponent implements OnInit {
         this.updatePagination();
       },
       error: (error) => {
-        console.log(error);
+        // console.log(error);
       }
     });
   }
@@ -65,7 +65,7 @@ export class RecipesComponent implements OnInit {
         this.updatePagination();
       },
       error: (error) => {
-        console.log(error);
+        // console.log(error);
       }
     });
   }

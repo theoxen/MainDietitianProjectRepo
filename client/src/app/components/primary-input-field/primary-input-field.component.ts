@@ -25,6 +25,5 @@ export class PrimaryInputFieldComponent {
   togglePasswordVisibility(event: Event): void {
     event.preventDefault();
     this.showPassword = !this.showPassword;
-    console.log(this.showPassword);
   }
 }

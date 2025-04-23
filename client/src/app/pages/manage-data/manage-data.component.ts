@@ -28,7 +28,7 @@ export class ManageDataComponent {
           const timestamp = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
           const filename = `db_backup_${timestamp}.json`;
           
-          console.log('Using filename:', filename);
+          // console.log('Using filename:', filename);
           
           // Create a blob URL for the file
           const blob = new Blob([response.body!], { type: 'application/json' });
@@ -56,7 +56,7 @@ export class ManageDataComponent {
     const files = event.target.files;
     if (files.length > 0) {
       this.selectedFile = files[0];
-      console.log('File selected:', this.selectedFile!.name);
+      // console.log('File selected:', this.selectedFile!.name);
     }
   }
 

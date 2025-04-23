@@ -43,7 +43,6 @@ export class ClientHistoryComponent implements OnInit {
     window.scrollTo(0, 0);
 
     this.clientId = this.route.snapshot.paramMap.get('clientId');
-    console.log("Captured Client ID in ClientHistoryComponent:", this.clientId);
 
     if (this.clientId) {
       // Fetch client details
@@ -74,7 +73,6 @@ export class ClientHistoryComponent implements OnInit {
       // Fetch client diets
       this.dietService.fetchDietsForUser(this.clientId).subscribe({
         next: (response: any) => {
-          console.log('Diet API Response:', response);
           
           // Handle different response formats
           let fetchedDiets;
@@ -117,7 +115,6 @@ export class ClientHistoryComponent implements OnInit {
       return;
     }
   
-    console.log('Transforming diets:', this.clientDiets);
     
     this.transformedDiets = this.clientDiets.map(diet => {
       const typedDiet = diet as any; 
@@ -143,7 +140,6 @@ export class ClientHistoryComponent implements OnInit {
       };
     });
     
-    console.log('Transformed diets:', this.transformedDiets);
   }
 
   hasValidDiets(): boolean {
@@ -247,7 +243,6 @@ export class ClientHistoryComponent implements OnInit {
   
     // Add this method for viewing diet details
     showDietDetails(diet: any) {
-      console.log('Original diet object:', diet);
       
       // Determine what object to use as the selected diet
       if (diet.fullDiet) {
@@ -269,7 +264,7 @@ export class ClientHistoryComponent implements OnInit {
           (!typedDiet.days || typedDiet.days.length === 0) && 
           (!typedDiet.dietDays || typedDiet.dietDays.length === 0)) {
         
-        console.log(`No diet days found in the data. Fetching detailed diet data with ID: ${dietId}...`);
+        // console.log(`No diet days found in the data. Fetching detailed diet data with ID: ${dietId}...`);
         
         if (dietId) {
           // Fetch full diet details from the API
@@ -313,7 +308,7 @@ export class ClientHistoryComponent implements OnInit {
   
       // Handle case where we have dietDays instead of Days
       if (typedDiet.dietDays && (!typedDiet.Days || typedDiet.Days.length === 0)) {
-        console.log('Found dietDays - normalizing structure');
+        // console.log('Found dietDays - normalizing structure');
         typedDiet.Days = typedDiet.dietDays.map((day: any) => {
           const normalizedDay = { ...day };
           

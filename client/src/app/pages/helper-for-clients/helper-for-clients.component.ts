@@ -63,13 +63,13 @@ export class HelperForClientsComponent {
   }
 
   filterGuides(): void {
-    console.log('filterGuides called with searchTerm:', this.searchTerm); // Add this
+    // console.log('filterGuides called with searchTerm:', this.searchTerm); // Add this
     this.isSearching = true;
     const searchTerm = this.searchTerm.toLowerCase();
     this.filteredSections = this.helperSections.filter(section => 
         section.title.toLowerCase().includes(searchTerm)
     );
-    console.log('filtered sections:', this.filteredSections.length); // Add this
+    // console.log('filtered sections:', this.filteredSections.length); // Add this
     
     setTimeout(() => {
         this.isSearching = false;

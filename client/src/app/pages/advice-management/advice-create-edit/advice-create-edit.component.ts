@@ -98,7 +98,6 @@ import { ToastrService } from "ngx-toastr";
     
         this.adviceService.updateAdvice(adviceToUpdate).subscribe({
           next: (advice: Advice) => {
-            console.log("Advice updated successfully.");
             this.toastr.success("Advice updated successfully.");
             this.router.navigate(['/uploads/advice/view']);
           },
@@ -117,7 +116,6 @@ import { ToastrService } from "ngx-toastr";
     
         this.adviceService.createAdvice(adviceToAdd).subscribe({
           next: () => {
-            console.log("Advice added successfully.");
             this.toastr.success("Advice added successfully.");
             this.router.navigate(['/uploads/advice/view']);
           },
@@ -143,7 +141,6 @@ import { ToastrService } from "ngx-toastr";
         this.isConfirmationWindowVisible = false;
         this.adviceService.deleteAdvice(this.adviceId).subscribe({
           next: () => {
-            console.log("Advice deleted successfully.");
             this.toastr.success("Advice deleted successfully.");
             this.router.navigate(['/uploads/advice/view']);
           },

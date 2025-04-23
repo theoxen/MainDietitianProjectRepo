@@ -177,7 +177,7 @@ export class RegisterComponent implements OnInit {
             }
           }
           this.registerForm.markAsPristine();
-          console.log(error);
+          // console.log(error);
         }
       })
     }

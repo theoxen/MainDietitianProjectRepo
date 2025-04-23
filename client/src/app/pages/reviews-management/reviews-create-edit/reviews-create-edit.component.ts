@@ -124,7 +124,7 @@ export class ReviewsCreateEditComponent implements OnInit {
 
       this.reviewsService.updateReview(reviewsToUpdate).subscribe({
         next: (review: Reviews) => {
-          console.log("Review updated successfully.");
+          // console.log("Review updated successfully.");
           this.toastr.success("Review updated successfully.");
           this.reviewId = review.id;
           this.router.navigate(['/']);
@@ -144,7 +144,7 @@ export class ReviewsCreateEditComponent implements OnInit {
 
       this.reviewsService.createReview(reviewsToAdd).subscribe({
         next: () => {
-          console.log("Review added successfully.");
+          // console.log("Review added successfully.");
           this.toastr.success("Review added successfully.");
           this.router.navigate(['/']);
         },
@@ -170,7 +170,7 @@ export class ReviewsCreateEditComponent implements OnInit {
       this.isConfirmationWindowVisible = false;
       this.reviewsService.deleteReview(this.reviewId).subscribe({
         next: () => {
-          console.log("Review deleted successfully.");
+          // console.log("Review deleted successfully.");
           this.toastr.success("Review deleted successfully.");
           this.router.navigate(['/']);
         },
