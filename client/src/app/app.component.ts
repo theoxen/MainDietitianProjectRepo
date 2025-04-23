@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { PageFooterComponent } from "./components/page-footer/page-footer.component";
 import { AccountService } from './services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,14 @@ import { AccountService } from './services/account.service';
 
 export class AppComponent implements OnInit {
   // title = 'client';
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit() {
     // Check token on app start
     const token = this.accountService.getUserToken();
     if (token && this.accountService.isTokenExpired()) {
-      console.log('Token expired on app initialization');
+      // console.log('Token expired on app initialization');
+      this.toastr.error('Session expired. Please log in again.');
       this.accountService.logout();
       this.router.navigateByUrl('/login');
     }
