@@ -46,11 +46,16 @@
     width: 120px; /* size */
     height: 120px; /* Maintain aspect ratio */
   }
+
+
+
   
   /* Hide everything except the diet modal */
   body * {
     visibility: hidden;
   }
+
+  
   
   /* Show only the modal content */
   .modal-content, .modal-content * {
@@ -700,7 +705,11 @@ td h2 {
 }
 
 .fa-solid {
-  color: #FFA726;
+  color: white;
+}
+
+.fa-circle-info {
+  color: #FFB453;
 }
 
 /* Make date smaller */
