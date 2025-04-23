@@ -12,11 +12,30 @@
   width: 90%;
   color: #fff;
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+.phone-number {
+  font-weight: 600;
+  color: orange;
+  padding-left: 5px;
+}
+
+.phone-number-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.hide-on-small-screens {
+  display: block;
+}
+
+
 
 .title {
   color: white;
@@ -67,7 +86,8 @@ iframe {
   width: 80px;
   height: 3px;
   margin: 15px auto 0;
-  background-color: #ff8c00; /* Orange underline */
+  background-color: #ff8c00;
+  /* Orange underline */
 }
 
 .services-container {
@@ -139,7 +159,7 @@ iframe {
   align-items: center;
 }
 
-.about-text p{
+.about-text p {
   text-align: center;
 }
 
@@ -198,7 +218,7 @@ iframe {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Features Section (Why Choose Me) */
+/* Features Section (Why Choose Us) */
 .features-section {
   padding: 70px 20px;
   background-color: #f2f8f2;
@@ -294,5 +314,22 @@ iframe {
 
   .text-box h2 {
     font-size: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hide-on-small-screens {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .phone-number-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .phone-number {
+    padding-left: 0
   }
 }
