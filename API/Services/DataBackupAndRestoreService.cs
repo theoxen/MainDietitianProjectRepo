@@ -98,7 +98,7 @@ namespace API.Services
                 {
                     // For Azure SQL Database, we can't use sp_MSforeachtable
                     // Instead, we'll set database to a more permissive isolation level
-                    await _context.Database.ExecuteSqlRawAsync("SET XACT_ABORT ON");
+                    // await _context.Database.ExecuteSqlRawAsync("SET XACT_ABORT ON");
 
                     // Delete existing data
                     await DeleteExistingDataAsync();
@@ -330,7 +330,7 @@ namespace API.Services
                     await _context.SaveChangesAsync();
 
                     // Reset the transaction abort setting
-                    await _context.Database.ExecuteSqlRawAsync("SET XACT_ABORT OFF");
+                    // await _context.Database.ExecuteSqlRawAsync("SET XACT_ABORT OFF");
 
                     await transaction.CommitAsync();
                 }
@@ -353,28 +353,28 @@ namespace API.Services
             // as we're deleting in the correct order
 
             // First delete dependent tables
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetUserTokens]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetUserLogins]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetUserClaims]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetRoleClaims]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetUserRoles]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [UserDiets]");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetUserTokens\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetUserLogins\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetUserClaims\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetRoleClaims\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetUserRoles\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"UserDiets\"");
 
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [DietMeals]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [DietDays]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Metrics]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Appointments]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Notes]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Reviews]");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"DietMeals\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"DietDays\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Metrics\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Appointments\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Notes\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Reviews\"");
 
             // Then delete parent tables
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Diets]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetUsers]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [AspNetRoles]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [DietTypes]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Advice]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Articles]");
-            await _context.Database.ExecuteSqlRawAsync("DELETE FROM [Recipes]");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Diets\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetUsers\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"AspNetRoles\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"DietTypes\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Advice\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Articles\"");
+            await _context.Database.ExecuteSqlRawAsync("DELETE FROM \"Recipes\"");
         }
 
     }

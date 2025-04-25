@@ -21,7 +21,7 @@ public static class DependencyInjection
     // Persistance means something permanent
     public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<DataContext>(x => x.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<DataContext>(x => x.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddIdentityCore<User>(opt => {
             opt.Password.RequireNonAlphanumeric = false;

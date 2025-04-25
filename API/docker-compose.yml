@@ -1,9 +1,15 @@
 services:
-  sql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sql
+  postgres:
+    image: postgres:latest
+    container_name: postgres
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "DFSGNJDIO84WRESGNJS!1"
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
+      POSTGRES_DB: dietitiandb
     ports:
-      - "1433:1433"
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
