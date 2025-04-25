@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250223204037_AddedRemainingTables")]
+    partial class AddedRemainingTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointment");
                 });
 
             modelBuilder.Entity("API.Data.Article", b =>
@@ -71,9 +74,6 @@ namespace API.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -110,7 +110,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Diets");
+                    b.ToTable("Diet");
                 });
 
             modelBuilder.Entity("API.Data.DietDay", b =>
@@ -130,7 +130,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("DietId");
 
-                    b.ToTable("DietDays");
+                    b.ToTable("DietDay");
                 });
 
             modelBuilder.Entity("API.Data.DietMeal", b =>
@@ -154,7 +154,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("DietDayId");
 
-                    b.ToTable("DietMeals");
+                    b.ToTable("DietMeal");
                 });
 
             modelBuilder.Entity("API.Data.DietType", b =>
@@ -221,7 +221,7 @@ namespace API.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Notes");
+                    b.ToTable("Note");
                 });
 
             modelBuilder.Entity("API.Data.Recipe", b =>
@@ -271,9 +271,6 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsAnonymous")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ReviewText")
                         .HasColumnType("nvarchar(max)");
 
@@ -292,7 +289,7 @@ namespace API.Data.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("API.Data.Role", b =>
@@ -423,7 +420,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("DietId");
 
-                    b.ToTable("UserDiets");
+                    b.ToTable("UserDiet");
                 });
 
             modelBuilder.Entity("API.Data.UserRole", b =>
