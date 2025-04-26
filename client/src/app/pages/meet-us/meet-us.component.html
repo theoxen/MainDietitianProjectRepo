@@ -14,9 +14,9 @@
           <div class="cv-section">
             <h4 class="cv-section-title">Education &amp; Credentials</h4>
             <div class="cv-section-content">
-              <span class="credential"><strong>MSc in Nutrition &amp; Metabolism</strong>, European University Cyprus;</span>
-              <span class="credential"><strong>BSc in Nutrition &amp; Dietetics</strong>, University of Thessaly;</span>
-              <span class="credential"><strong>Licensed Dietitian–Nutritionist</strong>, Cyprus Dietetic Association.</span>
+              <div class="credential"><strong>MSc in Nutrition &amp; Metabolism</strong>, European University Cyprus.</div>
+              <div class="credential"><strong>BSc in Nutrition &amp; Dietetics</strong>, University of Thessaly.</div>
+              <div class="credential"><strong>Licensed Dietitian–Nutritionist</strong>, Cyprus Dietetic Association.</div>
             </div>
           </div>
           
@@ -63,7 +63,7 @@
           
           <div class="carousel-dots">
             @for (photo of photos; track $index) {
-              <span class="dot" [class.active]="currentIndex === $index" (click)="goToSlide($index)"></span>
+              <div class="dot" [class.active]="currentIndex === $index" (click)="goToSlide($index)"></div>
             }
           </div>
         </div>
