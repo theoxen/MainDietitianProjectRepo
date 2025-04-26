@@ -1,113 +1,126 @@
 <div class="page">
   <app-nav-bar></app-nav-bar>
-  
-  <!-- Vision Section -->
-  <div class="cv-career-section">
-      <div class="cv-text">
-        <h2>CV - CAREER</h2>
-        <p>
-          Biography of the dietician, achievements, important info.  
-          Add bullet points, short paragraphs, or highlights here.
-        </p>
-        <p>
-          Additional details about her education, experience, awards,  
-          or any other relevant career information.
-        </p>
-      </div>
-      <div class="cv-photo">
-        <img
-          class="DietitianPhoto"
-          src="/images/RafaellaPanagiotouHomePage2.jpg"
-          alt="Photo of the Dietitian"
-        />
-      </div>
-    </div>
-    
-    <div class="ourCenterSectionContainer">
-    
-      <div class="our-center-section">
-        <div class="carousel-container">
-          <div class="carousel-track" #carouselTrack>
-            @for (photo of photos; track $index) {
-              <div class="carousel-slide">
-                <div class="photo-box" [style.background-image]="'url(' + photo.imageUrl + ')'">
-                  <div class="photo-caption">{{ photo.caption }}</div>
-                </div>
-              </div>
-            }
-            
+  <div class="innerPage">
+    <!-- CV Career Section -->
+      <div class="cv-career-section">
+        <div class="cv-text">
+          <h2 class="cv-title">CV - CAREER</h2>
+          
+          <div class="cv-section">
+            <h4 class="cv-section-title">About Rafaella</h4>
+            <p class="cv-section-content">Passionate Dietitian–Nutritionist dedicated to turning the latest science into simple, sustainable habits that fit your life.</p>
           </div>
           
-          <button class="carousel-btn prev" (click)="prevSlide()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
+          <div class="cv-section">
+            <h4 class="cv-section-title">Education &amp; Credentials</h4>
+            <div class="cv-section-content">
+              <div class="credential"><strong>MSc in Nutrition &amp; Metabolism</strong>, European University Cyprus.</div>
+              <div class="credential"><strong>BSc in Nutrition &amp; Dietetics</strong>, University of Thessaly.</div>
+              <div class="credential"><strong>Licensed Dietitian–Nutritionist</strong>, Cyprus Dietetic Association.</div>
+            </div>
+          </div>
           
-          <button class="carousel-btn next" (click)="nextSlide()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
+          <div class="cv-section">
+            <h4 class="cv-section-title">Experience</h4>
+            <div class="cv-section-content">
+              <div class="experience-item">Over 3 years designing personalized meal plans for weight management, sports nutrition, digestive health, and more;</div>
+              <div class="experience-item">Internship &amp; private practice at the Dietitian Office of I. Thomai Alexakou.</div>
+            </div>
+          </div>
         </div>
         
-        <div class="carousel-dots">
-          @for (photo of photos; track $index) {
-            <span 
-              class="dot" 
-              [class.active]="currentIndex === $index"
-              (click)="goToSlide($index)">
-            </span>
-          }
+        <div class="cv-photo">
+          <img class="DietitianPhoto" src="/images/RafaellaPanagiotouHomePage2.jpg" alt="Photo of the Dietitian" />
         </div>
       </div>
-
-
-      <div class="CarouselSideText">
-        <div class="info-text">
-          <h2>Our Center</h2>
-          <p>
-            Take a closer look at our facility through this visual journey. Each image showcases key areas where passion, expertise, and a commitment to your health come together.
-            <br>
-            <br>
-            From our welcoming reception to our detailed consultation and diagnostics areas, our center is your health haven—a place designed with your well-being in mind.
-          </p>
+      
+      <!-- Our Center Section -->
+      <div class="ourCenterSectionContainer">
+        <div class="our-center-section">
+          <div class="carousel-container">
+            <div class="carousel-track" #carouselTrack>
+              @for (photo of photos; track $index) {
+                <div class="carousel-slide">
+                  <div class="photo-box" [style.background-image]="'url(' + photo.imageUrl + ')'">
+                    <div class="photo-caption">{{ photo.caption }}</div>
+                  </div>
+                </div>
+              }
+            </div>
+            
+            <button class="carousel-btn prev" (click)="prevSlide()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            
+            <button class="carousel-btn next" (click)="nextSlide()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="carousel-dots">
+            @for (photo of photos; track $index) {
+              <div class="dot" [class.active]="currentIndex === $index" (click)="goToSlide($index)"></div>
+            }
+          </div>
+        </div>
+        
+        <div class="CarouselSideText">
+          <div class="info-text">
+            <h2 class="center-title">Welcome to Our Center</h2>
+            <p class="center-description">
+              <strong>Step into a space where health transformation happens</strong>
+            </p>
+            <ul style="list-style-type: none; padding-left: 0; margin-top: 15px;">
+              <li>✓ <strong>Comfortable Waiting Area</strong> - A welcoming space designed for your comfort</li>
+              <li>✓ <strong>Private Consultation Room</strong> - Where your personalized nutrition journey begins</li>
+              <li>✓ <strong>Advanced Diagnostic Equipment</strong> - For precise body composition and health measurements</li>
+              <li>✓ <strong>Personalized Nutrition Consultations</strong> - Tailored guidance for your unique health goals</li>
+            </ul>
+            <p class="center-description" style="margin-top: 15px;">
+              Every corner of our center is designed with one purpose: <em>to provide you with an exceptional experience that transforms your relationship with food and health</em>.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    
-  <!-- Office Hours Section -->
-  <div class="hoursBoxContainer">
-    <div class="hours-box">
-        <h2>Office Hours</h2>
-        <div class="hours-item">
+      
+      <!-- Office Hours Section -->
+      <div class="hoursBoxContainer">
+        <div class="hours-box">
+          <h2 class="hours-title">Office Hours</h2>
+          <div class="hours-item">
             <div>Monday:</div>
-            <div>7:00 am - &nbsp;8:00 pm</div>
-        </div>
-        <div class="hours-item">
+            <div>7:00 am - &nbsp;10:00 pm</div>
+          </div>
+          <div class="hours-item">
             <div>Tuesday:</div>
             <div>7:00 am - 10:00 pm</div>
-        </div>
-        <div class="hours-item">
+          </div>
+          <div class="hours-item">
             <div>Wednesday:</div>
             <div>7:00 am - 10:00 pm</div>
-        </div>
-        <div class="hours-item">
+          </div>
+          <div class="hours-item">
             <div>Thursday:</div>
             <div>7:00 am - 10:00 pm</div>
-        </div>
-        <div class="hours-item">
+          </div>
+          <div class="hours-item">
             <div>Friday:</div>
             <div>7:00 am - 10:00 pm</div>
-        </div>
-        <div class="hours-item">
+          </div>
+          <div class="hours-item">
             <div>Saturday:</div>
             <div>Closed</div>
-        </div>
-        <div class="hours-item">
+          </div>
+          <div class="hours-item">
             <div>Sunday:</div>
             <div>Closed</div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
-</div>
+  
