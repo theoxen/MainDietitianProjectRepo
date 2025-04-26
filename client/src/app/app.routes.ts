@@ -27,7 +27,6 @@ import { ViewReportsComponent } from './pages/Reports/view/view.component';
 import { AdviceCreateEditComponent } from './pages/advice-management/advice-create-edit/advice-create-edit.component';
 import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
 import { AppointmentsComponent } from './pages/appointments/appointments/appointments.component';
-import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { UploadsComponent } from './pages/uploads/uploads.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
