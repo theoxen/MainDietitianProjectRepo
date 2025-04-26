@@ -18,11 +18,11 @@ export class MeetUsComponent {
   @ViewChild('carouselTrack') carouselTrack!: ElementRef;
 
   photos: Photo[] = [
-    { imageUrl: 'images/dietitianSign.jpg', caption: 'Welcome to Our Nutrition Practice' },
+    { imageUrl: 'images/dietitian.jpg', caption: 'Your Dedicated Nutrition Professional' },
     { imageUrl: 'images/specialEquipment.jpg', caption: 'State-of-the-Art Assessment Equipment' },
     { imageUrl: 'images/diets.jpg', caption: 'Personalized Nutrition Consultations' },
     { imageUrl: 'images/relaxingRoom.jpg', caption: 'Comfortable and Inviting Waiting Area' },
-    { imageUrl: 'images/dietitian.jpg', caption: 'Your Dedicated Nutrition Professional' }
+    { imageUrl: 'images/dietitianSign.jpg', caption: 'Welcome to Our Nutrition Practice' }
   ];
 
   currentIndex = 0;
