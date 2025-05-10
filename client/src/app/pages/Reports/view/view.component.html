@@ -1,12 +1,20 @@
+<!-- Main container for the entire page -->
 <div class="page">
+    <!-- Navigation bar component -->
     <app-nav-bar></app-nav-bar>
+    
+    <!-- Center container for report content -->
     <div class="center-container">
+        <!-- Main report container with hover effect -->
         <div class="primary-hover-box">
             <div class="report-view">
+                <!-- Logo section at the top of report -->
                 <div class="report-logo">
                     <img src="images/logoDietitian.png" alt="Dietitian Logo">
                 </div>
-                <!-- New Users Report -->
+
+                <!-- New Users Report Section -->
+                <!-- Shows user registration data within date range -->
                 @if (isNewUsersReport) {
                     <div class="report-header">
                         <h4>New Users Report</h4>
@@ -52,17 +60,16 @@
                     }
                 }
 
-
-                <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////User Report -->
-
-                <!-- Age Group Report -->
+                <!-- Age Group Report Section -->
+                <!-- Shows detailed user data filtered by age range -->
                 @if (isAgeReport) {
+                    <!-- Header shows selected age range -->
                     <div class="report-header">
                         <h4>Age Group Report</h4>
                         <p class="report-range">Age Range: {{ reportData?.field1 }} - {{ reportData?.field2 }} years</p>
                     </div>
 
-                    <!-- Statistics Section -->
+                    <!-- Statistical overview of age group -->
                     <div class="statistics-section">
                         <h5>Statistics</h5>
                         <p class="center"><strong>        Total Users:</strong> {{ totalUsers }}</p>
@@ -72,9 +79,11 @@
                         <p class="center"><strong>Average Muscle Mass:</strong> {{ averageMuscleMass }} %</p>
                     </div>
 
-                    <!-- User Details -->
+                    <!-- Detailed user information display -->
                     @if (data && data.length > 0) {
+                        <!-- Loop through each user in age range -->
                         @for (user of data; track user.fullName) {
+                            <!-- Individual user card with measurements and appointments -->
                             <div class="user-section">
                                 <div class="user-info">
                                     <h5>{{ user.fullName }}</h5>
@@ -145,7 +154,8 @@
                     }
                 }
 
-                <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////Diet Type Report -->
+                <!-- Diet Type Report Section -->
+                <!-- Shows users following specific diet plans -->
                 @if (isDietTypeReport) {
                     <div class="report-header">
                         <h4>Diet Type Report</h4>
@@ -235,21 +245,24 @@
                     }
                 }
 
-
-
-                <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////Appointment Report -->
+                <!-- Appointment Report Section -->
+                <!-- Shows appointment analytics and details -->
                 @if (isAppointmentReport) {
+                    <!-- Report header with date range -->
                     <div class="report-header">
                         <h4>Appointments Report</h4>
                         <p class="report-range">Date Range: {{ reportData?.field1 | date:'dd/MM/yyyy'}} - {{ reportData?.field2 | date:'dd/MM/yyyy' }}</p>
                     </div>
-                    <div class="statistics-section ">
+
+                    <!-- Statistical overview of appointments -->
+                    <div class="statistics-section">
+                        <!-- Key metrics about appointment patterns -->
                         <h5>Statistics</h5>
                         <p><strong>Total Appointments:</strong> {{ totalAppointments }}</p>
                         <p><strong>Busiest Day:</strong> {{ busiestDay }}</p>
                         <p><strong>Busiest Time:</strong> {{ busiestTime }}</p>
 
-                        <!-- Daily Breakdown -->
+                        <!-- Daily appointment distribution -->
                         <div class="daily-breakdown">
                             <h6>Daily Appointment Distribution</h6>
                             <ul>
@@ -260,10 +273,12 @@
                                 }
                             </ul>
                         </div>
-                    
                     </div>
+
+                    <!-- Detailed appointment listing -->
                     @if (appointment && appointment.length > 0) {
-                        <div class="appointments-table ">
+                        <!-- Table of all appointments in date range -->
+                        <div class="appointments-table">
                             <h6>All Appointments</h6>
                             <table>
                                 <thead>
@@ -285,16 +300,16 @@
                     } @else {
                         <p>No appointments found in this date range.</p>
                     }
-
                 }
-                
 
-                <!-- Export Button -->
+                <!-- Action buttons for report manipulation -->
                 <div class="center-button">
+                    <!-- Print functionality for physical/PDF copy -->
                     <button class="primary-button" (click)="printReport()">Print Report</button>
-                    <button class="primary-button" (click)="navigateBack()" routerLinkActive="router-link-active" >Back</button>
-                    </div>
+                    <!-- Navigation back to report selection -->
+                    <button class="primary-button" (click)="navigateBack()" routerLinkActive="router-link-active">Back</button>
                 </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,15 +1,21 @@
+<!-- Main page wrapper with navigation -->
 <div class="page">
+    <!-- Navigation bar component -->
     <app-nav-bar></app-nav-bar>
+    
+    <!-- Header section with back navigation -->
     <div class="page-header">
+        <!-- Back button with FontAwesome icon -->
         <button type="button" class="primary-button back-button" routerLink="/uploads">
             <i class="fas fa-arrow-left"></i> Back
         </button>
     </div>
 
+    <!-- Main content container -->
     <div class="main-container">
         <h1 class="title">Recipes</h1>
         
-        <!-- Search Bar -->
+        <!-- Search functionality with two-way binding and real-time filtering -->
         <div class="search-container">
             <div class="search-bar">
                 <input class="primary-input-field form-control" 
@@ -20,9 +26,10 @@
             </div>
         </div>
 
-        <!-- Admin Add Button -->
+        <!-- Conditional rendering of admin-only add recipe button -->
         @if (isadmin) {
         <div class="add-recipe-container">
+            <!-- Router link navigation to add recipe form -->
             <a [routerLink]="['add']" class="add-recipe-card">
                 <div class="card-body">
                     <i class="fas fa-plus"></i>
@@ -32,13 +39,17 @@
         </div>
         }
 
-        <!-- Recipe Grid -->
+        <!-- Grid layout for displaying recipe cards -->
         <div class="recipes-grid">
+            <!-- Angular for loop with optimized tracking -->
             @for (recipe of paginatedRecipes; track $index) {
+            <!-- Router link to individual recipe details -->
             <a [routerLink]="[recipe.id]" class="recipe-card">
                 <div class="card-body">
                     <h5 class="card-title">{{recipe.name}}</h5>
+                    <!-- Nutritional information display -->
                     <div class="nutrition-info">
+                        <!-- Individual nutrient display with labels and values -->
                         <div class="nutrition-item">
                             <span class="label">Protein:</span>
                             <span class="value">{{recipe.protein}}g</span>
@@ -61,14 +72,17 @@
             }
         </div>
 
-        <!-- Pagination -->
+        <!-- Pagination controls -->
         <div class="pagination-container">
+            <!-- Previous page button with disabled state -->
             <button class="pagination-button" 
                     [disabled]="currentPage === 1"
                     (click)="changePage(currentPage - 1)">
                 Previous
             </button>
+            <!-- Current page indicator -->
             <span class="page-number">{{currentPage}} / {{totalPages}}</span>
+            <!-- Next page button with disabled state -->
             <button class="pagination-button" 
                     [disabled]="currentPage === totalPages"
                     (click)="changePage(currentPage + 1)">

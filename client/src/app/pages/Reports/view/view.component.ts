@@ -14,48 +14,50 @@ import { Appointment } from '../../../models/Reports/Appointments';
   styleUrl: './view.component.css'
 })
 export class ViewReportsComponent {
+  // Properties to store report data and type
   reportData: any;
   reportType: string = '';
   reportContent: string = '';
-  data: ReportData[] = []; // Initialize data as an empty array
+  data: ReportData[] = []; // Stores the main report data
+  appointment: Appointment[] = []; // Stores appointment specific data
 
-  appointment: Appointment[] = []; // Initialize appointment as an empty array
-
-
+  // Statistical properties for report calculations
   totalUsers: number = 0;
   totalAppointments: number = 0;
   averageWeight:  number = 0;
   averageFatMass: number = 0;
   averageMuscleMass: number = 0;
 
+  // Flags to determine which type of report is being displayed
   isNewUsersReport: boolean = false;
   isAgeReport: boolean = false;
   isAppointmentReport: boolean = false;
   isDietTypeReport: boolean = false;
   type?: string;
- 
 
-  constructor(private reportsService: ReportsService, private router: Router, private route: ActivatedRoute, private renderer: Renderer2) { }
+  constructor(
+    private reportsService: ReportsService, // Service for fetching report data
+    private router: Router,                 // For navigation
+    private route: ActivatedRoute,          // For accessing route parameters
+    private renderer: Renderer2             // For DOM manipulation
+  ) { }
 
   ngOnInit(): void {
-
+    // Hide footer on component initialization
     const footer = document.querySelector('footer');
     if (footer) {
       this.renderer.setStyle(footer, 'display', 'none');
     }
   
-    // Retrieve query parameters
+    // Subscribe to route parameters to determine report type and fetch data
     this.route.queryParams.subscribe(params => {
       this.reportData = params;
-      this.reportType = params['reportType']; // Extract the report type
-      // console.log('Received Report Data:', this.reportData);
-      // console.log('Report Type:', this.reportType);
-
-      // Determine the report content based on the report type
+      this.reportType = params['reportType'];
       this.setReportContent();
     });
   }
 
+  // Determines which report to fetch based on report type
   setReportContent(): void {
     switch (this.reportType) {
       case 'ReportForm1':
