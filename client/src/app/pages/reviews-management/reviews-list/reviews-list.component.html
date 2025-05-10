@@ -1,17 +1,23 @@
 <section class="reviews-section">
+  <!-- Section Header -->
   <div class="reviews-header">
     <h2 class="section-title">Client Testimonials</h2>
     <p class="section-subtitle">See what our clients have to say about their experience</p>
   </div>
 
+  <!-- Controls Container -->
   <div class="controls-container">
+    <!-- Left Controls: Add or Update Review Button -->
     <div class="left-controls">
       @if( getUserToken() && isNotAdmin!=true ) {
         <button class="primary-button" (click)="addOrUpdateReview()">
-          <i class="fas fa-pen-to-square"></i> {{ userReview?.id ? 'Update Your Review' : 'Share Your Experience' }}
+          <i class="fas fa-pen-to-square"></i> 
+          {{ userReview?.id ? 'Update Your Review' : 'Share Your Experience' }}
         </button>
       }
     </div>
+
+    <!-- Right Controls: Sorting Dropdown -->
     <div class="right-controls">
       <label for="sort-select">Sort by:</label>
       <select id="sort-select" class="sorting-select" (change)="sortReviews($event)">
@@ -23,14 +29,18 @@
     </div>
   </div>
 
+  <!-- Reviews Container -->
   <div class="reviews-container">
+    <!-- Loop through reviews -->
     @for (review of reviews; track review.id) {
       <div class="review-card">
+        <!-- Review Header -->
         <div class="review-header">
           <div class="client-info">
             <h3 class="client-name">{{ review.userFullName }}</h3>
             <span class="review-date">{{ review.dateCreated | date:'mediumDate' }}</span>
           </div>
+          <!-- Star Rating -->
           <div class="star-rating">
             @for (star of [1, 2, 3, 4, 5]; track star) {
               <span [ngClass]="{'filled': star <= review.stars}">
@@ -39,6 +49,7 @@
             }
           </div>
         </div>
+        <!-- Review Content -->
         <div class="review-content">
           <p>{{ review.reviewText }}</p>
         </div>
@@ -46,11 +57,13 @@
     }
   </div>
 
+  <!-- Load More Button -->
   @if (hasMoreReviews()) {
     <div class="load-more-container">
       <button class="load-more-button" (click)="loadMoreReviews()" [disabled]="loading">
         <span>Show More Reviews</span>
         <i class="fas fa-chevron-down"></i>
+        <!-- Spinner Icon (Commented Out) -->
         <!-- <i class="fas fa-spinner fa-spin" *ngIf="loading"></i> -->
       </button>
     </div>

@@ -1,200 +1,217 @@
+/* Container Styling */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  padding-top: 0;
+  max-width: 1200px; /* Maximum width of the container */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 2rem; /* Add padding around the container */
+  padding-top: 0; /* Remove top padding */
 }
 
+/* Page Header Styling */
 .page-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  text-align: center; /* Center align the text */
+  margin-bottom: 2.5rem; /* Add space below the header */
 }
 
+/* Title Styling */
 .title {
-  font-weight: 550;
-  font-size: 50px;
-  color: black;
-  margin-bottom: 0.5rem;
+  font-weight: 550; /* Semi-bold font weight */
+  font-size: 50px; /* Large font size */
+  color: black; /* Black text color */
+  margin-bottom: 0.5rem; /* Add space below the title */
 }
 
+/* Subtitle Styling */
 .sub-title {
-  opacity: 0.80;
-  color: black;
-  font-size: 24px;
-  font-weight: 400;
+  opacity: 0.80; /* Slightly transparent text */
+  color: black; /* Black text color */
+  font-size: 24px; /* Medium font size */
+  font-weight: 400; /* Normal font weight */
 }
 
-/* Search and Filter Styling */
+/* Search and Filter Section Styling */
 .search-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space out items evenly */
+  align-items: center; /* Align items vertically */
+  margin-bottom: 2rem; /* Add space below the section */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 1rem; /* Add space between items */
 }
 
+/* Search Box Input Styling */
 .search-box input {
-  border-radius: 12px;
-  padding: 5px 10px;
-  border: 2px solid #ffffff;
-  font-size: 16px;
-  outline: none;
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
-  width: 250px; /* Adjust the width to fit your design */
+  border-radius: 12px; /* Rounded corners */
+  padding: 5px 10px; /* Add padding inside the input */
+  border: 2px solid #ffffff; /* White border */
+  font-size: 16px; /* Medium font size */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 250px; /* Fixed width */
 }
 
+/* Search Box Icon Styling */
 .search-box i {
-  margin-right: 8px;
+  margin-right: 8px; /* Add space to the right of the icon */
 }
 
+/* Date Filter Dropdown Styling */
 .date-filter select {
-  border-radius: 12px;
-  padding: 5px 10px;
-  border: 2px solid #ffffff;
-  font-size: 16px;
-  outline: none;
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
-  width: 250px; /* Adjust the width to fit your design */
+  border-radius: 12px; /* Rounded corners */
+  padding: 5px 10px; /* Add padding inside the dropdown */
+  border: 2px solid #ffffff; /* White border */
+  font-size: 16px; /* Medium font size */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 250px; /* Fixed width */
 }
 
+/* Date Filter Icon Styling */
 .date-filter i {
-  margin-right: 8px;
+  margin-right: 8px; /* Add space to the right of the icon */
 }
 
-/* Modal Overlay */
+/* Modal Overlay Styling */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  position: fixed; /* Fixed position to cover the entire screen */
+  top: 0; /* Start at the top */
+  left: 0; /* Start at the left */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000; /* Ensure it appears above other elements */
 }
 
-/* Modal Content */
+/* Modal Content Styling */
 .modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  overflow-y: auto; /* Allow scrolling if the content is too long */
+  background: white; /* White background */
+  padding: 2rem; /* Add padding inside the modal */
+  border-radius: 10px; /* Rounded corners */
+  max-width: 600px; /* Maximum width */
+  width: 100%; /* Full width */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Add shadow */
+  overflow-y: auto; /* Enable scrolling for long content */
 }
 
-/* Close Button */
+/* Close Button Styling */
 .close-btn {
-  background-color: #FFB453;
-  border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: 1rem;
-  transition: background-color 0.3s;
+  background-color: #FFB453; /* Orange background */
+  border: none; /* Remove border */
+  color: white; /* White text */
+  padding: 0.75rem 1.5rem; /* Add padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-weight: 600; /* Bold text */
+  margin-top: 1rem; /* Add space above the button */
+  transition: background-color 0.3s; /* Smooth color transition */
 }
 
+/* Close Button Hover Effect */
 .close-btn:hover {
-  background-color: #FFA726;
+  background-color: #FFA726; /* Darker orange on hover */
 }
 
-/* Advice Cards Styling */
+/* Advice Cards Container Styling */
 .advice-container {
-  display: flex;
-  flex-direction: row; /* Ensure the cards are aligned horizontally */
-  flex-wrap: nowrap;   /* Prevent wrapping of cards */
-  overflow-x: auto;    /* Enable horizontal scrolling */
-  gap: 1rem;           /* Space between cards */
-  padding-bottom: 1rem;
+  display: flex; /* Use flexbox for layout */
+  flex-direction: row; /* Align items horizontally */
+  flex-wrap: nowrap; /* Prevent wrapping */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  gap: 1rem; /* Add space between cards */
+  padding-bottom: 1rem; /* Add padding below the container */
 }
 
+/* Advice Row Styling */
 .advice-row {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 1rem;
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: nowrap; /* Prevent wrapping */
+  gap: 1rem; /* Add space between cards */
 }
 
+/* Individual Advice Card Styling */
 .advice-card {
-  width: 300px;
-  background-color: white;
-  border-radius: 10px;
-  border-top: 5px solid #FFB453;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
-  padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  width: 300px; /* Fixed width */
+  background-color: white; /* White background */
+  border-radius: 10px; /* Rounded corners */
+  border-top: 5px solid #FFB453; /* Orange top border */
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+  padding: 1.5rem; /* Add padding inside the card */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Align items vertically */
+  height: 100%; /* Full height */
 }
 
+/* Advice Card Hover Effect */
 .advice-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25);
+  transform: translateY(-5px); /* Slight upward movement */
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25); /* Stronger shadow */
 }
 
+/* Advice Title Styling */
 .advice-title {
-  color: #000;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
+  color: #000; /* Black text */
+  font-size: 1.25rem; /* Medium font size */
+  font-weight: 600; /* Bold text */
+  margin-bottom: 0.75rem; /* Add space below the title */
+  line-height: 1.3; /* Adjust line height */
 }
 
+/* Advice Description Styling */
 .advice-description {
-  color: #444;
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-  flex-grow: 1;
-  /* Limit to 3 lines with ellipsis */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  color: #444; /* Dark gray text */
+  font-size: 1rem; /* Normal font size */
+  line-height: 1.5; /* Adjust line height */
+  margin-bottom: 1.5rem; /* Add space below the description */
+  flex-grow: 1; /* Allow the description to grow */
+  display: -webkit-box; /* Use webkit box for truncation */
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical; /* Vertical orientation */
+  overflow: hidden; /* Hide overflow text */
 }
 
-/* Read More Button */
+/* Read More Button Styling */
 .read-more-btn {
-  background: none;
-  border: none;
-  color: #FFB453;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0;
-  cursor: pointer;
-  transition: color 0.3s;
+  background: none; /* Transparent background */
+  border: none; /* Remove border */
+  color: #FFB453; /* Orange text */
+  text-decoration: none; /* Remove underline */
+  font-weight: 500; /* Medium font weight */
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Align items vertically */
+  gap: 0.5rem; /* Add space between icon and text */
+  padding: 0; /* Remove padding */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: color 0.3s; /* Smooth color transition */
 }
 
+/* Read More Button Hover Effect */
 .read-more-btn:hover {
-  color: #FFA726;
+  color: #FFA726; /* Darker orange on hover */
 }
 
+/* Empty State Styling */
 .empty-state {
-  text-align: center;
-  padding: 3rem 1rem;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  margin-top: 20px;
-  width : 100%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
+  text-align: center; /* Center align the text */
+  padding: 3rem 1rem; /* Add padding around the container */
+  background-color: #f9f9f9; /* Light gray background */
+  border-radius: 10px; /* Rounded corners */
+  margin-top: 20px; /* Add space above the container */
+  width: 100%; /* Full width */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Add shadow */
 }
 
+/* Empty State Icon Styling */
 .empty-state i {
-  font-size: 3rem; /* Icon size */
-  color: #FFB453; /* Icon color */
-  margin-bottom: 1rem; /* Space between the icon and text */
+  font-size: 3rem; /* Large icon size */
+  color: #FFB453; /* Orange icon color */
+  margin-bottom: 1rem; /* Add space below the icon */
 }
 
+/* Empty State Text Styling */
 .empty-state h3 {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.5rem; /* Medium font size */
+  color: #333; /* Dark gray text */
 }

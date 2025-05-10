@@ -22,52 +22,54 @@ import { AccountService } from "../../../services/account.service";
 export class AdviceListComponent implements OnInit {
   constructor(private router: Router, private accountService: AccountService) {}
   // Services
-  private fb = inject(FormBuilder);
-  private toastr = inject(ToastrService);
-  private adviceService = inject(AdviceService);
+  private fb = inject(FormBuilder); // Inject FormBuilder for form creation
+  private toastr = inject(ToastrService); // Inject ToastrService for notifications
+  private adviceService = inject(AdviceService); // Inject AdviceService for API calls
 
   // Properties
-  adviceList: AdviceToView[] = [];
-  filteredAdvice: AdviceToView[] = [];
-  searchTerm: string = '';
-  dateFilter: string = 'all';
+  adviceList: AdviceToView[] = []; // List of all advice items
+  filteredAdvice: AdviceToView[] = []; // Filtered advice list based on search or date filters
+  searchTerm: string = ''; // Search term for filtering advice by title
+  dateFilter: string = 'all'; // Date filter value (e.g., 'week', 'month', 'newest', etc.)
 
   // Modal properties
-  showAdviceViewModal: boolean = false;
-  selectedAdvice: AdviceToView | null = null;
+  showAdviceViewModal: boolean = false; // Flag to show/hide the advice details modal
+  selectedAdvice: AdviceToView | null = null; // Currently selected advice for viewing
 
   // Form for adding/editing advice
-  isAdmin: boolean = false;
-  adviceForm!: FormGroup;
-  isEditing: boolean = false;
-  currentAdviceId: string | null = null;
-  isSubmitting: boolean = false;
-
+  isAdmin: boolean = false; // Flag to check if the user is an admin
+  adviceForm!: FormGroup; // Reactive form for adding/editing advice
+  isEditing: boolean = false; // Flag to indicate if the form is in edit mode
+  currentAdviceId: string | null = null; // ID of the advice being edited
+  isSubmitting: boolean = false; // Flag to indicate if the form is being submitted
 
   ngOnInit(): void {
+    // Check if the user is an admin
     this.isAdmin = this.accountService.userRole() === 'admin';
+    // Initialize the reactive form
     this.initializeForm();
+    // Load advice data from the API
     this.loadAdvice();
   }
 
-  // Initialize the form
+  // Initialize the form with validation rules
   initializeForm(): void {
     this.adviceForm = this.fb.group({
-      title: ['', [Validators.required]],
-      adviceText: ['', [Validators.required]]
+      title: ['', [Validators.required]], // Title is required
+      adviceText: ['', [Validators.required]] // Advice text is required
     });
   }
 
-  // Load all advice from API
+  // Load all advice from the API
   loadAdvice(): void {
     this.adviceService.getAllAdvice().subscribe({
       next: (data) => {
-        this.adviceList = data;
-        this.filteredAdvice = [...data];
+        this.adviceList = data; // Store the advice data
+        this.filteredAdvice = [...data]; // Initialize the filtered list
       },
       error: (error) => {
-        console.error('Error loading advice', error);
-        this.toastr.error('Failed to load advice. Please try again later.');
+        console.error('Error loading advice', error); // Log the error
+        this.toastr.error('Failed to load advice. Please try again later.'); // Show error notification
       }
     });
   }
@@ -75,40 +77,39 @@ export class AdviceListComponent implements OnInit {
   // Search advice by title
   searchAdvice(): void {
     if (!this.searchTerm?.trim()) {
+      // If no search term, apply only the date filter
       this.applyDateFilter(this.adviceList);
       return;
     }
 
-    const searchTermLower = this.searchTerm.toLowerCase().trim();
+    const searchTermLower = this.searchTerm.toLowerCase().trim(); // Convert search term to lowercase
     const filtered = this.adviceList.filter(advice =>
-      advice.title.toLowerCase().includes(searchTermLower)
+      advice.title.toLowerCase().includes(searchTermLower) // Filter advice by title
     );
 
-    this.applyDateFilter(filtered);
+    this.applyDateFilter(filtered); // Apply date filter to the search results
   }
 
   // Filter advice by date
   filterByDate(): void {
-    this.searchAdvice();
+    this.searchAdvice(); // Reapply search and date filters
   }
 
-  // Apply date filter to advice
+  // Apply date filter to the advice list
   private applyDateFilter(adviceList: AdviceToView[]): void {
     if (!this.dateFilter || this.dateFilter === 'all') {
+      // If no date filter or 'all', show the full list
       this.filteredAdvice = adviceList;
       return;
     }
   
     let filtered = adviceList.filter(advice => {
       const adviceDate = new Date(advice.dateCreated);
-      adviceDate.setHours(0, 0, 0, 0);  // Normalize the time to midnight
+      adviceDate.setHours(0, 0, 0, 0); // Normalize the time to midnight
   
       switch (this.dateFilter) {
-        // case 'today':
-        //   const today = new Date();
-        //   today.setHours(0, 0, 0, 0);
-        //   return adviceDate.getTime() === today.getTime();  // Compare only the date part
         case 'week': {
+          // Filter advice created within the last week
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           const weekAgo = new Date(today);
@@ -116,6 +117,7 @@ export class AdviceListComponent implements OnInit {
           return adviceDate >= weekAgo;
         }
         case 'month': {
+          // Filter advice created within the last month
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           const monthAgo = new Date(today);
@@ -135,7 +137,7 @@ export class AdviceListComponent implements OnInit {
       }
     });
   
-    // Now sort the filtered list based on 'newest' or 'oldest'
+    // Sort the filtered list based on 'newest' or 'oldest'
     if (this.dateFilter === 'newest') {
       this.filteredAdvice = filtered.sort((a, b) => new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime());
     } else if (this.dateFilter === 'oldest') {
@@ -145,129 +147,33 @@ export class AdviceListComponent implements OnInit {
     }
   }
 
-  // View advice details in modal
+  // View advice details in a modal
   viewAdviceDetails(advice: AdviceToView): void {
-    this.selectedAdvice = advice;
-    this.showAdviceViewModal = true;
+    this.selectedAdvice = advice; // Set the selected advice
+    this.showAdviceViewModal = true; // Show the modal
   }
 
+  // Track advice items by their unique ID for better performance in *ngFor
   trackAdvice(index: number, advice: AdviceToView): string {
-    return advice.id;  // Return the unique ID of each advice item
+    return advice.id; // Return the unique ID of each advice item
   }
 
+  // Close the advice details modal
   closeViewModal(event?: Event): void {
     if (event) {
-      event.preventDefault();
+      event.preventDefault(); // Prevent default behavior if an event is passed
     }
-    this.showAdviceViewModal = false; // Close the modal by setting it to false
+    this.showAdviceViewModal = false; // Close the modal
     this.selectedAdvice = null; // Reset the selected advice
   }
 
-  // Open modal to add new advice
+  // Navigate to the page for adding new advice
   goToAddAdvice(): void {
-    this.router.navigate(['/uploads/advice']);  // Navigate to /advice
+    this.router.navigate(['/uploads/advice']); // Navigate to /uploads/advice
   }
 
+  // Navigate to the page for editing an existing advice
   goToEditAdvice(adviceId: string): void {
-    this.router.navigate([`/uploads/advice/${adviceId}/edit`]);  // Navigate to /advice/adviceId/edit
+    this.router.navigate([`/uploads/advice/${adviceId}/edit`]); // Navigate to /uploads/advice/adviceId/edit
   }
-
-  // Open modal to edit existing advice
-  // editAdvice(advice: AdviceToView): void {
-  //   this.isEditing = true;
-  //   this.currentAdviceId = advice.id;
-
-  //   this.adviceForm.patchValue({
-  //     title: advice.title,
-  //     adviceText: advice.adviceText
-  //   });
-
-  //   this.showAdviceViewModal = true;
-  // }
-
-  // Save advice (create or update)
-  // saveAdvice(): void {
-  //   if (this.adviceForm.invalid) {
-  //     return;
-  //   }
-
-  //   this.isSubmitting = true;
-
-  //   const { title, adviceText } = this.adviceForm.value;
-
-  //   if (this.isEditing && this.currentAdviceId) {
-  //     const updateAdvice: AdviceToUpdate = {
-  //       id: this.currentAdviceId,
-  //       title,
-  //       adviceText
-  //     };
-
-  //     this.adviceService.updateAdvice(updateAdvice).subscribe({
-  //       next: (updatedAdvice) => {
-  //         const index = this.adviceList.findIndex(a => a.id === this.currentAdviceId);
-  //         if (index !== -1) {
-  //           this.adviceList[index] = updatedAdvice;
-  //         }
-
-  //         this.toastr.success('Advice updated successfully');
-  //         this.searchAdvice(); // Refresh filtered advice
-  //         this.showAdviceViewModal = false;
-  //         this.adviceForm.reset();
-  //         this.isSubmitting = false;
-  //       },
-  //       error: (error) => {
-  //         console.error('Error updating advice', error);
-  //         this.toastr.error('Failed to update advice. Please try again.');
-  //         this.isSubmitting = false;
-  //       }
-  //     });
-  //   } else {
-  //     const newAdvice: AdviceToAdd = {
-  //       title,
-  //       adviceText
-  //     };
-
-  //     this.adviceService.createAdvice(newAdvice).subscribe({
-  //       next: (addedAdvice) => {
-  //         this.adviceList.unshift(addedAdvice);
-  //         this.toastr.success('Advice added successfully');
-  //         this.searchAdvice(); // Refresh filtered advice
-  //         this.showAdviceViewModal = false;
-  //         this.adviceForm.reset();
-  //         this.isSubmitting = false;
-  //       },
-  //       error: (error) => {
-  //         console.error('Error adding advice', error);
-  //         this.toastr.error('Failed to add advice. Please try again.');
-  //         this.isSubmitting = false;
-  //       }
-  //     });
-  //   }
-  // }
-
-  // Open confirmation window for delete
-  // openConfirmationWindow(adviceId: string) {
-  //   this.isConfirmationWindowVisible = true;
-  //   this.tempAdviceIdToDelete = adviceId;
-  // }
-
-  // // Handle delete confirmation
-  // handleDeleteConfirmation(result: boolean) {
-  //   this.isConfirmationWindowVisible = false;
-  //   if (result) {
-  //     this.adviceService.deleteAdvice(this.tempAdviceIdToDelete).subscribe({
-  //       next: () => {
-  //         this.adviceList = this.adviceList.filter(advice => advice.id !== this.tempAdviceIdToDelete);
-  //         this.filteredAdvice = this.filteredAdvice.filter(advice => advice.id !== this.tempAdviceIdToDelete);
-  //         this.tempAdviceIdToDelete = '';
-  //         this.toastr.success('Advice deleted successfully');
-  //       },
-  //       error: (error) => {
-  //         console.error('Error deleting advice', error);
-  //         this.toastr.error('Failed to delete advice. Please try again.');
-  //         this.tempAdviceIdToDelete = '';
-  //       }
-  //     });
-  //   }
-  // }
 }

@@ -7,7 +7,9 @@ namespace API.Repositories
 {
     public class AdviceRepository : IAdviceRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext _dataContext;// Database context for accessing the database
+
+        // Constructor to initialize the database context
         public AdviceRepository(DataContext dataContext)
         {
             _dataContext = dataContext;

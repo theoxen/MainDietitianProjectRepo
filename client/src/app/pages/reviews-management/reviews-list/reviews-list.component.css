@@ -1,218 +1,238 @@
+/* Styles for the main reviews section */
 .reviews-section {
-  padding: 70px 20px;
-  background-color: #f8f9fa;
-  font-family: 'Roboto', Arial, sans-serif;
+  padding: 70px 20px; /* Adds spacing inside the section */
+  background-color: #f8f9fa; /* Light gray background */
+  font-family: 'Roboto', Arial, sans-serif; /* Font styling */
 }
 
+/* Header section for the reviews */
 .reviews-header {
-  text-align: center;
-  margin-bottom: 40px;
+  text-align: center; /* Centers the text */
+  margin-bottom: 40px; /* Adds spacing below the header */
 }
 
+/* Title styling for the section */
 .section-title {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 15px;
-  position: relative;
+  font-size: 2.5rem; /* Large font size */
+  color: #333; /* Dark gray color */
+  margin-bottom: 15px; /* Adds spacing below the title */
+  position: relative; /* Allows for pseudo-element positioning */
 }
 
+/* Decorative line below the section title */
 .section-title::after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 3px;
-  background-color: #ff8c00;
-  margin: 15px auto 0;
+  content: ''; /* Empty content for the line */
+  display: block; /* Makes it a block element */
+  width: 80px; /* Line width */
+  height: 3px; /* Line height */
+  background-color: #ff8c00; /* Orange color */
+  margin: 15px auto 0; /* Centers the line and adds spacing */
 }
 
+/* Subtitle styling for the section */
 .section-subtitle {
-  font-size: 1.1rem;
-  color: #666;
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 1.1rem; /* Medium font size */
+  color: #666; /* Medium gray color */
+  max-width: 600px; /* Limits the width */
+  margin: 0 auto; /* Centers the subtitle */
 }
 
+/* Container for control buttons */
 .controls-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 15px;
+  display: flex; /* Flexbox layout */
+  justify-content: center; /* Centers the controls */
+  margin-bottom: 30px; /* Adds spacing below */
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 15px; /* Adds spacing between controls */
 }
 
+/* Styling for left and right control buttons */
 .left-controls, .right-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; /* Flexbox layout */
+  align-items: center; /* Aligns items vertically */
+  gap: 10px; /* Adds spacing between items */
 }
 
+/* Primary button styling */
 .primary-button {
-  background-color: #ff8c00;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  background-color: #ff8c00; /* Orange background */
+  color: white; /* White text */
+  border: none; /* Removes border */
+  padding: 10px 20px; /* Adds padding */
+  border-radius: 30px; /* Rounded corners */
+  font-size: 0.95rem; /* Medium font size */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+  display: flex; /* Flexbox layout */
+  align-items: center; /* Aligns items vertically */
+  gap: 8px; /* Adds spacing between items */
 }
 
+/* Hover effect for primary button */
 .primary-button:hover {
-  background-color: #e67e00;
-  transform: translateY(-2px);
+  background-color: #e67e00; /* Darker orange */
+  transform: translateY(-2px); /* Slight upward movement */
 }
 
+/* Active state for primary button */
 .primary-button:active {
-  transform: translateY(0);
+  transform: translateY(0); /* Resets movement */
 }
 
+/* Icon inside the primary button */
 .primary-button i {
-  font-size: 0.9rem;
+  font-size: 0.9rem; /* Slightly smaller font size */
 }
 
+/* Dropdown select styling */
 .sorting-select {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: white;
-  font-size: 0.95rem;
-  color: #444;
-  cursor: pointer;
-  outline: none;
-  transition: border-color 0.3s;
-  min-width: 150px;
+  padding: 10px 15px; /* Adds padding */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: white; /* White background */
+  font-size: 0.95rem; /* Medium font size */
+  color: #444; /* Dark gray text */
+  cursor: pointer; /* Pointer cursor on hover */
+  outline: none; /* Removes outline */
+  transition: border-color 0.3s; /* Smooth border transition */
+  min-width: 150px; /* Minimum width */
 }
 
+/* Focus state for dropdown select */
 .sorting-select:focus {
-  border-color: #ff8c00;
+  border-color: #ff8c00; /* Orange border */
 }
 
+/* Label styling */
 label {
-  font-size: 0.95rem;
-  color: #555;
-  font-weight: 500;
+  font-size: 0.95rem; /* Medium font size */
+  color: #555; /* Medium gray color */
+  font-weight: 500; /* Semi-bold text */
 }
 
+/* Container for reviews */
 .reviews-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  margin-bottom: 40px;
+  display: flex; /* Flexbox layout */
+  flex-direction: column; /* Stacks items vertically */
+  align-items: center; /* Centers items */
+  gap: 30px; /* Adds spacing between items */
+  margin-bottom: 40px; /* Adds spacing below */
 }
 
+/* Individual review card styling */
 .review-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  padding: 25px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  width: 50%;
+  background-color: white; /* White background */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  padding: 25px; /* Adds padding */
+  transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+  width: 50%; /* Half the container width */
 }
 
+/* Hover effect for review card */
 .review-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px); /* Slight upward movement */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Stronger shadow */
 }
 
+/* Header section inside review card */
 .review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
+  display: flex; /* Flexbox layout */
+  justify-content: space-between; /* Spreads items apart */
+  align-items: flex-start; /* Aligns items at the top */
+  margin-bottom: 15px; /* Adds spacing below */
 }
 
+/* Client information section */
 .client-info {
-  flex: 1;
+  flex: 1; /* Takes up remaining space */
 }
 
+/* Client name styling */
 .client-name {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: 600;
+  margin: 0; /* Removes margin */
+  font-size: 1.1rem; /* Medium font size */
+  color: #333; /* Dark gray color */
+  font-weight: 600; /* Bold text */
 }
 
+/* Review date styling */
 .review-date {
-  font-size: 0.85rem;
-  color: #888;
-  display: block;
-  margin-top: 3px;
+  font-size: 0.85rem; /* Small font size */
+  color: #888; /* Light gray color */
+  display: block; /* Block element */
+  margin-top: 3px; /* Adds spacing above */
 }
 
+/* Star rating container */
 .star-rating {
-  display: flex;
-  gap: 2px;
+  display: flex; /* Flexbox layout */
+  gap: 2px; /* Adds spacing between stars */
 }
 
+/* Individual star styling */
 .star-rating span {
-  font-size: 1.2rem;
-  color: #ddd;
+  font-size: 1.2rem; /* Large font size */
+  color: #ddd; /* Light gray color */
 }
 
+/* Filled star styling */
 .star-rating span.filled {
-  color: #ffb400;
+  color: #ffb400; /* Yellow color */
 }
 
+/* Review content styling */
 .review-content {
-  color: #555;
-  line-height: 1.6;
-  font-size: 0.95rem;
+  color: #555; /* Medium gray color */
+  line-height: 1.6; /* Increases line spacing */
+  font-size: 0.95rem; /* Medium font size */
 }
 
+/* Container for load more button */
 .load-more-container {
-  text-align: center;
-  margin-top: 20px;
+  text-align: center; /* Centers the content */
+  margin-top: 20px; /* Adds spacing above */
 }
 
+/* Load more button styling */
 .load-more-button {
-  background-color: transparent;
-  border: 2px solid #ff8c00;
-  color: #ff8c00;
-  padding: 12px 24px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  background-color: transparent; /* Transparent background */
+  border: 2px solid #ff8c00; /* Orange border */
+  color: #ff8c00; /* Orange text */
+  padding: 12px 24px; /* Adds padding */
+  border-radius: 30px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-weight: 600; /* Bold text */
+  transition: all 0.3s; /* Smooth transitions */
+  display: inline-flex; /* Inline flexbox layout */
+  align-items: center; /* Aligns items vertically */
+  gap: 8px; /* Adds spacing between items */
 }
 
+/* Hover effect for load more button */
 .load-more-button:hover {
-  background-color: #ff8c00;
-  color: white;
+  background-color: #ff8c00; /* Orange background */
+  color: white; /* White text */
 }
 
+/* Disabled state for load more button */
 .load-more-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  opacity: 0.6; /* Reduces opacity */
+  cursor: not-allowed; /* Not-allowed cursor */
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .section-title {
-    font-size: 2rem;
+    font-size: 2rem; /* Smaller font size */
   }
 
   .primary-button {
-    width: fit-content;
+    width: fit-content; /* Adjusts width to content */
   }
 
   .review-card {
-    width: 95%;
+    width: 95%; /* Almost full width */
   }
 }
-/* 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.fa-spin {
-  animation: spin 1s linear infinite;
-} */

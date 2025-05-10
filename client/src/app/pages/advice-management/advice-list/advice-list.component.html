@@ -1,7 +1,9 @@
 <div class="page">
+  <!-- Navigation bar component -->
   <app-nav-bar></app-nav-bar>
   
   <div class="page-header">
+    <!-- Back button to navigate to the uploads page -->
     <button type="button" class="primary-button back-button" routerLink="/uploads">
       <i class="fas fa-arrow-left"></i> Back to Uploads
     </button>
@@ -9,6 +11,7 @@
 
   <div class="container">
     <div class="page-header">
+      <!-- Page title and subtitle -->
       <h1 class="title">Advice</h1>
       <p class="sub-title">Browse and discover helpful advice</p>
     </div>
@@ -16,22 +19,24 @@
     <!-- Search and filter section -->
     <div class="search-container">
       <div class="search-box">
+        <!-- Search input for filtering advice by title -->
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search advice by title..." [(ngModel)]="searchTerm"(keyup)="searchAdvice()">
+        <input type="text" placeholder="Search advice by title..." [(ngModel)]="searchTerm" (keyup)="searchAdvice()">
       </div>
 
-        <div class="date-filter">
-          <i class="fas fa-calendar"></i>
-          <select [(ngModel)]="dateFilter" (change)="filterByDate()">
-            <option value="all">All Dates</option>
-            <option value="newest">Newest</option> 
-            <option value="oldest">Oldest</option>
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-          </select>
-        </div>
+      <div class="date-filter">
+        <!-- Dropdown for filtering advice by date -->
+        <i class="fas fa-calendar"></i>
+        <select [(ngModel)]="dateFilter" (change)="filterByDate()">
+          <option value="all">All Dates</option>
+          <option value="newest">Newest</option> 
+          <option value="oldest">Oldest</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
       
-
+      <!-- Button to add new advice, visible only to admins -->
       <button *ngIf="isAdmin" class="primary-button" (click)="goToAddAdvice()">
         <i class="fas fa-plus"></i> Add New Advice
       </button>
@@ -40,14 +45,18 @@
     <!-- Horizontal Scrollable Advice Container -->
     <div class="advice-container">
       <div class="advice-row">
-        <!-- Loop through filteredAdvice and display cards -->
+        <!-- Loop through filteredAdvice and display advice cards -->
         <div *ngFor="let advice of filteredAdvice; trackBy: trackAdvice" class="advice-card">
+          <!-- Advice title -->
           <div class="advice-title">{{ advice.title }}</div>
+          <!-- Advice description (truncated to 100 characters) -->
           <p class="advice-description">{{ advice.adviceText | slice: 0:100 }}...</p>
           <div class="advice-actions">
+            <!-- Button to view more details about the advice -->
             <button class="read-more-btn" (click)="viewAdviceDetails(advice)">
               <i class="fas fa-book-open"></i> Read More
             </button>
+            <!-- Button to edit advice, visible only to admins -->
             <button *ngIf="isAdmin" class="primary-button" (click)="goToEditAdvice(advice.id)">
               <i class="fas fa-edit"></i> Edit Advice
             </button>
@@ -55,7 +64,7 @@
         </div>
       </div>
 
-      <!-- Empty state -->
+      <!-- Empty state message when no advice is found -->
       <div *ngIf="filteredAdvice.length === 0" class="empty-state">
         <i class="fas fa-newspaper"></i>
         <h3>No advice found</h3>
@@ -67,12 +76,15 @@
 <!-- Advice View Modal -->
 <div *ngIf="showAdviceViewModal && selectedAdvice" class="modal-overlay" (click)="closeViewModal($event)">
   <div class="modal-content" (click)="$event.stopPropagation()">
+    <!-- Modal displaying selected advice details -->
     <h2>{{ selectedAdvice.title }}</h2>
     <p>{{ selectedAdvice.adviceText }}</p>
+    <!-- Button to close the modal -->
     <button class="close-btn" (click)="closeViewModal()">Close</button>
   </div>
 </div>
 
+<!-- Duplicate empty state message for no advice found -->
 <div *ngIf="filteredAdvice.length === 0" class="empty-state">
   <i class="fas fa-newspaper"></i>
   <h3>No advice found</h3>

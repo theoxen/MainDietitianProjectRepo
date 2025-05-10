@@ -11,6 +11,6 @@ namespace API.Repositories.IRepositories
         Task<List<Review>> SearchReviewAsync(string userFullName);
         Task<List<Review>> GetAllReviewsAsync();
         Task<Review?> GetReviewByUserIdAsync(Guid userId);
-        new Task<bool> Commit();
+        new Task<bool> Commit(); // Overridden method to commit changes to the database
     }
 }
