@@ -256,13 +256,13 @@ printDiet(): void {
     clientNameElement.setAttribute('data-original-content', clientNameElement.textContent);
   }
   
-  // Set attributes on modal content 
+  // Set attributes on modal content and force single page printing
   const modalContent = document.querySelector('.modal-content');
   if (modalContent) {
     modalContent.setAttribute('data-print-date', printDate);
     modalContent.setAttribute('data-diet-name', this.selectedDiet.name || 'Diet Plan');
-    // Force single page by setting max-height
-    modalContent.setAttribute('style', 'page-break-inside: avoid !important; max-height: 100vh;');
+    // Force single page printing without any height restrictions
+    modalContent.setAttribute('style', 'page-break-inside: avoid !important; max-height: none !important; overflow: visible !important; height: auto !important; width: 100% !important;');
   }
   
   // Hide footer elements
@@ -273,7 +273,7 @@ printDiet(): void {
     }
   });
   
-  // Get the diet table and optimize for single page when possible
+  // Get the diet table and optimize for single page
   const dietTable = document.querySelector('.horizontal-diet-table');
   if (dietTable && dietTable instanceof HTMLElement) {
     // Add class for print optimization
@@ -282,40 +282,115 @@ printDiet(): void {
     // Calculate content density more accurately
     const cells = dietTable.querySelectorAll('td');
     let totalLength = 0;
-    let maxCellLength = 0;
-    let cellCount = 0;
     
     cells.forEach(cell => {
-      const length = cell.textContent?.length || 0;
-      totalLength += length;
-      maxCellLength = Math.max(maxCellLength, length);
-      if (length > 0) cellCount++;
+      totalLength += cell.textContent?.length || 0;
     });
     
-    // Calculate average content per cell for better density assessment
-    const avgContentPerCell = cellCount > 0 ? totalLength / cellCount : 0;
-    
-    // Apply more aggressive scaling based on content metrics
-    if (totalLength > 3000) {
-      dietTable.style.fontSize = '8px';
+    // Dynamic font scaling based on content length - more aggressive approach
+    if (totalLength > 10000) {
+      dietTable.style.fontSize = '3px';
+      dietTable.style.lineHeight = '0.6';
+    } else if (totalLength > 8000) {
+      dietTable.style.fontSize = '4px';
+      dietTable.style.lineHeight = '0.7';
+    } else if (totalLength > 5000) {
+      dietTable.style.fontSize = '5px';
+      dietTable.style.lineHeight = '0.8';
+    } else if (totalLength > 3000) {
+      dietTable.style.fontSize = '7px';
       dietTable.style.lineHeight = '0.9';
-    }else {
-      // Normal content
+    } else if (totalLength > 2000) {
+      dietTable.style.fontSize = '9px';
+      dietTable.style.lineHeight = '1.0';
+    } else {
       dietTable.style.fontSize = '12px';
       dietTable.style.lineHeight = '1.4';
     }
 
     // Force table to fit on one page
     dietTable.style.pageBreakInside = 'avoid';
+    dietTable.style.width = '100%';
+    dietTable.style.tableLayout = 'fixed';
     
     // Adjust cell padding based on content density
     const tdElements = dietTable.querySelectorAll('td');
     tdElements.forEach(td => {
       if (td instanceof HTMLElement) {
-        td.style.padding = totalLength > 1500 ? '2px' : '4px';
+        if (totalLength > 8000) {
+          td.style.padding = '0';
+          td.style.wordBreak = 'keep-all'; // Preserve word formation
+        } else if (totalLength > 5000) {
+          td.style.padding = '0';
+          td.style.wordBreak = 'keep-all';
+        } else if (totalLength > 3000) {
+          td.style.padding = '1px';
+          td.style.wordBreak = 'keep-all';
+        } else if (totalLength > 1500) {
+          td.style.padding = '2px';
+        } else {
+          td.style.padding = '4px';
+        }
+      }
+    });
+    
+    // Adjust header cell height
+    const thElements = dietTable.querySelectorAll('th');
+    thElements.forEach(th => {
+      if (th instanceof HTMLElement) {
+        if (totalLength > 3000) {
+          th.style.height = '18px';
+          th.style.padding = '0';
+        }
       }
     });
   }
+  
+  // Remove ALL scrollbars for printing
+  // Start by handling container elements
+  const tableContainer = document.querySelector('.horizontal-diet-table-container');
+  if (tableContainer && tableContainer instanceof HTMLElement) {
+    tableContainer.style.overflow = 'visible';
+    tableContainer.style.maxHeight = 'none';
+    tableContainer.style.height = 'auto';
+    tableContainer.style.width = '100%';
+  }
+  
+  // Find ALL potentially scrollable elements and make them visible for print
+  const scrollableElements = document.querySelectorAll('.modal-content, .diet-details-modal, [style*="overflow"], div, section');
+  scrollableElements.forEach(elem => {
+    if (elem instanceof HTMLElement) {
+      elem.style.overflow = 'visible';
+      elem.style.maxHeight = 'none';
+      elem.style.height = 'auto';
+    }
+  });
+  
+  // Add print-specific CSS to force single page
+  let printStyle = document.getElementById('print-style');
+  if (!printStyle) {
+    printStyle = document.createElement('style');
+    printStyle.id = 'print-style';
+    document.head.appendChild(printStyle);
+  }
+  printStyle.textContent = `
+    @media print {
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
+      }
+      * {
+        overflow: visible !important;
+      }
+      .horizontal-diet-table {
+        page-break-inside: avoid !important;
+      }
+      @page {
+        size: landscape;
+        margin: 10mm !important;
+      }
+    }
+  `;
   
   // Print with delay to ensure DOM updates
   setTimeout(() => {
@@ -339,23 +414,55 @@ printDiet(): void {
       dietTable.style.fontSize = '';
       dietTable.style.lineHeight = '';
       dietTable.style.pageBreakInside = '';
+      dietTable.style.width = '';
+      dietTable.style.tableLayout = '';
       
-      // Restore cell padding
+      // Restore cell padding and word break
       const tdElements = dietTable.querySelectorAll('td');
       tdElements.forEach(td => {
         if (td instanceof HTMLElement) {
           td.style.padding = '';
+          td.style.wordBreak = '';
         }
       });
+      
+      // Restore header styling
+      const thElements = dietTable.querySelectorAll('th');
+      thElements.forEach(th => {
+        if (th instanceof HTMLElement) {
+          th.style.height = '';
+          th.style.padding = '';
+        }
+      });
+    }
+    
+    // Restore scrollable elements
+    if (tableContainer && tableContainer instanceof HTMLElement) {
+      tableContainer.style.overflow = '';
+      tableContainer.style.maxHeight = '';
+      tableContainer.style.height = '';
+      tableContainer.style.width = '';
+    }
+    
+    scrollableElements.forEach(elem => {
+      if (elem instanceof HTMLElement) {
+        elem.style.overflow = '';
+        elem.style.maxHeight = '';
+        elem.style.height = '';
+      }
+    });
+    
+    // Remove print-specific CSS
+    if (printStyle) {
+      printStyle.textContent = '';
     }
     
     // Restore modal content
     if (modalContent) {
       modalContent.removeAttribute('style');
     }
-  }, 200); // Slightly longer delay to ensure styles are fully applied
+  }, 200);
 }
-
 
 
   formatDate(dateInput: string | Date): string {
