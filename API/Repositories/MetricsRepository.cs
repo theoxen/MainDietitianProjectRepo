@@ -13,17 +13,17 @@ namespace API.Repositories
             _dataContext = dataContext;
         }
 
-        public void AddMetrics(Metrics metrics)
+        public void AddMetrics(Metrics metrics) // adds a metric to the db
         {
             _dataContext.Metrics.Add(metrics);
         }
 
-        public async Task<bool> Commit()
+        public async Task<bool> Commit() // if changes are more than 0 it commits the changes to the db
         {
             return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public void DeleteMetrics(Metrics metrics)
+        public void DeleteMetrics(Metrics metrics) // removes a metric from the db
         {
             _dataContext.Metrics.Remove(metrics); 
         }
@@ -35,7 +35,7 @@ namespace API.Repositories
             return metrics;
         }
 
-        public async Task<List<Metrics>> GetMetricsByUserIdAsync(Guid userId)
+        public async Task<List<Metrics>> GetMetricsByUserIdAsync(Guid userId) // gets metrics from the db using the userid
         {
             var metrics = await _dataContext.Metrics
             .Where(x => x.UserId == userId)
@@ -44,7 +44,7 @@ namespace API.Repositories
         }
 
 
-          public async Task<List<Metrics>> SearchMetricsAsync(Guid userId, DateTime? date)
+          public async Task<List<Metrics>> SearchMetricsAsync(Guid userId, DateTime? date) // searches metrics from the db if theres a date, else it just brings all metrics from the client
         {
             var query = _dataContext.Metrics.AsQueryable();
 

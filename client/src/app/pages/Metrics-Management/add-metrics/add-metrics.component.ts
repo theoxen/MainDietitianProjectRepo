@@ -103,7 +103,6 @@ export class AddMetricsComponent implements OnInit {
       next: (metrics: Metrics) => {
         this.toastr.success("Metrics Added!");
         this.metricsid = metrics.id;
-        // this.addclientMetricsForm.reset();  // Clear the form after adding metrics
         this.dialogRef.close(); // Close the modal after successful addition
 
         

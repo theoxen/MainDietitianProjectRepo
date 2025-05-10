@@ -36,7 +36,7 @@ namespace API.Services
             _appointmentRepository.MakeAnAppointment(appointment);
 
 
-            if(await _appointmentRepository.Commit())
+            if(await _appointmentRepository.Commit()) // await indicates an asynchronous operation (that runs independently of the main program flow)
             {
                 return Result<AppointmentDto>.Ok(new AppointmentDto
                 {
@@ -62,7 +62,7 @@ namespace API.Services
 
         public async Task<Result<Empty>> CancelAppointmentAsync(Guid AppointmentsId)
         {
-             var appointment = await _appointmentRepository.GetAppointmentAsync(AppointmentsId);
+            var appointment = await _appointmentRepository.GetAppointmentAsync(AppointmentsId);
 
             if (appointment is null) // If the user does not have appointment in the database dont let the admin delete them.
             {
@@ -71,7 +71,7 @@ namespace API.Services
 
             _appointmentRepository.CancelAppointment(appointment);
 
-            if(await _appointmentRepository.Commit()) // Committing the chagnes to the database
+            if(await _appointmentRepository.Commit()) // Committing the changes to the database
             {
                 return Result<Empty>.Ok(new Empty());
             }
@@ -88,7 +88,9 @@ namespace API.Services
 
         public async Task<Result<List<AppointmentDto>>> SearchAppointmentsAsync(DateTime? date)
         {
-             var appointments = await _appointmentRepository.SearchAppointmentsAsync(date);
+            // Search with optional date filter (null means search all)
+            var appointments = await _appointmentRepository.SearchAppointmentsAsync(date);
+            
             if (appointments == null || !appointments.Any())
             {
                 return Result<List<AppointmentDto>>.NotFound();

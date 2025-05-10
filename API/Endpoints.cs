@@ -94,9 +94,6 @@ public static class Endpoints
         private const string Base = BaseUrl + "appointments";
         public const string Make = Base ;
         public const string View = Base + "/{appointmentId}"; 
-        public const string ViewAll = Base; 
-        
-        public const string Edit = Base; 
         public const string Search = Base + "/search"; 
         public const string Cancel = Base + "/{appointmentId}"; 
     }
