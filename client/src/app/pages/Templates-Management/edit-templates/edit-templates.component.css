@@ -1,3 +1,4 @@
+/* Main container styling - Creates a card-like appearance for the form */
 .form-container {
     background-color: #ffffff;
     max-width: 1200px;
@@ -7,6 +8,7 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
   
+  /* Page title styling - Centers and formats the main heading */
   .title {
     text-align: center;
     margin-bottom: 20px;
@@ -15,26 +17,31 @@
     color: #333;
   }
   
+  /* Container for the template header section */
   .template-header {
     margin-bottom: 20px;
   }
   
+  /* Flexbox layout for template info fields - Creates horizontal alignment of label-input pairs */
   .template-info-row {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
   }
   
+  /* Fixed width for labels to ensure alignment across multiple fields */
   .template-info-row label {
     width: 120px;
     font-weight: 500;
   }
   
+  /* Validation error message styling */
   .error-feedback {
     color: #dc3545;
     font-size: 14px;
   }
   
+  /* Meal template table styling - Used for displaying the meal plan structure */
   .horizontal-template-table {
     width: 100%;
     border-collapse: collapse;
@@ -42,6 +49,7 @@
     margin-bottom: 20px;
   }
   
+  /* Table cell styling - Ensures consistent appearance for all cells */
   .horizontal-template-table th,
   .horizontal-template-table td {
     border: 1px solid #dee2e6;
@@ -50,6 +58,7 @@
     vertical-align: middle;
   }
   
+  /* Table header styling - Creates distinct visual separation for the header row */
   .horizontal-template-table th {
     background-color: #f8f9fa;
     font-weight: 600;
@@ -57,10 +66,12 @@
     height: 40px;
   }
   
+  /* Fixed width for meal type column header */
   .meal-type-header {
     width: 120px;
   }
   
+  /* Meal type cell styling - Left-aligned with distinct background */
   .meal-type {
     background-color: #f8f9fa;
     font-weight: 600;
@@ -68,6 +79,7 @@
     color: #555;
   }
   
+  /* Textarea styling for meal content - Compact design to fit table cells */
   .compact-textarea {
     width: 100%;
     height: 60px;
@@ -77,12 +89,14 @@
     resize: none;
   }
   
+  /* Button container styling - Centers action buttons at the bottom of the form */
   .form-actions {
     display: flex;
     justify-content: center;
     margin-top: 20px;
   }
   
+  /* Primary action button (Save/Submit) - Uses brand color scheme */
   .primary-button {
     background-color: #f4a261;
     border: none;
@@ -95,10 +109,12 @@
     transition: background-color 0.3s;
   }
   
+  /* Hover effect for primary button */
   .primary-button:hover {
     background-color: #e09b57;
   }
   
+  /* Secondary action button (Cancel/Back) - Uses neutral gray color */
   .secondary-button {
     background-color: #6c757d;
     border: none;
@@ -110,10 +126,12 @@
     transition: background-color 0.3s;
   }
   
+  /* Hover effect for secondary button */
   .secondary-button:hover {
     background-color: #5a6268;
   }
   
+  /* Standard form input styling */
   .form-control {
     width: 300px;
     padding: 8px;
@@ -121,6 +139,7 @@
     border-radius: 4px;
   }
   
+  /* Success feedback message styling - Displayed after successful form submission */
   .success-message {
     color: #28a745;
     text-align: center;
@@ -128,6 +147,7 @@
     font-weight: bold;
   }
   
+  /* Error feedback message styling - Displayed when form submission fails */
   .error-message {
     color: #dc3545;
     text-align: center;

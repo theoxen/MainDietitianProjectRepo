@@ -1,27 +1,35 @@
+<!-- Main container for the entire page -->
 <div class="page">
+    <!-- Navigation bar component -->
     <app-nav-bar></app-nav-bar>
     
     <div class="diets-container">
+      <!-- Main content container with styling for hover effects -->
       <div class="primary-hover-box">
         <div class="hover-box">
+          <!-- Page title section -->
           <div class="title-box">
             <h1 class="title" style="margin: 0px; margin-bottom: 20px; text-align: center;">Templates Management</h1>
           </div>
   
+          <!-- Search and Add New section - contains search input and add button -->
           <div class="FoundDeitsAndAddNew">
+            <!-- Search input bound to searchControl FormControl for filtering templates -->
             <div class="date-search">
               <input type="text" placeholder="Search by name or date" [formControl]="searchControl" />
             </div>
+            <!-- Button to open the modal for adding a new template -->
             <button (click)="openAddTemplateModal()" class="AddNewButton">
               <i class="fa-solid fa-plus"></i>Add New
             </button>
           </div>
   
+          <!-- Information text showing number of templates found, hidden when no results -->
           <p class="DietsFound" [hidden]="filteredTemplates.length === 0">
             <i class="fa-solid fa-circle-info"></i> Found {{filteredTemplates.length}} templates.
           </p>
           
-          <!-- Table of Templates Using Fixed Rows -->
+          <!-- Templates listing table with fixed column widths -->
           <table>
             <thead>
               <tr>
@@ -31,13 +39,16 @@
               </tr>
             </thead>
             <tbody>
+              <!-- Template rows - clicking a row shows details, with edit/delete actions -->
               <tr *ngFor="let template of pagedItems" (click)="showTemplateDetails(template)" class="clickable-row">
                 <td><h2>{{ template?.date }}</h2></td>
                 <td>{{ template?.name }}</td>
                 <td>
+                  <!-- Edit button with event stopping to prevent triggering row click -->
                   <button (click)="openEditTemplateModal(template?.id); $event.stopPropagation();" class="EditButton">
                     <i class="fa-solid fa-pen-to-square"></i> Edit
                   </button>
+                  <!-- Delete button with confirmation workflow -->
                   <button (click)="openDeleteConfirmation(template?.id, $event)" class="DeleteButton">
                     <i class="fa-solid fa-trash"></i> Delete
                   </button>
@@ -46,7 +57,7 @@
             </tbody>
           </table>
   
-    <!-- Pagination -->
+    <!-- Pagination component for navigating between pages of templates -->
     <div class="pagination-container">
       <app-pagination 
         [totalItems]="filteredTemplates.length" 
@@ -56,14 +67,15 @@
       </app-pagination>
     </div>
     
-    <!-- Template details modal -->
+    <!-- Modal for displaying detailed template information - only visible when a template is selected -->
     <div class="template-details-modal" [hidden]="!selectedTemplate">
       <div class="modal-content">
+        <!-- Close button for the modal -->
         <span class="close" (click)="closeDetails()">&times;</span>
         <h2>Template Details: {{selectedTemplate?.name}}</h2>
         <p><strong>Date:</strong> {{selectedTemplate?.date}}</p>
         
-        <!-- Template details table -->
+        <!-- Weekly meal plan table - organized by meal types (rows) and days (columns) -->
         <table class="horizontal-template-table">
           <thead>
             <tr>
@@ -140,6 +152,7 @@
           </tbody>
         </table>
         
+        <!-- Action buttons for the selected template in the details modal -->
         <div class="modal-action-buttons">
           <button (click)="openEditTemplateModal(selectedTemplate?.id)" class="EditButton">
             <i class="fa-solid fa-pen-to-square"></i> Edit
@@ -147,6 +160,7 @@
           <button (click)="openDeleteConfirmation(selectedTemplate?.id)" class="DeleteButton">
             <i class="fa-solid fa-trash"></i> Delete
           </button>
+          <!-- Commented out PDF download functionality - could be implemented in the future -->
           <!-- <button (click)="downloadTemplatePdf()" class="DownloadButton">
             <i class="fa-solid fa-download"></i> Download PDF
           </button> -->
@@ -154,7 +168,7 @@
       </div>
     </div>
     
-    <!-- Delete Confirmation Modal -->
+    <!-- Confirmation modal for template deletion with yes/no options -->
     <div class="confirmation-modal" [hidden]="!showDeleteConfirmation">
       <div class="confirmation-content">
         <p>Are you sure you want to delete this template?</p>
@@ -162,6 +176,7 @@
           <button (click)="confirmDelete()" class="primary-button-danger">Yes</button>
           <button (click)="cancelDelete()" class="primary-button">No</button>
         </div>
+        <!-- Success message shown after successful deletion -->
         <div class="success-message" [hidden]="!deleteSuccessMessage">{{deleteSuccessMessage}}</div>
       </div>
     </div>

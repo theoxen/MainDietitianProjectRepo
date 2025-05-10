@@ -1,3 +1,4 @@
+/* Main container styling for the template form */
 .form-container {
     background-color: #ffffff;
     max-width: 1200px;
@@ -7,27 +8,32 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
   
+  /* Page title styling - centered and prominent */
   .title {
     text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
   }
   
+  /* Container for the template header section */
   .template-header {
     margin-bottom: 20px;
   }
   
+  /* Horizontal row layout for template information fields (name, description, etc.) */
   .template-info-row {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
   }
   
+  /* Fixed width label in the info row to ensure alignment */
   .template-info-row label {
     width: 150px;
     font-weight: bold;
   }
   
+  /* Form input styling for text fields - restricts maximum width */
   .form-control {
     padding: 8px 12px;
     border: 1px solid #ced4da;
@@ -36,21 +42,25 @@
     max-width: 400px;
   }
   
+  /* Validation error message styling - red text with left margin */
   .error-feedback {
     color: #dc3545;
     margin-left: 10px;
   }
   
+  /* Container for the meal plan days section with horizontal scrolling capability */
   .template-days-section {
     margin-bottom: 30px;
     overflow-x: auto;
   }
   
+  /* Table styling for the horizontal meal template layout */
   .horizontal-template-table {
     width: 100%;
     border-collapse: collapse;
   }
   
+  /* Common styling for both header and data cells in the meal plan table */
   .horizontal-template-table th,
   .horizontal-template-table td {
     border: 1px solid #dee2e6;
@@ -58,20 +68,24 @@
     text-align: center;
   }
   
+  /* Styling for table headers - light background with medium weight font */
   .horizontal-template-table th {
     background-color: #f8f9fa;
     font-weight: 600;
   }
   
+  /* Controls width of the meal type column */
   .meal-type-header {
     width: 120px;
   }
   
+  /* Styling for meal type cells (breakfast, lunch, dinner) - helps distinguish from content cells */
   .meal-type {
     font-weight: bold;
     background-color: #f8f9fa;
   }
   
+  /* Compact textarea styling for meal descriptions - fixed height with minimal padding */
   .compact-textarea {
     width: 100%;
     height: 60px;
@@ -81,6 +95,7 @@
     resize: none;
   }
   
+  /* Button container layout - centered with spacing between buttons */
   .form-actions {
     display: flex;
     justify-content: center;
@@ -88,6 +103,7 @@
     margin-top: 20px;
   }
   
+  /* Common styling for all buttons - shared properties for consistent look */
   .primary-button, .secondary-button {
     padding: 10px 20px;
     border: none;
@@ -96,24 +112,29 @@
     font-weight: bold;
   }
   
+  /* Primary action button - orange color theme matching the application's brand */
   .primary-button {
     background-color: #FFB453;
     color: white;
   }
   
+  /* Secondary/cancel button - gray color for less emphasis */
   .secondary-button {
     background-color: #6c757d;
     color: white;
   }
   
+  /* Hover effect for primary button - slightly darker orange */
   .primary-button:hover {
     background-color: #FFA726;
   }
   
+  /* Hover effect for secondary button - slightly darker gray */
   .secondary-button:hover {
     background-color: #5a6268;
   }
   
+  /* Success message styling - green text, centered with emphasis */
   .success-message {
     color: #28a745;
     text-align: center;
@@ -121,6 +142,7 @@
     font-weight: bold;
   }
   
+  /* Error message styling - red text, centered with emphasis */
   .error-message {
     color: #dc3545;
     text-align: center;
@@ -128,11 +150,13 @@
     font-weight: bold;
   }
 
+  /* Container for template import functionality */
   .template-import-section {
     margin-top: 15px;
     margin-bottom: 15px;
   }
   
+  /* Import button styling - gray button with icon space and smooth transition */
   .import-template-button {
     background-color: #6c757d;
     color: white;
@@ -147,10 +171,12 @@
     transition: background-color 0.2s;
   }
   
+  /* Hover effect for import button - slightly darker gray */
   .import-template-button:hover {
     background-color: #5a6268;
   }
   
+  /* Icon styling within import button - slightly larger than text */
   .import-template-button i {
     font-size: 16px;
   }

@@ -1,19 +1,28 @@
+<!-- Main container for the template form with styling class -->
 <div class="form-container">
+    <!-- Page title -->
     <h2 class="title">Add New Template</h2>
+    <!-- Form with reactive form binding and submission handler -->
     <form [formGroup]="addTemplateForm" (ngSubmit)="addTemplate()">
+      <!-- Header section for template basic information -->
       <div class="template-header">
+        <!-- Template name input with validation -->
         <div class="template-info-row">
           <label for="templateName">Template Name:</label>
           <input id="templateName" type="text" formControlName="name" placeholder="Enter template name" class="form-control" />
+          <!-- Error message that displays only when name field is invalid and touched -->
           <div class="error-feedback" [hidden]="addTemplateForm.controls['name'].valid || !addTemplateForm.controls['name'].touched">
             Name is required
           </div>
         </div>
       </div>
+      <!-- Main meal planning section with 7-day week layout -->
       <div class="template-days-section">
+        <!-- Table with days as columns and meal types as rows -->
         <table class="horizontal-template-table">
           <thead>
             <tr>
+              <!-- Table headers for meal types and days of week -->
               <th class="meal-type-header">Meal Type</th>
               <th>Monday</th>
               <th>Tuesday</th>
@@ -25,10 +34,12 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Breakfast row -->
+            <!-- Breakfast row - first meal type (index 0) -->
             <tr>
               <td class="meal-type">Breakfast</td>
               <td>
+                <!-- Text area bound to form control using getDayMealControl(dayIndex, mealTypeIndex) -->
+                <!-- First parameter (0) is Monday, second parameter (0) is Breakfast -->
                 <textarea [formControl]="getDayMealControl(0, 0)" class="compact-textarea" placeholder="Monday breakfast"></textarea>
               </td>
               <td>
@@ -51,10 +62,11 @@
               </td>
             </tr>
             
-            <!-- Morning Snack row -->
+            <!-- Morning Snack row - second meal type (index 1) -->
             <tr>
               <td class="meal-type">Morning Snack</td>
               <td>
+                <!-- Each textarea is connected to a specific day/meal combination in the form -->
                 <textarea [formControl]="getDayMealControl(0, 1)" class="compact-textarea" placeholder="Monday morning snack"></textarea>
               </td>
               <td>
@@ -77,7 +89,7 @@
               </td>
             </tr>
             
-            <!-- Lunch row -->
+            <!-- Lunch row - third meal type (index 2) -->
             <tr>
               <td class="meal-type">Lunch</td>
               <td>
@@ -103,7 +115,7 @@
               </td>
             </tr>
             
-            <!-- Afternoon Snack row -->
+            <!-- Afternoon Snack row - fourth meal type (index 3) -->
             <tr>
               <td class="meal-type">Afternoon Snack</td>
               <td>
@@ -129,7 +141,7 @@
               </td>
             </tr>
             
-            <!-- Dinner row -->
+            <!-- Dinner row - fifth meal type (index 4) -->
             <tr>
               <td class="meal-type">Dinner</td>
               <td>
@@ -157,11 +169,15 @@
           </tbody>
         </table>
       </div>
+      <!-- Form action buttons section -->
       <div class="form-actions">
+        <!-- Submit button calls the addTemplate() method when clicked -->
         <button type="submit" class="primary-button">Add Template</button>
+        <!-- Cancel button calls the cancel() method to abort template creation -->
         <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
       </div>
     </form>
+    <!-- Success and error message containers that show conditionally -->
     <div class="success-message" [hidden]="!successMessage">{{successMessage}}</div>
     <div class="error-message" [hidden]="!errorMessage">{{errorMessage}}</div>
   </div>
