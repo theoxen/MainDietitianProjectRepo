@@ -1,26 +1,35 @@
+<!-- Main container for the diet editing form -->
 <div class="form-container">
+  <!-- Page title showing which client's diet is being edited -->
   <h2 class="title">Edit Diet for {{clientName}}</h2>
   
+  <!-- Main form with reactive form binding to clientDiets FormGroup in the component -->
   <form [formGroup]="clientDiets" (ngSubmit)="submitEditedDiets()">
+    <!-- Diet name section with validation -->
     <div class="diet-header">
       <div class="diet-info-row">
         <label for="dietName">Diet Name:</label>
+        <!-- Input for diet name with form control binding -->
         <input id="dietName" type="text" formControlName="name" placeholder="Enter diet name" class="form-control" />
+        <!-- Template checkbox commented out, may be used in future implementations -->
         <!-- <div class="template-checkbox">
           <label for="isTemplate">Template:</label>
           <input id="isTemplate" type="checkbox" formControlName="isTemplate" />
         </div> -->
       </div>
+      <!-- Validation error message that shows when name field is invalid and touched -->
       <div class="error-feedback" [hidden]="clientDiets.controls['name'].valid || !clientDiets.controls['name'].touched">
         Name is required
       </div>
     </div>
 
+    <!-- Diet plan weekly schedule section -->
     <div class="diet-days-section">
-      <!-- Horizontal table layout with days as columns -->
+      <!-- Table layout with days as columns and meal types as rows -->
       <table class="horizontal-diet-table">
         <thead>
           <tr>
+            <!-- Column headers for meal type and days of the week -->
             <th class="meal-type-header">Meal Type</th>
             <th>Monday</th>
             <th>Tuesday</th>
@@ -32,9 +41,12 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Breakfast Row -->
+          <!-- Each row represents a specific meal type across all days of the week -->
+          <!-- Breakfast Row - Index 0 in meal types -->
           <tr>
             <td class="meal-type">Breakfast</td>
+            <!-- Each cell contains a textarea bound to a specific form control -->
+            <!-- getDayMealControl(dayIndex, mealTypeIndex) returns the appropriate FormControl -->
             <td>
               <textarea 
                 [formControl]="getDayMealControl(0, 0)" 
@@ -79,7 +91,7 @@
             </td>
           </tr>
           
-          <!-- Morning Snack Row -->
+          <!-- Morning Snack Row - Index 1 in meal types -->
           <tr>
             <td class="meal-type">Morning Snack</td>
             <td>
@@ -126,7 +138,7 @@
             </td>
           </tr>
           
-          <!-- Lunch Row -->
+          <!-- Lunch Row - Index 2 in meal types -->
           <tr>
             <td class="meal-type">Lunch</td>
             <td>
@@ -173,7 +185,7 @@
             </td>
           </tr>
           
-          <!-- Afternoon Snack Row -->
+          <!-- Afternoon Snack Row - Index 3 in meal types -->
           <tr>
             <td class="meal-type">Afternoon Snack</td>
             <td>
@@ -220,7 +232,7 @@
             </td>
           </tr>
           
-          <!-- Dinner Row -->
+          <!-- Dinner Row - Index 4 in meal types -->
           <tr>
             <td class="meal-type">Dinner</td>
             <td>
@@ -270,17 +282,22 @@
       </table>
     </div>
     
+    <!-- Action buttons for form submission and cancellation -->
     <div class="form-actions">
+      <!-- Submit button triggers submitEditedDiets() method -->
       <button type="submit" class="primary-button">Update Diet</button>
+      <!-- Cancel button calls cancel() method to abandon changes -->
       <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
     </div>
   </form>
   
-  <!-- Messages -->
+  <!-- Feedback Messages Section -->
+  <!-- Success message shown conditionally when operation succeeds -->
   <div class="success-message" [hidden]="!successMessage">
     {{ successMessage }}
   </div>
   
+  <!-- Error message shown conditionally when operation fails -->
   <div class="error-message" [hidden]="!errorMessage">
     {{ errorMessage }}
   </div>

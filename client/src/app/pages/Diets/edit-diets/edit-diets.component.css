@@ -1,3 +1,4 @@
+/* Main container for the diet editing form - provides visual structure and consistent styling */
 .form-container {
   background-color: #ffffff;
   max-width: 1200px;
@@ -8,7 +9,7 @@
 }
 
 
-
+/* Page title styling - prominently displays the form purpose to users */
 .title {
   text-align: center;
   margin-bottom: 20px;
@@ -17,38 +18,45 @@
   color: #333;
 }
 
+/* Container for diet metadata section at the top of the form */
 .diet-header {
   margin-bottom: 20px;
 }
 
+/* Horizontal layout for diet info fields like name, date, etc. */
 .diet-info-row {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
+/* Consistent label width for alignment in diet info rows */
 .diet-info-row label {
   width: 80px;
   font-weight: 500;
 }
 
+/* Special styling for the template checkbox option - positioned separately */
 .template-checkbox {
   display: flex;
   align-items: center;
   margin-left: 20px;
 }
 
+/* Overrides the default label width for the template checkbox */
 .template-checkbox label {
   width: auto;
   margin-right: 5px;
 }
 
+/* Validation error message styling - appears below invalid fields */
 .error-feedback {
   color: #dc3545;
   font-size: 14px;
   margin-left: 80px;
 }
 
+/* Main diet plan table - uses horizontal layout with days as columns */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
@@ -56,6 +64,7 @@
   margin-bottom: 20px;
 }
 
+/* Consistent cell styling for the diet table */
 .horizontal-diet-table th,
 .horizontal-diet-table td {
   border: 1px solid #dee2e6;
@@ -64,6 +73,7 @@
   vertical-align: middle;
 }
 
+/* Header row styling - provides visual separation from content cells */
 .horizontal-diet-table th {
   background-color: #f8f9fa;
   font-weight: 600;
@@ -71,10 +81,12 @@
   height: 40px;
 }
 
+/* Fixed width for meal type column (breakfast, lunch, etc.) */
 .meal-type-header {
   width: 100px;
 }
 
+/* Styling for meal type cells (first column) - stands out from food data cells */
 .meal-type {
   background-color: #f8f9fa;
   font-weight: 600;
@@ -82,6 +94,7 @@
   color: #555;
 }
 
+/* Textarea for food item entry - sized appropriately for the table cells */
 .compact-textarea {
   width: 100%;
   height: 60px;
@@ -92,12 +105,14 @@
   font-size: 12px;
 }
 
+/* Container for form buttons at the bottom - centered layout */
 .form-actions {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
+/* Primary action button styling (Save, Submit) - brand color for prominence */
 .primary-button {
   background-color: #f4a261;
   border: none;
@@ -110,10 +125,12 @@
   transition: background-color 0.3s;
 }
 
+/* Hover effect for primary buttons - provides user feedback */
 .primary-button:hover {
   background-color: #e09b57;
 }
 
+/* Secondary action button styling (Cancel, Back) - visually less prominent */
 .secondary-button {
   background-color: #6c757d;
   border: none;
@@ -125,10 +142,12 @@
   transition: background-color 0.3s;
 }
 
+/* Hover effect for secondary buttons */
 .secondary-button:hover {
   background-color: #5a6268;
 }
 
+/* Success notification styling - appears after successful form submission */
 .success-message {
   color: #28a745;
   text-align: center;
@@ -136,6 +155,7 @@
   font-weight: bold;
 }
 
+/* Error notification styling - appears when form submission fails */
 .error-message {
   color: #dc3545;
   text-align: center;

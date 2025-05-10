@@ -1,17 +1,16 @@
-
 /* Print settings */
 
-/* Hide the logo on the page */
+/* Hide elements that shouldn't appear on the page view but might be needed for printing */
 .hide-on-page {
   display: none;
 }
 
-/* Make sure print header is hidden on page */
+/* Header that appears only when printing - hidden in normal view */
 .print-header {
   display: none;
 }
 
-
+/* Layout for print header with logo and contact information side by side */
 .print-header .logo-and-info {
   display: flex;
   align-items: center;
@@ -19,24 +18,28 @@
   gap: 20px;
 }
 
+/* Size control for logo in print mode */
 .print-header .print-logo-img {
   height: 80px;
   width: auto;
 }
 
+/* Typography for contact information in print header */
 .print-header .contact-info {
   font-size: 14px;
   line-height: 1.5;
 }
 
 
-
+/* Media query for print - these styles only apply when printing */
 @media print {
+  /* Set page to landscape orientation with margins */
   @page {
     size: landscape;
     margin: 10mm;
   }
 
+  /* Make logo visible in print and position it absolutely */
   .page-logo {
     visibility: visible !important;
     display: block !important;
@@ -48,20 +51,18 @@
   }
 
 
-
-  
-  /* Hide everything except the diet modal */
+  /* Hide all content by default when printing */
   body * {
     visibility: hidden;
   }
 
   
-  
-  /* Show only the modal content */
+  /* Show only the modal content when printing - this is the diet plan that will be printed */
   .modal-content, .modal-content * {
     visibility: visible;
   }
   
+  /* Position modal content for printing - reset layout to fill page */
   .modal-content {
     position: absolute;
     left: 0;
@@ -73,29 +74,31 @@
     background: white;
   }
   
-  /* Hide the "Diet Details" h2 title */
+  /* Remove titles that aren't needed in print version */
   .modal-content h2, .modal-content > p {
     display: none !important;
   }
   
-  /* Show the print header */
+  /* Show the print-specific header when printing */
   .print-header {
     display: block !important;
     visibility: visible !important;
     margin-bottom: 20px;
   }
 
+  /* Hide elements marked for non-print display */
   .hide-on-print {
     display: none !important;
   }
   
-  /* Style the diet table for printing */
+  /* Adjust table styles for better print layout */
   .horizontal-diet-table {
     width: 100%;
-    page-break-inside: avoid;
+    page-break-inside: avoid; /* Prevents table from breaking across pages */
     border-collapse: collapse;
   }
   
+  /* Reduce padding and font size for print to fit more content */
   .horizontal-diet-table th,
   .horizontal-diet-table td {
     padding: 5px;
@@ -103,12 +106,12 @@
     font-size: 12px;
   }
   
-  /* Hide buttons and actions */
+  /* Hide interactive elements in print version */
   .modal-action-buttons, .close {
     display: none !important;
   }
   
-  /* Add diet name and date at the top */
+  /* Add dynamic diet title and date to the top of printed page using CSS content */
   .modal-content::before {
     content: "Diet Plan: " attr(data-diet-name) " - Date: " attr(data-print-date);
     display: block;
@@ -120,9 +123,9 @@
 }
 
 
+/* Modal styling for displaying diet details */
 
-
-/* Responsive diet table and modal styling */
+/* Full-screen modal with semi-transparent background */
 .diet-details-modal {
   position: fixed;
   z-index: 1000;
@@ -137,6 +140,7 @@
   overflow: hidden; /* Prevent scrolling of background */
 }
 
+/* Modal content box with scrollable area */
 .modal-content {
   background-color: #fff;
   padding: 25px;
@@ -149,14 +153,15 @@
   position: relative;
 }
 
-/* Responsive horizontal diet table */
+/* Diet table styling - base layout for weekly diet plan */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: fixed; /* Fixed layout ensures consistent column widths */
   margin-bottom: 20px;
 }
 
+/* Basic cell styling for consistency */
 .horizontal-diet-table th,
 .horizontal-diet-table td {
   border: 1px solid #dee2e6;
@@ -165,28 +170,32 @@
   text-align: left;
 }
 
-/* Set column widths proportionally */
+/* Header row styling */
 .horizontal-diet-table th {
   background-color: #f8f9fa;
   font-weight: 600;
   color: #555;
 }
 
+/* Set meal type column width */
 .meal-type-header {
   width: 15%;
 }
 
+/* Distribute remaining width across 7 days evenly */
 .horizontal-diet-table th:not(.meal-type-header) {
   width: 12.14%; /* (100% - 15%) / 7 days */
 }
 
-/* Media queries for smaller screens */
+/* Responsive design adjustments for different screen sizes */
 @media (max-width: 992px) {
+  /* Adjust modal size for tablets */
   .modal-content {
     width: 95%;
     padding: 15px;
   }
   
+  /* Reduce padding and font size for better fit */
   .horizontal-diet-table th,
   .horizontal-diet-table td {
     padding: 6px;
@@ -195,49 +204,55 @@
 }
 
 @media (max-width: 768px) {
+  /* Further reduce modal padding for smaller tablets */
   .modal-content {
     width: 98%;
     padding: 10px;
   }
   
+  /* Reduce table font size */
   .horizontal-diet-table {
     font-size: 0.85em;
   }
   
+  /* Minimize cell padding */
   .horizontal-diet-table th,
   .horizontal-diet-table td {
     padding: 4px;
   }
   
+  /* Adjust meal type column width for smaller screens */
   .meal-type-header {
     width: 20%;
   }
   
+  /* Recalculate day column widths */
   .horizontal-diet-table th:not(.meal-type-header) {
     width: 11.43%; /* (100% - 20%) / 7 days */
   }
 }
 
-/* For very small screens, enable horizontal scrolling */
+/* For mobile devices - enable horizontal scrolling to preserve table layout */
 @media (max-width: 576px) {
   .modal-content {
     width: 100%;
     padding: 8px;
   }
   
+  /* Container with horizontal scroll for mobile */
   .horizontal-diet-table-container {
     width: 100%;
     overflow-x: auto;
   }
   
+  /* Set minimum width to ensure table remains readable */
   .horizontal-diet-table {
     min-width: 800px; /* Ensure minimum width for readability */
   }
 }
 
 
-
-
+/* Basic table styling - repeated but with different specifics */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
@@ -255,14 +270,14 @@
   background-color: #f2f2f2;
 }
 
+/* Style for meal type cells */
 .meal-type {
   font-weight: bold;
   background-color: #f9f9f9;
 }
 
 
-
-
+/* Enhanced table styling with improved spacing and alignment */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
@@ -296,17 +311,17 @@
   color: #555;
 }
 
+/* Cell content display with word wrapping for longer text */
 .horizontal-diet-table td {
   min-height: 60px;
   vertical-align: top;
   text-align: left;
-  white-space: pre-wrap;
-  word-break: break-word;
+  white-space: pre-wrap; /* Preserves whitespace and allows wrapping */
+  word-break: break-word; /* Breaks words to prevent overflow */
 }
 
 
-
-
+/* Main container styling for the diet list view */
 .primary-hover-box {
   width: 90%;
   min-height: 500px;
@@ -326,7 +341,7 @@
   flex: 1;
 }
 
-/* Ensure the container properly expands to fit content */
+/* Center and size the main container appropriately */
 .diets-container {
   display: flex;
   justify-content: center;
@@ -335,7 +350,7 @@
   padding: 20px 0;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for smaller screens */
 @media (max-width: 900px) {
   .primary-hover-box {
     width: 95%;
@@ -345,12 +360,10 @@
 }
 
 
-
-
-/* Delete button styling */
+/* Button styling for delete operations */
 .DeleteButton {
   margin-left: 8px;
-  background-color: #f7614d;
+  background-color: #f7614d; /* Red color to indicate danger/deletion */
   color: white;
   border: none;
   border-radius: 4px;
@@ -358,11 +371,12 @@
   cursor: pointer;
 }
 
+/* Hover effect for delete button */
 .DeleteButton:hover {
-  background-color: #e63e28;
+  background-color: #e63e28; /* Darker red for hover state */
 }
 
-/* Confirmation modal styling */
+/* Confirmation modal for delete and other operations */
 .confirmation-modal {
   position: fixed;
   z-index: 1001;
@@ -376,6 +390,7 @@
   align-items: center;
 }
 
+/* Style for confirmation dialog box */
 .confirmation-content {
   background-color: white;
   padding: 25px;
@@ -384,6 +399,7 @@
   text-align: center;
 }
 
+/* Layout for confirmation action buttons */
 .confirmation-buttons {
   display: flex;
   justify-content: center;
@@ -391,13 +407,14 @@
   margin-top: 20px;
 }
 
+/* Success message styling */
 .success-message {
-  color: #28a745;
+  color: #28a745; /* Bootstrap-like success green */
   margin-top: 15px;
   font-weight: bold;
 }
 
-/* Add horizontal diet table styles */
+/* Additional horizontal diet table styling */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
@@ -431,7 +448,7 @@
   color: #555;
 }
 
-/* Update modal styles to fit the large table */
+/* Modal styling for displaying large diet tables */
 .diet-details-modal {
   position: fixed;
   z-index: 1000;
@@ -443,6 +460,7 @@
   overflow-y: auto;
 }
 
+/* Content container for modal */
 .modal-content {
   background-color: #fff;
   margin: 5% auto;
@@ -454,6 +472,7 @@
   overflow-y: auto;
 }
 
+/* Close button for modal */
 .close {
   color: #aaa;
   float: right;
@@ -462,11 +481,12 @@
   cursor: pointer;
 }
 
+/* Close button hover effect */
 .close:hover {
   color: black;
 }
 
-/* Enhanced styles for clickable rows */
+/* Interactive row styling for clickable table rows */
 .clickable-row {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -476,10 +496,10 @@
   background-color: #f5f5f5;
 }
 
-/* Enhance button hover effects */
+/* Edit button styling with hover effects */
 .EditButton {
   margin-right: 10px;
-  background-color: #FFB453;
+  background-color: #FFB453; /* Brand orange color */
   color: white;
   border: none;
   border-radius: 4px;
@@ -489,8 +509,8 @@
 }
 
 .EditButton:hover {
-  background-color: #FFA726;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background-color: #FFA726; /* Darker orange on hover */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Add depth with shadow */
 }
 
 .DeleteButton:hover {
@@ -498,7 +518,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Improve modal styling for better content display */
+/* Enhanced modal styling for better user experience */
 .diet-details-modal {
   position: fixed;
   z-index: 1000;
@@ -514,6 +534,7 @@
   padding: 20px 0;
 }
 
+/* Modal content with improved spacing and shadows */
 .modal-content {
   background-color: #fff;
   margin: 20px auto;
@@ -526,7 +547,7 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Style the table cells to better display content */
+/* Table cell styling for better content display */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
@@ -558,7 +579,7 @@
   text-align: left;
 }
 
-/* Style the table cells to better display content */
+/* Content display styling in table cells */
 .horizontal-diet-table td {
   padding: 12px;
   font-size: 14px;
@@ -569,7 +590,7 @@
   word-break: break-word;
 }
 
-/* New styles for centering and improved spacing */
+/* Container layout for diet list */
 .diets-container {
   display: flex;
   justify-content: center;
@@ -577,14 +598,15 @@
   padding: 20px 0;
 }
 
-/* Table styles with improved spacing */
+/* Table styling with spacing between rows */
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 10px; /* Creates space between rows */
   margin-top: 20px;
 }
 
+/* Table header styling */
 thead tr {
   background-color: #f8f9fa;
 }
@@ -595,20 +617,20 @@ th {
   font-weight: 600;
 }
 
-/* Adjust spacing between columns */
+/* Cell spacing for better readability */
 td {
   padding: 15px 20px;
   background-color: white;
 }
 
-/* Make date smaller */
+/* Date display styling */
 td h2 {
   font-size: 16px;
   font-weight: normal;
   margin: 0;
 }
 
-/* Style the add button and info text */
+/* Header section with add button and info text */
 .FoundDeitsAndAddNew {
   display: flex;
   justify-content: space-between;
@@ -616,6 +638,7 @@ td h2 {
   margin-bottom: 20px;
 }
 
+/* Counter text styling */
 .DietsFound {
   margin-top: 15px;
   margin-bottom: 10px;
@@ -623,6 +646,7 @@ td h2 {
   font-size: 14px;
 }
 
+/* Add new diet button styling */
 .AddNewButton {
   background-color: #FFB453;
   color: white;
@@ -635,29 +659,33 @@ td h2 {
   gap: 5px;
 }
 
+/* Icon in button */
 .AddNewButton i {
   margin-right: 5px;
 }
 
-/* Date search form styling */
+/* Date range search form styling */
 .date-search {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* Pagination controls styling */
 .pagination-container {
   margin-top: 20px;
   display: flex;
   justify-content: center;
 }
 
+/* Date search container */
 .date-search {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* Floating form layout */
 .form-floating {
   align-items: center;
   display: flex;
@@ -666,6 +694,7 @@ td h2 {
   gap: 50px;
 }
 
+/* Date input field containers */
 .StartDate, .EndDate {
   display: flex;
   justify-content: space-between;
@@ -675,11 +704,13 @@ td h2 {
   align-items: center;
 }
 
+/* Date labels */
 .StartDate > label, .EndDate > label {
   width: 90px;
   height: 24px;
 }
 
+/* Date input styling */
 .StartDate > input, .EndDate > input {
   height: 45px;
   width: 160px;
@@ -692,11 +723,12 @@ td h2 {
   transition: all 0.2s;
 }
 
+/* Hover effect for date inputs */
 .StartDate > input:hover, .EndDate > input:hover {
-  color: #FFB453;
+  color: #FFB453; /* Brand orange color */
 }
 
-/* Ensure the date inputs and buttons are properly aligned */
+/* Layout for date inputs and button alignment */
 .FoundDeitsAndAddNew {
   display: flex;
   justify-content: space-between;
@@ -704,6 +736,7 @@ td h2 {
   margin-bottom: 20px;
 }
 
+/* Icon colors */
 .fa-solid {
   color: white;
 }
@@ -712,7 +745,7 @@ td h2 {
   color: #FFB453;
 }
 
-/* Make date smaller */
+/* Typography for date display */
 td h2 {
   font-size: 16px;
   font-weight: normal;
@@ -720,7 +753,7 @@ td h2 {
 }
 
 
-/* Add styling for the modal action buttons */
+/* Action buttons in the modal footer */
 .modal-action-buttons {
   display: flex;
   justify-content: center;
@@ -728,6 +761,7 @@ td h2 {
   margin-top: 25px;
 }
 
+/* Button styling in modal footer */
 .modal-action-buttons .EditButton,
 .modal-action-buttons .DeleteButton {
   padding: 10px 20px;
@@ -740,18 +774,21 @@ td h2 {
   transition: all 0.3s ease;
 }
 
+/* Edit button styling */
 .modal-action-buttons .EditButton {
   background-color: #FFB453;
   color: white;
   border: none;
 }
 
+/* Delete button styling */
 .modal-action-buttons .DeleteButton {
   background-color: #f7614d;
   color: white;
   border: none;
 }
 
+/* Hover effects for buttons */
 .modal-action-buttons .EditButton:hover {
   background-color: #FFA726;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -762,6 +799,7 @@ td h2 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+/* Icons in buttons */
 .modal-action-buttons i {
   margin-right: 8px;
 }
