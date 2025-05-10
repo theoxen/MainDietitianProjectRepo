@@ -1,30 +1,38 @@
 <div class="page">
+    <!-- Navigation bar at the top -->
     <app-nav-bar></app-nav-bar>
     <div class="flex-container">
         <div class="primary-hover-box">
+            <!-- Page title with client's name -->
             <h1 class="title">Edit Details for Client {{ client?.fullName }}</h1>
+            <!-- Form for updating client details -->
             <form [formGroup]="clientUpdateForm" (ngSubmit)="updateClient()"
                 style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <div
                     style="display: flex; flex-direction: column; justify-content: center; gap: 10px; max-width:460px; width: 100%;">
+                    <!-- Input for full name with validation and error messages -->
                     <app-primary-input-field [label]="'Full Name'" [control]="clientUpdateForm.controls.FullName"
                         [errorMessages]="fullNameErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
                         [showErrorOnControlDirty]="displayErrorOnControlDirty"></app-primary-input-field>
 
+                    <!-- Input for phone number with validation and error messages -->
                     <app-primary-input-field [label]="'Phone Number'" [control]="clientUpdateForm.controls.PhoneNumber"
                         [errorMessages]="phoneNumberErrorMessages"
                         [showErrorOnControlTouched]="displayErrorOnControlTouched"
                         [showErrorOnControlDirty]="displayErrorOnControlDirty"></app-primary-input-field>
 
+                    <!-- Input for email with validation and error messages -->
                     <app-primary-input-field [label]="'Email'" [control]="clientUpdateForm.controls.Email"
                         [errorMessages]="emailErrorMessages" [showErrorOnControlTouched]="displayErrorOnControlTouched"
                         [showErrorOnControlDirty]="displayErrorOnControlDirty"></app-primary-input-field>
 
+                    <!-- Input for height with validation and error messages -->
                     <app-primary-input-field [label]="'Height'" [control]="clientUpdateForm.controls.Height"
                         [errorMessages]="heightErrorMessages" [showErrorOnControlTouched]="displayErrorOnControlTouched"
                         [showErrorOnControlDirty]="displayErrorOnControlDirty"></app-primary-input-field>
 
+                    <!-- Dropdown for selecting diet type with validation and error messages -->
                     <app-primary-dropdown-input [placeholder]="'Diet Type'"
                         [control]="clientUpdateForm.controls.DietTypeName" [dropdownItems]="dietTypeDropdownOptions"
                         [errorMessages]="dietTypeErrorMessages"
@@ -32,8 +40,11 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty">
                     </app-primary-dropdown-input>
                 </div>
+                <!-- Action buttons: Cancel and Update -->
                 <div class="button-container">
+                    <!-- Cancel button: returns to previous page or cancels action -->
                     <button type="button" class="primary-button" (click)="cancel()">Cancel</button>
+                    <!-- Update button: submits the form to update client details -->
                     <button type="submit" class="primary-button">Update</button>
                 </div>
             </form>

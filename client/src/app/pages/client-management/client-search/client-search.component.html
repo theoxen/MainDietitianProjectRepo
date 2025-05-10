@@ -1,40 +1,54 @@
+<!-- Main page wrapper -->
 <div class="page">
+    <!-- Navigation bar at the top -->
     <app-nav-bar></app-nav-bar>
     <div class="page-content">
         <div class="primary-hover-box">
+            <!-- Info section: page title -->
             <div class="info-container">
                 <div class="title">Search Client</div>
-                
-
             </div>
+            <!-- Credentials section: search by phone number -->
             <div>
                 <div class="credentials-title">Client Credentials</div>
+                <!-- Reactive form for searching by phone number -->
                 <form [formGroup]="searchClientForm" (ngSubmit)="searchClient()">
-                    <app-primary-input-field [label]="'Phone Number'" [control]="searchClientForm.controls.phoneNumber" [errorMessages]="phoneNumberErrorMessages" [showErrorOnControlDirty]="displayErrorOnControlDirty" [showErrorOnControlTouched]="displayErrorOnControlTouched"></app-primary-input-field>
+                    <!-- Custom input field for phone number -->
+                    <app-primary-input-field 
+                        [label]="'Phone Number'" 
+                        [control]="searchClientForm.controls.phoneNumber" 
+                        [errorMessages]="phoneNumberErrorMessages" 
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched">
+                    </app-primary-input-field>
+                    <!-- Error message for phone number existence -->
                     <app-error style="text-align: center;" [errorMessage]="phoneNumberExistsMessage"></app-error>
+                    <!-- Submit button for phone number search -->
                     <button type="submit" class="primary-button">Search</button>
                 </form>
-
             </div>
         
+        <!-- Search bar for filtering by name and diet type, and sorting -->
         <div class="search-container">
             <div class="search-bar">
+                <!-- Input for searching by client name -->
                 <input [formControl]="searchNameControl" placeholder="Search by name" class="search-input">
+                <!-- Dropdown for selecting diet type -->
                 <app-primary-dropdown-input
                     [placeholder]="'Select Diet Type'"
                     [control]="searchDietTypeControl"
                     [dropdownItems]="dietTypeDropdownOptions"
                     style="width: 100%;">
                 </app-primary-dropdown-input>
-        
+                <!-- Dropdown for sorting clients alphabetically -->
                 <select [(ngModel)]="sortOrder" (change)="sortClients()" class="sort-dropdown">
                     <option value="asc">Sort: A → Z</option>
                     <option value="desc">Sort: Z → A</option>
                 </select>
-
             </div>
         </div>
         
+        <!-- Table displaying filtered client results -->
         <div class="table-container">
             <table>
                 <thead>
@@ -44,8 +58,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Loop through filtered clients and display each one -->
                     <tr *ngFor="let client of filteredClients">
                         <td>
+                            <!-- Link to client details page -->
                             <a [routerLink]="['/clients', client.id]" class="unstyled-link">
                                 {{ client.fullName }} 
                             </a>
@@ -55,9 +71,6 @@
                 </tbody>
             </table>
         </div>
-        
-        
-
     </div>
     </div>
 </div>

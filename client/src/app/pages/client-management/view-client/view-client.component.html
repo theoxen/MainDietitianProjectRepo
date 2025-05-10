@@ -1,52 +1,63 @@
 <div class="page">
+    <!-- Navigation bar at the top -->
     <app-nav-bar></app-nav-bar>
     <div class="flex-container">
         <div class="primary-hover-box">
+            <!-- Page title with client's name -->
             <h1 class="title">Client Details for {{ client?.fullName }}</h1>
             
+            <!-- Container for all client details -->
             <div class="details-container">
+                <!-- Full Name -->
                 <div class="detail-item">
                     <label>Full Name</label>
                     <span class="detail-value">{{ client?.fullName }}</span>
                 </div>
 
+                <!-- Phone Number -->
                 <div class="detail-item">
                     <label>Phone Number</label>
                     <span class="detail-value">{{ client?.phoneNumber }}</span>
                 </div>
 
+                <!-- Email -->
                 <div class="detail-item">
                     <label>Email</label>
                     <span class="detail-value">{{ client?.email }}</span>
                 </div>
 
+                <!-- Height -->
                 <div class="detail-item">
                     <label>Height</label>
                     <span class="detail-value">{{ client?.height }}</span>
                 </div>
 
+                <!-- Diet Type -->
                 <div class="detail-item">
                     <label>Diet Type</label>
                     <span class="detail-value">{{ client?.dietTypeName }}</span>
                 </div>
 
+                <!-- Gender -->
                 <div class="detail-item">
                     <label>Gender</label>
                     <span class="detail-value">{{ client?.gender }}</span>
                 </div>
 
+                <!-- Age (calculated from date of birth) -->
                 <div class="detail-item">
                     <label>Age</label>
                     <span class="detail-value">{{ calculateClientAge(client) }}</span>
                 </div>
             </div>
+            <!-- Button to navigate to edit client details page -->
             <button type="button" class="primary-button" (click)="navigateTo('/clients/:clientId/edit-details')">Edit Details</button>
+            <!-- Back button to return to previous page -->
             <div class="page-header">
                 <button type="button" class="primary-button back-button" (click)="goBack()">
                   <i class="fas fa-arrow-left"></i> Back
                 </button>
-              </div>
+            </div>
         </div>
-
     </div>
 </div>

@@ -16,6 +16,10 @@ import { DietTypesService } from '../../../services/diet-types.service';
 import { DropdownItem } from '../../../components/primary-dropdown-input/dropdown-item';
 import { PrimaryDropdownInputComponent } from "../../../components/primary-dropdown-input/primary-dropdown-input.component";
 
+/**
+ * Component for searching clients by phone, name, and diet type.
+ * Displays a filtered and sorted list of clients.
+ */
 @Component({
   selector: 'app-client-search',
   standalone: true,
@@ -25,29 +29,43 @@ import { PrimaryDropdownInputComponent } from "../../../components/primary-dropd
 })
 export class ClientSearchComponent implements OnInit {
   
+  // Controls for error display in input fields
   displayErrorOnControlDirty = true;
   displayErrorOnControlTouched = true;
   phoneNumberExists = true;
+
+  // All clients fetched from the API
   clients: ClientProfile[] = [];
+  // Clients after filtering and sorting
   filteredClients: ClientProfile[] = [];
+
+  // Form controls for searching/filtering
   searchNameControl = new FormControl('');
   searchDietTypeControl = new FormControl(''); 
+
+  // Dropdown options for diet types
   dietTypeDropdownOptions: DropdownItem<string, string>[] = []; 
+
+  // Injected services
   dietTypeService = inject(DietTypesService);
   clientManagementService = inject(ClientManagementService);
-  clientId: any|string;
 
-  
+  // Used for navigation to client details
+  clientId: any|string;
 
   constructor(private router: Router) { }
 
+  /**
+   * On component initialization, fetch clients and diet types.
+   * Set up subscriptions for search/filter controls.
+   */
   ngOnInit(): void {
     window.scrollTo(0, 0);
     
     this.fetchClients();
     this.loadDietTypes();
-    //console.log("Client ID ngonit: ", this.clientId); //debugging
     
+    // Update filtered clients when name filter changes
     this.searchNameControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -55,6 +73,7 @@ export class ClientSearchComponent implements OnInit {
       this.filteredClients = this.filterClients();
     });
 
+    // Update filtered clients when diet type filter changes
     this.searchDietTypeControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -63,6 +82,9 @@ export class ClientSearchComponent implements OnInit {
     });
   }
 
+  /**
+   * Load available diet types for the dropdown filter.
+   */
   loadDietTypes(): void {
     this.dietTypeService.loadDietTypes().subscribe({
       next: (dietTypes) => {
@@ -78,24 +100,25 @@ export class ClientSearchComponent implements OnInit {
         console.error("Error loading diet types:", error);
       }
     });
-}
+  }
 
+  /**
+   * Fetch all clients from the API, remove admin, and sort A → Z.
+   * Also fetches client IDs by phone number for navigation.
+   */
   fetchClients(): void {
     this.clientManagementService.getAllClients().subscribe({
         next: (clients) => {
-            //console.log("Client ID fetched: ", this.clientId); //debugging
-
             // Remove admin and sort A → Z only on first load
             this.clients = clients
                 .filter(client => client.fullName.toLowerCase() !== "admin")
                 .sort((a, b) => a.fullName.toLowerCase().localeCompare(b.fullName.toLowerCase()));
 
-            // Fetch client IDs by phone number
+            // Fetch client IDs by phone number for each client
             this.clients.forEach(client => {
                 this.clientManagementService.getClientIdByPhoneNumber(client.phoneNumber).subscribe({
                     next: (clientId) => {
                         client.id = clientId;
-                        //console.log(`Client ID for ${client.phoneNumber}: ${clientId}`); // Debugging
                     },
                     error: (error: any) => {
                         console.error(`Error fetching client ID for ${client.phoneNumber}:`, error);
@@ -104,17 +127,20 @@ export class ClientSearchComponent implements OnInit {
             });
 
             this.filteredClients = [...this.clients]; // Ensure initially sorted list
-
-            
         },
         error: (error: any) => {
             console.error("Error fetching clients:", error);
         }
     });
-}
+  }
 
-sortOrder: string = 'asc';
+  // Current sort order for the client list
+  sortOrder: string = 'asc';
 
+  /**
+   * Filter clients by name and diet type.
+   * Prioritizes clients whose names start with the filter.
+   */
   filterClients(): ClientProfile[] {
     const nameFilter = this.searchNameControl.value?.toLowerCase().trim() || '';
     const dietTypeFilter = this.searchDietTypeControl.value?.toLowerCase().trim() || '';
@@ -139,11 +165,17 @@ sortOrder: string = 'asc';
 
     return filtered;
   }
-  // Method to trigger sorting when dropdown changes
+
+  /**
+   * Trigger sorting when the sort dropdown changes.
+   */
   sortClients(): void {
     this.filteredClients = this.applySorting(this.filterClients());
   }
 
+  /**
+   * Sorts a list of clients alphabetically based on the selected order.
+   */
   applySorting(list: ClientProfile[]): ClientProfile[] {
     return list.sort((a, b) => {
         const nameA = a.fullName.toLowerCase();
@@ -158,6 +190,7 @@ sortOrder: string = 'asc';
     });
   }
 
+  // Reactive form for searching by phone number
   searchClientForm = new FormGroup({
     "phoneNumber": new FormControl("", [
      // Validators.required,
@@ -165,32 +198,44 @@ sortOrder: string = 'asc';
     ])
   });
 
+  // Error messages for phone number field
   phoneNumberErrorMessages = new Map<string, string>([
     ["required", ValidationMessages.required],
     ["pattern", ValidationMessages.phoneNumber]
   ])
 
+  /**
+   * Returns error message if phone number does not exist.
+   */
   get phoneNumberExistsMessage() {
     return !this.phoneNumberExists && !this.searchClientForm.controls.phoneNumber.dirty ? "*Phone number does not exist" : "";
   }
 
+  /**
+   * Handles searching for a client by phone number.
+   * Navigates to client details if found, otherwise shows error.
+   */
   searchClient() {
     if(this.searchClientForm.valid) {
 
+      // Only search if the form has been modified
       if (!this.searchClientForm.dirty) {
         return;
       }
 
+      // If phone number is entered, try to fetch client ID
       if (this.searchClientForm.controls.phoneNumber.value != null)
       {
         this.clientManagementService.getClientIdByPhoneNumber(this.searchClientForm.controls.phoneNumber.value).subscribe({
 
           next: (clientId) => {
+            // Navigate to client details page if found
             this.router.navigate([`/clients/${clientId}`]);
             this.phoneNumberExists = true;
             this.searchClientForm.markAsPristine();
           },
           error: (error: any) => {
+            // If not found, show error message
             if(error.statusCode == 404) {
               this.phoneNumberExists = false;
             }
@@ -200,6 +245,7 @@ sortOrder: string = 'asc';
       }
 
     } else {
+      // Mark all fields as touched to show validation errors
       this.searchClientForm.markAllAsTouched();
     }
   }

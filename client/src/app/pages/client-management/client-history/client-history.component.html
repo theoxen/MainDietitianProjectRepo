@@ -1,11 +1,18 @@
+<!-- Main page wrapper -->
 <div class="page">
+  <!-- Navigation bar at the top -->
   <app-nav-bar></app-nav-bar>
+
+  <!-- Main container for client history content -->
   <div class="client-history">
+    <!-- Main title for the page -->
     <div class="maintitle">Client History</div>
 
+    <!-- Section: Client Details -->
     <div class="details-container">
       <div class="primary-hover-box">
         <div class="title">Client Details</div>
+        <!-- Display client's name, phone, email, age, and gender -->
         <p><strong>Name:</strong> {{ client?.fullName }}</p>
         <p><strong>Phone:</strong> {{ client?.phoneNumber }}</p>
         <p><strong>Email:</strong> {{ client?.email }}</p>
@@ -17,26 +24,31 @@
       </div>
     </div>
 
+    <!-- Section: Client Note -->
     <div class="note-container">
       <div class="primary-hover-box">
         <div class="title">Client Note</div>
         <div class="table-container">
-        <div *ngIf="clientNote && clientNote.noteText; else noNote">
-          <p class="note-text">{{ clientNote.noteText }}</p>
+          <!-- Show note if available, otherwise show fallback message -->
+          <div *ngIf="clientNote && clientNote.noteText; else noNote">
+            <p class="note-text">{{ clientNote.noteText }}</p>
+          </div>
         </div>
-      </div>
       </div>
     </div>
 
+    <!-- Fallback template if no note exists -->
     <ng-template #noNote>
       <p>No Note available for this client.</p>
     </ng-template>
 
+    <!-- Section: Metrics (dates visited, body weight, fat mass, muscle mass) -->
     <div class="metrics-container">
       <div class="primary-hover-box">
         <div class="title">Dates Visited & Metrics</div>
-        <!-- Added table-container div for scrollable table -->
+        <!-- Scrollable table for metrics -->
         <div class="table-container">
+          <!-- Only show table if metrics exist, otherwise show fallback -->
           <table *ngIf="clientMetrics && clientMetrics.length > 0; else noMetrics">
             <thead>
               <tr>
@@ -47,6 +59,7 @@
               </tr>
             </thead>
             <tbody>
+              <!-- Loop through each metric and display values -->
               <tr *ngFor="let metric of clientMetrics">
                 <td>
                   <h2>{{ metric.dateCreated | date:'dd/MM/yyyy' }}</h2>
@@ -67,138 +80,143 @@
       </div>
     </div>
 
+    <!-- Fallback template if no metrics exist -->
     <ng-template #noMetrics>
       <p>No metrics available for this client.</p>
     </ng-template>
 
-<!-- Diet Section -->
-<div class="diets-container">
-  <div class="primary-hover-box">
-    <div class="title">Client Diets</div>
-    <div class="table-container">
-      @if (hasValidDiets()) {
-        <table>
+    <!-- Section: Diets Table -->
+    <div class="diets-container">
+      <div class="primary-hover-box">
+        <div class="title">Client Diets</div>
+        <div class="table-container">
+          <!-- Show diets table if there are valid diets, otherwise show fallback -->
+          @if (hasValidDiets()) {
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 120px;">Date</th>
+                  <th style="width: 50%;">Name</th>
+                  <th style="width: 100px;">Template</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Loop through each diet and display info, row is clickable -->
+                <tr *ngFor="let diet of transformedDiets" (click)="showDietDetails(diet)" class="clickable-row">
+                  <td>
+                    <h2>{{ diet.date }}</h2>
+                  </td>
+                  <td>
+                    {{ diet.name }}
+                  </td>
+                  <td>
+                    {{ diet.isTemplate ? 'Yes' : 'No' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          } @else {
+            <!-- Message if no diets are available -->
+            <div class="no-data-message">No diets available for this client.</div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Shows detailed diet plan when a diet is selected -->
+    <div class="diet-details-modal" [style.display]="selectedDiet ? 'block' : 'none'">
+      <div class="modal-content">
+        <!-- Close button for modal -->
+        <span class="close" (click)="closeDietDetails()">&times;</span>
+        <h2>Diet Details: {{selectedDiet?.name || ''}}</h2>
+        <p><strong>Date:</strong> {{selectedDiet?.date || ''}}</p>
+        <p><strong>Type:</strong> {{selectedDiet?.isTemplate ? 'Template' : 'Regular Diet'}}</p>
+        
+        <!-- Table: Weekly meal plan for each meal type and day -->
+        <table class="horizontal-diet-table">
           <thead>
             <tr>
-              <th style="width: 120px;">Date</th>
-              <th style="width: 50%;">Name</th>
-              <th style="width: 100px;">Template</th>
+              <th class="meal-type-header">Meal Type</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let diet of transformedDiets" (click)="showDietDetails(diet)" class="clickable-row">
-              <td>
-                <h2>{{ diet.date }}</h2>
-              </td>
-              <td>
-                {{ diet.name }}
-              </td>
-              <td>
-                {{ diet.isTemplate ? 'Yes' : 'No' }}
-              </td>
+            <!-- Each row represents a meal type, each cell a day's meal -->
+            <!-- Breakfast Row -->
+            <tr>
+              <td class="meal-type">Breakfast</td>
+              <td>{{getDayMeal(0, 'Breakfast')}}</td>
+              <td>{{getDayMeal(1, 'Breakfast')}}</td>
+              <td>{{getDayMeal(2, 'Breakfast')}}</td>
+              <td>{{getDayMeal(3, 'Breakfast')}}</td>
+              <td>{{getDayMeal(4, 'Breakfast')}}</td>
+              <td>{{getDayMeal(5, 'Breakfast')}}</td>
+              <td>{{getDayMeal(6, 'Breakfast')}}</td>
+            </tr>
+            
+            <!-- Morning Snack Row -->
+            <tr>
+              <td class="meal-type">Morning Snack</td>
+              <td>{{getDayMeal(0, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(1, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(2, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(3, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(4, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(5, 'Morning Snack')}}</td>
+              <td>{{getDayMeal(6, 'Morning Snack')}}</td>
+            </tr>
+            
+            <!-- Lunch Row -->
+            <tr>
+              <td class="meal-type">Lunch</td>
+              <td>{{getDayMeal(0, 'Lunch')}}</td>
+              <td>{{getDayMeal(1, 'Lunch')}}</td>
+              <td>{{getDayMeal(2, 'Lunch')}}</td>
+              <td>{{getDayMeal(3, 'Lunch')}}</td>
+              <td>{{getDayMeal(4, 'Lunch')}}</td>
+              <td>{{getDayMeal(5, 'Lunch')}}</td>
+              <td>{{getDayMeal(6, 'Lunch')}}</td>
+            </tr>
+            
+            <!-- Afternoon Snack Row -->
+            <tr>
+              <td class="meal-type">Afternoon Snack</td>
+              <td>{{getDayMeal(0, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(1, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(2, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(3, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(4, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(5, 'Afternoon Snack')}}</td>
+              <td>{{getDayMeal(6, 'Afternoon Snack')}}</td>
+            </tr>
+            
+            <!-- Dinner Row -->
+            <tr>
+              <td class="meal-type">Dinner</td>
+              <td>{{getDayMeal(0, 'Dinner')}}</td>
+              <td>{{getDayMeal(1, 'Dinner')}}</td>
+              <td>{{getDayMeal(2, 'Dinner')}}</td>
+              <td>{{getDayMeal(3, 'Dinner')}}</td>
+              <td>{{getDayMeal(4, 'Dinner')}}</td>
+              <td>{{getDayMeal(5, 'Dinner')}}</td>
+              <td>{{getDayMeal(6, 'Dinner')}}</td>
             </tr>
           </tbody>
         </table>
-      } @else {
-        <div class="no-data-message">No diets available for this client.</div>
-      }
+      </div>
+    </div>
+
+    <!-- Back button at the bottom of the page -->
+    <div class="page-header" style="text-align: center; margin-top: 20px; margin-bottom: 20px; width: 100%;">
+      <button type="button" class="primary-button back-button" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
     </div>
   </div>
-</div>
-
-
-<!-- Diet Details Modal -->
-<div class="diet-details-modal" [style.display]="selectedDiet ? 'block' : 'none'">
-  <div class="modal-content">
-    <span class="close" (click)="closeDietDetails()">&times;</span>
-    <h2>Diet Details: {{selectedDiet?.name || ''}}</h2>
-    <p><strong>Date:</strong> {{selectedDiet?.date || ''}}</p>
-    <p><strong>Type:</strong> {{selectedDiet?.isTemplate ? 'Template' : 'Regular Diet'}}</p>
-    
-    <!-- Complete meal table with dynamic content -->
-    <table class="horizontal-diet-table">
-      <thead>
-        <tr>
-          <th class="meal-type-header">Meal Type</th>
-          <th>Monday</th>
-          <th>Tuesday</th>
-          <th>Wednesday</th>
-          <th>Thursday</th>
-          <th>Friday</th>
-          <th>Saturday</th>
-          <th>Sunday</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Breakfast Row -->
-        <tr>
-          <td class="meal-type">Breakfast</td>
-          <td>{{getDayMeal(0, 'Breakfast')}}</td>
-          <td>{{getDayMeal(1, 'Breakfast')}}</td>
-          <td>{{getDayMeal(2, 'Breakfast')}}</td>
-          <td>{{getDayMeal(3, 'Breakfast')}}</td>
-          <td>{{getDayMeal(4, 'Breakfast')}}</td>
-          <td>{{getDayMeal(5, 'Breakfast')}}</td>
-          <td>{{getDayMeal(6, 'Breakfast')}}</td>
-        </tr>
-        
-        <!-- Morning Snack Row -->
-        <tr>
-          <td class="meal-type">Morning Snack</td>
-          <td>{{getDayMeal(0, 'Morning Snack')}}</td>
-          <td>{{getDayMeal(1, 'Morning Snack')}}</td>
-          <td>{{getDayMeal(2, 'Morning Snack')}}</td>
-          <td>{{getDayMeal(3, 'Morning Snack')}}</td>
-          <td>{{getDayMeal(4, 'Morning Snack')}}</td>
-          <td>{{getDayMeal(5, 'Morning Snack')}}</td>
-          <td>{{getDayMeal(6, 'Morning Snack')}}</td>
-        </tr>
-        
-        <!-- Lunch Row -->
-        <tr>
-          <td class="meal-type">Lunch</td>
-          <td>{{getDayMeal(0, 'Lunch')}}</td>
-          <td>{{getDayMeal(1, 'Lunch')}}</td>
-          <td>{{getDayMeal(2, 'Lunch')}}</td>
-          <td>{{getDayMeal(3, 'Lunch')}}</td>
-          <td>{{getDayMeal(4, 'Lunch')}}</td>
-          <td>{{getDayMeal(5, 'Lunch')}}</td>
-          <td>{{getDayMeal(6, 'Lunch')}}</td>
-        </tr>
-        
-        <!-- Afternoon Snack Row -->
-        <tr>
-          <td class="meal-type">Afternoon Snack</td>
-          <td>{{getDayMeal(0, 'Afternoon Snack')}}</td>
-          <td>{{getDayMeal(1, 'Afternoon Snack')}}</td>
-          <td>{{getDayMeal(2, 'Afternoon Snack')}}</td>
-          <td>{{getDayMeal(3, 'Afternoon Snack')}}</td>
-          <td>{{getDayMeal(4, 'Afternoon Snack')}}</td>
-          <td>{{getDayMeal(5, 'Afternoon Snack')}}</td>
-          <td>{{getDayMeal(6, 'Afternoon Snack')}}</td>
-        </tr>
-        
-        <!-- Dinner Row -->
-        <tr>
-          <td class="meal-type">Dinner</td>
-          <td>{{getDayMeal(0, 'Dinner')}}</td>
-          <td>{{getDayMeal(1, 'Dinner')}}</td>
-          <td>{{getDayMeal(2, 'Dinner')}}</td>
-          <td>{{getDayMeal(3, 'Dinner')}}</td>
-          <td>{{getDayMeal(4, 'Dinner')}}</td>
-          <td>{{getDayMeal(5, 'Dinner')}}</td>
-          <td>{{getDayMeal(6, 'Dinner')}}</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    
-  </div>
-  
-
-</div>
-<div class="page-header" style="text-align: center; margin-top: 20px; margin-bottom: 20px; width: 100%;">
-  <button type="button" class="primary-button back-button" (click)="goBack()">
-    <i class="fas fa-arrow-left"></i> Back
-  </button>
 </div>

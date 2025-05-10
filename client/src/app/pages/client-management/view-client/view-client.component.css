@@ -1,3 +1,4 @@
+/* Container for centering content horizontally and vertically */
 .flex-container {
     width: 100%;
     display: flex;
@@ -6,6 +7,7 @@
     margin-bottom: 20px;
 }
 
+/* Main box with padding and vertical layout for viewing client details */
 .primary-hover-box {
     display: flex;
     flex-direction: column;
@@ -15,11 +17,13 @@
     gap: 20px;
 }
 
+/* Title styling: centered and large font */
 .title {
     text-align: center;
     font-size: xx-large;
 }
 
+/* Container for client details: vertical layout, max width */
 .details-container {
     display: flex;
     flex-direction: column;
@@ -29,6 +33,7 @@
     width: 100%;
 }
 
+/* Each detail item: box with border, background, and shadow */
 .detail-item {
     display: flex;
     flex-direction: column;
@@ -40,6 +45,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Value inside each detail item: larger font, padding */
 .detail-value {
     font-size: 20px;
     color: #333;

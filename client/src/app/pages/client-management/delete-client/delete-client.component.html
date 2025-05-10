@@ -1,11 +1,19 @@
+<!-- Main page wrapper -->
 <div class="page">
+  <!-- Navigation bar at the top -->
   <app-nav-bar></app-nav-bar>
+  <!-- Centered container for the delete client box -->
   <div class="flex-container">
     <div class="primary-hover-box">
+      <!-- Page title -->
       <h1 class="title">Delete Client</h1>
+      <!-- Confirmation message -->
       <p>Are you sure you want to delete this client?</p>
+      <!-- Action buttons: Cancel and Delete -->
       <div class="button-container">
+        <!-- Cancel button: returns to previous page or cancels action -->
         <button type="button" class="primary-button" (click)="cancel()">Cancel</button>
+        <!-- Delete button: triggers client deletion -->
         <button type="button" class="primary-button-danger" (click)="deleteClient()">Delete Client</button>
       </div>
     </div>

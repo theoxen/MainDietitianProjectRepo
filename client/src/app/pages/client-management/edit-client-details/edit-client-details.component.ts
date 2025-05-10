@@ -14,7 +14,10 @@ import { combineLatest } from 'rxjs';
 import { ClientProfileUpdate } from '../../../models/client-management/client-update';
 import { ToastrService } from 'ngx-toastr';
 
-
+/**
+ * Component for editing a client's details.
+ * Handles form population, validation, and update logic.
+ */
 @Component({
   selector: 'app-edit-client-details',
   standalone: true,
@@ -23,18 +26,22 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./edit-client-details.component.css']
 })
 export class EditClientDetailsComponent {
+  // Injected services for API calls and dropdowns
   clientManagementService = inject(ClientManagementService);
   dietTypeService = inject(DietTypesService);
   
+  // Dropdown options for diet types
   dietTypeDropdownOptions: DropdownItem<string, string>[] = [];
+  // Current client ID from route
   clientId: string | null = null;
+  // Loaded client details
   client: ClientProfile | null = null;
 
+  // Controls for error display in input fields
   displayErrorOnControlTouched = true;
   displayErrorOnControlDirty = true;
 
-  
-
+  // Reactive form for editing client details
   clientUpdateForm = new FormGroup({
     "FullName": new FormControl('', [
       Validators.pattern(ValidationPatterns.fullName),
@@ -57,6 +64,7 @@ export class EditClientDetailsComponent {
     ]),
   });
 
+  // Error messages for each field
   fullNameErrorMessages = new Map<string, string>([
     ["required", ValidationMessages.required],
     ["pattern", ValidationMessages.fullName]
@@ -80,11 +88,17 @@ export class EditClientDetailsComponent {
   dietTypeErrorMessages = new Map<string, string>([
     ["required", ValidationMessages.required]
   ]);
+
+  // Flags for duplicate email/phone errors
   emailExists: boolean | undefined;
   phoneNumberExists: boolean | undefined;
 
   constructor(private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
+  /**
+   * On component initialization, load client details and diet types.
+   * Populate the form with existing client data.
+   */
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.clientId = this.route.snapshot.paramMap.get('clientId');
@@ -98,23 +112,20 @@ export class EditClientDetailsComponent {
     combineLatest([client$, diets$]).subscribe({
       next: ([client, dietTypes]) => {
         this.client = client;
-        //console.log('Client details:', client); // Debugging statement
-        //console.log('Diet types:', dietTypes); // Debugging statement
 
         // Populate the diet dropdown options
         this.dietTypeDropdownOptions = dietTypes.map(dietType => ({
           value: dietType.id,
           displayedValue: dietType.name
         }));
-        //console.log('Diet dropdown options:', this.dietTypeDropdownOptions); // Debugging statement
 
-        // Set form values
+        // Set form values from loaded client
         this.clientUpdateForm.controls.FullName.setValue(client.fullName);
         this.clientUpdateForm.controls.PhoneNumber.setValue(client.phoneNumber);
         this.clientUpdateForm.controls.Email.setValue(client.email);
         this.clientUpdateForm.controls.Height.setValue(client.height);
 
-        // Find and set matching diet type
+        // Find and set matching diet type in dropdown
         const matchingDiet = this.dietTypeDropdownOptions.find(
           diet => diet.displayedValue === client.dietTypeName
         );
@@ -126,18 +137,23 @@ export class EditClientDetailsComponent {
       error: (error) => {
         console.error('Error loading client details or diet types:', error);
       }
-
     });
-    
   }
+
+  /**
+   * Submit the form to update client details.
+   * Handles validation, duplicate errors, and navigation.
+   */
   updateClient() {
     if (!this.clientId) return;
     if(this.clientUpdateForm.valid) {
 
+      // Only update if the form has been modified
       if (!this.clientUpdateForm.dirty) {
         return;
       }
         
+      // Prepare the update object from form values
       const clientProfileUpdate: ClientProfileUpdate = {
         userId: this.clientId!,
         fullName: this.clientUpdateForm.controls.FullName.value!,
@@ -149,11 +165,12 @@ export class EditClientDetailsComponent {
     
       this.clientManagementService.updateClient(clientProfileUpdate).subscribe({
         next: (response) => {
-          // console.log('Client updated successfully:', response);
+          // Show success message and navigate to client details page
           this.toastr.success('Client updated successfully', 'Success');
           this.router.navigate([`/clients/${this.clientId}`]);
         },
         error: (error) => {
+          // Handle duplicate email/phone errors
           console.error('Error updating client:', error);
           this.emailExists = false;
           this.phoneNumberExists = false;   
@@ -170,10 +187,14 @@ export class EditClientDetailsComponent {
         }
       });
     } else {
+      // Mark all fields as touched to show validation errors
       this.clientUpdateForm.markAllAsTouched();
     }
-    
   }
+
+  /**
+   * Cancel editing and navigate back to the previous page.
+   */
   cancel(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
