@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    // Inherits from BaseApiController which contains common API functionality
     public class AppointmentsController : BaseApiController
     {
         private readonly IAppointmentService _appointmentService;
@@ -14,21 +15,21 @@ namespace API.Controllers
             _appointmentService = appointmentService;
         }
 
-        [HttpPost(Endpoints.Appointments.Make)]
+        [HttpPost(Endpoints.Appointments.Make)] // url example: http://localhost:5207/api/appointments 
         public async Task<IActionResult> MakeAnAppointmentAsync(MakeAnAppointmentDto makeAnAppointmentDto)
         {
             var result = await _appointmentService.MakeAnAppointmentAsync(makeAnAppointmentDto);
             return MapToHttpResponse(result);
         }
 
-        [HttpDelete(Endpoints.Appointments.Cancel)] // url example: http://localhost:5207/api/metrics/131c296e-75cd-476b-ad9b-a430d986c736
+        [HttpDelete(Endpoints.Appointments.Cancel)] // url example: http://localhost:5207/api/appointments/4d34d6c2-c1a0-40ea-5ebd-08dd72ce4f47
         public async Task<IActionResult> CancelAppointmentAsync(Guid appointmentId)
         {
             var result = await _appointmentService.CancelAppointmentAsync(appointmentId);
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Appointments.View)] // url example: http://localhost:5207/api/metrics/view-metrics?MetricsId=131c296e-75cd-476b-ad9b-a430d986c736
+        [HttpGet(Endpoints.Appointments.View)] // url example: http://localhost:5207/api/appointments/aa18db95-dddd-46ee-384d-08dd649a4678
         public async Task<IActionResult> ViewAppointmentsAsync(Guid appointmentId)
         {
             var result = await _appointmentService.ViewAppointmetsAsync(appointmentId);
@@ -36,7 +37,7 @@ namespace API.Controllers
         }
         
 
-         [HttpGet(Endpoints.Appointments.Search)] // url example: http://localhost:5207/api/metrics/search?userId=131c296e-75cd-476b-ad9b-a430d986c736&date=2021-09-01&date=2021-09-30
+         [HttpGet(Endpoints.Appointments.Search)] // url example: http://localhost:5207/api/appointments/search?date=2025-03-16
         public async Task<IActionResult> SearchAppointmentsAsync([FromQuery] DateTime? date)
         {
             var result = await _appointmentService.SearchAppointmentsAsync(date);

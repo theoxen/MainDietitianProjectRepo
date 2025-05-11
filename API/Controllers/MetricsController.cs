@@ -14,35 +14,35 @@ namespace API.Controllers
             _metricsService = metricsService;
         }
 
-        [HttpPost(Endpoints.Metrics.Add)]
+        [HttpPost(Endpoints.Metrics.Add)] // url example: http://localhost:5207/api/metrics/add
         public async Task<IActionResult> AddMetricsAsync(AddMetricsDto addMetricsDto)
         {
             var result = await _metricsService.AddMetricsAsync(addMetricsDto);
             return MapToHttpResponse(result);
         }
 
-        [HttpDelete(Endpoints.Metrics.Delete)] // url example: http://localhost:5207/api/metrics/131c296e-75cd-476b-ad9b-a430d986c736
+        [HttpDelete(Endpoints.Metrics.Delete)] // url example: http://localhost:5207/api/metrics/1b9adb82-9dbe-4453-0edf-08dd5f3f842a
         public async Task<IActionResult> DeleteMetricsAsync(Guid metricsId)
         {
             var result = await _metricsService.DeleteMetricsAsync(metricsId);
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Metrics.ViewMetrics)] // url example: http://localhost:5207/api/metrics/view-metrics?MetricsId=131c296e-75cd-476b-ad9b-a430d986c736
+        [HttpGet(Endpoints.Metrics.ViewMetrics)] // url example: http://localhost:5207/api/metrics/1b9adb82-9dbe-4453-0edf-08dd5f3f842a
         public async Task<IActionResult> ViewMetricsAsync(Guid metricsId)
         {
             var result = await _metricsService.ViewMetricsAsync(metricsId);
             return MapToHttpResponse(result);
         }
 
-        [HttpPut(Endpoints.Metrics.EditMetrics)] // UPDATE IS HTTP PUT!
+        [HttpPut(Endpoints.Metrics.EditMetrics)] // url example: http://localhost:5207/api/metrics
         public async Task<IActionResult> EditMetricsAsync(EditMetricsDto editMetricsDto)
         {
             var result = await _metricsService.EditMetricsAsync(editMetricsDto);
             return MapToHttpResponse(result);
         }
 
-        [HttpGet(Endpoints.Metrics.SearchMetrics)] // url example: http://localhost:5207/api/metrics/search?userId=131c296e-75cd-476b-ad9b-a430d986c736&date=2021-09-01&date=2021-09-30
+        [HttpGet(Endpoints.Metrics.SearchMetrics)] // url example:http://localhost:5207/api/metrics/search?userid=6fc82001-ac82-4689-9ca0-bb96ebe2eff3&date=2025-03-09
         public async Task<IActionResult> SearchMetricsAsync([FromQuery] Guid userId, [FromQuery] DateTime? date)
         {
             var result = await _metricsService.SearchMetricsAsync(userId, date);
