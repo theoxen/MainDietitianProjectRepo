@@ -1,3 +1,4 @@
+/* Container for centering content horizontally and vertically */
 .flex-container {
   width: 100%;
   display: flex;
@@ -6,6 +7,7 @@
   margin-bottom: 20px;
 }
 
+/* Main box with padding and vertical layout for delete client section */
 .primary-hover-box {
   display: flex;
   flex-direction: column;
@@ -15,32 +17,37 @@
   gap: 20px;
 }
 
+/* Title styling: centered and large font */
 .title {
   text-align: center;
   font-size: xx-large;
 }
 
+/* Text area for input: full width */
 .primary-text-area {
   max-width: 100%;
   width: 100%;
 }
 
+/* Container for action buttons: space between, horizontal gap */
 .button-container {
   display: flex;
   justify-content: space-between;
-  
   gap: 20px;
 }
 
+/* Danger button: spacing and gap for visual separation */
 .primary-button-danger {
   margin-top: 10px; /* Adjust this value to move the button down */
   gap: 20px;
 }
 
+/* Standard primary button: spacing at the top */
 .primary-button {
   margin-top: 10px;
 }
 
+/* Responsive adjustments for small screens */
 @media screen and (max-width: 520px) {
   .primary-button {
       width: fit-content;
@@ -52,7 +59,8 @@
       color: white;
       margin-top: 10px;
       gap: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);    }
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for emphasis */
+  }
 
   .primary-hover-box {
       padding-left: 30px;

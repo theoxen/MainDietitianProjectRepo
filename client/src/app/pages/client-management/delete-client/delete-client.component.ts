@@ -7,7 +7,10 @@ import { NavBarComponent } from "../../../components/nav-bar/nav-bar.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-
+/**
+ * Component for deleting a client.
+ * Shows a confirmation and handles the delete action.
+ */
 @Component({
   selector: 'app-delete-client',
   standalone: true,
@@ -16,8 +19,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./delete-client.component.css']
 })
 export class DeleteClientComponent implements OnInit {
+  // Holds the client ID to delete
   clientId: string | null = null;
+  // Success message to display after deletion
   successMessage: string | null = null;
+  // Error message to display if deletion fails
   errorMessage: string | null = null;
 
   constructor(
@@ -27,23 +33,32 @@ export class DeleteClientComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
+  /**
+   * On component initialization, get the client ID from the route.
+   */
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.clientId = this.route.snapshot.paramMap.get('clientId');
   }
 
+  /**
+   * Cancel the deletion and navigate back to the previous page.
+   */
   cancel(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
+  /**
+   * Delete the client by ID.
+   * Shows a success or error message and navigates after deletion.
+   */
   deleteClient(): void {
     if (!this.clientId) {
       this.toastr.error('Client ID not found', 'Error');
       return;
     }
 
-    // console.log('Deleting client:', this.clientId);
-
+    // Call the service to delete the client
     this.clientManagementService.deleteClient(this.clientId).subscribe({
       next: () => {
         this.toastr.success('Client deleted successfully', 'Success');

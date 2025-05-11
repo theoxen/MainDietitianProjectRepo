@@ -1,89 +1,96 @@
-/* Add these styles to client-history.component.css */
+/* Container for metrics section, centers content horizontally and vertically */
 .metrics-container {
     margin: 20px 0;
-        /*center the container*/
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
+/* Container for notes section, also centered */
 .note-container {
     margin: 20px 0;
-        /*center the container*/
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
-  /* Add this to preserve line breaks in note text */
+/* Ensures line breaks in note text are respected */
 .note-text {
   white-space: pre-line;
 }
 
-  .details-container {
+/* Container for details section, centered like others */
+.details-container {
     margin: 20px 0;
-        /*center the container*/
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
-
-  .header {
-    /*center the container*/
+/* Header styling, aligns items to the center vertically */
+.header {
     align-items: center;  
 }
   
-  table {
+/* General table styling: full width and no spacing between borders */
+table {
     width: 100%;
     border-collapse: collapse;
-  }
+}
   
-  thead {
+/* Table header row: uses flex to space out columns */
+thead {
     display: flex;
     justify-content: space-between;
     width: 100%;
-  }
+}
   
-  tr {
+/* Table row: flex layout for horizontal alignment, spacing, and border */
+tr {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 10px 0;
     border-bottom: 1px solid #eee;
-  }
+}
   
-  th {
+/* Table header cell: fixed width and centered text */
+th {
     width: 130px;
     text-align: center;
-  }
+}
   
-  td {
+/* Table data cell: fixed width and right-aligned text */
+td {
     width: 120px;
     text-align: right;
-  }
+}
   
-  td h2 {
+/* Heading inside table cell: smaller font, left-aligned, no margin */
+td h2 {
     font-size: 16px;
     width: 100px;
     text-align: left;
     margin: 0;
     font-weight: normal;
-  }
+}
   
-  .thHeaders {
+/* Special header class: right-aligned text */
+.thHeaders {
     width: 130px;
     text-align: right;
-  }
+}
 
-  .title {
+/* Title styling: large font, centered horizontally and vertically */
+.title {
     font-size: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Main title: even larger font, centered */
 .maintitle {
   font-size: 70px;
   display: flex;
@@ -91,7 +98,7 @@
   justify-content: center;
 }
 
-/* Scrollable table with correct scrollbar placement */
+/* Scrollable table container: limits height, adds scroll, centers table */
 .table-container {
     max-height: 300px;
     overflow-y: auto; 
@@ -101,12 +108,13 @@
     border-radius: 10px;
 }
 
-/* Ensure table headers remain fixed */
+/* Ensures table inside scrollable container uses full width and no border spacing */
 .table-container table {
     width: 100%;
     border-collapse: collapse;
 }
 
+/* Makes table headers sticky (fixed at top) when scrolling */
 .table-container thead {
     position: sticky;
     top: 0;
@@ -114,7 +122,7 @@
     z-index: 2;
 }
 
-/* Ensure correct scrollbar position */
+/* Custom scrollbar styling for table container */
 .table-container::-webkit-scrollbar {
     width: 8px;
 }
@@ -128,18 +136,15 @@
     background-color: #555;
 }
 
-/* Existing styles remain... */
-
-/* Diets container styles */
+/* Diets container: centers the diet tables horizontally and vertically */
 .diets-container {
   margin: 20px 0;
-  /* center the container */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Diet table styles */
+/* Table row that is clickable: pointer cursor and hover effect */
 .clickable-row {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -149,7 +154,7 @@
   background-color: #f5f5f5;
 }
 
-/* Diet details modal */
+/* Modal for diet details: covers whole screen, centers modal content, dark overlay */
 .diet-details-modal {
   position: fixed;
   z-index: 1000;
@@ -165,6 +170,7 @@
   padding: 20px 0;
 }
 
+/* Modal content: white box, rounded corners, scrollable if needed */
 .modal-content {
   background-color: #fff;
   margin: 20px auto;
@@ -177,6 +183,7 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
+/* Close button for modal: styled as an 'X', changes color on hover */
 .close {
   color: #aaa;
   float: right;
@@ -189,7 +196,7 @@
   color: black;
 }
 
-/* Horizontal diet table */
+/* Horizontal diet table: used for displaying meal plans horizontally */
 .horizontal-diet-table {
   width: 100%;
   border-collapse: collapse;
@@ -197,6 +204,7 @@
   margin-bottom: 20px;
 }
 
+/* Table header and cell: border, padding, centered text, vertical alignment */
 .horizontal-diet-table th,
 .horizontal-diet-table td {
   border: 1px solid #dee2e6;
@@ -205,22 +213,26 @@
   vertical-align: middle;
 }
 
+/* Header cells: light background, bold text, gray color */
 .horizontal-diet-table th {
   background-color: #f8f9fa;
   font-weight: 600;
   color: #555;
 }
 
+/* Special header for meal type column: fixed width */
 .meal-type-header {
   width: 150px;
 }
 
+/* Meal type cells: light background, bold, left-aligned */
 .meal-type {
   background-color: #f8f9fa;
   font-weight: 600;
   text-align: left;
 }
 
+/* Table data cell: padding, font size, min height, wraps text, breaks long words */
 .horizontal-diet-table td {
   padding: 12px;
   font-size: 14px;

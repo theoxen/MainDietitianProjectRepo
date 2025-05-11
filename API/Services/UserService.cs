@@ -13,6 +13,9 @@ using API.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+/// <summary>
+/// Service for handling all user-related business logic and data access.
+/// </summary>
 namespace API.Services;
 
 public class UserService : IUserService
@@ -25,7 +28,14 @@ public class UserService : IUserService
     private readonly IOtpCache _otpCache;
     private readonly IMessagingService _messagingService;
 
-    public UserService(UserManager<User> userManager, IDietTypeRepository dietTypeRepository, IUserRepository userRepository, JwtService jwtService, IOtpGenerator otpGenerator, IOtpCache otpCache, IMessagingService messagingService)
+    public UserService(
+        UserManager<User> userManager,
+        IDietTypeRepository dietTypeRepository,
+        IUserRepository userRepository,
+        JwtService jwtService,
+        IOtpGenerator otpGenerator,
+        IOtpCache otpCache,
+        IMessagingService messagingService)
     {
         _userManager = userManager;
         _dietTypeRepository = dietTypeRepository;
@@ -36,10 +46,14 @@ public class UserService : IUserService
         _messagingService = messagingService;
     }
 
+    /// <summary>
+    /// Registers a new client after validating all fields.
+    /// </summary>
     public async Task<Result<Empty>> RegisterClientAsync(RegisterClientDto registerClientDto)
     {
         List<ResultError> validationErrors = new();
 
+        // Validate height (must be 2 or 3 digits)
         if (!Regex.IsMatch(registerClientDto.Height.ToString(), @"^\d{1,3}$"))
         {
             validationErrors.Add(new ResultError
@@ -49,6 +63,7 @@ public class UserService : IUserService
             });
         }
 
+        // Validate phone number (digits only)
         if (!Regex.IsMatch(registerClientDto.PhoneNumber, @"^\d+$"))
         {
             validationErrors.Add(new ResultError
@@ -58,7 +73,7 @@ public class UserService : IUserService
             });
         }
 
-        // Validate email with regex: ^[^@\s]+@[^@\s]+\.[^@\s]+$
+        // Validate email format
         if (!Regex.IsMatch(registerClientDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
         {
             validationErrors.Add(new ResultError
@@ -68,6 +83,7 @@ public class UserService : IUserService
             });
         }
 
+        // Validate password complexity
         if (!Regex.IsMatch(registerClientDto.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$"))
         {
             validationErrors.Add(new ResultError
@@ -77,7 +93,8 @@ public class UserService : IUserService
             });
         }
 
-        if (!Enum.TryParse<Genders>(registerClientDto.Gender, out Genders gender)) // Tries to match the gender to any of our enums. Out creates a variable (outside of the if scope)
+        // Validate gender (must match enum)
+        if (!Enum.TryParse<Genders>(registerClientDto.Gender, out Genders gender))
         {
             validationErrors.Add(new ResultError
             {
@@ -86,6 +103,7 @@ public class UserService : IUserService
             });
         }
 
+        // Check for duplicate phone number
         bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(registerClientDto.PhoneNumber);
         if (phoneNumberExists)
         {
@@ -96,6 +114,7 @@ public class UserService : IUserService
             });
         }
 
+        // Check for duplicate email
         var userExistsFromEmail = await _userManager.FindByEmailAsync(registerClientDto.Email);
         if (userExistsFromEmail != null)
         {
@@ -106,17 +125,20 @@ public class UserService : IUserService
             });
         }
 
+        // If any validation errors, return them
         if (validationErrors.Count > 0)
         {
             return Result<Empty>.BadRequest(validationErrors);
         }
 
+        // Check if diet type exists
         DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(registerClientDto.DietTypeId);
         if (dietType == null)
         {
             return Result<Empty>.NotFound();
         }
 
+        // Trim and prepare user data
         registerClientDto.FullName = UserHelperFunctions.TrimFullName(registerClientDto.FullName);
 
         User user = new()
@@ -131,6 +153,7 @@ public class UserService : IUserService
             Height = registerClientDto.Height,
         };
 
+        // Create user in database
         var userResult = await _userManager.CreateAsync(user, registerClientDto.Password);
         if (!userResult.Succeeded)
         {
@@ -138,9 +161,10 @@ public class UserService : IUserService
             {
                 Identifier = x.Code,
                 Message = x.Description
-            }).ToList()); // Iterating through the userResult errors and creating a new list of ResultError
+            }).ToList());
         }
 
+        // Assign "client" role to user
         var roleResult = await _userManager.AddToRoleAsync(user, "client");
         if (!roleResult.Succeeded)
         {
@@ -154,8 +178,12 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
+    /// <summary>
+    /// Handles user login and returns a JWT token if successful.
+    /// </summary>
     public async Task<Result<UserDto>> LoginUserAsync(LoginUserDto loginUserDto)
     {
+        // Validate password complexity
         if (!Regex.IsMatch(loginUserDto.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$"))
         {
             return Result<UserDto>.BadRequest(new List<ResultError>
@@ -168,20 +196,24 @@ public class UserService : IUserService
             });
         }
 
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == loginUserDto.PhoneNumber); // FirstOrDefault instead of SingleOrDefault so it doesnt perform duplication checks
+        // Find user by phone number
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == loginUserDto.PhoneNumber);
         if (user == null)
         {
             return Result<UserDto>.Unauthorized();
         }
 
+        // Check password
         var result = await _userManager.CheckPasswordAsync(user, loginUserDto.Password);
         if (!result)
         {
             return Result<UserDto>.Unauthorized();
         }
 
+        // Get user roles
         string[] roles = (await _userManager.GetRolesAsync(user)).ToArray();
 
+        // Prepare user DTO with JWT token
         UserDto userDto = new()
         {
             FullName = user.FullName!,
@@ -191,10 +223,14 @@ public class UserService : IUserService
         return Result<UserDto>.Ok(userDto);
     }
 
+    /// <summary>
+    /// Sends an OTP to the user's email for password reset.
+    /// </summary>
     public async Task<Result<Empty>> SendOtpAsync(string email)
     {
         List<ResultError> validationErrors = new();
 
+        // Check if user exists by email
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
@@ -206,15 +242,15 @@ public class UserService : IUserService
             return Result<Empty>.BadRequest(validationErrors);
         }
 
+        // Generate OTP and store in cache
         string otp = _otpGenerator.GenerateOtp();
-
         var result = await _otpCache.StoreOtpAsync(otp, email);
         if (!result.IsSuccessful)
         {
             return Result<Empty>.BadRequest(result.ResultErrors);
         }
 
-        // Send the otp to the user via email
+        // Send OTP via email
         var emailResult = await _messagingService.SendEmail(email, "Password Reset OTP", $"Your OTP is: {otp}. Expires in 5 minutes.");
 
         if (!emailResult)
@@ -225,11 +261,14 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
-
+    /// <summary>
+    /// Verifies the OTP for password reset.
+    /// </summary>
     public async Task<Result<Empty>> VerifyOtpAsync(string email, string otp)
     {
         List<ResultError> validationErrors = new();
 
+        // Check if user exists by email
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
@@ -241,7 +280,7 @@ public class UserService : IUserService
             return Result<Empty>.BadRequest(validationErrors);
         }
 
-
+        // Retrieve OTP from cache
         var otpRetrieved = await _otpCache.RetrieveOtpAsync(email);
         if (otpRetrieved is null)
         {
@@ -253,7 +292,8 @@ public class UserService : IUserService
             return Result<Empty>.BadRequest(validationErrors);
         }
 
-        if (!otpRetrieved.Equals(otp)) // Checking the otp retrieved from cache and the otp that we are provided with the user
+        // Check if OTP matches
+        if (!otpRetrieved.Equals(otp))
         {
             return Result<Empty>.BadRequest([new ResultError{
                 Identifier = "OtpInvalid",
@@ -264,8 +304,12 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
+    /// <summary>
+    /// Changes the user's password after OTP verification.
+    /// </summary>
     public async Task<Result<Empty>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
     {
+        // Validate password complexity
         if (!Regex.IsMatch(changePasswordDto.NewPassword, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$"))
         {
             return Result<Empty>.BadRequest(new List<ResultError>
@@ -292,9 +336,8 @@ public class UserService : IUserService
             return Result<Empty>.NotFound();
         }
 
-        // Generating dummy token to authorize the user to change the password because we already checked the OTP
+        // Generate token and reset password
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        // Reset user password
         var result = await _userManager.ResetPasswordAsync(user, token, changePasswordDto.NewPassword);
 
         if (!result.Succeeded)
@@ -306,24 +349,15 @@ public class UserService : IUserService
             }).ToList());
         }
 
-        // THE FOLLOWING COMMENTED OUT PART IS FOR DIRECTLY LOGGING IN THE USER AFTER CHANGING THE PASSWORD INSTEAD OF TRANSFERING THEM TO THE LOGIN PAGE.
-        // Get the user roles
-        // string[] roles = (await _userManager.GetRolesAsync(user)).ToArray();
-
-        // // Create a new UserDto
-        // UserDto userDto = new()
-        // {
-        //     FullName = user.FullName!,
-        //     Roles = roles,
-        //     Token = _jwtService.GenerateSecurityToken(user, roles)
-        // };
-
         // Remove the otp from cache
         await _otpCache.RemoveOtpAsync(changePasswordDto.Email);
 
         return Result<Empty>.Ok(new Empty());
     }
 
+    /// <summary>
+    /// Returns a user's profile by their ID.
+    /// </summary>
     public async Task<Result<UserProfileDto>> ViewClientProfileAsync(Guid id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
@@ -332,14 +366,13 @@ public class UserService : IUserService
             return Result<UserProfileDto>.NotFound();
         }
 
-
         string dietTypeName = "Unknown";
         if (user.DietTypeId.HasValue)
         {
             var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
             if (dietType != null)
             {
-                dietTypeName = dietType.Name; // Assuming DietType has a Name property
+                dietTypeName = dietType.Name;
             }
         }
 
@@ -356,6 +389,9 @@ public class UserService : IUserService
         return Result<UserProfileDto>.Ok(userProfileDto);
     }
 
+    /// <summary>
+    /// Returns a user's profile by their ID (alternative method).
+    /// </summary>
     public async Task<Result<UserProfileDto>> GetUserByIdAsync(Guid userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -370,7 +406,7 @@ public class UserService : IUserService
             var dietType = await _dietTypeRepository.GetDietTypeByIdAsync(user.DietTypeId.Value);
             if (dietType != null)
             {
-                dietTypeName = dietType.Name; // Assuming DietType has a Name property
+                dietTypeName = dietType.Name;
             }
         }
 
@@ -387,6 +423,9 @@ public class UserService : IUserService
         return Result<UserProfileDto>.Ok(userProfileDto);
     }
     
+    /// <summary>
+    /// Deletes a user by their ID.
+    /// </summary>
     public async Task<Result<Empty>> DeleteUserAsync(Guid id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
@@ -408,8 +447,12 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
+    /// <summary>
+    /// Updates a user's profile information.
+    /// </summary>
     public async Task<Result<Empty>> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto)
     {
+        // Validate height
         if (!Regex.IsMatch(userProfileUpdateDto.Height.ToString(), @"^\d{1,3}$"))
         {
             return Result<Empty>.BadRequest(new List<ResultError>
@@ -421,6 +464,7 @@ public class UserService : IUserService
             });
         }
 
+        // Validate phone number
         if (!Regex.IsMatch(userProfileUpdateDto.PhoneNumber, @"^\d+$"))
         {
             return Result<Empty>.BadRequest(new List<ResultError>
@@ -433,6 +477,7 @@ public class UserService : IUserService
             });
         }
 
+        // Validate email
         if (!Regex.IsMatch(userProfileUpdateDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
         {
             return Result<Empty>.BadRequest(new List<ResultError>
@@ -442,22 +487,24 @@ public class UserService : IUserService
                     Identifier = "Email",
                     Message = "Invalid email"
                 }
-                });
+            });
         }
 
+        // Find user by ID
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userProfileUpdateDto.UserId);
         if (user == null)
         {
             return Result<Empty>.NotFound();
         }
 
+        // Check if diet type exists
         DietType? dietType = await _dietTypeRepository.GetDietTypeByIdAsync(userProfileUpdateDto.DietTypeId);
         if (dietType == null)
         {
             return Result<Empty>.NotFound();
         }
 
-        // Check if phone number already exists
+        // Check for duplicate phone number (if changed)
         bool phoneNumberExists = await _userRepository.DoesPhoneNumberExistAsync(userProfileUpdateDto.PhoneNumber);
         if (phoneNumberExists && user.PhoneNumber != userProfileUpdateDto.PhoneNumber)
         {
@@ -471,7 +518,7 @@ public class UserService : IUserService
             });
         }
 
-        // Check if email already exists
+        // Check for duplicate email (if changed)
         var userExistsFromEmail = await _userManager.FindByEmailAsync(userProfileUpdateDto.Email);
         if (userExistsFromEmail != null && userExistsFromEmail.Id != userProfileUpdateDto.UserId)
         {
@@ -484,8 +531,6 @@ public class UserService : IUserService
                 }
             });
         }
-
-        // NO NEED TO CHECK FOR EQUAL CONTENT OF THE FIELDS BECAUSE USERMANAGER DOES NOT RETURN AN ERROR IF THE NEW VALUE IS THE SAME AS THE OLD VALUE
 
         // Update user properties
         user.FullName = userProfileUpdateDto.FullName;
@@ -508,8 +553,12 @@ public class UserService : IUserService
         return Result<Empty>.Ok(new Empty());
     }
 
+    /// <summary>
+    /// Gets a user's ID by their phone number.
+    /// </summary>
     public async Task<Result<Guid>> GetUserIdByPhoneNumberAsync(string phoneNumber)
     {
+        // Validate phone number
         if (!Regex.IsMatch(phoneNumber, @"^\d+$"))
         {
             return Result<Guid>.BadRequest(new List<ResultError>
@@ -521,6 +570,7 @@ public class UserService : IUserService
             });
         }
 
+        // Find user by phone number
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         if (user == null)
         {
@@ -530,6 +580,9 @@ public class UserService : IUserService
         return Result<Guid>.Ok(user.Id);
     }
 
+    /// <summary>
+    /// Gets all clients (without IDs).
+    /// </summary>
     public async Task<Result<IEnumerable<UserProfileDto>>> GetAllClientsAsync()
     {
         var users = await _userManager.Users.ToListAsync();
@@ -547,6 +600,9 @@ public class UserService : IUserService
         return Result<IEnumerable<UserProfileDto>>.Ok(userProfiles);
     }
 
+    /// <summary>
+    /// Gets all clients (with IDs).
+    /// </summary>
     public async Task<Result<IEnumerable<UserProfileDtoWithId>>> GetAllClientsWithIdAsync()
     {
         var users = await _userManager.Users.ToListAsync();
@@ -564,6 +620,4 @@ public class UserService : IUserService
 
         return Result<IEnumerable<UserProfileDtoWithId>>.Ok(userProfiles);
     }
-
-
 }
