@@ -1,16 +1,29 @@
+<!-- Main page container -->
 <div class="page">
+    <!-- Navigation bar component -->
     <app-nav-bar></app-nav-bar>
+
+    <!-- Main content area with recipe details -->
     <div class="content-container">
+        <!-- Recipe details card with hover effect -->
         <div class="primary-hover-box">
+            <!-- Recipe title with interpolation -->
             <h2>{{ name }}</h2>
+
+            <!-- Recipe ingredients section -->
             <div class="recipe-detail">
                 <strong>Ingredients:</strong>
                 <p>{{ ingredients }}</p>
             </div>
+
+            <!-- Cooking directions section -->
             <div class="recipe-detail">
                 <strong>Directions:</strong>
                 <p>{{ description }}</p>
             </div>
+
+            <!-- Nutritional information section -->
+            <!-- Each detail shows specific nutrient values with units -->
             <div class="recipe-detail">
                 <strong>Protein:</strong>
                 <p>{{ protein }} g</p>
@@ -27,15 +40,23 @@
                 <strong>Calories:</strong>
                 <p>{{ calories }}</p>
             </div>
-            <div class="button-container">
-            <button class="primary-button" [routerLink]="['/uploads/recipes']">Back</button>
-            @if(isadmin){
 
-                <button class="primary-button" [routerLink]="['/uploads/recipes', recipesId, 'edit']">Edit</button>
-                <button class="primary-button" style="background-color: red;" (click)="openConfirmationWindow()">Delete</button>
-            }            
+            <!-- Action buttons container -->
+            <div class="button-container">
+                <!-- Navigation back to recipes list -->
+                <button class="primary-button" [routerLink]="['/uploads/recipes']">Back</button>
+
+                <!-- Admin-only actions with conditional rendering -->
+                @if(isadmin){
+                    <!-- Edit button with dynamic route parameters -->
+                    <button class="primary-button" [routerLink]="['/uploads/recipes', recipesId, 'edit']">Edit</button>
+                    <!-- Delete button with confirmation dialog trigger -->
+                    <button class="primary-button" style="background-color: red;" (click)="openConfirmationWindow()">Delete</button>
+                }            
             </div>
             
+            <!-- Confirmation dialog component for delete action -->
+            <!-- Controlled by visibility flag and emits confirmation event -->
             <app-confirmation-window 
             [isVisible]="isConfirmationWindowVisible" 
             (confirmed)="handleDeleteConfirmation($event)">

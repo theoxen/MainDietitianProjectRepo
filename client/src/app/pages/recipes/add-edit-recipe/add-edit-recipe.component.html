@@ -1,9 +1,18 @@
+<!-- Main page container -->
 <div class="page">
+    <!-- Navigation bar component -->
     <app-nav-bar></app-nav-bar>
+    
+    <!-- Form management container with styling -->
     <div class="form-managment">
+        <!-- Card container with hover effect -->
         <div class="primary-hover-box">
+            <!-- Dynamic title based on edit/add mode -->
             <h2 class="Recipe-title">{{ isEditMode ? 'Edit Recipe' : 'Add Recipe' }}</h2>
+            
+            <!-- Recipe form with reactive form binding -->
             <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+                <!-- Recipe name input field with validation -->
                 <div class="form-group">
                     <app-primary-input-field [label]="'Name'" [placeholder]="'Name'"
                         [control]="recipeForm.controls.name" [errorMessages]="nameErrorMessages"
@@ -11,15 +20,21 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
+
+                <!-- Ingredients textarea with word wrap -->
                 <div class="form-group">
                     <textarea id="ingredients" formControlName="ingredients" class="form-control formatted-textarea"
                         placeholder="Ingredients" wrap="hard"></textarea>
                 </div>
+
+                <!-- Recipe description/directions textarea -->
                 <div class="form-group">
                     <textarea id="description" formControlName="description" class="form-control"
                         placeholder="Description"></textarea>
-
                 </div>
+
+                <!-- Nutritional information inputs -->
+                <!-- Protein input with validation -->
                 <div class="form-group">
                     <app-primary-input-field [label]="'Protein (g)'" [placeholder]="'Protein (g)'"
                         [control]="recipeForm.controls.protein" [errorMessages]="proteinErrorMessages"
@@ -27,6 +42,8 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
+
+                <!-- Carbohydrates input with validation -->
                 <div class="form-group">
                     <app-primary-input-field [label]="'Carbs (g)'" [placeholder]="'Carbs (g)'"
                         [control]="recipeForm.controls.carbs" [errorMessages]="carbsErrorMessages"
@@ -34,6 +51,8 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
+
+                <!-- Fats input with validation -->
                 <div class="form-group">
                     <app-primary-input-field [label]="'Fats (g)'" [placeholder]="'Fats (g)'"
                         [control]="recipeForm.controls.fats" [errorMessages]="fatsErrorMessages"
@@ -41,6 +60,8 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
+
+                <!-- Calories input with validation -->
                 <div class="form-group">
                     <app-primary-input-field [label]="'Calories (kcal/100g)'" [placeholder]="'Calories (kcal/100g)'"
                         [control]="recipeForm.controls.calories" [errorMessages]="caloriesErrorMessages"
@@ -48,8 +69,12 @@
                         [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
                     </app-primary-input-field>
                 </div>
+
+                <!-- Action buttons container -->
                 <div class="button-container">
+                    <!-- Cancel button with relative navigation -->
                     <button type="button" class="primary-button" [routerLink]="['..']">Cancel</button>
+                    <!-- Dynamic submit button text based on mode -->
                     <button type="submit" class="primary-button">
                         {{ isEditMode ? 'Update' : 'Add' }}
                         Recipe</button>
@@ -58,6 +83,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- [routerLink]="['/recipes']" -->

@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace API.Services
 {
+    // Service class that handles all recipe-related operations like CRUD and search
     public class RecipeService : IRecipeService
     {
+        // Dependency injection of recipe repository for data access
         private readonly IRecipeRepository _recipeRepository;
 
         public RecipeService(IRecipeRepository recipeRepository)
@@ -18,17 +20,21 @@ namespace API.Services
         }
      
 /////////////////////////////////////////////////////////////////////Edit Recipes///////////////////////////////////////////////////////////////////////
+        // Handles recipe updates, validates changes, and persists modifications
         public async Task<Result<RecipesDto>> EditRecipe(UpdateRecipeDto updateRecipeDto)
         {
-            var recipe = await _recipeRepository.GetRecipeByIdAsync(updateRecipeDto.Id); // Get the recipe by its id
-            if (recipe == null) // If the recipe is not found
+            // Retrieve existing recipe and verify it exists
+            var recipe = await _recipeRepository.GetRecipeByIdAsync(updateRecipeDto.Id);
+            if (recipe == null)
             {
                 return Result<RecipesDto>.NotFound();
             }
 
-            bool changeDetected = UpdatingEntitiesHelperFunction.ChangeInFieldsDetected(recipe, updateRecipeDto); // Check if any changes are detected
+            // Use helper function to detect if any fields have actually changed
+            bool changeDetected = UpdatingEntitiesHelperFunction.ChangeInFieldsDetected(recipe, updateRecipeDto);
 
-            if (!changeDetected) // If no changes are detected
+            // If no changes detected, return existing recipe data
+            if (!changeDetected)
             {
                 return Result<RecipesDto>.Ok(new RecipesDto
                 {
@@ -44,6 +50,7 @@ namespace API.Services
                 });
             }
 
+            // Update recipe properties with new values
             recipe.Name = updateRecipeDto.Name;
             recipe.Ingredients = updateRecipeDto.Ingredients;
             recipe.Directions = updateRecipeDto.Directions;
@@ -52,7 +59,8 @@ namespace API.Services
             recipe.Fat = updateRecipeDto.Fat;
             recipe.Calories = updateRecipeDto.Calories;
 
-            if (await _recipeRepository.Commit()) // Committing the changes to the database
+            // Attempt to save changes and return appropriate response
+            if (await _recipeRepository.Commit())
             {
                 return Result<RecipesDto>.Ok(new RecipesDto
                 {
@@ -67,6 +75,7 @@ namespace API.Services
                     Calories = recipe.Calories
                 });
             }
+            // Return error if save fails
             return Result<RecipesDto>.BadRequest(new List<ResultError>
             {
                 new ResultError
@@ -78,10 +87,11 @@ namespace API.Services
         }
 
 /////////////////////////////////////////////////////////////////////Search Recipes///////////////////////////////////////////////////////////////////////
-        // This method is used to search for recipes by name or ingredients
-
+        // Handles recipe search functionality by name or ingredients
+        // Returns all recipes if search term is empty
         public async Task<Result<List<RecipesDto>>> SearchRecipes(string? searchTerm)
         {
+            // Handle empty search case - returns all recipes
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
                 // Optional: Return all recipes instead of an error
@@ -100,13 +110,16 @@ namespace API.Services
                 }).ToList());
             }
             
+            // Perform search based on search term
             var recipes = await _recipeRepository.SearchRecipes(searchTerm);
 
+            // Handle no results found
             if (recipes == null)
             {
                 return Result<List<RecipesDto>>.NotFound();
             }
 
+            // Map found recipes to DTOs for client response
             var recipesDto = recipes.Select(recipe => new RecipesDto
             {
                 Id = recipe.Id,
@@ -124,11 +137,11 @@ namespace API.Services
         }
 
 /////////////////////////////////////////////////////////////////////Upload Recipes///////////////////////////////////////////////////////////////////////
-
-        // This method is used to upload a recipe to the database
-        // It takes a CreateRecipeDto object as a parameter
+        // Creates new recipe in the system
+        // Validates and stores recipe data from client
         public async Task<Result<RecipesDto>> UploadRecipes(CreateRecipeDto createRecipeDto)
         {
+            // Create new recipe entity from DTO data
             var recipe = new Recipe
             {
                 Name = createRecipeDto.Name,
@@ -140,9 +153,11 @@ namespace API.Services
                 Calories = createRecipeDto.Calories
             };
 
+            // Add recipe to repository
             _recipeRepository.CreateRecipe(recipe);
 
-            if  (await _recipeRepository.Commit())
+            // Attempt to save and return appropriate response
+            if (await _recipeRepository.Commit())
             {
                 return Result<RecipesDto>.Ok(new RecipesDto
                 {
@@ -169,8 +184,10 @@ namespace API.Services
         }
 
 /////////////////////////////////////////////////////////////////////View Recipes///////////////////////////////////////////////////////////////////////
+        // Retrieves a single recipe by its ID with full details
         public async Task<Result<RecipesDto>> ViewRecipes(Guid id)
         {
+            // Attempt to find recipe by ID
             var recipe = await _recipeRepository.GetRecipeByIdAsync(id);
 
             if (recipe == null)
@@ -178,6 +195,7 @@ namespace API.Services
                 return Result<RecipesDto>.NotFound();
             }
 
+            // Map recipe data to DTO for client response
             var recipeDto = new RecipesDto
             {
                 Id = recipe.Id,
@@ -192,12 +210,13 @@ namespace API.Services
             };
 
             return Result<RecipesDto>.Ok(recipeDto);
-
         }
 
-/// ///////////////////////////////////////////////////////////////////////Delete Recipes/// ///////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////Delete Recipes///////////////////////////////////////////////////////////////////////
+        // Removes a recipe from the system by ID
         public async Task<Result<Empty>> DeleteRecipes(Guid id)
         {
+            // Verify recipe exists before attempting delete
             var recipe = await _recipeRepository.GetRecipeByIdAsync(id);
 
             if (recipe == null)
@@ -205,8 +224,10 @@ namespace API.Services
                 return Result<Empty>.NotFound();
             }
 
+            // Perform delete operation
             _recipeRepository.DeleteRecipe(recipe);
 
+            // Attempt to save changes and return appropriate response
             if (await _recipeRepository.Commit())
             {
                 return Result<Empty>.Ok(new Empty());
@@ -222,12 +243,15 @@ namespace API.Services
             });
         }
 
-
-
 /////////////////////////////////////////////////////////////////////View All Recipes///////////////////////////////////////////////////////////////////////
+        // Retrieves all recipes in the system
+        // Used for displaying complete recipe listing
         public async Task<Result<List<RecipesDto>>> ViewAllRecipes()
         {
+            // Get all recipes from repository
             List<Recipe> recipes = await _recipeRepository.GetAllRecipes();
+            
+            // Map all recipes to DTOs for client response
             List<RecipesDto> recipesDto = recipes.Select(recipe => new RecipesDto
             {
                 Id = recipe.Id,

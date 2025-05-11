@@ -1,38 +1,46 @@
+<!-- Main page container with navigation bar -->
 <div class="page">
+    <!-- Navigation bar component integration -->
     <app-nav-bar></app-nav-bar>
+    <!-- Main content container for report cards -->
     <div class="container">
+        <!-- Grid layout container for report selection cards -->
         <div class="cards-container">
-            <!-- New Users Report Card -->
+            <!-- Report Card 1: New Users Statistics
+                 Clicking triggers navigation to ReportForm1 view -->
             <div class="report-card" (click)="navigateToReport('ReportForm1')">
                 <div class="card-icon">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users"></i> <!-- FontAwesome users icon -->
                 </div>
                 <h3>New Users Report</h3>
                 <p>View statistics about newly registered users within a date range</p>
             </div>
 
-            <!-- Age Group Report Card -->
+            <!-- Report Card 2: Age Demographics
+                 Clicking triggers navigation to ReportForm2 view -->
             <div class="report-card" (click)="navigateToReport('ReportForm2')">
                 <div class="card-icon">
-                    <i class="fas fa-chart-pie"></i>
+                    <i class="fas fa-chart-pie"></i> <!-- FontAwesome pie chart icon -->
                 </div>
                 <h3>Age Group Report</h3>
                 <p>Analyze user distribution across different age groups</p>
             </div>
 
-            <!-- Appointments Report Card -->
+            <!-- Report Card 3: Appointment Analytics
+                 Clicking triggers navigation to ReportForm3 view -->
             <div class="report-card" (click)="navigateToReport('ReportForm3')">
                 <div class="card-icon">
-                    <i class="fas fa-calendar-check"></i>
+                    <i class="fas fa-calendar-check"></i> <!-- FontAwesome calendar icon -->
                 </div>
                 <h3>Appointments Report</h3>
                 <p>Track appointment statistics and popular time slots</p>
             </div>
 
-            <!-- Diet Type Report Card -->
+            <!-- Report Card 4: Diet Preferences
+                 Clicking triggers navigation to ReportForm4 view -->
             <div class="report-card" (click)="navigateToReport('ReportForm4')">
                 <div class="card-icon">
-                    <i class="fas fa-utensils"></i>
+                    <i class="fas fa-utensils"></i> <!-- FontAwesome utensils icon -->
                 </div>
                 <h3>Diet Type Report</h3>
                 <p>View users grouped by their diet type preferences</p>

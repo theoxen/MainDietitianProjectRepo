@@ -1,11 +1,16 @@
+<!-- Main container with navigation bar -->
 <div class="page">
+    <!-- Navigation component inclusion -->
     <app-nav-bar></app-nav-bar>
-    <!-- /////////////////////////////////////Age Users///////////////////////////////////////////// -->
+
+    <!-- Report Form 1: New Users Report Section 
+         Shows date range selector for new user statistics -->
     @if (selectedReportType === 'ReportForm1') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>New Users Reports</h3>
             <p>Generate reports from users who have recently signed in to monitor statistics.</p>
+            <!-- Form with date range inputs and validation -->
             <form [formGroup]="ReportForm1" (ngSubmit)="ReportForm1Submit()">
                 <div class="form-group">
                     <app-primary-input-field [label]="'From'" [placeholder]="'From'" [type]="'date'"
@@ -29,12 +34,15 @@
         </div>
     </div>
     }
-    <!-- /////////////////////////////////////////New Users///////////////////////////////////////// -->
+
+    <!-- Report Form 2: Age Demographics Report Section
+         Allows input of age range for filtering users -->
     @if (selectedReportType === 'ReportForm2') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Age Reports</h3>
             <p>Generate reports from users within a specified age range to gain targeted insights.</p>
+            <!-- Form with numeric inputs and validation -->
             <form [formGroup]="ReportForm2" (ngSubmit)="ReportForm2Submit()">
                 <div class="form-group">
                     <app-primary-input-field [label]="'From'" [placeholder]="'From'"
@@ -57,12 +65,15 @@
         </div>
     </div>
     }
-    <!-- /////////////////////////////////////////Appointment///////////////////////////////////////// -->
+
+    <!-- Report Form 3: Appointment Analytics Section
+         Date range selector for appointment statistics -->
     @if (selectedReportType === 'ReportForm3') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Appointment Reports</h3>
             <p>Get a detailed overview of how many appointments have been made</p>
+            <!-- Form with date inputs for appointment period -->
             <form [formGroup]="ReportForm3" (ngSubmit)="ReportForm3Submit()">
                 <div class="form-group">
                     <app-primary-input-field [label]="'From'" [placeholder]="'From'" [type]="'date'"
@@ -86,24 +97,32 @@
         </div>
     </div>
     }
-    <!-- /////////////////////////////////////////Time Reports///////////////////////////////////////// -->
+
+    <!-- Report Form 4: Diet Type Analysis Section
+         Dropdown selection for diet type filtering -->
     @if(selectedReportType === 'ReportForm4') {
     <div class="center-container">
         <div class="primary-hover-box">
             <h3>Diet Type Reports</h3>
             <p>Generate detailed reports based on users' selected diet types to analyze preferences and trends.</p>
+            <!-- Form with diet type dropdown selection -->
             <form [formGroup]="ReportForm4" (ngSubmit)="ReportForm4Submit()">
+                <!-- Dropdown component with dynamic options from service -->
                 <div class="form-group">
                     <app-primary-dropdown-input
                         [placeholder]="'Select Diet Type'"
-                        [control]="ReportForm4.controls.field1" [dropdownItems]="dietTypeDropdownOptions"
-                        [errorMessages]="fieldsErrorMessages" [showErrorOnControlTouched]="displayErrorOnControlTouched"
-                        [showErrorOnControlDirty]="displayErrorOnControlDirty" style="width: 100%;">
+                        [control]="ReportForm4.controls.field1" 
+                        [dropdownItems]="dietTypeDropdownOptions"
+                        [errorMessages]="fieldsErrorMessages" 
+                        [showErrorOnControlTouched]="displayErrorOnControlTouched"
+                        [showErrorOnControlDirty]="displayErrorOnControlDirty" 
+                        style="width: 100%;">
                     </app-primary-dropdown-input>
                 </div>
+                <!-- Navigation buttons for form submission and return -->
                 <div class="button-container">
                     <button class="primary-button">Create Report</button>
-                    <button class="primary-button" (click)="NavigateTo()" routerLinkActive="router-link-active" >Back</button>
+                    <button class="primary-button" (click)="NavigateTo()" routerLinkActive="router-link-active">Back</button>
                 </div>
             </form>
         </div>

@@ -16,22 +16,31 @@ import { AccountService } from '../../services/account.service';
   styleUrl: './recipes.component.css'
 })
 export class RecipesComponent implements OnInit {
+  // Search functionality property
   searchTerm: string = '';
+  // Array to store all recipes
   recipes: RecipeView[] = []; 
 
+  // Inject AccountService for user role verification
   accountService = inject(AccountService);
   
+  // Flag to control admin-specific features
   isadmin = false;
 
+  // Pagination properties
   currentPage: number = 1;
-  itemsPerPage: number = 9; // Changed from 6 to 9
+  itemsPerPage: number = 9; // Number of recipes shown per page
   totalPages: number = 1;
   paginatedRecipes: any[] = [];
 
+  // Inject required services through constructor
   constructor(private recipeService: RecipesService, private router: Router, private route: ActivatedRoute) { }
 
+  // Lifecycle hook - runs when component initializes
   ngOnInit(): void {
+    // Check if current user is admin
     this.isadmin = this.accountService.userRole() === 'admin';
+    // Load all recipes on component initialization
     this.recipeService.viewAllRecipes().subscribe({
       next: (recipes) => {
         this.recipes = recipes;
@@ -43,6 +52,8 @@ export class RecipesComponent implements OnInit {
     });
   }
 
+  // Updates pagination based on current page and items per page
+  // Calculates total pages and slices recipe array for current page
   updatePagination() {
     this.totalPages = Math.ceil(this.recipes.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -50,6 +61,8 @@ export class RecipesComponent implements OnInit {
     this.paginatedRecipes = this.recipes.slice(startIndex, endIndex);
   }
 
+  // Handles page navigation within valid page range
+  // Updates displayed recipes when page changes
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
@@ -57,6 +70,8 @@ export class RecipesComponent implements OnInit {
     }
   }
 
+  // Filters recipes based on search term
+  // Resets pagination to first page when search results update
   filterRecipes(): void {
     this.recipeService.searchRecipes(this.searchTerm).subscribe({
       next: (recipes) => {
