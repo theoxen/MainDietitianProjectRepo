@@ -115,7 +115,7 @@ export class EditDietsComponent implements OnInit {
               }
             });
           } else {
-            this.clientName = "Unknown Client";
+            this.clientName = "Client";
             console.error("No user diets found in the fetched diet");
           }
           
