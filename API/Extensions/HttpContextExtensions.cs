@@ -4,6 +4,7 @@ namespace API.Extensions
 {
     public static class HttpContextExtensions
     {
+        // Extension method for getting the userid from the token
         public static Guid? GetUserId(this HttpContext httpContext)
         {
             var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -5,6 +5,8 @@ namespace API.Validators
 {
     public class FullNameValidator : UserValidator<User>
     {
+        // Functions related to fullname validation
+        
         public override async Task<IdentityResult> ValidateAsync(UserManager<User> userManager, User user)
         {
             var result = await base.ValidateAsync(userManager, user); // Calling the ValidateAsync of the base class (UserValidator)

@@ -2,6 +2,7 @@ namespace API.Helpers
 {
     public class UpdatingEntitiesHelperFunction
     {
+        // Funciton that checks if 2 entities that have common entities have their content changed (Used to check the update method on an entity)
         public static bool ChangeInFieldsDetected<T, Z>(T entity, Z updatedEntity)
         {
 

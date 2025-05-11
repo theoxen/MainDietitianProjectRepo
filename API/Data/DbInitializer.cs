@@ -6,6 +6,7 @@ namespace API.Data;
 
 public class DbInitializer
 {
+    // Initializing the database the first time
     public static async Task Initialize(DataContext dataContext, UserManager<User> userManager)
     {
         bool areRolesInitialized = await InitializeRoles(dataContext);

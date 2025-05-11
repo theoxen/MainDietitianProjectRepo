@@ -18,7 +18,7 @@ namespace API;
 // All the extensions of the program.cs class
 public static class DependencyInjection
 {
-    // Persistance means something permanent
+    // Persistance means something permanent. This configures the database settings
     public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<DataContext>(x => x.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -35,6 +35,7 @@ public static class DependencyInjection
         return services;
     }
 
+    // Adding the service and repository dependencies
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IDietTypeRepository, DietTypeRepository>();
@@ -90,6 +91,7 @@ public static class DependencyInjection
         return services;
     }
 
+    // Adding the token dependencies
     public static IServiceCollection AddSecurityServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));

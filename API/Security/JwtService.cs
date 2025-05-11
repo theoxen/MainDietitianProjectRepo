@@ -19,7 +19,7 @@ public class JwtService
 
     public string GenerateSecurityToken(User user, string[] roleNames)
     {
-        var claims = new List<Claim>
+        var claims = new List<Claim> // Creating the claims of the token
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.UserName!)
@@ -33,7 +33,7 @@ public class JwtService
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var tokenDescriptor = new SecurityTokenDescriptor // Creating the fields to add to the token
         {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(_durationInMinutes),
