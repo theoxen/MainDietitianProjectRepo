@@ -1,9 +1,11 @@
+/* Main page container - ensures full viewport height coverage */
 .page {
     min-height: 100vh;
     width: 100%;
     padding-bottom: 60px;
   }
 
+  /* Primary container for template content - provides main content area with padding and margin */
   .primary-hover-box {
     width: 90%;
     min-height: 500px;
@@ -15,6 +17,7 @@
     flex-direction: column;
   }
   
+  /* Inner container within primary-hover-box - uses flex to fill available space */
   .hover-box {
     width: 100%;
     height: auto;
@@ -23,6 +26,7 @@
     flex: 1;
   }
   
+  /* Container for diet templates - centers content horizontally and sets minimum height */
   .diets-container {
     display: flex;
     justify-content: center;
@@ -31,6 +35,7 @@
     padding: 20px 0;
   }
 
+  /* Main content area styling - adds shadow effect and rounded corners */
   .content-area {
     background-color: #ffffff;
     border-radius: 8px;
@@ -39,11 +44,13 @@
     margin-top: 20px;
   }
   
+  /* Heading style for page title */
   h1 {
     color: #333;
     margin-bottom: 20px;
   }
   
+  /* Header section containing template count and add button - uses space-between for layout */
   .templates-header {
     display: flex;
     justify-content: space-between;
@@ -51,6 +58,7 @@
     margin-bottom: 20px;
   }
   
+  /* Add New Template button styling - uses orange color scheme for visibility */
   .AddNewButton {
     background-color: #FFB453;
     color: white;
@@ -61,15 +69,18 @@
     font-weight: bold;
   }
   
+  /* Hover state for Add New Button - darkens background for interactive feedback */
   .AddNewButton:hover {
     background-color: #FFA726;
   }
   
+  /* Templates count text styling */
   .TemplatesFound {
     font-size: 16px;
     color: #555;
   }
   
+  /* Date search input field styling */
   .date-search input {
     padding: 8px 12px;
     border: 1px solid #ddd;
@@ -78,12 +89,14 @@
     width: 250px;
   }
   
+  /* Main table styling for templates - full width with collapsed borders */
   .horizontal-template-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
   
+  /* Table cell and header styling - centers text and adds borders */
   .horizontal-template-table th,
   .horizontal-template-table td {
     border: 1px solid #dee2e6;
@@ -91,28 +104,34 @@
     text-align: center;
   }
   
+  /* Table header styling - slightly different background for visual distinction */
   .horizontal-template-table th {
     background-color: #f8f9fa;
     font-weight: 600;
   }
   
+  /* Width control for meal type column headers */
   .meal-type-header {
     width: 120px;
   }
   
+  /* Styling for meal type cells - bolds text with light background */
   .meal-type {
     font-weight: bold;
     background-color: #f8f9fa;
   }
   
+  /* Makes rows clickable with cursor indication */
   .clickable-row {
     cursor: pointer;
   }
   
+  /* Hover effect for clickable rows - provides visual feedback */
   .clickable-row:hover {
     background-color: #f5f5f5;
   }
   
+  /* Common styling for action buttons in table */
   .EditButton, 
   .DeleteButton, 
   .DownloadButton {
@@ -125,18 +144,22 @@
     font-size: 14px;
   }
   
+  /* Edit button - orange color */
   .EditButton {
     background-color: #FFA726;
   }
   
+  /* Delete button - red color to indicate destructive action */
   .DeleteButton {
     background-color: #f44336;
   }
   
+  /* Download button - green color */
   .DownloadButton {
     background-color: #4CAF50;
   }
   
+  /* Hover states for action buttons - darken colors */
   .EditButton:hover {
     background-color: #FB8C00;
   }
@@ -149,6 +172,7 @@
     background-color: #388E3C;
   }
   
+  /* Modal overlay for template details - covers entire screen with semi-transparent background */
   .template-details-modal {
     position: fixed;
     z-index: 1000;
@@ -162,6 +186,7 @@
     justify-content: center;
   }
   
+  /* Modal content container - white background with scroll for overflow */
   .modal-content {
     background-color: white;
     border-radius: 8px;
@@ -173,6 +198,7 @@
     position: relative;
   }
   
+  /* Close button for modal - positioned in top right */
   .close {
     position: absolute;
     top: 10px;
@@ -182,11 +208,13 @@
     cursor: pointer;
   }
   
+  /* Container for action buttons inside modal */
   .modal-action-buttons {
     margin-top: 20px;
     text-align: center;
   }
   
+  /* Confirmation modal overlay - higher z-index to appear above other modals */
   .confirmation-modal {
     position: fixed;
     z-index: 1001;
@@ -200,6 +228,7 @@
     align-items: center;
   }
   
+  /* Confirmation dialog styling - smaller width and centered text */
   .confirmation-content {
     background-color: white;
     padding: 25px;
@@ -208,6 +237,7 @@
     text-align: center;
   }
   
+  /* Layout for confirmation buttons - spaced evenly */
   .confirmation-buttons {
     display: flex;
     justify-content: center;
@@ -215,6 +245,7 @@
     margin-top: 20px;
   }
   
+  /* Common styling for primary action buttons */
   .primary-button, 
   .primary-button-danger {
     padding: 10px 20px;
@@ -225,26 +256,31 @@
     color: white;
   }
   
+  /* Primary button - blue color */
   .primary-button {
     background-color: #3f51b5;
   }
   
+  /* Danger button - red color for destructive actions */
   .primary-button-danger {
     background-color: #f44336;
   }
   
+  /* Success message styling - green text color */
   .success-message {
     color: #28a745;
     margin-top: 15px;
     font-weight: bold;
   }
   
+  /* Pagination controls container - centered horizontally */
   .pagination-container {
     margin-top: 20px;
     display: flex;
     justify-content: center;
   }
 
+  /* Heading style inside table cells - reset margins and adjust font size */
   td h2 {
     font-size: 18px;
     font-weight: normal;

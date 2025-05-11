@@ -1,53 +1,67 @@
-
-  <div class="form-container">
+<!-- Main container for the diet creation form -->
+<div class="form-container">
+    <!-- Page title showing client name using interpolation -->
     <h2 class="title">Add New Diet for {{clientName}}</h2>
     
+    <!-- Main form with FormGroup binding and submission handler -->
     <form [formGroup]="addclientDietsForm" (ngSubmit)="addDiets()">
       <div class="diet-header">
+        <!-- Template selector section - conditionally shown when selecting templates -->
         <div *ngIf="showTemplateSelector" class="template-selection-container">
           <h3>Select a Template</h3>
+          <!-- Search input for filtering templates - standalone ngModel used here -->
           <div class="search-box">
             <input type="text" placeholder="Search templates..." [(ngModel)]="templateSearchTerm" 
                    (input)="filterTemplates()" [ngModelOptions]="{standalone: true}">
           </div>
+          <!-- List of available templates with click event to select one -->
           <div class="templates-list">
             <div *ngFor="let template of filteredTemplates" class="template-item" (click)="selectTemplate(template)">
               <div class="template-name">{{template.name}}</div>
               <div class="template-date">{{template.date}}</div>
             </div>
+            <!-- Message shown when no templates match search criteria -->
             <div *ngIf="filteredTemplates.length === 0" class="no-templates">
               No templates found
             </div>
           </div>
+          <!-- Template selection cancellation button -->
           <div class="template-actions">
             <button type="button" class="secondary-button" (click)="cancelTemplateSelection()">Cancel</button>
           </div>
         </div>
+        
+        <!-- Diet name input and template checkbox container -->
         <div class="diet-info-row">
           <label for="dietName">Diet Name:</label>
           <input id="dietName" type="text" formControlName="name" placeholder="Enter diet name" class="form-control" />
+          <!-- Checkbox to mark diet as a template for future reuse -->
           <div class="template-checkbox">
             <label for="isTemplate">Template:</label>
             <input id="isTemplate" type="checkbox" formControlName="isTemplate" />
           </div>
         </div>
+        
+        <!-- Validation error message for diet name field -->
         <div class="error-feedback" [hidden]="addclientDietsForm.controls['name'].valid || !addclientDietsForm.controls['name'].touched">
           Name is required
         </div>
       </div>
 
-            <!-- Add the template import section -->
-            <div class="template-import-section">
-              <button type="button" class="import-template-button" (click)="showTemplateSelection()">
-                <i class="fa-solid fa-file-import"></i> Import from Template
-              </button>
-            </div>
+      <!-- Button to import from existing templates -->
+      <div class="template-import-section">
+        <button type="button" class="import-template-button" (click)="showTemplateSelection()">
+          <i class="fa-solid fa-file-import"></i> Import from Template
+        </button>
+      </div>
   
+      <!-- Weekly meal plan table structure -->
       <div class="diet-days-section">
-        <!-- Horizontal table layout with days as columns -->
+        <!-- Horizontal layout with days as columns and meal types as rows -->
         <table class="horizontal-diet-table">
           <thead>
             <tr>
+              <!-- Table headers for meal types and days of the week -->
               <th class="meal-type-header">Meal Type</th>
               <th>Monday</th>
               <th>Tuesday</th>
@@ -59,7 +73,8 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Breakfast Row -->
+            <!-- Breakfast Row - Each textarea uses getDayMealControl method to get the correct FormControl -->
+            <!-- First parameter (0-6) is day index (Mon-Sun), second parameter is meal type index (0=breakfast) -->
             <tr>
               <td class="meal-type">Breakfast</td>
               <td>
@@ -106,7 +121,7 @@
               </td>
             </tr>
             
-            <!-- Morning Snack Row -->
+            <!-- Morning Snack Row - Uses meal type index 3 -->
             <tr>
               <td class="meal-type">Morning Snack</td>
               <td>
@@ -153,7 +168,7 @@
               </td>
             </tr>
             
-            <!-- Lunch Row -->
+            <!-- Lunch Row - Uses meal type index 1 -->
             <tr>
               <td class="meal-type">Lunch</td>
               <td>
@@ -200,7 +215,7 @@
               </td>
             </tr>
             
-            <!-- Afternoon Snack Row -->
+            <!-- Afternoon Snack Row - Uses meal type index 4 -->
             <tr>
               <td class="meal-type">Afternoon Snack</td>
               <td>
@@ -247,7 +262,7 @@
               </td>
             </tr>
             
-            <!-- Dinner Row -->
+            <!-- Dinner Row - Uses meal type index 2 -->
             <tr>
               <td class="meal-type">Dinner</td>
               <td>
@@ -297,13 +312,14 @@
         </table>
       </div>
       
+      <!-- Form action buttons - Submit and Cancel -->
       <div class="form-actions">
         <button type="submit" class="primary-button">Add Diet</button>
         <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
       </div>
     </form>
     
-    <!-- Messages -->
+    <!-- Feedback messages - conditionally displayed based on operation results -->
     <div class="success-message" [hidden]="!successMessage">
       {{ successMessage }}
     </div>

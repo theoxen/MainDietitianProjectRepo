@@ -19,10 +19,6 @@ import { AccountService } from '../../../services/account.service';
 import { Location } from '@angular/common';
 
 
-
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-
 @Component({
   selector: 'view-diets',
   standalone: true,
@@ -32,68 +28,81 @@ import html2canvas from 'html2canvas';
 })
 
 
-
 export class ViewDietsComponent implements OnInit {
-
-  role!: string;
+  // User authorization properties
+  role!: string; // Stores the current user role (admin, dietitian, client)
+  
+  // Form related properties
   isEditMode = false;
   editDietForm: FormGroup = new FormGroup({});
   successMessage: string | null = null;
   
-  
+  // Modal display control properties
   showDietDetailsModal = false;
   selectedDiet: any = null;
 
+  // Confirmation dialog properties
   isConfirmationWindowVisible = false;
-  clientName!:string;
-  clientId!: string;
+  clientName!:string; // Stores the name of the client whose diets are being viewed
+  clientId!: string; // Stores the ID of the client whose diets are being viewed
   errorMessage: string = "";
 
-  diets!: Diet[];
-  transformedDiets: { id: any; date: any ; name: any; isTemplate: any }[] = [];
+  // Diet data storage properties
+  diets!: Diet[]; // Original diet data from API
+  transformedDiets: { id: any; date: any ; name: any; isTemplate: any }[] = []; // Transformed diet data for display
+  filteredDiets: { id: any; name: any; isTemplate: any ; date:any }[] = []; // Filtered diet data based on search
+  searchControl = new FormControl(''); // Form control for search input
 
-  filteredDiets: { id: any; name: any; isTemplate: any ; date:any }[] = [];
-  searchControl = new FormControl('');
+  // Form validation properties
+  showErrorOnControlTouched!: boolean;
+  errorMessages!: Map<string,string>;
+  showErrorOnControlDirty!: boolean;
+  type: any;
+  placeholder: any;
+  control!: FormControl<any>;
 
-    showErrorOnControlTouched!: boolean;
-    errorMessages!: Map<string,string>;
-    showErrorOnControlDirty!: boolean;
-    type: any;
-    placeholder: any;
-    control!: FormControl<any>;
-    totalItems = 100;   // For example, total items available
-    pageSize = 10;
-    currentPage = 1;
-    items = [/* array of data */];
+  // Pagination properties
+  totalItems = 100;   // Total number of items available
+  pageSize = 10;      // Number of items per page
+  currentPage = 1;    // Current active page
+  items = [/* array of data */];
 
-/////////////////////////////////////////////////////TO CHANGE
+  // Pagination data - current page items
+  pagedItems:{ id: any; name: any; isTemplate: any ; date:any }[] = [];
+  
+  // Date search form
+  dateSearchForm = new FormGroup({
+    startDate: new FormControl(''),
+    endDate: new FormControl('')
+  });
 
-    pagedItems:{ id: any; name: any; isTemplate: any ; date:any }[] = [];
-    dateSearchForm = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
-    });
-
-
+  // Service injections using the inject pattern
   dietService = inject(DietService);
   clientManagementService = inject(ClientManagementService);
 
-  constructor(private accountService: AccountService , private reviewsService: ReviewsService,private dialog: MatDialog, private route: ActivatedRoute, private router:Router,   private location: Location
+  // Constructor with dependency injection
+  constructor(
+    private accountService: AccountService, 
+    private reviewsService: ReviewsService,
+    private dialog: MatDialog, 
+    private route: ActivatedRoute, 
+    private router:Router,   
+    private location: Location
   ) {}
  
-
+  // Lifecycle hook - component initialization
   ngOnInit(): void {
-    // Assuming userRole might return string|null, so we default to an empty string if null.
+    // Get user role from account service with fallback to empty string
     const role = this.accountService.userRole() ?? '';
     this.role = role;
     this.loadPage(this.currentPage);
   
     if (this.role === "admin") {
-      // Use non-null assertion if you're sure 'clientId' is present in the URL.
+      // Admin flow: Get client ID from route parameters
       this.clientId = this.route.snapshot.paramMap.get('clientId')!;
       this.fetchDietsForUser(this.clientId);
     } else {
-      // Get the user id asynchronously then fetch diets
+      // Client flow: Get logged-in user's ID and fetch their diets
       this.reviewsService.getLoggedInUserId().subscribe({
         next: (userId: string) => {
           // console.log('User ID:', userId);
@@ -104,10 +113,11 @@ export class ViewDietsComponent implements OnInit {
       });
     }
   
+    // Setup real-time date filtering
     this.setupLiveDateSearch();
   }
 
-  
+  // Helper method to get current user ID
   getUserId() {
     this.reviewsService.getLoggedInUserId().subscribe({
       next: (userId: string) => {
@@ -118,246 +128,352 @@ export class ViewDietsComponent implements OnInit {
     });
   }
 
-
-
-
-  // Helper method to parse a date string in "dd/mm/yyyy" format to a Date object.
+  // Helper method to convert DD/MM/YYYY string to Date object
   parseDate(dateStr: string): Date {
     const [day, month, year] = dateStr.split('/').map(part => parseInt(part, 10));
     return new Date(year, month - 1, day);
   }
 
-
-// Helper to parse an ISO date string (YYYY-MM-DD) into a local Date.
-parseISOToLocal(dateStr: string): Date {
-  const [year, month, day] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1, day);
-}
-
-// Updated filtering method using the new date format.
-filterDietsByDateRange(startDate: string, endDate: string) {
-  if (!startDate || !endDate) {
-    return this.transformedDiets;
+  // Helper to convert ISO date format (YYYY-MM-DD) to JavaScript Date object
+  parseISOToLocal(dateStr: string): Date {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day);
   }
+
+  // Filter diets based on date range selection
+  filterDietsByDateRange(startDate: string, endDate: string) {
+    if (!startDate || !endDate) {
+      return this.transformedDiets;
+    }
 
     // Parse the input dates in local time
     const start = this.parseISOToLocal(startDate);
     const end = this.parseISOToLocal(endDate);
   
     return this.transformedDiets.filter(diet => {
-      // Convert the metric's "dd/mm/yyyy" string to a Date object.
+      // Convert the diet's "dd/mm/yyyy" string to a Date object for comparison
       const dietDate = this.parseDate(diet.date);
       return dietDate >= start && dietDate <= end;
     });
+  }
 
-}
-
-
-// Live update subscription to the date inputs remains the same.
-setupLiveDateSearch(): void {
-  combineLatest([
-    this.dateSearchForm.get('startDate')!.valueChanges,
-    this.dateSearchForm.get('endDate')!.valueChanges
-  ])
-    .pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    )
-    .subscribe(([startDate, endDate]) => {
-      this.filteredDiets = this.filterDietsByDateRange(startDate ?? '', endDate ?? '');
-      this.totalItems = this.filteredDiets.length; // update total items
-      this.currentPage = 1; // reset to first page
-      this.loadPage(this.currentPage);
-    });
-}
-
-
-
-
-fetchDietsForUser(clientId: string): void {
-  this.clientManagementService.getClientDetails(clientId).subscribe({
-    next: (fetchedClientDetails: ClientProfile) => {
-      this.clientName = fetchedClientDetails.fullName;
-    }
-  });
-  
-  this.dietService.fetchDietsForUser(clientId).subscribe({
-    next: (response: any) => {
-      // console.log('API Response:', response);
-      
-      // Handle different response formats
-      let fetchedDiets;
-      if (response && response.data) {
-        // If the API returns {data: [...]}
-        fetchedDiets = response.data;
-      } else if (Array.isArray(response)) {
-        // If the API returns an array directly
-        fetchedDiets = response;
-      } else if (response) {
-        // If the API returns a single object
-        fetchedDiets = [response];
-      } else {
-        fetchedDiets = [];
-      }
-
-
-            // Filter out diets where userDiets contains a userId of all zeros (empty GUID)
-            fetchedDiets = fetchedDiets.filter((diet: { userDiets: any[]; }) => {
-              // Skip diets with no userDiets array
-              if (!diet.userDiets || !Array.isArray(diet.userDiets)) return false;
-              
-              // Keep only diets where no userDiet has an empty userID (all zeros)
-              return !diet.userDiets.some(userDiet => 
-                userDiet.dietId === '00000000-0000-0000-0000-000000000000' );
-            });
-      
-      this.diets = fetchedDiets;
-      
-      if (this.diets && this.diets.length > 0) {
-        this.transformDiets();
-        if (this.searchControl.value) {
-          this.filteredDiets = this.filterDiets(this.searchControl.value);
-        } else {
-          this.filteredDiets = this.transformedDiets;
-        }
-        this.totalItems = this.filteredDiets.length;
+  // Setup real-time filtering as user selects date ranges
+  setupLiveDateSearch(): void {
+    combineLatest([
+      this.dateSearchForm.get('startDate')!.valueChanges,
+      this.dateSearchForm.get('endDate')!.valueChanges
+    ])
+      .pipe(
+        debounceTime(300), // Wait for user to stop typing
+        distinctUntilChanged() // Only emit when values change
+      )
+      .subscribe(([startDate, endDate]) => {
+        this.filteredDiets = this.filterDietsByDateRange(startDate ?? '', endDate ?? '');
+        this.totalItems = this.filteredDiets.length; // update total items
+        this.currentPage = 1; // reset to first page
         this.loadPage(this.currentPage);
-      } else {
-        // console.log("No diets found for this user");
+      });
+  }
+
+  // Fetch diets for a specific user/client from the API
+  fetchDietsForUser(clientId: string): void {
+    // First get client details to display client name
+    this.clientManagementService.getClientDetails(clientId).subscribe({
+      next: (fetchedClientDetails: ClientProfile) => {
+        this.clientName = fetchedClientDetails.fullName;
+      }
+    });
+    
+    // Then fetch the diets for this client
+    this.dietService.fetchDietsForUser(clientId).subscribe({
+      next: (response: any) => {
+        // console.log('API Response:', response);
+        
+        // Handle different response formats from API
+        let fetchedDiets;
+        if (response && response.data) {
+          // If the API returns {data: [...]}
+          fetchedDiets = response.data;
+        } else if (Array.isArray(response)) {
+          // If the API returns an array directly
+          fetchedDiets = response;
+        } else if (response) {
+          // If the API returns a single object
+          fetchedDiets = [response];
+        } else {
+          fetchedDiets = [];
+        }
+
+        // Filter out diets with invalid userDiets entries
+        fetchedDiets = fetchedDiets.filter((diet: { userDiets: any[]; }) => {
+          // Skip diets with no userDiets array
+          if (!diet.userDiets || !Array.isArray(diet.userDiets)) return false;
+          
+          // Keep only diets where no userDiet has an empty userID (all zeros)
+          return !diet.userDiets.some(userDiet => 
+            userDiet.dietId === '00000000-0000-0000-0000-000000000000' );
+        });
+      
+        this.diets = fetchedDiets;
+        
+        // Process diets if we got any
+        if (this.diets && this.diets.length > 0) {
+          this.transformDiets(); // Transform diets for display
+          
+          // Apply search filter if active
+          if (this.searchControl.value) {
+            this.filteredDiets = this.filterDiets(this.searchControl.value);
+          } else {
+            this.filteredDiets = this.transformedDiets;
+          }
+          
+          this.totalItems = this.filteredDiets.length;
+          this.loadPage(this.currentPage); // Load current page of results
+        } else {
+          // Handle case with no diets
+          // console.log("No diets found for this user");
+          this.transformedDiets = [];
+          this.filteredDiets = [];
+          this.pagedItems = [];
+          this.totalItems = 0;
+        }
+      },
+      error: (error: any) => {
+        console.error("Error fetching diets:", error);
+        // Reset arrays on error
         this.transformedDiets = [];
         this.filteredDiets = [];
         this.pagedItems = [];
         this.totalItems = 0;
       }
-    },
-    error: (error: any) => {
-      console.error("Error fetching diets:", error);
-      this.transformedDiets = [];
-      this.filteredDiets = [];
-      this.pagedItems = [];
-      this.totalItems = 0;
-    }
-  });
-}
-
-
-printDiet(): void {
-  if (!this.selectedDiet) return;
-  
-  // Format current date for printing
-  const printDate = new Date().toLocaleDateString('en-GB', {
-    day: '2-digit', month: '2-digit', year: 'numeric'
-  });
-  
-  // Set client name and attributes for printing
-  const clientNameElement = document.querySelector('.meal-type-header');
-  if (clientNameElement) {
-    clientNameElement.textContent = this.clientName || 'Diet Plan';
-    clientNameElement.setAttribute('data-original-content', clientNameElement.textContent);
-  }
-  
-  // Set attributes on modal content 
-  const modalContent = document.querySelector('.modal-content');
-  if (modalContent) {
-    modalContent.setAttribute('data-print-date', printDate);
-    modalContent.setAttribute('data-diet-name', this.selectedDiet.name || 'Diet Plan');
-    // Force single page by setting max-height
-    modalContent.setAttribute('style', 'page-break-inside: avoid !important; max-height: 100vh;');
-  }
-  
-  // Hide footer elements
-  const footers = document.querySelectorAll('app-page-footer, footer, .page-footer, .app-footer');
-  footers.forEach(footer => {
-    if (footer instanceof HTMLElement) {
-      footer.style.display = 'none';
-    }
-  });
-  
-  // Get the diet table and optimize for single page when possible
-  const dietTable = document.querySelector('.horizontal-diet-table');
-  if (dietTable && dietTable instanceof HTMLElement) {
-    // Add class for print optimization
-    dietTable.classList.add('print-optimize');
-    
-    // Calculate content density more accurately
-    const cells = dietTable.querySelectorAll('td');
-    let totalLength = 0;
-    let maxCellLength = 0;
-    let cellCount = 0;
-    
-    cells.forEach(cell => {
-      const length = cell.textContent?.length || 0;
-      totalLength += length;
-      maxCellLength = Math.max(maxCellLength, length);
-      if (length > 0) cellCount++;
-    });
-    
-    // Calculate average content per cell for better density assessment
-    const avgContentPerCell = cellCount > 0 ? totalLength / cellCount : 0;
-    
-    // Apply more aggressive scaling based on content metrics
-    if (totalLength > 3000) {
-      dietTable.style.fontSize = '8px';
-      dietTable.style.lineHeight = '0.9';
-    }else {
-      // Normal content
-      dietTable.style.fontSize = '12px';
-      dietTable.style.lineHeight = '1.4';
-    }
-
-    // Force table to fit on one page
-    dietTable.style.pageBreakInside = 'avoid';
-    
-    // Adjust cell padding based on content density
-    const tdElements = dietTable.querySelectorAll('td');
-    tdElements.forEach(td => {
-      if (td instanceof HTMLElement) {
-        td.style.padding = totalLength > 1500 ? '2px' : '4px';
-      }
     });
   }
-  
-  // Print with delay to ensure DOM updates
-  setTimeout(() => {
-    window.print();
+
+  // Print the selected diet plan
+  printDiet(): void {
+    if (!this.selectedDiet) return;
     
-    // Restore original content after printing
-    if (clientNameElement && clientNameElement.hasAttribute('data-original-content')) {
-      clientNameElement.textContent = clientNameElement.getAttribute('data-original-content');
+    // Format current date for printing
+    const printDate = new Date().toLocaleDateString('en-GB', {
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+    
+    // Set client name and attributes for printing
+    const clientNameElement = document.querySelector('.meal-type-header');
+    if (clientNameElement) {
+      clientNameElement.textContent = this.clientName || 'Diet Plan';
+      clientNameElement.setAttribute('data-original-content', clientNameElement.textContent);
     }
     
-    // Restore footers
+    // Set attributes on modal content and force single page printing
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent) {
+      modalContent.setAttribute('data-print-date', printDate);
+      modalContent.setAttribute('data-diet-name', this.selectedDiet.name || 'Diet Plan');
+      // Force single page printing without any height restrictions
+      modalContent.setAttribute('style', 'page-break-inside: avoid !important; max-height: none !important; overflow: visible !important; height: auto !important; width: 100% !important;');
+    }
+    
+    // Hide footer elements during printing
+    const footers = document.querySelectorAll('app-page-footer, footer, .page-footer, .app-footer');
     footers.forEach(footer => {
       if (footer instanceof HTMLElement) {
-        footer.style.display = '';
+        footer.style.display = 'none';
       }
     });
     
-    // Restore table styling
+    // Get the diet table and optimize for single page
+    const dietTable = document.querySelector('.horizontal-diet-table');
     if (dietTable && dietTable instanceof HTMLElement) {
-      dietTable.classList.remove('print-optimize');
-      dietTable.style.fontSize = '';
-      dietTable.style.lineHeight = '';
-      dietTable.style.pageBreakInside = '';
+      // Add class for print optimization
+      dietTable.classList.add('print-optimize');
       
-      // Restore cell padding
+      // Calculate content density more accurately
+      const cells = dietTable.querySelectorAll('td');
+      let totalLength = 0;
+      
+      cells.forEach(cell => {
+        totalLength += cell.textContent?.length || 0;
+      });
+      
+      // Dynamic font scaling based on content length - adjust font size based on content density
+      if (totalLength > 10000) {
+        dietTable.style.fontSize = '3px';
+        dietTable.style.lineHeight = '0.6';
+      } else if (totalLength > 8000) {
+        dietTable.style.fontSize = '4px';
+        dietTable.style.lineHeight = '0.7';
+      } else if (totalLength > 5000) {
+        dietTable.style.fontSize = '5px';
+        dietTable.style.lineHeight = '0.8';
+      } else if (totalLength > 3000) {
+        dietTable.style.fontSize = '7px';
+        dietTable.style.lineHeight = '0.9';
+      } else if (totalLength > 2000) {
+        dietTable.style.fontSize = '9px';
+        dietTable.style.lineHeight = '1.0';
+      } else {
+        dietTable.style.fontSize = '12px';
+        dietTable.style.lineHeight = '1.4';
+      }
+
+      // Force table to fit on one page
+      dietTable.style.pageBreakInside = 'avoid';
+      dietTable.style.width = '100%';
+      dietTable.style.tableLayout = 'fixed';
+      
+      // Adjust cell padding based on content density
       const tdElements = dietTable.querySelectorAll('td');
       tdElements.forEach(td => {
         if (td instanceof HTMLElement) {
-          td.style.padding = '';
+          if (totalLength > 8000) {
+            td.style.padding = '0';
+            td.style.wordBreak = 'keep-all'; // Preserve word formation
+          } else if (totalLength > 5000) {
+            td.style.padding = '0';
+            td.style.wordBreak = 'keep-all';
+          } else if (totalLength > 3000) {
+            td.style.padding = '1px';
+            td.style.wordBreak = 'keep-all';
+          } else if (totalLength > 1500) {
+            td.style.padding = '2px';
+          } else {
+            td.style.padding = '4px';
+          }
+        }
+      });
+      
+      // Adjust header cell height
+      const thElements = dietTable.querySelectorAll('th');
+      thElements.forEach(th => {
+        if (th instanceof HTMLElement) {
+          if (totalLength > 3000) {
+            th.style.height = '18px';
+            th.style.padding = '0';
+          }
         }
       });
     }
     
-    // Restore modal content
-    if (modalContent) {
-      modalContent.removeAttribute('style');
+    // Remove ALL scrollbars for printing
+    // Start by handling container elements
+    const tableContainer = document.querySelector('.horizontal-diet-table-container');
+    if (tableContainer && tableContainer instanceof HTMLElement) {
+      tableContainer.style.overflow = 'visible';
+      tableContainer.style.maxHeight = 'none';
+      tableContainer.style.height = 'auto';
+      tableContainer.style.width = '100%';
     }
-  }, 200); // Slightly longer delay to ensure styles are fully applied
-}
+    
+    // Find ALL potentially scrollable elements and make them visible for print
+    const scrollableElements = document.querySelectorAll('.modal-content, .diet-details-modal, [style*="overflow"], div, section');
+    scrollableElements.forEach(elem => {
+      if (elem instanceof HTMLElement) {
+        elem.style.overflow = 'visible';
+        elem.style.maxHeight = 'none';
+        elem.style.height = 'auto';
+      }
+    });
+    
+    // Add print-specific CSS to force single page
+    let printStyle = document.getElementById('print-style');
+    if (!printStyle) {
+      printStyle = document.createElement('style');
+      printStyle.id = 'print-style';
+      document.head.appendChild(printStyle);
+    }
+    printStyle.textContent = `
+      @media print {
+        html, body {
+          height: auto !important;
+          overflow: visible !important;
+        }
+        * {
+          overflow: visible !important;
+        }
+        .horizontal-diet-table {
+          page-break-inside: avoid !important;
+        }
+        @page {
+          size: landscape;
+          margin: 10mm !important;
+        }
+      }
+    `;
+    
+    // Print with delay to ensure DOM updates
+    setTimeout(() => {
+      window.print();
+      
+      // Restore original content after printing
+      if (clientNameElement && clientNameElement.hasAttribute('data-original-content')) {
+        clientNameElement.textContent = clientNameElement.getAttribute('data-original-content');
+      }
+      
+      // Restore footers
+      footers.forEach(footer => {
+        if (footer instanceof HTMLElement) {
+          footer.style.display = '';
+        }
+      });
+      
+      // Restore table styling
+      if (dietTable && dietTable instanceof HTMLElement) {
+        dietTable.classList.remove('print-optimize');
+        dietTable.style.fontSize = '';
+        dietTable.style.lineHeight = '';
+        dietTable.style.pageBreakInside = '';
+        dietTable.style.width = '';
+        dietTable.style.tableLayout = '';
+        
+        // Restore cell padding and word break
+        const tdElements = dietTable.querySelectorAll('td');
+        tdElements.forEach(td => {
+          if (td instanceof HTMLElement) {
+            td.style.padding = '';
+            td.style.wordBreak = '';
+          }
+        });
+        
+        // Restore header styling
+        const thElements = dietTable.querySelectorAll('th');
+        thElements.forEach(th => {
+          if (th instanceof HTMLElement) {
+            th.style.height = '';
+            th.style.padding = '';
+          }
+        });
+      }
+      
+      // Restore scrollable elements
+      if (tableContainer && tableContainer instanceof HTMLElement) {
+        tableContainer.style.overflow = '';
+        tableContainer.style.maxHeight = '';
+        tableContainer.style.height = '';
+        tableContainer.style.width = '';
+      }
+      
+      scrollableElements.forEach(elem => {
+        if (elem instanceof HTMLElement) {
+          elem.style.overflow = '';
+          elem.style.maxHeight = '';
+          elem.style.height = '';
+        }
+      });
+      
+      // Remove print-specific CSS
+      if (printStyle) {
+        printStyle.textContent = '';
+      }
+      
+      // Restore modal content
+      if (modalContent) {
+        modalContent.removeAttribute('style');
+      }
+    }, 200);
+  }
 
-
-
+  // Format date to DD/MM/YYYY string format
   formatDate(dateInput: string | Date): string {
     const dateObj = new Date(dateInput);
     const day = dateObj.getDate().toString().padStart(2, '0');
@@ -366,8 +482,7 @@ printDiet(): void {
     return `${day}/${month}/${year}`;
   }
 
-
-
+  // Transform raw diet data from API into format needed for the UI
   transformDiets(): void {
     if (!this.diets || !Array.isArray(this.diets)) {
       console.warn('No diets data to transform');
@@ -381,6 +496,7 @@ printDiet(): void {
       // Add days info into a property that matches the HTML template expectations
       const typedDiet = diet as any; // Use type assertion to avoid TypeScript errors
       
+      // Normalize diet days structure for consistent access in template
       if (typedDiet.dietDays && !typedDiet.Days) {
         typedDiet.Days = typedDiet.dietDays.map((day: any) => {
           // Also normalize the meal structure
@@ -394,6 +510,7 @@ printDiet(): void {
         });
       }
       
+      // Return simplified diet object for list display
       return {
         id: typedDiet.id,
         date: this.formatDate(typedDiet.dateCreated),
@@ -405,9 +522,8 @@ printDiet(): void {
     
     // console.log('Transformed diets:', this.transformedDiets);
   }
-/////////////////////////////////////////////
 
-
+  // Filter diets based on search term
   filterDiets(searchTerm: string) {
     if (!searchTerm) {
       return this.transformedDiets;
@@ -417,23 +533,21 @@ printDiet(): void {
     );
   }
 
+  // Handle pagination page change
   onPageChanged(newPage: number) {
     this.currentPage = newPage;
     this.loadPage(newPage);
   }
 
-
+  // Load specific page of diet items
   loadPage(page: number) {
     const start = (page - 1) * this.pageSize;
-    // If you want the diets in reverse order, reverse them once here.
+    // Reverse diets to show newest first
     const reversedDiets = [...this.filteredDiets].reverse();
     this.pagedItems = reversedDiets.slice(start, start + this.pageSize);
-  
-  ///////// TO CHANGE
-  
   }
 
-
+  // Open the edit diet dialog
   openEditDietsModal(dietId: string): void {
     // Close the diet details modal if open
     this.closeDetails();
@@ -455,8 +569,7 @@ printDiet(): void {
     });
   }
 
-
-
+  // Open the add diet dialog
   openAddDietsModal(clientsId: string): void {
     const dialogRef = this.dialog.open(AddDietsComponent, {
       width: '90%', // Wider to accommodate the form
@@ -474,7 +587,7 @@ printDiet(): void {
     });
   }
 
-
+  // Display detailed view of a diet
   showDietDetails(diet: any) {
     // console.log('Original diet object:', diet);
     
@@ -527,7 +640,7 @@ printDiet(): void {
     this.processSelectedDiet();
   }
   
-  // New method to process the selected diet after it's been fetched or selected
+  // Process the selected diet data for consistent structure
   processSelectedDiet() {
     if (!this.selectedDiet) {
       console.error('No selected diet to process');
@@ -536,6 +649,7 @@ printDiet(): void {
     
     const typedDiet = this.selectedDiet as any;
     
+    // Normalize date format
     if (typedDiet.dateCreated && !typedDiet.date) {
       typedDiet.date = this.formatDate(typedDiet.dateCreated);
     }
@@ -595,138 +709,128 @@ printDiet(): void {
     }
   }
     
-    closeDetails(): void {
-      this.selectedDiet = null;
+  // Close the diet details modal
+  closeDetails(): void {
+    this.selectedDiet = null;
+  }
+
+  // Delete confirmation state variables
+  showDeleteConfirmation = false;
+  dietToDeleteId: string | null = null;
+  deleteSuccessMessage: string | null = null;
+
+  // Open the delete confirmation dialog
+  openDeleteConfirmation(dietId: string, event?: Event): void {
+    if (event) {
+      event.stopPropagation(); // Prevent row click event from firing only if event is provided
+    }
+    this.dietToDeleteId = dietId;
+    this.showDeleteConfirmation = true;
+  }
+
+  // Cancel diet deletion
+  cancelDelete(): void {
+    this.showDeleteConfirmation = false;
+    this.dietToDeleteId = null;
+    this.deleteSuccessMessage = null;
+  }
+
+  // Confirm and execute diet deletion
+  confirmDelete(): void {
+    if (this.dietToDeleteId) {
+      this.dietService.deleteDiet(this.dietToDeleteId).subscribe({
+        next: () => {
+          // Close both popup windows immediately
+          this.selectedDiet = null; // Close the details modal if open
+          this.showDeleteConfirmation = false; // Close the confirmation dialog
+          
+          this.deleteSuccessMessage = "Diet deleted successfully!";
+          
+          // Remove the deleted diet from the arrays
+          this.diets = this.diets.filter(diet => diet.id !== this.dietToDeleteId);
+          this.transformDiets(); // Refresh the transformed diets
+          this.filteredDiets = this.transformedDiets;
+          this.totalItems = this.filteredDiets.length;
+          this.loadPage(this.currentPage);
+          
+          // Clear the deletion-related variables after a delay
+          setTimeout(() => {
+            this.dietToDeleteId = null;
+            this.deleteSuccessMessage = null;
+          }, 1500);
+        },
+        error: (error) => {
+          console.error("Error deleting diet:", error);
+          // Close the confirmation dialog on error too
+          this.showDeleteConfirmation = false;
+        }
+      });
+    }
+  }
+
+  // Get meal content for a specific day and meal type
+  getDayMeal(dayIndex: number, mealType: string): string {
+    // Check if diet exists
+    if (!this.selectedDiet) {
+      return '';
     }
 
+    // Handle all possible property names for days
+    const days = this.selectedDiet.Days || this.selectedDiet.days || this.selectedDiet.dietDays;
+    if (!days || !Array.isArray(days)) {
+      return '';
+    }
 
+    // Make sure the day exists at the index
+    const day = days[dayIndex];
+    if (!day) {
+      return '';
+    }
 
-showDeleteConfirmation = false;
-dietToDeleteId: string | null = null;
-deleteSuccessMessage: string | null = null;
+    // Get meals from any possible property name
+    const meals = day.Meals || day.meals || day.dietMeals;
+    if (!meals || !Array.isArray(meals)) {
+      return '';
+    }
 
+    // Find the meal - handle different property naming conventions
+    const meal = meals.find(m => 
+      (m.type === mealType) || (m.Type === mealType) || (m.mealType === mealType)
+    );
 
-
-openDeleteConfirmation(dietId: string, event?: Event): void {
-  if (event) {
-    event.stopPropagation(); // Prevent row click event from firing only if event is provided
-  }
-  this.dietToDeleteId = dietId;
-  this.showDeleteConfirmation = true;
-}
-
-
-
-cancelDelete(): void {
-  this.showDeleteConfirmation = false;
-  this.dietToDeleteId = null;
-  this.deleteSuccessMessage = null;
-}
-
-confirmDelete(): void {
-  if (this.dietToDeleteId) {
-    this.dietService.deleteDiet(this.dietToDeleteId).subscribe({
-      next: () => {
-        // Close both popup windows immediately
-        this.selectedDiet = null; // Close the details modal if open
-        this.showDeleteConfirmation = false; // Close the confirmation dialog
-        
-        this.deleteSuccessMessage = "Diet deleted successfully!";
-        
-        // Remove the deleted diet from the arrays
-        this.diets = this.diets.filter(diet => diet.id !== this.dietToDeleteId);
-        this.transformDiets(); // Refresh the transformed diets
-        this.filteredDiets = this.transformedDiets;
-        this.totalItems = this.filteredDiets.length;
-        this.loadPage(this.currentPage);
-        
-        // Clear the deletion-related variables after a delay
-        setTimeout(() => {
-          this.dietToDeleteId = null;
-          this.deleteSuccessMessage = null;
-        }, 1500);
-      },
-      error: (error) => {
-        console.error("Error deleting diet:", error);
-        // Close the confirmation dialog on error too
-        this.showDeleteConfirmation = false;
-      }
-    });
-  }
-}
-
-
-getDayMeal(dayIndex: number, mealType: string): string {
-  // Check if diet exists
-  if (!this.selectedDiet) {
+    // Return meal content if found
+    if (meal) {
+      return meal.meal || meal.Meal || '';
+    }
+    
     return '';
   }
 
-  // Handle all possible property names for days
-  const days = this.selectedDiet.Days || this.selectedDiet.days || this.selectedDiet.dietDays;
-  if (!days || !Array.isArray(days)) {
+  // Get meal content from array by meal type with fallbacks
+  getMealContent(meals: any[], mealType: string): string {
+    if (!meals || !Array.isArray(meals)) {
+      return '';
+    }
+    
+    // First try exact match
+    const meal = meals.find(m => m.Type === mealType);
+    
+    // If found, return the meal content
+    if (meal) {
+      return meal.Meal;
+    }
+    
+    // For Morning Snack or Afternoon Snack, try generic 'Snack' if not found
+    if ((mealType === 'Morning Snack' || mealType === 'Afternoon Snack') && 
+        meals.some(m => m.Type === 'Snack')) {
+      return meals.find(m => m.Type === 'Snack')?.Meal || '';
+    }
+    
     return '';
   }
 
-  // Make sure the day exists at the index
-  const day = days[dayIndex];
-  if (!day) {
-    return '';
+  // Navigation - go back to previous page
+  goBack(): void {
+    this.location.back();
   }
-
-  // Get meals from any possible property name
-  const meals = day.Meals || day.meals || day.dietMeals;
-  if (!meals || !Array.isArray(meals)) {
-    return '';
-  }
-
-  // Find the meal - handle different property naming conventions
-  const meal = meals.find(m => 
-    (m.type === mealType) || (m.Type === mealType) || (m.mealType === mealType)
-  );
-
-  // Return meal content if found
-  if (meal) {
-    return meal.meal || meal.Meal || '';
-  }
-  
-  return '';
-}
-
-getMealContent(meals: any[], mealType: string): string {
-  if (!meals || !Array.isArray(meals)) {
-    return '';
-  }
-  
-  // First try exact match
-  const meal = meals.find(m => m.Type === mealType);
-  
-  // If found, return the meal content
-  if (meal) {
-    return meal.Meal;
-  }
-  
-  // For Morning Snack or Afternoon Snack, try generic 'Snack' if not found
-  if ((mealType === 'Morning Snack' || mealType === 'Afternoon Snack') && 
-      meals.some(m => m.Type === 'Snack')) {
-    return meals.find(m => m.Type === 'Snack')?.Meal || '';
-  }
-  
-  return '';
-}
-
-
-
-
-
-
-goBack(): void {
-  this.location.back();
-}
-
-
-
-
-
-
 }

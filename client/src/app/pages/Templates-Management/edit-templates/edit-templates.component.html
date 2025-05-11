@@ -1,22 +1,30 @@
+<!-- Main container for the template editing form -->
 <div class="form-container">
+    <!-- Page title -->
     <h2 class="title">Edit Template</h2>
     
+    <!-- Form using Angular's reactive forms with formGroup binding and submission handler -->
     <form [formGroup]="editTemplateForm" (ngSubmit)="updateTemplate()">
+      <!-- Template name section -->
       <div class="template-header">
         <div class="template-info-row">
           <label for="templateName">Template Name:</label>
+          <!-- Input field for template name with form control binding -->
           <input id="templateName" type="text" formControlName="name" placeholder="Enter template name" class="form-control" />
         </div>
+        <!-- Error message that displays only when name field is invalid and touched -->
         <div class="error-feedback" [hidden]="editTemplateForm.controls['name'].valid || !editTemplateForm.controls['name'].touched">
           Name is required
         </div>
       </div>
   
+      <!-- Weekly meal plan section with 7-day table layout -->
       <div class="template-days-section">
-        <!-- Horizontal table layout with days as columns -->
+        <!-- Table with days of week as columns and meal types as rows -->
         <table class="horizontal-template-table">
           <thead>
             <tr>
+              <!-- Column headers for meal type and days of the week -->
               <th class="meal-type-header">Meal Type</th>
               <th>Monday</th>
               <th>Tuesday</th>
@@ -28,45 +36,52 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Breakfast Row -->
+            <!-- Breakfast Row - First meal type (index 0) -->
             <tr>
               <td class="meal-type">Breakfast</td>
+              <!-- Monday breakfast - getDayMealControl(0,0) gets the form control for day 0 (Monday), meal type 0 (Breakfast) -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(0, 0)" 
                   class="compact-textarea" 
                   placeholder="Monday breakfast"></textarea>
               </td>
+              <!-- Tuesday breakfast - day index 1, meal type index 0 -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(1, 0)" 
                   class="compact-textarea" 
                   placeholder="Tuesday breakfast"></textarea>
               </td>
+              <!-- Wednesday breakfast - day index 2, meal type index 0 -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(2, 0)" 
                   class="compact-textarea" 
                   placeholder="Wednesday breakfast"></textarea>
               </td>
+              <!-- Thursday breakfast - day index 3, meal type index 0 -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(3, 0)" 
                   class="compact-textarea" 
                   placeholder="Thursday breakfast"></textarea>
               </td>
+              <!-- Friday breakfast - day index 4, meal type index 0 -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(4, 0)" 
                   class="compact-textarea" 
                   placeholder="Friday breakfast"></textarea>
               </td>
+              <!-- Saturday breakfast - day index 5, meal type index 0 -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(5, 0)" 
                   class="compact-textarea" 
                   placeholder="Saturday breakfast"></textarea>
               </td>
+              <!-- Sunday breakfast - day index 6, meal type index 0 -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(6, 0)" 
@@ -75,9 +90,10 @@
               </td>
             </tr>
             
-            <!-- Morning Snack Row -->
+            <!-- Morning Snack Row - Second meal type (index 1) -->
             <tr>
               <td class="meal-type">Morning Snack</td>
+              <!-- Each cell contains a textarea bound to a form control for the specific day/meal combination -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(0, 1)" 
@@ -122,9 +138,10 @@
               </td>
             </tr>
             
-            <!-- Lunch Row -->
+            <!-- Lunch Row - Third meal type (index 2) -->
             <tr>
               <td class="meal-type">Lunch</td>
+              <!-- The getDayMealControl method dynamically retrieves the correct form control from the form structure -->
               <td>
                 <textarea 
                   [formControl]="getDayMealControl(0, 2)" 
@@ -169,7 +186,7 @@
               </td>
             </tr>
             
-            <!-- Afternoon Snack Row -->
+            <!-- Afternoon Snack Row - Fourth meal type (index 3) -->
             <tr>
               <td class="meal-type">Afternoon Snack</td>
               <td>
@@ -216,7 +233,7 @@
               </td>
             </tr>
             
-            <!-- Dinner Row -->
+            <!-- Dinner Row - Fifth meal type (index 4) -->
             <tr>
               <td class="meal-type">Dinner</td>
               <td>
@@ -266,17 +283,22 @@
         </table>
       </div>
       
+      <!-- Form action buttons section -->
       <div class="form-actions">
+        <!-- Submit button that triggers the updateTemplate() method when clicked -->
         <button type="submit" class="primary-button">Update Template</button>
+        <!-- Cancel button that calls the cancel() method when clicked -->
         <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
       </div>
     </form>
     
-    <!-- Messages -->
+    <!-- Feedback messages section -->
+    <!-- Success message shown only when successMessage has value (conditional display) -->
     <div class="success-message" [hidden]="!successMessage">
       {{ successMessage }}
     </div>
     
+    <!-- Error message shown only when errorMessage has value (conditional display) -->
     <div class="error-message" [hidden]="!errorMessage">
       {{ errorMessage }}
     </div>

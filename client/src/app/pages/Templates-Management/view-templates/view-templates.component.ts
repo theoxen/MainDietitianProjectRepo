@@ -20,29 +20,36 @@ import html2canvas from 'html2canvas';
 })
 export class ViewTemplatesComponent implements OnInit {
 
-
-
-
-
+  // Using Angular's inject() function to get service instances
+  // This is a modern alternative to constructor dependency injection
   dialog = inject(MatDialog);
   templateService = inject(TemplatesService);
   
-  templates: any[] = [];
-  transformedTemplates: any[] = [];
-  filteredTemplates: any[] = [];
-  pagedItems: any[] = [];
+  // Main data arrays for templates
+  templates: any[] = [];             // Raw template data from API
+  transformedTemplates: any[] = [];  // Processed templates with normalized structure
+  filteredTemplates: any[] = [];     // Templates after search filtering
+  pagedItems: any[] = [];            // Templates for current pagination page
+  
+  // Pagination related properties
   totalItems = 0;
   pageSize = 10;
   currentPage = 1;
+  
+  // Form control for search functionality
   searchControl = new FormControl('');
   
+  // Properties for template deletion and selection
   templateToDeleteId: string | null = null;
   showDeleteConfirmation = false;
   deleteSuccessMessage: string | null = null;
   selectedTemplate: any = null;
+  
+  // Form for date range searching
   dateSearchForm: FormGroup;
   
   constructor() {
+    // Initialize the date search form with empty start and end dates
     this.dateSearchForm = new FormGroup({
       startDate: new FormControl(''),
       endDate: new FormControl('')
@@ -50,7 +57,10 @@ export class ViewTemplatesComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    // Load templates when component initializes
     this.fetchTemplates();
+    
+    // Set up real-time search filter that updates pagination when search value changes
     this.searchControl.valueChanges.subscribe(value => {
       this.filteredTemplates = this.filterTemplates(value || '');
       this.totalItems = this.filteredTemplates.length;
@@ -58,9 +68,14 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Fetches all templates from the API service and processes them
+   * Sets up the initial view with all available templates
+   */
   fetchTemplates(): void {
     this.templateService.fetchTemplates().subscribe({
       next: (response: any) => {
+        // Ensure response is always treated as an array
         this.templates = Array.isArray(response) ? response : [response];
         this.transformTemplates();
         this.filteredTemplates = this.transformedTemplates;
@@ -68,6 +83,7 @@ export class ViewTemplatesComponent implements OnInit {
         this.loadPage(this.currentPage);
       },
       error: (error: any) => {
+        // Reset all template arrays if fetch fails
         console.error("Error fetching templates:", error);
         this.transformedTemplates = [];
         this.filteredTemplates = [];
@@ -77,6 +93,10 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Normalizes template data structure for consistency
+   * Ensures all templates have the same properties regardless of backend data structure
+   */
   transformTemplates(): void {
     this.transformedTemplates = this.templates.map(template => {
       const typedTemplate = { ...template };
@@ -105,6 +125,10 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Formats date objects to DD/MM/YYYY string format
+   * Handles both Date objects and date strings
+   */
   formatDate(dateInput: string | Date): string {
     const dateObj = new Date(dateInput);
     const day = dateObj.getDate().toString().padStart(2, '0');
@@ -113,6 +137,10 @@ export class ViewTemplatesComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
   
+  /**
+   * Filters the templates based on search term (name or date)
+   * Case-insensitive search that returns all templates if no search term provided
+   */
   filterTemplates(searchTerm: string): any[] {
     if (!searchTerm) {
       return this.transformedTemplates;
@@ -124,6 +152,10 @@ export class ViewTemplatesComponent implements OnInit {
     );
   }
   
+  /**
+   * Updates the current page of templates based on pagination
+   * Reverses the order to show newest templates first
+   */
   loadPage(page: number) {
     this.currentPage = page;
     const start = (page - 1) * this.pageSize;
@@ -131,11 +163,17 @@ export class ViewTemplatesComponent implements OnInit {
     this.pagedItems = reversedTemplates.slice(start, start + this.pageSize);
   }
   
+  /**
+   * Event handler for pagination component's page change event
+   */
   onPageChanged(newPage: number) {
     this.loadPage(newPage);
   }
   
-
+  /**
+   * Exports the selected template as PDF using html2canvas and jsPDF
+   * Captures the template table and converts it to PDF format
+   */
   downloadTemplatePdf(): void {
     if (!this.selectedTemplate) return;
     const templateTable = document.querySelector('.horizontal-template-table') as HTMLElement;
@@ -155,6 +193,10 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Opens the template editor dialog for modifying existing templates
+   * Refreshes the template list if changes are made
+   */
   openEditTemplateModal(templateId: string): void {
     this.closeDetails();
     const dialogRef = this.dialog.open(EditTemplatesComponent, {
@@ -171,6 +213,10 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Opens the dialog to create a new template
+   * Refreshes the template list if a new template is created
+   */
   openAddTemplateModal(): void {
     const dialogRef = this.dialog.open(AddTemplatesComponent, {
       width: '90%',
@@ -185,18 +231,29 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Opens the delete confirmation dialog
+   * Uses event.stopPropagation to prevent triggering template selection
+   */
   openDeleteConfirmation(templateId: string, event?: Event): void {
     if (event) event.stopPropagation();
     this.templateToDeleteId = templateId;
     this.showDeleteConfirmation = true;
   }
   
+  /**
+   * Cancels template deletion and resets confirmation state
+   */
   cancelDelete(): void {
     this.showDeleteConfirmation = false;
     this.templateToDeleteId = null;
     this.deleteSuccessMessage = null;
   }
   
+  /**
+   * Confirms template deletion and calls the API service to delete
+   * Updates the UI with success message and refreshes template list
+   */
   confirmDelete(): void {
     if (this.templateToDeleteId) {
       this.templateService.deleteTemplate(this.templateToDeleteId).subscribe({
@@ -209,6 +266,7 @@ export class ViewTemplatesComponent implements OnInit {
           this.filteredTemplates = this.transformedTemplates;
           this.totalItems = this.filteredTemplates.length;
           this.loadPage(this.currentPage);
+          // Clear message after 1.5 seconds
           setTimeout(() => {
             this.templateToDeleteId = null;
             this.deleteSuccessMessage = null;
@@ -222,7 +280,13 @@ export class ViewTemplatesComponent implements OnInit {
     }
   }
   
- 
+  /**
+   * Retrieves a specific meal for a specific day in the selected template
+   * Used to populate the template details table
+   * @param dayIndex - Index representing the day (0=Monday through 6=Sunday)
+   * @param mealType - Type of meal (e.g., "Breakfast", "Lunch")
+   * @returns The meal content as a string
+   */
   getDayMeal(dayIndex: number, mealType: string): string {
     if (!this.selectedTemplate || !this.selectedTemplate.Days) {
       return '';
@@ -252,8 +316,10 @@ export class ViewTemplatesComponent implements OnInit {
     return meal ? (meal.Meal || meal.meal || '') : '';
   }
 
-
-
+  /**
+   * Displays detailed view of the selected template
+   * Fetches full template data if only summary was loaded initially
+   */
   showTemplateDetails(template: any): void {
     this.templateService.getTemplateById(template.id).subscribe({
       next: (fullTemplate: any) => {
@@ -269,6 +335,11 @@ export class ViewTemplatesComponent implements OnInit {
     });
   }
   
+  /**
+   * Processes and normalizes the selected template data structure
+   * Ensures consistent data structure for display regardless of API response format
+   * Creates empty structures for missing days or meals
+   */
   processSelectedTemplate(): void {
     if (!this.selectedTemplate) return;
     
@@ -350,7 +421,10 @@ export class ViewTemplatesComponent implements OnInit {
     this.selectedTemplate = processedTemplate;
   }
  
-  
+  /**
+   * Closes the template detail view
+   * Used when navigating away or canceling detail view
+   */
   closeDetails(): void {
     this.selectedTemplate = null;
   }
