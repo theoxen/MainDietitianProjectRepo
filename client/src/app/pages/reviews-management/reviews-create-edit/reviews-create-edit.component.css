@@ -1,133 +1,151 @@
-
-
+/* Styles for a textarea that automatically resizes */
 .auto-resize {
-  width: 100%;
-  overflow: hidden;
-  resize: none;
-  border-radius: 8px; /* Adjust the value as needed */
-  padding: 10px; /* Optional: Add padding for better appearance */
-  border: 1px solid #ccc; /* Optional: Add border for better appearance */
-  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+  width: 100%; /* Full width of the container */
+  overflow: hidden; /* Hide overflow content */
+  resize: none; /* Disable manual resizing */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px; /* Padding for better appearance */
+  border: 1px solid #ccc; /* Light gray border */
+  box-sizing: border-box; /* Include padding and border in width/height */
 }
 
+/* Container for the review section */
 .review-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  width: 100%; /* Full width of the container */
+  display: flex; /* Flexbox layout */
+  justify-content: center; /* Center content horizontally */
 }
 
+/* Box with hover effects and styling */
 .primary-hover-box {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 750px;
+  background-color: #f9f9f9; /* Light gray background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px; /* Inner padding */
+  max-width: 750px; /* Maximum width */
 }
 
+/* Inner box for additional padding */
 .hover-box {
-  padding: 20px;
+  padding: 20px; /* Inner padding */
 }
 
+/* Container for the title */
 .title-box {
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Space below the title */
 }
 
+/* Styling for the title text */
 .title {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
+  font-size: 24px; /* Large font size */
+  font-weight: bold; /* Bold text */
+  margin: 0; /* Remove default margin */
 }
 
+/* Margin above the review section */
 .review {
   margin-top: 20px;
 }
 
+/* Form styling for the review form */
 .reviewForm-form {
-  display: flex;
-  flex-direction: column;
+  display: flex; /* Flexbox layout */
+  flex-direction: column; /* Stack elements vertically */
 }
 
+/* Button group with spacing between buttons */
 .button-group {
-  display: flex;
-  justify-content: space-between;
-
+  display: flex; /* Flexbox layout */
+  justify-content: space-between; /* Space out buttons */
   gap: 20px; /* Add space between buttons */
 }
 
+/* Center a single button */
 .single-button {
-  display: flex;
+  display: flex; /* Flexbox layout */
   justify-content: center; /* Center the button */
 }
 
+/* Styling for primary buttons */
 .primary-button {
-  font-size: 18px;
-  padding: 10px 20px;
+  font-size: 18px; /* Font size */
+  padding: 10px 20px; /* Padding for better appearance */
 }
 
+/* Styling for danger buttons */
 .primary-button-danger {
-  font-size: 18px;
-  padding: 10px 20px;
+  font-size: 18px; /* Font size */
+  padding: 10px 20px; /* Padding for better appearance */
 }
 
+/* Responsive styles for smaller screens */
 @media screen and (max-width: 520px) {
   .primary-button {
-      width: fit-content;
+      width: fit-content; /* Adjust width to fit content */
   }
 
   .primary-button-danger {
-      width: fit-content;
+      width: fit-content; /* Adjust width to fit content */
   }
 
   .primary-hover-box {
-      padding-left: 30px;
-      padding-right: 30px;
+      padding-left: 30px; /* Adjust left padding */
+      padding-right: 30px; /* Adjust right padding */
   }
 }
 
+/* Popup for delete confirmation */
 .confirmation-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed; /* Fixed position on the screen */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Full width of the screen */
+  height: 100%; /* Full height of the screen */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex; /* Flexbox layout */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
 }
 
+/* Content box inside the confirmation popup */
 .confirmation-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 4px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white; /* White background */
+  padding: 20px; /* Inner padding */
+  border-radius: 4px; /* Rounded corners */
+  text-align: center; /* Center-align text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
+/* Margin below the confirmation message */
 .confirmation-content p {
   margin-bottom: 20px;
 }
 
+/* Button group inside the confirmation popup */
 .confirmation-content .button-group {
-  display: flex;
-  justify-content: space-between;
+  display: flex; /* Flexbox layout */
+  justify-content: space-between; /* Space out buttons */
   gap: 20px; /* Add space between buttons */
 }
 
+/* Star rating container */
 .star-rating {
-  display: flex;
-  flex-direction: row;
+  display: flex; /* Flexbox layout */
+  flex-direction: row; /* Arrange stars in a row */
 }
 
+/* Styling for individual stars */
 .star-rating span {
-  font-size: 2rem;
-  cursor: pointer;
+  font-size: 2rem; /* Large font size */
+  cursor: pointer; /* Pointer cursor on hover */
 }
 
+/* Styling for filled stars */
 .star-rating .filled {
-  color: gold;
+  color: gold; /* Gold color for filled stars */
 }
 
+/* Error message styling */
 .error-message {
-  color: red;
+  color: red; /* Red text for errors */
 }

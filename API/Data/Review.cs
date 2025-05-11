@@ -11,6 +11,6 @@ namespace API.Data
         public string? UserFullName { get; set; } // Can be anonymous
         public Guid? UserId { get; set; }
         public bool IsAnonymous { get; set; } 
-        public User? User { get; set; } // Navigation property
+        public User? User { get; set; } 
     }
 }
