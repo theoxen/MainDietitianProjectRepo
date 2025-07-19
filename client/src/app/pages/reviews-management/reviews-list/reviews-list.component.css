@@ -25,7 +25,7 @@
   display: block; /* Makes it a block element */
   width: 80px; /* Line width */
   height: 3px; /* Line height */
-  background-color: #ff8c00; /* Orange color */
+  background-color: gold; /* Gold color */
   margin: 15px auto 0; /* Centers the line and adds spacing */
 }
 
@@ -55,7 +55,7 @@
 
 /* Primary button styling */
 .primary-button {
-  background-color: #ff8c00; /* Orange background */
+  background-color: #FFB453; /* Orange background */
   color: white; /* White text */
   border: none; /* Removes border */
   padding: 10px 20px; /* Adds padding */
@@ -71,7 +71,7 @@
 
 /* Hover effect for primary button */
 .primary-button:hover {
-  background-color: #e67e00; /* Darker orange */
+  background-color: #FFB453; /* Darker orange */
   transform: translateY(-2px); /* Slight upward movement */
 }
 
@@ -101,7 +101,7 @@
 
 /* Focus state for dropdown select */
 .sorting-select:focus {
-  border-color: #ff8c00; /* Orange border */
+  border-color: #FFB453; /* Orange border */
 }
 
 /* Label styling */
@@ -179,7 +179,7 @@ label {
 
 /* Filled star styling */
 .star-rating span.filled {
-  color: #ffb400; /* Yellow color */
+  color: #FFB453; /* Gold color */
 }
 
 /* Review content styling */
@@ -198,8 +198,8 @@ label {
 /* Load more button styling */
 .load-more-button {
   background-color: transparent; /* Transparent background */
-  border: 2px solid #ff8c00; /* Orange border */
-  color: #ff8c00; /* Orange text */
+  border: 2px solid #FFB453; /* Gold border */
+  color: #FFB453; /* Gold text */
   padding: 12px 24px; /* Adds padding */
   border-radius: 30px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
@@ -212,7 +212,7 @@ label {
 
 /* Hover effect for load more button */
 .load-more-button:hover {
-  background-color: #ff8c00; /* Orange background */
+  background-color: #FFB453; /* Gold background */
   color: white; /* White text */
 }
 

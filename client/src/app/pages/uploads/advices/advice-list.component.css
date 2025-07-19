@@ -18,13 +18,13 @@
   }
   .space{
     width: 270px;
-    height: 2px;
-    margin-right: -100px;
+        height: 2px;
+        margin-right: -100px;
   }
 .back-button{
   margin-left: -100px;
 }
- .page-title{
+  .page-title{
     text-align: center;
   margin-bottom: 2.5rem;
   max-width: 500px;
@@ -127,13 +127,13 @@
 }
 
 /* Articles grid layout */
-.articles-container {
+.advices-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
 }
 
-.article-card {
+.advice-card {
   background-color: white;
   border-radius: 10px;
   border-top: 5px solid #ffd39b;
@@ -146,12 +146,12 @@
   overflow: hidden;
 }
 
-.article-card:hover {
+.advice-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25);
 }
 
-.article-date {
+.advice-date {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -160,7 +160,7 @@
   font-size: 0.85rem;
 }
 
-.article-title {
+.advice-title {
   color: #000;
   font-size: 1.25rem;
   font-weight: 600;
@@ -172,7 +172,7 @@
   max-width: 100%;
 }
 
-.article-description {
+.advice-description {
   color: #444;
   font-size: 1rem;
   line-height: 1.5;
@@ -185,7 +185,7 @@
   overflow: hidden;
 }
 
-.article-actions {
+.advice-actions {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -217,20 +217,6 @@
 }
 
 .read-more-btn:hover {
-  color: #ffbb62;
-}
-
-.article-link {
-  color: #ffbb62;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: color 0.3s;
-}
-
-.article-link:hover {
   color: #ffbb62;
 }
 
@@ -318,7 +304,7 @@
   border-top: 5px solid #ffbb62; /*#FFB453*/
 }
 
-.article-view-modal {
+.advice-view-modal {
   max-width: 800px;
 }
 
@@ -365,7 +351,7 @@
 }
 
 /* Article view modal specific styles */
-.article-date-detail {
+.advice-date-detail {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -374,7 +360,7 @@
   font-size: 0.9rem;
 }
 
-.article-description-full {
+.advice-description-full {
   color: #333;
   line-height: 1.7;
   font-size: 1.1rem;
@@ -382,13 +368,13 @@
   white-space: pre-line; /* Preserves line breaks in the description */
 }
 
-.article-actions-detail {
+.advice-actions-detail {
   margin-top: 2rem;
   padding-top: 1rem;
   border-top: 1px solid #eee;
 }
 
-.article-link-detail {
+.advice-link-detail {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -401,7 +387,7 @@
   transition: all 0.3s ease;
 }
 
-.article-link-detail:hover {
+.advice-link-detail:hover {
   background-color:#ffbb62;
   color: white;
 }
@@ -470,7 +456,7 @@
     font-size: 18px;
   }
   
-  .articles-container {
+  .advices-container {
     grid-template-columns: 1fr;
   }
 

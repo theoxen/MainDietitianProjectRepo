@@ -1,0 +1,40 @@
+<div class="page">
+    <app-nav-bar></app-nav-bar>
+  
+    <div class="container">
+      <div class="advice-detail-container">
+        <button class="primary-button back-button" routerLink="/uploads/advice/view">
+          <i class="fas fa-arrow-left"></i> Back to Advices
+        </button>
+  
+        <div *ngIf="loading" class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading advice...</p>
+        </div>
+  
+        <div *ngIf="error" class="error-state">
+          <i class="fas fa-exclamation-circle"></i>
+          <h3>Failed to load advice</h3>
+          <p>There was an error loading this advice. Please try again later.</p>
+        </div>
+  
+        <article *ngIf="advice && !loading && !error" class="advice-content">
+          <header class="advice-header">
+            <h3>{{ advice.title }}</h3>
+            <div class="advice-meta">
+              <span class="advice-date">
+                <i class="far fa-calendar-alt"></i>
+                {{ advice.dateCreated | date: 'longDate' }}
+              </span>
+            </div>
+          </header>
+  
+          <div class="advice-body">
+            <div class="advice-description">
+              {{ advice.adviceText }}
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>

@@ -23,12 +23,12 @@
   position: relative;
   text-decoration: none;
   font-weight: 600;
-  color: orange;
+  color: #FFB453;
   padding-left: 5px;
   transition: .2s;
 }
 .phone-number:hover {
-  color: orange;
+  color: rgb(237, 190, 72);
 }
 .phone-number::before {
   content: "";
@@ -38,7 +38,7 @@
   height: 2px;
   bottom: 0;
   left: 4%;
-  background-color: orange;
+  background-color: #FFB453;
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -108,7 +108,7 @@ iframe {
   width: 80px;
   height: 3px;
   margin: 15px auto 0;
-  background-color: #ff8c00;
+  background-color: #FFB453;
   /* Orange underline */
 }
 
@@ -117,7 +117,7 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
 }
 
@@ -137,13 +137,13 @@ iframe {
 
 .service-icon {
   font-size: 2rem;
-  color: #ff8c00;
+  color: #FFB453;
   margin-bottom: 15px;
 }
 
 .service-card i {
   font-size: 2rem;
-  color: #ff8c00;
+  color: #FFB453;
   margin-bottom: 15px;
 }
 
@@ -200,7 +200,7 @@ iframe {
   margin-top: 15px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #ff8c00;
+  background-color: #FFB453;
 
 }
 
@@ -215,7 +215,7 @@ iframe {
 
 .read-more-btn {
   padding: 12px 28px;
-  background-color: #ff8c00;
+  background-color: #FFB453;
   color: white;
   border: none;
   border-radius: 30px;
@@ -226,7 +226,7 @@ iframe {
 }
 
 .read-more-btn:hover {
-  background-color: #e67e00;
+  background-color: #FFB453;
 }
 
 .about-image {
@@ -259,7 +259,7 @@ iframe {
   display: block;
   width: 80px;
   height: 3px;
-  background-color: #ff8c00;
+  background-color: #FFB453;
   margin: 15px auto 0;
 }
 
@@ -283,7 +283,7 @@ iframe {
   justify-content: center;
   width: 60px;
   height: 60px;
-  background-color: #ff8c00;
+  background-color: #FFB453;
   color: white;
   font-size: 24px;
   border-radius: 50%;

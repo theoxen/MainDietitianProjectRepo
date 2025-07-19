@@ -9,6 +9,7 @@ import { AddTemplatesComponent } from '../add-templates/add-templates.component'
 import { EditTemplatesComponent } from '../edit-templates/edit-templates.component';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class ViewTemplatesComponent implements OnInit {
   
   // Form for date range searching
   dateSearchForm: FormGroup;
+  private toastr = inject(ToastrService);
   
   constructor() {
     // Initialize the date search form with empty start and end dates
@@ -267,6 +269,7 @@ export class ViewTemplatesComponent implements OnInit {
           this.totalItems = this.filteredTemplates.length;
           this.loadPage(this.currentPage);
           // Clear message after 1.5 seconds
+          this.toastr.success("Template Deleted Successfully!");
           setTimeout(() => {
             this.templateToDeleteId = null;
             this.deleteSuccessMessage = null;

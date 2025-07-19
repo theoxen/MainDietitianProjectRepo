@@ -24,7 +24,7 @@ import { AddDietsComponent } from './pages/Diets/add-diets/add-diets.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 import { SelectComponent } from './pages/Reports/select/select.component';
 import { ViewReportsComponent } from './pages/Reports/view/view.component';
-import { AdviceCreateEditComponent } from './pages/advice-management/advice-create-edit/advice-create-edit.component';
+import { AdviceListComponent } from './pages/uploads/advices/advice-list.component';
 import { EditDietsComponent } from './pages/Diets/edit-diets/edit-diets.component';
 import { AppointmentsComponent } from './pages/appointments/appointments/appointments.component';
 import { UploadsComponent } from './pages/uploads/uploads.component';
@@ -32,16 +32,16 @@ import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { clientGuard } from './guards/client.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
-import { AdviceListComponent } from './pages/advice-management/advice-list/advice-list.component';
 import { DisplayArticlesComponent } from './pages/uploads/articles/articles.component';
-import { MeetUsComponent } from './pages/meet-us/meet-us.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { SelectReportComponent } from './pages/Reports/select-report/select-report.component';
-import { AboutUsViewComponent } from './pages/aboutus/view/view.component';
+import { MeetUsComponent } from './pages/meet-us/meet-us.component';
 import { ViewDietsComponent } from './pages/Diets/view-diets/view-diets.component';
 import { ViewTemplatesComponent } from './pages/Templates-Management/view-templates/view-templates.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 import { HelperComponent } from './pages/helper for admin/helper.component';
 import { HelperForClientsComponent } from './pages/helper-for-clients/helper-for-clients.component';
+import { AdviceDetailComponent } from './pages/advice-detail/advice-detail.component';
 
 
 export const routes: Routes = [
@@ -98,6 +98,7 @@ export const routes: Routes = [
          { path: "", component: UploadsComponent },
          {
             path: "articles",
+            runGuardsAndResolvers: "always",
             children: [
                { path: "", component: DisplayArticlesComponent },
                { path: ":id", component: ArticleDetailComponent },
@@ -107,9 +108,9 @@ export const routes: Routes = [
             path: "advice",
             runGuardsAndResolvers: "always",
             children: [
-               { path: "", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
-               { path: ":adviceId/edit", component: AdviceCreateEditComponent, canActivate: [adminGuard] },
+               { path: "", component: AdviceListComponent, canActivate: [adminGuard] },
                { path: "view", component: AdviceListComponent },
+               { path: ":id", component: AdviceDetailComponent },
             ]
          },
          {
@@ -155,7 +156,7 @@ export const routes: Routes = [
 
    { path: "help", component: HelperComponent, canActivate: [authGuard, adminGuard]},
    { path: "helper", component: HelperForClientsComponent },
-   { path: "about-us", component: AboutUsViewComponent },
+   { path: "about-us", component: AboutUsComponent },
    { path: "meet-us", component: MeetUsComponent },
 
 

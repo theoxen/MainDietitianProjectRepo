@@ -7,12 +7,10 @@
 
   /* Primary container for template content - provides main content area with padding and margin */
   .primary-hover-box {
-    width: 90%;
+    width: 55%;
     min-height: 500px;
     height: auto !important;
     padding: 30px;
-    padding-bottom: 50px;
-    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
   }
@@ -21,9 +19,6 @@
   .hover-box {
     width: 100%;
     height: auto;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
   }
   
   /* Container for diet templates - centers content horizontally and sets minimum height */
@@ -31,7 +26,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    min-height: 80vh;
     padding: 20px 0;
   }
 
@@ -57,16 +51,31 @@
     align-items: center;
     margin-bottom: 20px;
   }
+
+  .date-search{
+    display: flex;
+
+    justify-content:center;
+    align-items: center;
+  }
+
+  .templatesFoundAndAdd{
+    display: flex;
+
+    justify-content:space-between;
+    align-items: center;
+  }
   
   /* Add New Template button styling - uses orange color scheme for visibility */
   .AddNewButton {
-    background-color: #FFB453;
+    background-color: #ffbb62;
     color: white;
     border: none;
     padding: 7px 15px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s;
   }
   
   /* Hover state for Add New Button - darkens background for interactive feedback */
@@ -114,13 +123,19 @@
   .meal-type-header {
     width: 120px;
   }
+  .ActionButtons{
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    padding: 1% 0.1%;
+  }
   
   /* Styling for meal type cells - bolds text with light background */
   .meal-type {
     font-weight: bold;
     background-color: #f8f9fa;
   }
-  
+
   /* Makes rows clickable with cursor indication */
   .clickable-row {
     cursor: pointer;
@@ -142,11 +157,16 @@
     cursor: pointer;
     color: white;
     font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+  transition: background-color 0.3s;
   }
   
   /* Edit button - orange color */
   .EditButton {
-    background-color: #FFA726;
+    background-color: #ffbb62;
   }
   
   /* Delete button - red color to indicate destructive action */
@@ -161,7 +181,7 @@
   
   /* Hover states for action buttons - darken colors */
   .EditButton:hover {
-    background-color: #FB8C00;
+    background-color: #f1951b;
   }
   
   .DeleteButton:hover {
@@ -275,9 +295,10 @@
   
   /* Pagination controls container - centered horizontally */
   .pagination-container {
-    margin-top: 20px;
+    min-height: 5vw;
     display: flex;
     justify-content: center;
+    align-items: end;
   }
 
   /* Heading style inside table cells - reset margins and adjust font size */
@@ -285,4 +306,30 @@
     font-size: 18px;
     font-weight: normal;
     margin: 0;
+  }
+
+  @media screen and (max-width: 1150px) {
+      .primary-hover-box {
+      width: 100%;
+
+    }
+  
+
+  }
+
+
+    @media screen and (max-width: 650px) {
+      .primary-hover-box {
+      width: 100%;
+
+    }
+    .EditButton div {
+      display: none;
+    }
+    .DeleteButton div {
+      display: none;
+    }
+    .ActionButtons{
+      gap: 0;
+    }
   }
