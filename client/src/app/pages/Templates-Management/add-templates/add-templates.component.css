@@ -114,7 +114,7 @@
   
   /* Primary action button - orange color theme matching the application's brand */
   .primary-button {
-    background-color: #FFB453;
+    background-color:#ffbb62;
     color: white;
   }
   
@@ -126,7 +126,7 @@
   
   /* Hover effect for primary button - slightly darker orange */
   .primary-button:hover {
-    background-color: #FFA726;
+    background-color: #e09b57;
   }
   
   /* Hover effect for secondary button - slightly darker gray */

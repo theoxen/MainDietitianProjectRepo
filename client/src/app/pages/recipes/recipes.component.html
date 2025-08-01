@@ -5,18 +5,27 @@
     
     <!-- Header section with back navigation -->
     <div class="page-header">
+        <div class="space"></div>
+        
+        <h1 class="title">Recipes</h1>
+
+        
+        
         <!-- Back button with FontAwesome icon -->
         <button type="button" class="primary-button back-button" routerLink="/uploads">
-            <i class="fas fa-arrow-left"></i> Back
+            <i class="fas fa-arrow-left"></i> Back to Uploads
         </button>
+        
+        
     </div>
 
     <!-- Main content container -->
     <div class="main-container">
-        <h1 class="title">Recipes</h1>
         
         <!-- Search functionality with two-way binding and real-time filtering -->
         <div class="search-container">
+            
+            
             <div class="search-bar">
                 <input class="primary-input-field form-control" 
                        type="text" 
@@ -24,20 +33,20 @@
                        [(ngModel)]="searchTerm" 
                        (input)="filterRecipes()">
             </div>
+        
         </div>
-
         <!-- Conditional rendering of admin-only add recipe button -->
         @if (isadmin) {
-        <div class="add-recipe-container">
             <!-- Router link navigation to add recipe form -->
-            <a [routerLink]="['add']" class="add-recipe-card">
-                <div class="card-body">
+            <a [routerLink]="['add']" class="routerLink">
+                <div class="primary-button addNewRecipe">
                     <i class="fas fa-plus"></i>
-                    <h5>Add New Recipe</h5>
+                    Add New Recipe
                 </div>
             </a>
-        </div>
         }
+            
+        
 
         <!-- Grid layout for displaying recipe cards -->
         <div class="recipes-grid">

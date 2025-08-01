@@ -13,28 +13,30 @@
           </div>
   
           <!-- Search and Add New section - contains search input and add button -->
-          <div class="FoundDeitsAndAddNew">
-            <!-- Search input bound to searchControl FormControl for filtering templates -->
-            <div class="date-search">
-              <input type="text" placeholder="Search by name or date" [formControl]="searchControl" />
-            </div>
-            <!-- Button to open the modal for adding a new template -->
+          
+          <!-- Search input bound to searchControl FormControl for filtering templates -->
+          <div class="date-search">
+            <input type="text" placeholder="Search by name or date" [formControl]="searchControl" />
+          </div>
+            
+            
+          <div class="templatesFoundAndAdd">
+             <!-- Information text showing number of templates found, hidden when no results -->
+            <p class="DietsFound" [hidden]="filteredTemplates.length === 0">
+              <i class="fa-solid fa-circle-info"></i> Found {{filteredTemplates.length}} templates.
+            </p>
+             <!-- Button to open the modal for adding a new template -->
             <button (click)="openAddTemplateModal()" class="AddNewButton">
               <i class="fa-solid fa-plus"></i>Add New
             </button>
           </div>
-  
-          <!-- Information text showing number of templates found, hidden when no results -->
-          <p class="DietsFound" [hidden]="filteredTemplates.length === 0">
-            <i class="fa-solid fa-circle-info"></i> Found {{filteredTemplates.length}} templates.
-          </p>
           
           <!-- Templates listing table with fixed column widths -->
           <table>
             <thead>
               <tr>
-                <th style="width: 120px;">Date</th>
-                <th style="width: 50%;">Name</th>
+                <th style="width: 600px;">Date</th>
+                <th style="width: 45%;">Name</th>
                 <th style="width: 100px;">Actions</th>
               </tr>
             </thead>
@@ -43,14 +45,14 @@
               <tr *ngFor="let template of pagedItems" (click)="showTemplateDetails(template)" class="clickable-row">
                 <td><h2>{{ template?.date }}</h2></td>
                 <td>{{ template?.name }}</td>
-                <td>
+                <td class="ActionButtons">
                   <!-- Edit button with event stopping to prevent triggering row click -->
                   <button (click)="openEditTemplateModal(template?.id); $event.stopPropagation();" class="EditButton">
-                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                    <i class="fa-solid fa-pen-to-square"></i><div>Edit</div> 
                   </button>
                   <!-- Delete button with confirmation workflow -->
                   <button (click)="openDeleteConfirmation(template?.id, $event)" class="DeleteButton">
-                    <i class="fa-solid fa-trash"></i> Delete
+                    <i class="fa-solid fa-trash"></i> <div>Delete</div>
                   </button>
                 </td>
               </tr>

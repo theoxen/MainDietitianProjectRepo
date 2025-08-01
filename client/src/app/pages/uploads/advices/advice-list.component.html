@@ -2,12 +2,10 @@
   <app-nav-bar></app-nav-bar>
 
   <div class="page-header">
-
     <div class="space"></div>
-    
     <div class="page-title">
-      <h1 class="title">Articles</h1>
-      <p class="sub-title">Browse and discover helpful articles</p>
+      <h1 class="title">Advices</h1>
+      <p class="sub-title">Browse and discover helpful advice</p>
     </div>
 
     <button type="button" class="primary-button back-button" routerLink="/uploads">
@@ -22,7 +20,7 @@
     <div class="search-container">
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search articles by title..." [(ngModel)]="searchTerm"
+        <input type="text" placeholder="Search advices by title..." [(ngModel)]="searchTerm"
           (keyup)="searchArticles()">
       </div>
 
@@ -38,45 +36,42 @@
         </div>
       </div>
 
-      <!-- Admin button to add new article -->
+      <!-- Admin button to add new advice -->
       @if (userRole() === 'admin') {
         <button class="primary-button" (click)="openAddArticleModal()">
-          <i class="fas fa-plus"></i> Add New Article
+          <i class="fas fa-plus"></i> Add New Advice
         </button>
       }
     </div>
 
     <!-- Article cards container -->
-    <div class="articles-container">
-      <!-- Article card for each article -->
-      @for (article of pagedArticles; track article.id) {
-        <div class="article-card">
-          <div class="article-date">
+    <div class="advices-container">
+      <!-- Article card for each advice -->
+      @for (advice of pagedAdvices; track advice.id) {
+        <div class="advice-card">
+          <div class="advice-date">
             <i class="far fa-calendar-alt"></i>
-            <span>{{ article.dateCreated | date: 'mediumDate' }}</span>
+            <span>{{ advice.dateCreated | date: 'mediumDate' }}</span>
           </div>
 
-          <h2 class="article-title">{{ article.title }}</h2>
+          <h2 class="advice-title">{{ advice.title }}</h2>
 
-          <p class="article-description">{{ article.description }}</p>
+          <p class="advice-description">{{ advice.adviceText }}</p>
 
-          <div class="article-actions">
+          <div class="advice-actions">
             <div class="action-links">
-              <button class="read-more-btn" routerLink="/uploads/articles/{{ article.id }}">
+              <button class="read-more-btn" routerLink="/uploads/advice/{{ advice.id }}">
                 <i class="fas fa-book-open"></i> Read More
               </button>
-              <a [href]="article.link" target="_blank" class="article-link">
-                <i class="fas fa-external-link-alt"></i> Read Article
-              </a>
             </div>
 
             @if(userRole() === 'admin') {
               <!-- Admin actions -->
               <div class="admin-actions">
-                <button class="action-btn edit-btn" (click)="editArticle(article)">
+                <button class="action-btn edit-btn" (click)="editAdvice(advice)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="action-btn delete-btn" (click)="openConfirmationWindow(article.id)">
+                <button class="action-btn delete-btn" (click)="openConfirmationWindow(advice.id)">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
@@ -86,18 +81,18 @@
       }
 
       <!-- Empty state -->
-      @if (filteredArticles.length === 0) {
+      @if (filteredAdvices.length === 0) {
         <div class="empty-state">
           <i class="fas fa-newspaper"></i>
-          <h3>No articles found</h3>
+          <h3>No advices found</h3>
         </div>
       }
     </div>
   </div>
-  @if (filteredArticles.length > pageSize) {
+  @if (filteredAdvices.length > pageSize) {
     <div class="pagination-container">
       <app-pagination
-        [totalItems]="filteredArticles.length"
+        [totalItems]="filteredAdvices.length"
         [pageSize]="pageSize"
         [currentPage]="currentPage"
         (pageChanged)="onPageChanged($event)">
@@ -118,39 +113,28 @@
       </div>
 
       <div class="modal-body">
-        <form [formGroup]="articleForm" (ngSubmit)="saveArticle()">
+        <form [formGroup]="adviceForm" (ngSubmit)="saveAdvice()">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" id="title" class="primary-input-field form-control" formControlName="title"
-              placeholder="Enter article title">
-            <p class="error" *ngIf="articleForm.get('title')?.invalid && articleForm.get('title')?.touched">
+              placeholder="Enter advice title">
+            <p class="error" *ngIf="adviceForm.get('title')?.invalid && adviceForm.get('title')?.touched">
               Title is required
             </p>
           </div>
 
           <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" class="primary-text-area" formControlName="description"
-              placeholder="Enter article description"></textarea>
-            <p class="error" *ngIf="articleForm.get('description')?.invalid && articleForm.get('description')?.touched">
-              Description is required
+            <label for="advice">Advice</label>
+            <textarea id="advice" class="primary-text-area" formControlName="advice"
+              placeholder="Enter an Advice"></textarea>
+            <p class="error" *ngIf="adviceForm.get('advice')?.invalid && adviceForm.get('advice')?.touched">
+              Advice is required
             </p>
-          </div>
-
-          <div class="form-group">
-            <label for="link">Article Link</label>
-            <input type="url" id="link" class="primary-input-field form-control" formControlName="link"
-              placeholder="https://...">
-            @if (articleForm.get('link')?.invalid && articleForm.get('link')?.touched) {
-              <p class="error">
-                Valid URL is required
-              </p>
-            }
           </div>
 
           <div class="modal-actions">
             <button type="button" class="btn-outline" (click)="closeModal()">Cancel</button>
-            <button type="submit" class="primary-button" [disabled]="articleForm.invalid || isSubmitting">
+            <button type="submit" class="primary-button" [disabled]="adviceForm.invalid || isSubmitting">
               {{ isSubmitting ? 'Saving...' : (isEditing ? 'Update' : 'Add') }}
             </button>
           </div>

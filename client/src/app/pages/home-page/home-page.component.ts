@@ -16,7 +16,7 @@ export class HomePageComponent {
   constructor(private router: Router) { }
 
   navigateToMeetUs() {
-    this.router.navigate(['/meet-us']).then(() => {
+    this.router.navigate(['/about-us']).then(() => {
       window.scrollTo(0, 0);
     });
   }
