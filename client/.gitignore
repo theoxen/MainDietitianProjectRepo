@@ -40,3 +40,18 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+
+# 🔐 Sensitive configuration files
+appsettings.json
+appsettings.*.json
+
+.env
+.env.*
+secrets.json
+
+# 🔒 Optional for Docker secrets
+/secrets/
+*.secret
+*.key
+*.pem
